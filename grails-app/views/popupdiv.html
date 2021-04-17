@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+    // function iframeDidLoad() {
+    //     alert('Done');
+    // }
+    //
+    // function newSite() {
+    //     var sites = ['http://getprismatic.com',
+    //         'http://gizmodo.com/',
+    //         'http://lifehacker.com/']
+    //
+    //     document.getElementById('myIframe').src = sites[Math.floor(Math.random() * sites.length)];
+    // }
+
+    $(function() {
+        $('#linkClick').click(function() {
+            var html = "";
+            html += '<img style="width:200px" src="https://img.etonline.com/1242911076001/201906/1398/1242911076001_6046815964001_6046814845001-vs.jpg?pubId=1242911076001">';
+            html += '<img style="width:200px" src="https://img.etonline.com/1242911076001/201906/1398/1242911076001_6046815964001_6046814845001-vs.jpg?pubId=1242911076001">';
+            // $('#contentDisplay').html('<img style="width:200px" src="https://img.etonline.com/1242911076001/201906/1398/1242911076001_6046815964001_6046814845001-vs.jpg?pubId=1242911076001">' );
+            $('#contentDisplay').html(html);
+        });
+
+
+        $('#jennifer2').click(function() {
+            $('#contentDisplay').html('<img style="width:200px" src="http://www.pajiba.com/assets_c/2019/06/Jennifer_Aniston_1155305275-thumb-700x466-212829.jpg">' );
+        });
+
+        // window.resizeTo(200, 400);
+        // window.focus();
+    });
+</script>
+<!--<iframeDidLoadnput type="button" value="Change site" onClick="newSite()" />-->
+<!--<iframe id="myIframe" src="http://getprismatic.com/" onLoad="iframeDidLoad();"></iframe>-->
+    <div>this div here</div>
+    <div style="width:800px">
+        <div style="float:left" id="contentDisplay"></div><br/><br/><br/>
+        <div style="float:right">
+            <img style="width:100px" id="linkClick" src="http://www.pajiba.com/assets_c/2019/06/Jennifer_Aniston_1155305275-thumb-700x466-212829.jpg"><br/>
+            <img style="width:100px" id="jennifer2" src="http://www.pajiba.com/assets_c/2019/06/Jennifer_Aniston_1155305275-thumb-700x466-212829.jpg"><br/>
+        </div>
+    </div>
+</body>
+</html>

@@ -352,6 +352,8 @@ class TodayIsTagLib {
             sb << "ᏐᎣᏁᎳᏚᎯ"
         } else if (yahr == 2020) {
             sb << "ᏔᎵᏍᎪᎯ"
+        } else if (yahr == 2021) {
+            sb << "ᏔᎵᏍᎪ ᏌᏊᎯ"
         }
 //        def yearConverted = EnglishNumberToWords.convert(yahr)
 //        def thousands = yearConverted.substring(0, yearConverted.indexOf("thousand") + 8)

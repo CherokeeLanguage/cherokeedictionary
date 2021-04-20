@@ -3,10 +3,10 @@
 <%@ page import="net.cherokeedictionary.util.Tense" contentType="text/html;charset=UTF-8" %>
 <html>
     <head>
+        <meta name="layout" content="manager"/>
         <script src="https://code.jquery.com/jquery-latest.min.js"></script>
         <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>
         <g:set var="showLinks" value="false" scope="request"/>
-        <meta name="layout" content="manager"/>
         <title>Dictionary</title>
         <script type="text/javascript">
             $(function() {

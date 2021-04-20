@@ -520,7 +520,7 @@ class NewSearchService {
 
     def categorySearch(params) {
         cherokee.relational.Category category = cherokee.relational.Category.findById(Integer.parseInt(params.categorySearch))
-        def lst = Likespreadsheets.findAll('from Likespreadsheets l where l.category = ?1', [category.category])
+        def lst = Likespreadsheets.findAll('from Likespreadsheets l where l.category = ?0', [category.category])
 
         return lst
     }
@@ -529,12 +529,12 @@ class NewSearchService {
         //multiple entries
         def searchTerm = term.indexOf(",") ? term.split(",") : term
         if (searchTerm.size() == 1)
-            return Likespreadsheets.findAll("from Likespreadsheets l where l.entrya like ?1", ["%$term%"])
+            return Likespreadsheets.findAll("from Likespreadsheets l where l.entrya like ?0", ["%$term%"])
         else {
             List lst = []
 
             searchTerm.each {
-                def leest = Likespreadsheets.findAll("from Likespreadsheets l where l.entrya like ?1", ["%$it%"])
+                def leest = Likespreadsheets.findAll("from Likespreadsheets l where l.entrya like ?0", ["%$it%"])
                 lst.addAll(leest)
             }
 

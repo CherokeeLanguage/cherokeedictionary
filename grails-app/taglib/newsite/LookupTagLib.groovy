@@ -13,9 +13,9 @@ class LookupTagLib {
         def source = params.source
         def lst
         if (source) {
-            lst = Likespreadsheets.findAll('from Likespreadsheets l where l.definitiond = ? and (source = ?)', [params.definition, source])
+            lst = Likespreadsheets.findAll('from Likespreadsheets l where l.definitiond = ?0 and (source = ?1)', [params.definition, source])
         } else {
-            lst = Likespreadsheets.findAll('from Likespreadsheets l where l.definitiond = ? and (source = ? or source = ? or source = ? or source = ?)', [params.definition, 'ced', 'rrd', 'noq', 'cwl'])
+            lst = Likespreadsheets.findAll('from Likespreadsheets l where l.definitiond = ?0 and (source = ?1 or source = ?2 or source = ?3 or source = ?4)', [params.definition, 'ced', 'rrd', 'noq', 'cwl'])
         }
 
         if (lst) {

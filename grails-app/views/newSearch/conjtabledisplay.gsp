@@ -8,11 +8,11 @@
 %{--<%@ page import="cherokee.dictionary.verb.conjugation.originalConjugation.Stemmer; cherokee.dictionary.hold.stem.DefinitionLine; cherokee.dictionary.verb.conjugation.originalConjugation.Conjugate; cherokee.dictionary.verb.conjugation.originalConjugation.Tense; com.cobradoc.cherokee.SyllabaryUtil; cherokee.dictionary.Likespreadsheets;" contentType="text/html;charset=UTF-8" %>--}%
 <%@ page import="cherokee.dictionary.Likespreadsheets; java.util.regex.Matcher; java.util.regex.Pattern" contentType="text/html;charset=UTF-8" %>
 %{--V2--}%
-%{--<%@ page import="net.cherokeedictionary.util.Tense; net.cherokeedictionary.stemmer.Stemmer; net.cherokeedictionary.stemmer.DefinitionLine" contentType="text/html;charset=UTF-8" %>--}%
-%{--<%@ page import="net.cherokeedictionary.verb.conjugation.Conjugate" contentType="text/html;charset=UTF-8" %>--}%
+<%@ page import="net.cherokeedictionary.util.Tense; net.cherokeedictionary.stemmer.Stemmer; net.cherokeedictionary.stemmer.DefinitionLine" contentType="text/html;charset=UTF-8" %>
+<%@ page import="net.cherokeedictionary.verb.conjugation.Conjugate" contentType="text/html;charset=UTF-8" %>
 %{--V1--}%
-<%@ page import="cherokee.dictionary.conjugation.cdpbook.Stemmer; cherokee.dictionary.conjugation.stem.DefinitionLine;cherokee.dictionary.conjugation.wordFormation.Word;cherokee.dictionary.conjugation.Conjugate" contentType="text/html;charset=UTF-8"%>
-<%@ page import="cherokee.dictionary.conjugation.conjugate.Tense; cherokee.dictionary.conjugation.conjugate.PartOfSpeech;cherokee.dictionary.conjugation.Conjugate" contentType="text/html;charset=UTF-8"%>
+%{--<%@ page import="cherokee.dictionary.conjugation.cdpbook.Stemmer; cherokee.dictionary.conjugation.stem.DefinitionLine;cherokee.dictionary.conjugation.wordFormation.Word;cherokee.dictionary.conjugation.Conjugate" contentType="text/html;charset=UTF-8"%>--}%
+%{--<%@ page import="cherokee.dictionary.conjugation.conjugate.Tense; cherokee.dictionary.conjugation.conjugate.PartOfSpeech;cherokee.dictionary.conjugation.Conjugate" contentType="text/html;charset=UTF-8"%>--}%
 <html>
 <head>
     <meta name="layout" content="manager"/>

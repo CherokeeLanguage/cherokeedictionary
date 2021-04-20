@@ -3,25 +3,24 @@ package cherokeedictionary
 import cherokee.dictionary.Likespreadsheets
 
 //for V2
-//import net.cherokeedictionary.factory.VerbFactory
-//import net.cherokeedictionary.stemmer.DefinitionLine
-//import net.cherokeedictionary.stemmer.Stemmer
+import net.cherokeedictionary.factory.VerbFactory
+import net.cherokeedictionary.stemmer.DefinitionLine
+import net.cherokeedictionary.stemmer.Stemmer
 
 //for V1
-import cherokee.dictionary.Likespreadsheets
-import cherokee.dictionary.conjugation.Conjugate
-import cherokee.dictionary.conjugation.cdpbook.Stemmer
-import cherokee.dictionary.conjugation.conjugate.PartOfSpeech
-import cherokee.dictionary.conjugation.conjugate.PrefixTableObject
-import cherokee.dictionary.conjugation.conjugate.PrefixTableSubject
-import cherokee.dictionary.conjugation.conjugate.Tense
-import cherokee.dictionary.conjugation.processors.VerbPrefixFactory
-import cherokee.dictionary.conjugation.stem.DefinitionLine
-import cherokee.dictionary.conjugation.wordFormation.Word
+//import cherokee.dictionary.conjugation.Conjugate
+//import cherokee.dictionary.conjugation.cdpbook.Stemmer
+//import cherokee.dictionary.conjugation.conjugate.PartOfSpeech
+//import cherokee.dictionary.conjugation.conjugate.PrefixTableObject
+//import cherokee.dictionary.conjugation.conjugate.PrefixTableSubject
+//import cherokee.dictionary.conjugation.conjugate.Tense
+//import cherokee.dictionary.conjugation.processors.VerbPrefixFactory
+//import cherokee.dictionary.conjugation.stem.DefinitionLine
+//import cherokee.dictionary.conjugation.wordFormation.Word
 //import com.cobradoc.cherokee.SyllabaryUtil
 
 class ConjugationController {
-    boolean useV2 = false;
+    boolean useV2 = true;
 
     def index() {
         def displayValue = getDisplayValue(params)
@@ -57,19 +56,19 @@ class ConjugationController {
 
         println "get display value"
 
-        def stemmer = new Stemmer()
-        stemmer.habitual = new DefinitionLine(syllabary: habitual)//"ᎦᏬᏂᏍᎪᎢ")
-        stemmer.imperative = new DefinitionLine(syllabary: imperative)//"ᎯᏬᏂᎯ")
-        stemmer.infinitive = new DefinitionLine(syllabary: infinitive)//"ᎤᏬᏂᎯᏍᏗ")
-        stemmer.present1st = new DefinitionLine(syllabary:  present1st)//"ᏥᏬᏂᎭ")
-        stemmer.present3rd = new DefinitionLine(syllabary: present3rd)//"ᎦᏬᏂᎭ")
-        stemmer.remotepast = new DefinitionLine(syllabary: remotepast)//"ᎤᏬᏂᏒᎢ")
+//        def stemmer = new Stemmer()
+//        stemmer.habitual = new DefinitionLine(syllabary: habitual)//"ᎦᏬᏂᏍᎪᎢ")
+//        stemmer.imperative = new DefinitionLine(syllabary: imperative)//"ᎯᏬᏂᎯ")
+//        stemmer.infinitive = new DefinitionLine(syllabary: infinitive)//"ᎤᏬᏂᎯᏍᏗ")
+//        stemmer.present1st = new DefinitionLine(syllabary:  present1st)//"ᏥᏬᏂᎭ")
+//        stemmer.present3rd = new DefinitionLine(syllabary: present3rd)//"ᎦᏬᏂᎭ")
+//        stemmer.remotepast = new DefinitionLine(syllabary: remotepast)//"ᎤᏬᏂᏒᎢ")
 
         println "stemmer complete"
 
         def displayValue
 
-        Word verb = new Word()
+//        Word verb = new Word()
 //        verb.partOfSpeech = partofspeechc == 'vi' ? PartOfSpeech.VERB_INTRANSITIVE : PartOfSpeech.VERB_TRANSITIVE
 //        verb.subject = PrefixTableSubject.valueOf(params.subject)
 //        verb.object = PrefixTableObject.valueOf(params.object)
@@ -92,16 +91,16 @@ class ConjugationController {
 //            e = params.e == 'on'
 //        }
 
-        Conjugate conjugate = new Conjugate()
-        try {
-            displayValue = conjugate.conjugate(params.subject, params.object, stemmer, params.verbTense, partofspeechc)
-        } catch (Exception e) {
-            displayValue = "there was an error with your request"
-        }
-
-        if (!displayValue || displayValue == "null") {
-            displayValue = "------"
-        }
+//        Conjugate conjugate = new Conjugate()
+//        try {
+//            displayValue = conjugate.conjugate(params.subject, params.object, stemmer, params.verbTense, partofspeechc)
+//        } catch (Exception e) {
+//            displayValue = "there was an error with your request"
+//        }
+//
+//        if (!displayValue || displayValue == "null") {
+//            displayValue = "------"
+//        }
 
         return displayValue;
     }
@@ -122,13 +121,13 @@ class ConjugationController {
 
         def displayValue
         try {
-//            displayValue = VerbFactory.createVerbFromParameters(paramMap)
+            displayValue = VerbFactory.createVerbFromParameters(paramMap)
         } catch (Exception e) {
             displayValue = "there was an error with your request"
         }
 
         if (!displayValue || displayValue == "null") {
-            displayValue = "------"
+            displayValue = "      "
         }
 
         return displayValue;

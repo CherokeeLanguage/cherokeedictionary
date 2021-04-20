@@ -7,18 +7,32 @@ class ConjugationDisplayTagLib {
     //static encodeAsForTags = [tagName: [taglib:'html'], otherTagName: [taglib:'none']]
 
     def display = {params ->
-        def item = params.item
+        //v2
+//        def item = params.item
+//
+//        if (item.pronounReflexiveRoot) {
+//            def sb = new StringBuilder();
+//            sb << item.pronounReflexiveRoot
+//            sb << "<span id=\"showHideDisplay\">"
+//            sb << "<br/>"
+//            sb << SyllabaryUtil.parseSyllabary(item.pronounReflexiveRoot)
+//            sb << "</span>"
+//            out << raw(sb.toString())
+//        } else {
+//            out << "---------"
+//        }
+            //v1
+            def item = params.item
+//        if (item.getClass() != "java.lang.String") {
+//            item = item.syllabary
+//        }
 
-        if (item.pronounReflexiveRoot) {
             def sb = new StringBuilder();
-            sb << item.pronounReflexiveRoot
+            sb << item
             sb << "<span id=\"showHideDisplay\">"
             sb << "<br/>"
-            sb << SyllabaryUtil.parseSyllabary(item.pronounReflexiveRoot)
+            sb << SyllabaryUtil.parseSyllabary(item)
             sb << "</span>"
             out << raw(sb.toString())
-        } else {
-            out << "---------"
-        }
     }
 }

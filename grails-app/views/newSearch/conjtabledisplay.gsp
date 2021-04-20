@@ -16,7 +16,7 @@
 <html>
 <head>
     <meta name="layout" content="manager"/>
-    <title></title>
+    <title>Conjugation Table</title>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript">
         $(function() {

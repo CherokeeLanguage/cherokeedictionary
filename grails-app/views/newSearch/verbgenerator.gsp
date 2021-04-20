@@ -1,11 +1,11 @@
 %{--<%@ page import="cherokee.dictionary.Likespreadsheets; cherokee.dictionary.verb.conjugation.originalConjugation.Tense; java.util.regex.Matcher; java.util.regex.Pattern" contentType="text/html;charset=UTF-8" %>--}%
 <%@ page import="cherokee.dictionary.Likespreadsheets; java.util.regex.Matcher; java.util.regex.Pattern" contentType="text/html;charset=UTF-8" %>
 %{--v2--}%
-%{--<%@ page import="net.cherokeedictionary.util.Tense; net.cherokeedictionary.stemmer.Stemmer; net.cherokeedictionary.stemmer.DefinitionLine" contentType="text/html;charset=UTF-8" %>--}%
-%{--<%@ page import="net.cherokeedictionary.verb.conjugation.Conjugate" contentType="text/html;charset=UTF-8" %>--}%
+<%@ page import="net.cherokeedictionary.util.Tense; net.cherokeedictionary.stemmer.Stemmer; net.cherokeedictionary.stemmer.DefinitionLine" contentType="text/html;charset=UTF-8" %>
+<%@ page import="net.cherokeedictionary.verb.conjugation.Conjugate" contentType="text/html;charset=UTF-8" %>
 %{--v1--}%
-<%@ page import="cherokee.dictionary.conjugation.cdpbook.Stemmer; cherokee.dictionary.conjugation.stem.DefinitionLine;cherokee.dictionary.conjugation.wordFormation.Word;cherokee.dictionary.conjugation.Conjugate" contentType="text/html;charset=UTF-8"%>
-<%@ page import="cherokee.dictionary.conjugation.conjugate.Tense; cherokee.dictionary.conjugation.conjugate.PartOfSpeech;cherokee.dictionary.conjugation.Conjugate" contentType="text/html;charset=UTF-8"%>
+%{--<%@ page import="cherokee.dictionary.conjugation.cdpbook.Stemmer; cherokee.dictionary.conjugation.stem.DefinitionLine;cherokee.dictionary.conjugation.wordFormation.Word;cherokee.dictionary.conjugation.Conjugate" contentType="text/html;charset=UTF-8"%>--}%
+%{--<%@ page import="cherokee.dictionary.conjugation.conjugate.Tense; cherokee.dictionary.conjugation.conjugate.PartOfSpeech;cherokee.dictionary.conjugation.Conjugate" contentType="text/html;charset=UTF-8"%>--}%
 
 <html>
 <head>
@@ -329,19 +329,19 @@ def remotepast = entry.vthirdpastsyllj
     </select>
     <select name="verbTense" id="verbTense">
         <option value="${Tense.PRESENT}" <g:if test="${verbTense == Tense.PRESENT}">selected</g:if>>Present</option>
-        %{--<option value="${Tense.RECENT_PAST_IMPERATIVE}">Present/Recent Past Imperative</option>--}%
+        <option value="${Tense.RECENT_PAST_IMPERATIVE}">Present/Recent Past Imperative</option>
         <option value="${Tense.REMOTE_PAST}" <g:if test="${verbTense == Tense.REMOTE_PAST}">selected</g:if>>Remote Past</option>
         <option value="${Tense.HABITUAL}" <g:if test="${verbTense == Tense.HABITUAL}">selected</g:if>>Habitual</option>
         <option value="${Tense.FUTURE_COMMAND}" <g:if test="${verbTense == Tense.FUTURE_COMMAND}">selected</g:if>>Immediate</option><%--<option value="${Tense.FUTURE_COMMAND}">Future Imperative</option>--%>
         <option value="${Tense.INFINITIVE}" <g:if test="${verbTense == Tense.INFINITIVE}">selected</g:if>>Infinitive</option>
-        %{--<option value="reportative">Reportative</option>--}%
-        %{--<option value="${Tense.PROGRESSIVE_FUTURE}">Future Progressive</option>--}%
-        %{--<option value="pluperfect">Pluperfect</option>--}%
+        <option value="reportative">Reportative</option>
+        <option value="${Tense.PROGRESSIVE_FUTURE}">Future Progressive</option>
+        <option value="pluperfect">Pluperfect</option>
     </select>
     <input id="submitButton" name="submitButton" type="button" value="Search"/>
-    %{--<input onclick="jQuery.ajax({type:'POST',data:jQuery(this).parents('form:first').serialize(), url:'/conjugation/index',success:function(data,textStatus){jQuery('#searchresults').html(data);},error:function(XMLHttpRequest,textStatus,errorThrown){}});return false" type="button" value="Search">--}%
-%{-- submitToRemote was an ajax tag - the code above is what it was replaced with in the page anyway so because it was removed I just used the code above--}%
-%{--<g:submitToRemote update="searchresults" url="[controller:'conjugation', action:'index']" value="Search"/>--}%
+    <input onclick="jQuery.ajax({type:'POST',data:jQuery(this).parents('form:first').serialize(), url:'/conjugation/index',success:function(data,textStatus){jQuery('#searchresults').html(data);},error:function(XMLHttpRequest,textStatus,errorThrown){}});return false" type="button" value="Search">
+ submitToRemote was an ajax tag - the code above is what it was replaced with in the page anyway so because it was removed I just used the code above
+<g:submitToRemote update="searchresults" url="[controller:'conjugation', action:'index']" value="Search"/>
 </g:form>
 <br/>
 

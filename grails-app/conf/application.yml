@@ -112,7 +112,7 @@ dataSource:
 environments:
     development:
         dataSource:
-            password:
+            password: Tk02030#
             #            logSql: true
             url: jdbc:mysql://localhost:3306/cherokeedictionary?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=CST&useSSL=false
             properties:

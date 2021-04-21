@@ -110,43 +110,43 @@ verbName.remotepast = new DefinitionLine(syllabary: "${stemmer.remotepast.syllab
 <table>
     <tr>
         <td>1SG</td>
-        <td><g:display item="${conjugate.conjugate("SG1", "SG1", stemmer, verbTense, partofspeechc)}"/></td>
+        <td><g:display item="${conjugate.conjugate("SG1", "", stemmer, verbTense, partofspeechc)}"/></td>
     </tr>
     <tr>
         <td>2SG</td>
-        <td><g:display item="${conjugate.conjugate("SG2", "SG1", stemmer, verbTense, partofspeechc)}"/></td>
+        <td><g:display item="${conjugate.conjugate("SG2", "", stemmer, verbTense, partofspeechc)}"/></td>
     </tr>
     <tr>
         <td>3SG</td>
-        <td><g:display item="${conjugate.conjugate("SG3", "SG1", stemmer, verbTense, partofspeechc)}"/></td>
+        <td><g:display item="${conjugate.conjugate("SG3", "", stemmer, verbTense, partofspeechc)}"/></td>
     </tr>
     <tr>
         <td>1DLINCL</td>
-        <td><g:display item="${conjugate.conjugate("DL1INCL", "SG1", stemmer, verbTense, partofspeechc)}"/></td>
+        <td><g:display item="${conjugate.conjugate("DL1INCL", "", stemmer, verbTense, partofspeechc)}"/></td>
     </tr>
     <tr>
         <td>1DLEXCL</td>
-        <td><g:display item="${conjugate.conjugate("DL1EXCL", "SG1", stemmer, verbTense, partofspeechc)}"/></td>
+        <td><g:display item="${conjugate.conjugate("DL1EXCL", "", stemmer, verbTense, partofspeechc)}"/></td>
     </tr>
     <tr>
         <td>1PLINCL</td>
-        <td><g:display item="${conjugate.conjugate("PL1INCL", "SG1", stemmer, verbTense, partofspeechc)}"/></td>
+        <td><g:display item="${conjugate.conjugate("PL1INCL", "", stemmer, verbTense, partofspeechc)}"/></td>
     </tr>
     <tr>
         <td>1PLEXCL</td>
-        <td><g:display item="${conjugate.conjugate("PL1EXCL", "SG1", stemmer, verbTense, partofspeechc)}"/></td>
+        <td><g:display item="${conjugate.conjugate("PL1EXCL", "", stemmer, verbTense, partofspeechc)}"/></td>
     </tr>
     <tr>
         <td>2DL</td>
-        <td><g:display item="${conjugate.conjugate("DL2", "SG1", stemmer, verbTense, partofspeechc)}"/></td>
+        <td><g:display item="${conjugate.conjugate("DL2", "", stemmer, verbTense, partofspeechc)}"/></td>
     </tr>
     <tr>
         <td>2PL</td>
-        <td><g:display item="${conjugate.conjugate("PL2", "SG1", stemmer, verbTense, partofspeechc)}"/></td>
+        <td><g:display item="${conjugate.conjugate("PL2", "", stemmer, verbTense, partofspeechc)}"/></td>
     </tr>
     <tr>
         <td>3PL</td>
-        <td><g:display item="${conjugate.conjugate("PL3", "SG1", stemmer, verbTense, partofspeechc)}"/></td>
+        <td><g:display item="${conjugate.conjugate("PL3", "", stemmer, verbTense, partofspeechc)}"/></td>
     </tr>
 </table>
 <% } else { %>

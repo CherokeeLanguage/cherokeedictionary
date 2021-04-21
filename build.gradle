@@ -67,7 +67,6 @@ dependencies {
     compile 'net.cherokeedictionary:jalagiTranslit:0.2.0'
     compile 'net.cherokeedictionary:jalagiUtils:0.2.0'
     compile 'net.cherokeedictionary:jalagiConjugation:0.2.0'
-//    compile "cherokee.dictionary.conjugation:cherokee-conjugation:0.1.0"
 
     compile 'com.itextpdf:itextpdf:5.5.10'
     compile 'org.apache.pdfbox:pdfbox:2.0.4'

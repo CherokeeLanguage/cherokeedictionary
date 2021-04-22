@@ -70,6 +70,7 @@
 
         <br/>JSON Representation<br/>
         <div id="display"></div>
+        <div id="resultData"></div> style="display:block; visibility:hidden"
     </div>
 </div>
 <asset:javascript src="verbdeconstruction.js"/>
@@ -92,7 +93,10 @@
             //see what happens
 
             splitSentenceElement = splitSentenceElement.replaceAll(/[\,\.\?]/g, "");
-            console.log(JSON.stringify(process(splitSentenceElement)));
+            splitSentenceElement = splitSentenceElement.trim();
+            if (splitSentenceElement !== "") {
+                console.log(JSON.stringify(process(splitSentenceElement)));
+            }
 
             // processedList.push(JSON.stringify(process(splitSentenceElement)));
         }

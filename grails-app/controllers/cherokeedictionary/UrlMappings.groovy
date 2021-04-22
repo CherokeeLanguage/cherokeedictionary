@@ -38,6 +38,7 @@ class UrlMappings {
         "/jsonsearch/chr/$entry "(controller: "search", action: "jsonshow")
         "/jsonsearch/en/$definition"(controller: "search", action: "jsonshow")
         "/jsonsearch/syll/$syllabary"(controller: "search", action: "jsonshow")
+        "/jsonlookup/$syllabary"(controller: "search", action: "specificLookup")
 
         "500"(view:'/error')
         "404"(view:'/notFound')

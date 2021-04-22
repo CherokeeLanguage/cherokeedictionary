@@ -156,51 +156,62 @@ function getReflexivePrefix(wholeWord) {
 }
 
 
+function callbackMethod(result) {
 
+}
+
+function lookupInDictionary(word) {
+    console.log("word is " + word);
+    var checkStatus = checkWord(word, callbackMethod);
+
+    if (checkStatus !== "" && checkStatus !== undefined) {
+        // alert(checkStatus);
+        console.log("checkStatus " + checkStatus);
+        // document.getElementById("display").innerText = checkStatus;
+    }
+}
 
 //if processing phonetic then pass in isSyllabary as false
 function process(word, isSyllabary=true) {
-    var checkStatus = checkWord(word);
-    if (checkStatus !== "") {
-        alert(checkStatus);
-        // document.getElementById("display").innerText = checkStatus;
-    }
-
-    var wholeWord = {
-        syllabary: "",
-        phonetic: "",
-        tmpParse: "",
-        initialPrefixes: [],
-        pronounPrefixes: [],
-        reflexivePrefix: false,
-        nonFinalSuffixes: [],
-        verbTenseSuffix: '',
-        verbTenseType: Tense.PRESENT,
-        finalSuffixes: [],
-    };
-
-    if (isSyllabary) {
-        wholeWord.syllabary = word;
-        wholeWord.phonetic = parseSyllabary(word)
-    } else {
-        wholeWord.phonetic = word;
-    }
-
-    wholeWord = getFinalSuffixes(wholeWord);
-    wholeWord = getVerbTenseSuffixes(wholeWord);
-
-    for (const tmpElementElement of wholeWord.verbTenseSuffix) {
-        wholeWord.verbTenseType = tmpElementElement.meaning;
-        //TODO: also need to get verb tense ending here -- will need another map
-    }
-
-    wholeWord = getNonFinalSuffixes(wholeWord);
-
-    wholeWord = getInitialPrefixes(wholeWord);
-    wholeWord = getPronominalPrefixes(wholeWord);
+    var lookup = lookupInDictionary(word);
+    console.log("lookup is " + lookup);
+    //
+    // var wholeWord = {
+    //     syllabary: "",
+    //     phonetic: "",
+    //     tmpParse: "",
+    //     initialPrefixes: [],
+    //     pronounPrefixes: [],
+    //     reflexivePrefix: false,
+    //     nonFinalSuffixes: [],
+    //     verbTenseSuffix: '',
+    //     verbTenseType: Tense.PRESENT,
+    //     finalSuffixes: [],
+    // };
+    //
+    // if (isSyllabary) {
+    //     wholeWord.syllabary = word;
+    //     wholeWord.phonetic = parseSyllabary(word)
+    // } else {
+    //     wholeWord.phonetic = word;
+    // }
+    //
+    // wholeWord = getFinalSuffixes(wholeWord);
+    // wholeWord = getVerbTenseSuffixes(wholeWord);
+    //
+    // for (const tmpElementElement of wholeWord.verbTenseSuffix) {
+    //     wholeWord.verbTenseType = tmpElementElement.meaning;
+    //     //TODO: also need to get verb tense ending here -- will need another map
+    // }
+    //
+    // wholeWord = getNonFinalSuffixes(wholeWord);
+    //
+    // wholeWord = getInitialPrefixes(wholeWord);
+    // wholeWord = getPronominalPrefixes(wholeWord);
     // wholeWord = getReflexivePrefix(wholeWord);
 
-    return wholeWord;
+    return "";
+    // return wholeWord;
 }
 
 function display(word, isSyllabary=true) {

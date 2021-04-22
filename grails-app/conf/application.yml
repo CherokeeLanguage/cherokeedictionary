@@ -8,6 +8,15 @@ grails:
             # Whether to translate GORM events into Reactor events
             # Disabled by default for performance reasons
             events: false
+    cors:
+        enabled: true
+        allowedHeaders:
+            - Access-Control-Allow-Origin
+            - Access-Control-Allow-Credentials
+            - Access-Control-Allow-Methods
+            - Access-Control-Max-Age
+        allowedOrigins:
+            - http://localhost:8080
 info:
     app:
         name: '@info.app.name@'
@@ -112,7 +121,7 @@ dataSource:
 environments:
     development:
         dataSource:
-            password:
+            password: Tk02030#
             #            logSql: true
             url: jdbc:mysql://localhost:3306/cherokeedictionary?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=CST&useSSL=false
             properties:

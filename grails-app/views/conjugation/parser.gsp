@@ -6,111 +6,135 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
+
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="cherokeeParser.js"></script>
-    <script src="verbTables.js"></script>
-    <asset:javascript src="cherokeeParser.js"/>
-    <asset:javascript src="verbTables.js"/>
+    <html lang="en">
+    <head>
+%{--        <meta name="layout" content="manager"/>--}%
+        <meta charset="UTF-8">
+        <title>Verb Deconstructor</title>
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
-</head>
+        <asset:javascript src="cherokeeParser.js"/>
+        <asset:javascript src="ajaxCall.js"/>
+        <asset:javascript src="verbTables.js"/>
+    </head>
 <body>
-<a href="#" onclick="javascript:process('ᎤᏬᏂᏏᎶᎡᎢ');">ᎤᏬᏂᏏᎶᎡᎢ - uwonisiloei</a><br/>
-<a href="#" onclick="javascript:process('ᎦᏬᏂᎭᏊᏧ');">ᎦᏬᏂᎭᏊᏧ - gawonihaquutsu</a><br/>
-<a href="#" onclick="javascript:process('ᎦᏬᏂᏍᎬᎢ');">ᎦᏬᏂᏍᎬᎢ - gawonisgvi</a><br/>
-<a href="#" onclick="javascript:process('ᎤᏬᏂᏎᎢ');">ᎤᏬᏂᏎᎢ- uwonisei</a><br/>
-<a href="#" onclick="javascript:process('ᎦᏬᏂᏍᎬᎢ');">ᎦᏬᏂᏍᎬᎢ - gawonisgvi</a><br/>
-<a href="#" onclick="javascript:process('ᎦᏬᏂᏏᎶᏍᎬᎢ');">ᎦᏬᏂᏏᎶᏍᎬᎢ - gawonisilosgvi</a><br/>
-<a href="#" onclick="javascript:process('ᎯᏬᏂᎯ');">ᎯᏬᏂᎯ - hiwonihi</a><br/>
-<a href="#" onclick="javascript:process('ᎯᏬᏂᏏᎶᏣ');">ᎯᏬᏂᏏᎶᏣ - hiwonisiloja</a><br/>
-<a href="#" onclick="javascript:process('ᎯᏬᏂᎯ');">ᎯᏬᏂᎯ</a><br/>
-<a href="#" onclick="javascript:process('ᎠᎦᏍᎦᏛ');">ᎠᎦᏍᎦᏛ</a>
-<br/><br/>
 <div style="display:table-row">
-    <div style="display:table-cell">Syllabary</div>
-    <div style="display:table-cell"><div id="syllabary"></div></div>
-</div>
-<div style="display:table-row">
-    <div style="display:table-cell">Phonetic</div>
-    <div style="display:table-cell"><div id="phonetic"></div></div>
-</div>
-<div style="display:table-row">
-    <div style="display:table-cell">Initial Prefixes</div>
-    <div style="display:table-cell"><div id="initialPrefixes"></div></div>
-</div>
-<div style="display:table-row">
-    <div style="display:table-cell">Pronominal Prefixes</div>
-    <div style="display:table-cell"><div id="pronominalPrefixes"></div></div>
-</div>
-<div style="display:table-row">
-    <div style="display:table-cell">Reflexive Prefixes</div>
-    <div style="display:table-cell"><div id="reflexivePrefixes"></div></div>
-</div>
-<div style="display:table-row">
-    <div style="display:table-cell">Root</div>
-    <div style="display:table-cell"><div id="root"></div></div>
-</div>
-<div style="display:table-row">
-    <div style="display:table-cell">Non-Final Suffixes</div>
-    <div style="display:table-cell"><div id="nonFinalSuffixes"></div></div>
-</div>
-<div style="display:table-row">
-    <div style="display:table-cell">Tense Suffixes</div>
-    <div style="display:table-cell"><div id="tenseSuffixes"></div></div>
-</div>
-<div style="display:table-row">
-    <div style="display:table-cell">Final Suffixes</div>
-    <div style="display:table-cell"><div id="finalSuffixes"></div></div>
-</div>
-<br/><br/>
-<div style="display:table-row">
-    <div style="display:table-cell"><textarea id="textareatoprocess">ᎦᏬᏂᏍᎨᏍᏗ</textarea></div>
-    <div style="display:table-cell"><button onclick='javascript:processTextArea();'>Process</button></div>
-</div>
+    <div style="display:table-cell;width:300px">
+        <div style="display:table-row">
+            <div style="display:table-cell"><input type="text" id="texttoprocess" value="ᎦᏬᏂᏍᎨᏍᏗ"/><br/><button onclick='javascript:processText();'>Process</button><br/><br/></div>
+        </div>
+        <div style="display:table-row">
+            <div style="display:table-cell"><textarea cols="30" rows="6" type="text" id="textareatoprocess">ᎤᏍᏗ ᎠᏓᏪᎳᎩᏍᎬ ᎤᏃᏛ ᏧᎾᏦᎯᏍᏗ, ᏌᎪᏂᎨ ᏃᎴ ᏓᎶᏂᎨ ᏓᏓᏪᎳᎩᏍᎬ ᏩᏁ ᏃᎴ, ᏘᎵ ᏚᏅᏛ. ᎧᎵ ᎠᏂᏅ ᏗᎦᏅᎯᏓ ᏗᎦᏍᎩᎶᎩ, ᏗᏂᏲᏟ ᎡᏓᏍᏘ ᎠᏂᏅ ᎠᎴ ᎠᏂᏅᎬ.</textarea><br/><button onclick='javascript:processTextArea();'>Process</button><br/><br/></div>
+        </div>
+        <div id="testLinks"></div>
+    </div>
+    <div style="display:table-cell">
+        <div style="display:table-row">
+            <div style="display:table-cell">Syllabary</div>
+            <div style="display:table-cell"><div id="syllabary"></div></div>
+        </div>
+        <div style="display:table-row">
+            <div style="display:table-cell">Phonetic</div>
+            <div style="display:table-cell"><div id="phonetic"></div></div>
+        </div>
+        <div style="display:table-row">
+            <div style="display:table-cell">Initial Prefixes</div>
+            <div style="display:table-cell"><div id="initialPrefixes"></div></div>
+        </div>
+        <div style="display:table-row">
+            <div style="display:table-cell;width:130px">Pronominal Prefixes</div>
+            <div style="display:table-cell"><div id="pronominalPrefixes"></div></div>
+        </div>
+        <div style="display:table-row">
+            <div style="display:table-cell">Reflexive Prefixes</div>
+            <div style="display:table-cell"><div id="reflexivePrefixes"></div></div>
+        </div>
+        <div style="display:table-row">
+            <div style="display:table-cell">Root</div>
+            <div style="display:table-cell"><div id="root"></div></div>
+        </div>
+        <div style="display:table-row">
+            <div style="display:table-cell">Non-Final Suffixes</div>
+            <div style="display:table-cell"><div id="nonFinalSuffixes"></div></div>
+        </div>
+        <div style="display:table-row">
+            <div style="display:table-cell">Tense Suffixes</div>
+            <div style="display:table-cell"><div id="tenseSuffixes"></div></div>
+        </div>
+        <div style="display:table-row">
+            <div style="display:table-cell">Final Suffixes</div>
+            <div style="display:table-cell"><div id="finalSuffixes"></div></div>
+        </div>
 
-<div id="display"></div>
-
+        <br/>JSON Representation<br/>
+        <div id="display"></div>
+    </div>
+</div>
 <asset:javascript src="verbdeconstruction.js"/>
+<asset:javascript src="tests.js"/>
 <script>
-    function processTextArea() {
-        process(document.getElementById('textareatoprocess').value);
+    function processText() {
+        display(document.getElementById('texttoprocess').value);
     }
+
+    function processTextArea() {
+        var processedList = [];
+
+        var textToParseFromTextArea = document.getElementById('textareatoprocess').value;
+
+        var splitSentence = textToParseFromTextArea.split(" ");
+
+        for (var splitSentenceElement of splitSentence) {
+            //remove punctuation
+            //process each item as a translation
+            //see what happens
+
+            splitSentenceElement = splitSentenceElement.replaceAll(/[\,\.\?]/g, "");
+            console.log(JSON.stringify(process(splitSentenceElement)));
+
+            // processedList.push(JSON.stringify(process(splitSentenceElement)));
+        }
+
+        display(processedList.join(","));
+    }
+
+    // runTests();
 </script>
-<!--transliteration_complex: "[da¹gwạdu³lịha]",
-transliteration_simple: "[dagwaduliha]",
-mophemes: [{
-morpheme_romanized: "d",
-morpheme_syllabary: "XX",
-morpheme_name: "prefix",
-morpheme_function: "plurality",
-morpheme_meaning: "many",
-}, {
-morpheme_romanized: "agw",
-morpheme_syllabary: "ᎠᏆ",
-morpheme_name: "prefix",
-morpheme_fucntion: "pronoun",
-morpheme_meaning: "1st person pronoun (I)",
-}, {
-morpheme_romanized: "aduli",
-morpheme_syllabary: "ᏚᎵ",
-morpheme_name: "root",
-morpheme_fucntion: "root",
-morpheme_meaning: "see dicts",
-}, {
-morpheme_romanized: "h",
-morpheme_syllabary: "_not_typable_in_syllabary",
-morpheme_name: "suffix",
-morpheme_fucntion: "speech_softening",
-morpheme_meaning: "none",
-}, {
-morpheme_romanized: "a",
-morpheme_syllabary: "Ꭰ",
-morpheme_name: "suffix",
-morpheme_fucntion: "tense",
-morpheme_meaning: "present tense",
-}]-->
+
+<script>
+    var testLinks = [];
+
+    testLinks.push('ᎤᏬᏂᏏᎶᎡᎢ');
+
+    //https://stackoverflow.com/questions/18500759/createelement-a-href-variable1variable2-a/18500892
+    //https://stackoverflow.com/questions/11017509/add-onclick-event-to-document-createelementth
+    const appendAnchorTag = (text) => {
+        const anchor = document.createElement('a');
+        const list = document.getElementById('testLinks');
+        anchor.href = '#';
+        anchor.innerText = text + " - " + parseSyllabary(text);
+        anchor.setAttribute('onclick', "display('" + text + "');");
+
+        list.appendChild(anchor);
+        list.appendChild(document.createElement("br"));
+    };
+
+    appendAnchorTag('ᎤᏬᏂᏏᎶᎡᎢ');
+    appendAnchorTag('ᎦᏬᏂᎭᏊᏧ');
+    appendAnchorTag('ᎦᏬᏂᏍᎬᎢ');
+    appendAnchorTag('ᎤᏬᏂᏎᎢ');
+    appendAnchorTag('ᎦᏬᏂᏍᎬᎢ');
+    appendAnchorTag('ᎦᏬᏂᏏᎶᏍᎬᎢ');
+    appendAnchorTag('ᎯᏬᏂᎯ');
+    appendAnchorTag('ᎯᏬᏂᏏᎶᏣ');
+    appendAnchorTag('ᎯᏬᏂᎯ');
+    appendAnchorTag('ᎠᎦᏍᎦᏛ');
+    appendAnchorTag('ᏱᎦᏬᏂᏏᎶᏍᎬᎢᏛ');
+    appendAnchorTag('ᎠᏆᏚᎵᎭ');
+    appendAnchorTag('ᏓᏆᏚᎵᎭ');
+</script>
+
 </body>
 </html>

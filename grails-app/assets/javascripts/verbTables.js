@@ -211,3 +211,17 @@ ConsonantPrefixes.set("ga", "SG3SG3IN");
 ConsonantPrefixes.set("gv", "SG1SG2");
 ConsonantPrefixes.set("hi", "SG2SG3IN");
 ConsonantPrefixes.set("u", "SG3SG3INB");
+
+var InitialPrefixes = new Map();
+InitialPrefixes.set("yi", "negative");
+InitialPrefixes.set("tsi", "relative");
+InitialPrefixes.set("wi", "away from speaker");
+InitialPrefixes.set("ni", "lateral position, already");
+InitialPrefixes.set("de", "plural object");
+InitialPrefixes.set("da", "future/motion toward speaker");
+InitialPrefixes.set("di", "distant position");
+InitialPrefixes.set("i", "again");
+InitialPrefixes.set("ga", "since");
+InitialPrefixes.set("e", "distant imperative");
+
+var ReflexivePrefix = new Map();

@@ -53,7 +53,7 @@ function getNonFinalSuffixes(wholeWord) {
     while(foundAResult) {
         foundAResult = false;
         for (const nonFinalEnding of NonFinalEndings.keys()) {
-            if (word.endsWith(nonFinalEnding)){
+            if (word.endsWith(nonFinalEnding)) {
                 //wonis is ok but doesn't have a nonfinal ending - wonisis does have a nonfinal ending
                 //todo: find examples of this in the wild where it's possible that there are other conflicts - add to test implementations
                 if (nonFinalEnding === "is") {
@@ -79,6 +79,39 @@ function getNonFinalSuffixes(wholeWord) {
 }
 
 function getInitialPrefixes(wholeWord) {
+    var initialPrefixList = [];
+    var tmp = wholeWord.tmpParse;
+    var foundAResult = true;
+    while(foundAResult) {
+        foundAResult = false;
+
+        for (const initialPrefix of InitialPrefixes.keys()) {
+            if (tmp.startsWith(initialPrefix)) {
+                if (initialPrefix === "tsi") {
+                    if (tmp.split(initialPrefix).length - 1 > 1) {
+                        foundAResult = true;
+                        tmp = tmp.substring(initialPrefix.length);
+                        initialPrefixList.push(InitialPrefixes.get(initialPrefix));
+                    }
+                } else if (initialPrefix === "ga") {
+                    if (tmp.split(initialPrefix).length - 1 > 1) {
+                        foundAResult = true;
+                        tmp = tmp.substring(initialPrefix.length);
+                        initialPrefixList.push(InitialPrefixes.get(initialPrefix));
+                    }
+                } else {
+                    foundAResult = true;
+                    tmp = tmp.substring(initialPrefix.length);
+                    initialPrefixList.push(InitialPrefixes.get(initialPrefix));
+                }
+            }
+        }
+    }
+
+    wholeWord.tmpParse = tmp;
+
+    wholeWord.initialPrefixes = initialPrefixList;
+
     return wholeWord;
 }
 
@@ -99,7 +132,7 @@ function getPronominalPrefixes(wholeWord) {
     }
 
     tmp = tmp.substring(pronSize);
-    if (pronSize > 0 ) {
+    if (pronSize === 0 ) {
         for (const vowelPrefix of VowelPrefixes.keys()) {
             if (tmp.startsWith(vowelPrefix)) {
                 if (vowelPrefix.length > pronSize) {
@@ -122,8 +155,17 @@ function getReflexivePrefix(wholeWord) {
     return wholeWord;
 }
 
+
+
+
 //if processing phonetic then pass in isSyllabary as false
 function process(word, isSyllabary=true) {
+    var checkStatus = checkWord(word);
+    if (checkStatus !== "") {
+        alert(checkStatus);
+        // document.getElementById("display").innerText = checkStatus;
+    }
+
     var wholeWord = {
         syllabary: "",
         phonetic: "",
@@ -134,7 +176,7 @@ function process(word, isSyllabary=true) {
         nonFinalSuffixes: [],
         verbTenseSuffix: '',
         verbTenseType: Tense.PRESENT,
-        finalSuffixes: []
+        finalSuffixes: [],
     };
 
     if (isSyllabary) {
@@ -154,9 +196,15 @@ function process(word, isSyllabary=true) {
 
     wholeWord = getNonFinalSuffixes(wholeWord);
 
-    // wholeWord = getInitialPrefixes(wholeWord);
+    wholeWord = getInitialPrefixes(wholeWord);
     wholeWord = getPronominalPrefixes(wholeWord);
     // wholeWord = getReflexivePrefix(wholeWord);
+
+    return wholeWord;
+}
+
+function display(word, isSyllabary=true) {
+    var wholeWord = process(word, isSyllabary);
 
     document.getElementById("display").innerText = JSON.stringify(wholeWord);
     document.getElementById("syllabary").innerText = JSON.stringify(wholeWord.syllabary);
@@ -168,5 +216,9 @@ function process(word, isSyllabary=true) {
     document.getElementById("nonFinalSuffixes").innerText = JSON.stringify(wholeWord.nonFinalSuffixes);
     document.getElementById("tenseSuffixes").innerText = JSON.stringify(wholeWord.verbTenseSuffix);
     document.getElementById("finalSuffixes").innerText = JSON.stringify(wholeWord.finalSuffixes);
+}
 
+function getBreakdown(word) {
+    var wholeWord = process(word, true);
+    console.log(wholeWord.syllabary);
 }

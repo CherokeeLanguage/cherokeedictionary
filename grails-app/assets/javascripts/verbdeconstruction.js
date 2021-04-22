@@ -155,68 +155,63 @@ function getReflexivePrefix(wholeWord) {
     return wholeWord;
 }
 
-function processWord(word, isSyllabary, data) {
-    // console.log("data " + data);
+function processAjax(word, isSyllabary, data) {
 
-    if (data === "" || data === []) {
-        console.log("data is empty");
-    } else {
-        console.log("data is not empty " + data);
-    }
-//
-    // var wholeWord = {
-    //     syllabary: "",
-    //     phonetic: "",
-    //     tmpParse: "",
-    //     initialPrefixes: [],
-    //     pronounPrefixes: [],
-    //     reflexivePrefix: false,
-    //     nonFinalSuffixes: [],
-    //     verbTenseSuffix: '',
-    //     verbTenseType: Tense.PRESENT,
-    //     finalSuffixes: [],
-    // };
-    //
-    // if (isSyllabary) {
-    //     wholeWord.syllabary = word;
-    //     wholeWord.phonetic = parseSyllabary(word)
-    // } else {
-    //     wholeWord.phonetic = word;
-    // }
-    //
-    // wholeWord = getFinalSuffixes(wholeWord);
-    // wholeWord = getVerbTenseSuffixes(wholeWord);
-    //
-    // for (const tmpElementElement of wholeWord.verbTenseSuffix) {
-    //     wholeWord.verbTenseType = tmpElementElement.meaning;
-    //     //TODO: also need to get verb tense ending here -- will need another map
-    // }
-    //
-    // wholeWord = getNonFinalSuffixes(wholeWord);
-    //
-    // wholeWord = getInitialPrefixes(wholeWord);
-    // wholeWord = getPronominalPrefixes(wholeWord);
-    // wholeWord = getReflexivePrefix(wholeWord);
 
-    return "";
-    // return wholeWord;
+
 }
 
 //if processing phonetic then pass in isSyllabary as false
-function process(word, isSyllabary=true) {
-    checkWord(word)
-        .then((data) => {
-            return processWord(word, isSyllabary, data);
-        })
-        .catch((error) => {
-            console.log(error)
-        })
+async function process(word, isSyllabary=true) {
+    var content = await checkWord(word);
 
-    return "";
+    var wholeWord = {
+        syllabary: "",
+        phonetic: "",
+        tmpParse: "",
+        initialPrefixes: [],
+        pronounPrefixes: [],
+        reflexivePrefix: false,
+        nonFinalSuffixes: [],
+        verbTenseSuffix: '',
+        verbTenseType: Tense.PRESENT,
+        finalSuffixes: []
+    };
+
+    if (isSyllabary) {
+        wholeWord.syllabary = word;
+        wholeWord.phonetic = parseSyllabary(word)
+    } else {
+        wholeWord.phonetic = word;
+    }
+
+    let values = await Promise.all([content]);
+
+    if (values.length > 0 && values[0] !== "null") {
+        for (const value of values) {
+            console.log("value " + value);
+        }
+    } else {
+        wholeWord = getFinalSuffixes(wholeWord);
+        wholeWord = getVerbTenseSuffixes(wholeWord);
+
+        for (const tmpElementElement of wholeWord.verbTenseSuffix) {
+            wholeWord.verbTenseType = tmpElementElement.meaning;
+            //TODO: also need to get verb tense ending here -- will need another map
+        }
+
+        wholeWord = getNonFinalSuffixes(wholeWord);
+
+        // wholeWord = getInitialPrefixes(wholeWord);
+        wholeWord = getPronominalPrefixes(wholeWord);
+        // wholeWord = getReflexivePrefix(wholeWord);
+    }
+
+    return wholeWord;
 }
 
-function display(word, isSyllabary=true) {
-    var wholeWord = process(word, isSyllabary);
+async function display(word, isSyllabary=true) {
+    var wholeWord = await process(word, isSyllabary);
 
     document.getElementById("display").innerText = JSON.stringify(wholeWord);
     document.getElementById("syllabary").innerText = JSON.stringify(wholeWord.syllabary);

@@ -12,7 +12,12 @@ class SearchController {
 
         def searchResults = getSearchResults(params)
 
-        def bob = (searchResults as JSON).toString()
+        def bob = "";
+        if (searchResults.isEmpty()) {
+            bob = "null";
+        } else {
+            bob = (searchResults as JSON).toString()
+        }
 
         render bob
     }
@@ -61,8 +66,6 @@ class SearchController {
             params.syllabarySearch=params.syllabary
             searchParam = params.syllabarySearch
         }
-
-        println searchParam
 
         def searchResults = newSearchService.newSearch(params, searchParam)
 

@@ -1,20 +1,20 @@
-async function checkWord(word) {
-    return new Promise((resolve, reject) => {
-        var url = `/jsonlookup/${word}`;
-        if (word === "") {
-            return;
-        }
+// modified example from https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await
 
-        console.log(url);
-        $.ajax({
-            method: "POST",
-            url: url,
-            success: function (data) {
-                resolve(data)
-            },
-            error: function (error) {
-                reject(error)
-            }
-        });
-    });
+async function checkWord(word) {
+    var url = `/jsonlookup/${word}`;
+    if (word === "") {
+        // return;
+    }
+
+    let response = await fetch(url);
+
+    let content;
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    content = await response.text();
+
+    return content;
 }

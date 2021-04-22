@@ -155,27 +155,15 @@ function getReflexivePrefix(wholeWord) {
     return wholeWord;
 }
 
+function processWord(word, isSyllabary, data) {
+    // console.log("data " + data);
 
-function callbackMethod(result) {
-
-}
-
-function lookupInDictionary(word) {
-    console.log("word is " + word);
-    var checkStatus = checkWord(word, callbackMethod);
-
-    if (checkStatus !== "" && checkStatus !== undefined) {
-        // alert(checkStatus);
-        console.log("checkStatus " + checkStatus);
-        // document.getElementById("display").innerText = checkStatus;
+    if (data === "" || data === []) {
+        console.log("data is empty");
+    } else {
+        console.log("data is not empty " + data);
     }
-}
-
-//if processing phonetic then pass in isSyllabary as false
-function process(word, isSyllabary=true) {
-    var lookup = lookupInDictionary(word);
-    console.log("lookup is " + lookup);
-    //
+//
     // var wholeWord = {
     //     syllabary: "",
     //     phonetic: "",
@@ -212,6 +200,19 @@ function process(word, isSyllabary=true) {
 
     return "";
     // return wholeWord;
+}
+
+//if processing phonetic then pass in isSyllabary as false
+function process(word, isSyllabary=true) {
+    checkWord(word)
+        .then((data) => {
+            return processWord(word, isSyllabary, data);
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+
+    return "";
 }
 
 function display(word, isSyllabary=true) {

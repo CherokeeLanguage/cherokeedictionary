@@ -1,21 +1,20 @@
-function putReturnValueIntoDiv(result) {
-    $('#resultData').innerText = result;
-    console.log(result);
-    // alert($('#resultData').innerText);
-}
+async function checkWord(word) {
+    return new Promise((resolve, reject) => {
+        var url = `/jsonlookup/${word}`;
+        if (word === "") {
+            return;
+        }
 
-async function checkWord(word, callback) {
-    var url = `/jsonlookup/${word}`;
-    if (word === "") {
-        return;
-    }
-    console.log(url);
-    var ajaxCall = $.ajax({
-        method: "POST",
-        url: url
-    });
-
-    ajaxCall.done(function( msg ) {
-        callback(msg);
+        console.log(url);
+        $.ajax({
+            method: "POST",
+            url: url,
+            success: function (data) {
+                resolve(data)
+            },
+            error: function (error) {
+                reject(error)
+            }
+        });
     });
 }

@@ -2,6 +2,7 @@ package cherokeedictionary
 
 import grails.converters.JSON
 import grails.converters.XML
+import net.cherokeedictionary.transliteration.SyllabaryUtil
 
 class SearchController {
     def newSearchService
@@ -9,6 +10,18 @@ class SearchController {
     def index() {}
 
     def specificLookup(params) {
+        params.isSyllabary = true
+        params.includeCED = true;
+        params.includeSentence = false
+        params.searchForExactMatch = true
+        params.searchForExactMatch = true
+        params.includeCED = true
+        params.includeConsortiumWordList = true
+        params.includeCNOMedWordList = true
+        params.includeNCMedWordList = true
+        params.includeMicrosoftWordList = true
+        params.includeNOQWordList = true
+        params.includeRRD = true
 
         def searchResults = getSearchResults(params)
 
@@ -55,7 +68,7 @@ class SearchController {
     }
 
     def getSearchResults(params) {
-        def searchParam;
+        def searchParam
         if (params.definition) {
             params.englishSearch=params.definition
             searchParam = params.englishSearch
@@ -67,7 +80,9 @@ class SearchController {
             searchParam = params.syllabarySearch
         }
 
-        def searchResults = newSearchService.newSearch(params, searchParam)
+//        println SyllabaryUtil.parseSyllabary(params.syllabary)
+
+        def searchResults = newSearchService.newSearch(params, searchParam);
 
         return searchResults
     }

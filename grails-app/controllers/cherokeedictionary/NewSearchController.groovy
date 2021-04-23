@@ -82,7 +82,6 @@ class NewSearchController {
 
     def share() {
         def value = Likespreadsheets.findById(params.id);
-        println "VALUE OF PARAMS IS " + value;
         render(view:'dictionary', model:[entries: [value], expand:true])
     }
 

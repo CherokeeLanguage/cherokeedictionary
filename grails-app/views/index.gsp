@@ -65,7 +65,7 @@
 
             $('#visitCNOSkeletonPage').click(function () {
                 var win = window.open('https://language.cherokee.org/media/rpmooxvr/humanskeleton.pdf', '_blank');
-                if (win) {
+                ᏃᎴ      if (win) {
                     win.focus();
                 } else {
                     alert('Please allow popups for this site');

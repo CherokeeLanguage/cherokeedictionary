@@ -155,10 +155,8 @@ function getReflexivePrefix(wholeWord) {
     return wholeWord;
 }
 
-function processAjax(word, isSyllabary, data) {
-
-
-
+function startsWithVowel(word) {
+    return word.substring(0, 1).startsWith('a') || word.substring(0, 1).startsWith('e') || word.substring(0, 1).startsWith('i')  || word.substring(0, 1).startsWith('o') || word.substring(0, 1).startsWith('u') || word.substring(0, 1).startsWith('v');
 }
 
 //if processing phonetic then pass in isSyllabary as false
@@ -189,7 +187,9 @@ async function process(word, isSyllabary=true) {
 
     if (values.length > 0 && values[0] !== "null") {
         for (const value of values) {
-            console.log("value " + value);
+            var jsonParsedValue = JSON.parse(value)[0];
+            var definition = jsonParsedValue.definitiond;
+            console.log("value " + definition);
         }
     } else {
         wholeWord = getFinalSuffixes(wholeWord);
@@ -205,6 +205,18 @@ async function process(word, isSyllabary=true) {
         // wholeWord = getInitialPrefixes(wholeWord);
         wholeWord = getPronominalPrefixes(wholeWord);
         // wholeWord = getReflexivePrefix(wholeWord);
+
+        //right here put together a verb and then look it up
+        // wholeWord.pronounPrefixes[0]
+        var pronPrefix = PronominalPrefixes.get(wholeWord.pronounPrefixes[0]);
+        if (startsWithVowel(wholeWord.tmpParse)) {
+            pronPrefix = pronPrefix.preConsonant
+        }
+
+
+        //TODO: THIS IS TO BE FIXED!!!!!!!
+        console.log(pronPrefix + wholeWord.tmpParse + VerbTenseLookup.get(wholeWord.verbTenseType));// + wholeWord.tmpParse + wholeWord.verbTenseSuffix);
+        //pronominal prefix + root + tense ending
     }
 
     return wholeWord;

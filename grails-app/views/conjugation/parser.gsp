@@ -85,20 +85,20 @@
 
         var textToParseFromTextArea = document.getElementById('textareatoprocess').value;
 
-        var splitSentence = textToParseFromTextArea.split(" ");
+        textToParseFromTextArea = textToParseFromTextArea.trim()
+
+        var splitSentence = textToParseFromTextArea.split(" ")
 
         for (var splitSentenceElement of splitSentence) {
             //remove punctuation
             //process each item as a translation
             //see what happens
-
-            splitSentenceElement = splitSentenceElement.replaceAll(/[\,\.\?]/g, "");
             splitSentenceElement = splitSentenceElement.trim();
-            if (splitSentenceElement !== "") {
-                console.log(JSON.stringify(process(splitSentenceElement)));
-            }
+            splitSentenceElement = splitSentenceElement.replaceAll(/[\,\.\?]/g, "");
 
-            // processedList.push(JSON.stringify(process(splitSentenceElement)));
+            if (splitSentenceElement !== "") {
+                processedList.push(JSON.stringify(process(splitSentenceElement)));
+            }
         }
 
         display(processedList.join(","));

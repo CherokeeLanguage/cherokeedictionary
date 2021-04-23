@@ -18,3 +18,21 @@ async function checkWord(word) {
 
     return content;
 }
+
+async function lookupWordInCED(word) {
+    var content = await checkWord(word);
+
+    let values = await Promise.all([content]);
+
+    if (values.length > 0 && values[0] !== "null") {
+        for (const value of values) {
+            var jsonParsedValue = JSON.parse(value)[0];
+            var definition = jsonParsedValue.definitiond;
+            // console.log("value " + definition);
+        }
+
+        return values;
+    } else {
+        return [];
+    }
+}

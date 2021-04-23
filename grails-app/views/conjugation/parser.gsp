@@ -18,6 +18,7 @@
         <asset:javascript src="cherokeeParser.js"/>
         <asset:javascript src="ajaxCall.js"/>
         <asset:javascript src="verbTables.js"/>
+        <asset:javascript src="deconstructionMethods.js"/>
     </head>
 <body>
 <div style="display:table-row">
@@ -89,7 +90,8 @@
 
         var splitSentence = textToParseFromTextArea.split(" ")
 
-        for (var splitSentenceElement of splitSentence) {
+        for (let i = 0; i < splitSentence.length; i++) {
+            var splitSentenceElement = splitSentence[i];
             //remove punctuation
             //process each item as a translation
             //see what happens

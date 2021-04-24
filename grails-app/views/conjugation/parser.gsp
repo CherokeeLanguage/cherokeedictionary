@@ -24,7 +24,7 @@
 <div style="display:table-row">
     <div style="display:table-cell;width:300px">
         <div style="display:table-row">%{--ᎦᏬᏂᏍᎨᏍᏗ--}%
-            <div style="display:table-cell"><input type="text" id="texttoprocess" value="ᏃᎴ"/><br/><button onclick='javascript:processText();'>Process</button><br/><br/></div>
+            <div style="display:table-cell"><input type="text" id="texttoprocess" value="ᎠᎦᏍᎦᏛ"/><br/><button onclick='javascript:processText();'>Process</button><br/><br/></div>
         </div>
         <div style="display:table-row">
             <div style="display:table-cell"><textarea cols="30" rows="6" type="text" id="textareatoprocess">ᎤᏍᏗ ᎠᏓᏪᎳᎩᏍᎬ ᎤᏃᏛ ᏧᎾᏦᎯᏍᏗ, ᏌᎪᏂᎨ ᏃᎴ ᏓᎶᏂᎨ ᏓᏓᏪᎳᎩᏍᎬ ᏩᏁ ᏃᎴ, ᏘᎵ ᏚᏅᏛ. ᎧᎵ ᎠᏂᏅ ᏗᎦᏅᎯᏓ ᏗᎦᏍᎩᎶᎩ, ᏗᏂᏲᏟ ᎡᏓᏍᏘ ᎠᏂᏅ ᎠᎴ ᎠᏂᏅᎬ.</textarea><br/><button onclick='javascript:processTextArea();'>Process</button><br/><br/></div>
@@ -112,7 +112,7 @@
 <script>
     var testLinks = [];
 
-    testLinks.push('ᎤᏬᏂᏏᎶᎡᎢ');
+    testLinks.push('ᎠᎦᏍᎦᏛ');
 
     //https://stackoverflow.com/questions/18500759/createelement-a-href-variable1variable2-a/18500892
     //https://stackoverflow.com/questions/11017509/add-onclick-event-to-document-createelementth
@@ -135,8 +135,7 @@
     appendAnchorTag('ᎦᏬᏂᏏᎶᏍᎬᎢ');
     appendAnchorTag('ᎯᏬᏂᎯ');
     appendAnchorTag('ᎯᏬᏂᏏᎶᏣ');
-    appendAnchorTag('ᎯᏬᏂᎯ');
-    appendAnchorTag('ᎠᎦᏍᎦᏛ');
+    appendAnchorTag('ᎠᎦᏍᎦᏛ'); // it's raining'
     appendAnchorTag('ᏱᎦᏬᏂᏏᎶᏍᎬᎢᏛ');
     appendAnchorTag('ᎠᏆᏚᎵᎭ');
     appendAnchorTag('ᏓᏆᏚᎵᎭ');

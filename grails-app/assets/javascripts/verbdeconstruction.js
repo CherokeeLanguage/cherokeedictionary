@@ -81,7 +81,10 @@ function createDisplayObect() {
 
 function populateDisplayObject(displayObject, wholeWord) {
     displayObject.syllabary = wholeWord.syllabary;
+    // console.log("wholeWord " + JSON.stringify(wholeWord));
     console.log(displayObject);
+
+    return displayObject;
 }
 
 //if processing phonetic then pass in isSyllabary as false
@@ -102,6 +105,8 @@ async function process(word, isSyllabary=true) {
         wholeWord = deconstruct(wholeWord, word);
         displayObject = await hold(displayObject, wholeWord);
     }
+
+    displayObject = populateDisplayObject(displayObject, wholeWord);
 
     return displayObject;
 }

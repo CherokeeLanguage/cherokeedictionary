@@ -32,28 +32,42 @@ function newWholeWord(word, isSyllabary) {
     return wholeWord;
 }
 
-function deconstruct(wholeWord, word) {
+async function deconstruct(wholeWord, word) {
     wholeWord = getFinalSuffixes(wholeWord);
-    wholeWord = getVerbTenseSuffixes(wholeWord);
 
-    for (const tmpElementElement of wholeWord.verbTenseSuffix) {
-        wholeWord.verbTenseType = tmpElementElement.meaning;
-        //TODO: also need to get verb tense ending here -- will need another map
+    //check word against dictionary
+    // look up in database
+    let tmpValSyllabary = tsalagiToSyllabary(wholeWord.tmpParse);
+    let values = await lookupWordInCED(tmpValSyllabary);
+    let displayObject = createDisplayObect();
+
+    // if there's a result then we are going to put that information into the display object
+    if (values.length > 0) {
+        console.log("second value thing found");
+        wholeWord.syllabary = tmpValSyllabary;
+        // TODO: we found an item in the database - we need to create a new display object that we're going to send to the user or the page
+        displayObject = valueFound(values, wholeWord);
+        console.log("displayObject 2nd " + JSON.stringify(displayObject));
+    } else {
+        wholeWord = getVerbTenseSuffixes(wholeWord);
+
+        for (const tmpElementElement of wholeWord.verbTenseSuffix) {
+            wholeWord.verbTenseType = tmpElementElement.meaning;
+            //TODO: also need to get verb tense ending here -- will need another map
+        }
+
+        wholeWord = getNonFinalSuffixes(wholeWord);
+        wholeWord = getInitialPrefixes(wholeWord);
+        wholeWord = getPronominalPrefixes(wholeWord);
+        // wholeWord = getReflexivePrefix(wholeWord);
     }
 
-    wholeWord = getNonFinalSuffixes(wholeWord);
-
-    wholeWord = getInitialPrefixes(wholeWord);
-    wholeWord = getPronominalPrefixes(wholeWord);
-    // wholeWord = getReflexivePrefix(wholeWord);
-
-    return wholeWord;
+    return [wholeWord, displayObject];
 }
 
 function valueFound(values, displayObject) {
     // TODO: what do we need from the dictionary entry?  definition,
     // TODO: could also be an array of values
-    console.log("values size " + values.length);
     for (const value of values) {
         var jsonParsedValue = JSON.parse(value)[0];
         if (values.length > 1 && jsonParsedValue.source === 'ced') {
@@ -102,8 +116,14 @@ async function process(word, isSyllabary=true) {
         displayObject = valueFound(values, wholeWord);
     } else { // if there's no result then we need to parse the word - it could be an adj, noun, or verb
         // breakdown the word
-        wholeWord = deconstruct(wholeWord, word);
-        displayObject = await hold(displayObject, wholeWord);
+        var tmpList = await deconstruct(wholeWord, word);
+        wholeWord = tmpList[0];
+        displayObject = tmpList[1];
+        console.log("displayObject " + JSON.stringify(displayObject));
+
+        if (displayObject.definition === "") {
+            displayObject = await hold(displayObject, wholeWord);
+        }
     }
 
     displayObject = populateDisplayObject(displayObject, wholeWord);
@@ -133,16 +153,18 @@ function getBreakdown(word) {
 
 async function hold(displayObject, wholeWord) {
     // right here put together a verb and then look it up
-    var pronPrefix = PronominalPrefixes.get(wholeWord.pronounPrefixes[0]);
-    if (pronPrefix !== undefined) {
-        if (startsWithVowel(wholeWord.tmpParse)) {
-            pronPrefix = pronPrefix.preVowel
+    if (wholeWord?.pronounPrefixes?.length > 0) {
+        var pronPrefix = PronominalPrefixes.get(wholeWord.pronounPrefixes[0]);
+        if (pronPrefix !== undefined) {
+            if (startsWithVowel(wholeWord.tmpParse)) {
+                pronPrefix = pronPrefix.preVowel
+            } else {
+                pronPrefix = pronPrefix.preConsonant
+            }
         } else {
-            pronPrefix = pronPrefix.preConsonant
+            console.log("wholeWord prefixes " + JSON.stringify(wholeWord));
         }
-    } else {
-        console.log("wholeWord prefixes " + JSON.stringify(wholeWord));
-    }
+
 
     //TODO: at this point uwoniha becomes uw + onih + a -- it should be u + wonih + a
     if (pronPrefix !== undefined) {
@@ -179,6 +201,7 @@ async function hold(displayObject, wholeWord) {
         displayObject = valueFound(values, displayObject);
     } else {// TODO: if there's no result then DO SOMETHING ELSE
         console.log("still could not find a result");
+    }
     }
 
     return displayObject;

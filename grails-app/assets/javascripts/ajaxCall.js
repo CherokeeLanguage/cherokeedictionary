@@ -2,9 +2,6 @@
 
 async function checkWord(word) {
     var url = `/jsonlookup/${word}`;
-    if (word === "") {
-        // return;
-    }
 
     let response = await fetch(url);
 
@@ -25,12 +22,6 @@ async function lookupWordInCED(word) {
     let values = await Promise.all([content]);
 
     if (values.length > 0 && values[0] !== "null") {
-        for (const value of values) {
-            var jsonParsedValue = JSON.parse(value)[0];
-            var definition = jsonParsedValue.definitiond;
-            // console.log("value " + definition);
-        }
-
         return values;
     } else {
         return [];

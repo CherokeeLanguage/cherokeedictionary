@@ -1,0 +1,20 @@
+process
+    lookup
+        if exits
+            setup wholeWord and return
+        else
+            deconstruct
+                strip final suffixes
+                lookup
+                    if exists
+                        setup wholeWord and return
+                    else
+                        remove affixes
+
+                    put together a simple word that might match the database
+                    lookup
+                        if exists
+                            setup wholeWord and return
+                        else
+                           we didn't find a match so no definition
+                           return wholeWord

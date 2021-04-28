@@ -15,12 +15,12 @@
         <title>Verb Deconstructor</title>
         <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 %{--        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>--}%
-        <asset:javascript src="grooscript.min.js"/>
-        <asset:javascript src="grooscript-html-builder.js"/>
+%{--        <asset:javascript src="grooscript.min.js"/>--}%
+%{--        <asset:javascript src="grooscript-html-builder.js"/>--}%
 
         <asset:javascript src="cherokeeParser.js"/>
         <asset:javascript src="ajaxCall.js"/>
-        <asset:javascript src="VerbTables.js"/>
+        <asset:javascript src="verbTables.js"/>
         <asset:javascript src="deconstructionMethods.js"/>
     </head>
 <body>
@@ -142,15 +142,6 @@
     appendAnchorTag('ᏱᎦᏬᏂᏏᎶᏍᎬᎢᏛ');
     appendAnchorTag('ᎠᏆᏚᎵᎭ');
     appendAnchorTag('ᏓᏆᏚᎵᎭ');
-
-
-    console.log("final endings size " + FinalEndings.size())
-
-    for (let i = 0; i < FinalEndings.size(); i++) {
-        const finalEnding = FinalEndings.get(i);
-        console.log("finalEnding " + finalEnding);
-    }
-
 </script>
 
 </body>

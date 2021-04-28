@@ -30,10 +30,6 @@ function getFinalSuffixes(wholeWord) {
     var foundAResult = true;
     while(foundAResult) {
         foundAResult = false;
-        for (let i = 0; i < FinalEndings.length; i++) {
-            const finalEnding = FinalEndings[i];
-            console.log("finalEnding " + finalEnding);
-        }
 
         for (const finalEnding of FinalEndings.keys()) {
             var tmpEnding = FinalEndings.get(finalEnding);

@@ -1,4 +1,43 @@
-var verbTense = Tense.PRESENT;
+function startsWithVowel(word) {
+    return word.substring(0, 1).startsWith('a') || word.substring(0, 1).startsWith('e') || word.substring(0, 1).startsWith('i')  || word.substring(0, 1).startsWith('o') || word.substring(0, 1).startsWith('u') || word.substring(0, 1).startsWith('v');
+}
+
+function endsWithVowel(word) {
+    return word.endsWith('a') || word.endsWith('e') || word.endsWith('i')  || word.endsWith('o') || word.endsWith('u') || word.endsWith('v');
+}
+
+function newWholeWord(word, isSyllabary) {
+    let wholeWord = {
+        phonetic: "", // phonetic transliteration of original syllabary lookup
+        syllabary: "", // original word to look up
+        root_phonetic: "", // phonetic root of the word as broken down
+        root_syllabary: "", // syllabary root of the word as broken down - if the root ending contains a phonetic "letter" then it will appear as syllabary+phonetic letter
+        definitions: [], // all definitions found in the database
+        root_ending: "", // what the root ending is - phonetic only
+        constructedVerbToLookup: "", // if this word is a verb then this takes the third person prefix type (A or B), root, root ending, present tense to give a lookup so uwonisvi (third past) would become gawoniha (third present) and is then
+        verbTense: {tense: "", ending: ""}, // what is the tense of the current word
+        verbTenseSuffixes: [], // what are the tense options of the current word
+        initialPrefixes: [], // what are the initial prefixes found
+        pronounPrefixes: [], // what are the pronoun prefixes found
+        reflexive: false, // was a reflexive prefix found
+        nonFinalSuffixes: [], // what are the non final suffixes found
+        finalSuffixes: [] // what are the final suffixes found
+    };
+
+    if (isSyllabary) {
+        wholeWord.syllabary = word;
+        wholeWord.phonetic = parseSyllabary(word)
+    } else {
+        wholeWord.phonetic = word;
+    }
+
+    wholeWord.phonetic = wholeWord.phonetic.replaceAll(/qu/g, "gw");
+
+    return wholeWord;
+}
+
+
+let verbTense = Tense.PRESENT;
 
 // phonetic = value of item in explanation
 // syllabary = syllabic representation if available
@@ -6,7 +45,7 @@ var verbTense = Tense.PRESENT;
 // function = pronoun, like focus,
 // meaning = focus etc
 function createExplanation(phonetic, syllabary, type, purpose, meaning, name) {
-    var explanation = {
+    let explanation = {
         phonetic: phonetic,
         syllabary: syllabary,
         meaning: meaning,
@@ -24,10 +63,10 @@ function createExplanation(phonetic, syllabary, type, purpose, meaning, name) {
 
 function getFinalSuffixes(wholeWord) {
     //iterate over final endings to remove each one from top to bottom right to left
-    var finalSuffixesList = [];
-    var word = wholeWord.phonetic;
+    let finalSuffixesList = [];
+    let word = wholeWord.phonetic;
 
-    var foundAResult = true;
+    let foundAResult = true;
     while(foundAResult) {
         foundAResult = false;
 
@@ -50,12 +89,12 @@ function getFinalSuffixes(wholeWord) {
 
 //TODO: what if there are multiples?  return both?
 function getVerbTenseSuffixes(wholeWord) {
-    var verbTenseSuffixesList = []
-    var word = wholeWord.tmpParse;
+    let verbTenseSuffixesList = []
+    let word = wholeWord.tmpParse;
     for (const verbTense of VerbTense.keys()) {
         if (word.endsWith(verbTense)) {
-            var verbTenseItem = VerbTense.get(verbTense);
-            var explanation = createExplanation(verbTense, '', 'suffix', '', verbTenseItem, '');
+            let verbTenseItem = VerbTense.get(verbTense);
+            let explanation = createExplanation(verbTense, '', 'suffix', '', verbTenseItem, '');
             verbTenseSuffixesList.push(explanation);
             word = word.substr(0, word.length - verbTense.length);
         }
@@ -68,11 +107,11 @@ function getVerbTenseSuffixes(wholeWord) {
 }
 
 function getNonFinalSuffixes(wholeWord) {
-    var word = wholeWord.tmpParse;
+    let word = wholeWord.tmpParse;
 
-    var nonFinalSuffixesList = [];
+    let nonFinalSuffixesList = [];
 
-    var foundAResult = true;
+    let foundAResult = true;
     while(foundAResult) {
         foundAResult = false;
         for (const nonFinalEnding of NonFinalEndings.keys()) {
@@ -102,9 +141,9 @@ function getNonFinalSuffixes(wholeWord) {
 }
 
 function getInitialPrefixes(wholeWord) {
-    var initialPrefixList = [];
-    var tmp = wholeWord.tmpParse;
-    var foundAResult = true;
+    let initialPrefixList = [];
+    let tmp = wholeWord.tmpParse;
+    let foundAResult = true;
     while(foundAResult) {
         foundAResult = false;
 
@@ -139,10 +178,10 @@ function getInitialPrefixes(wholeWord) {
 }
 
 function getPronominalPrefixes(wholeWord) {
-    var pronominalPrefixList = [];
+    let pronominalPrefixList = [];
 
-    var pronSize = 0;
-    var tmp = wholeWord.tmpParse;
+    let pronSize = 0;
+    let tmp = wholeWord.tmpParse;
 
     for (const consonantPrefix of ConsonantPrefixes.keys()) {
         if (tmp.startsWith(consonantPrefix)) {

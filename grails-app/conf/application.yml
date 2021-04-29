@@ -8,15 +8,15 @@ grails:
             # Whether to translate GORM events into Reactor events
             # Disabled by default for performance reasons
             events: false
-    cors:
-        enabled: true
-        allowedHeaders:
-            - Access-Control-Allow-Origin
-            - Access-Control-Allow-Credentials
-            - Access-Control-Allow-Methods
-            - Access-Control-Max-Age
-        allowedOrigins:
-            - http://localhost:8080
+#    cors:
+#        enabled: true
+#        allowedHeaders:
+#            - Access-Control-Allow-Origin
+#            - Access-Control-Allow-Credentials
+#            - Access-Control-Allow-Methods
+#            - Access-Control-Max-Age
+#        allowedOrigins:
+#            - http://localhost:8080
 info:
     app:
         name: '@info.app.name@'

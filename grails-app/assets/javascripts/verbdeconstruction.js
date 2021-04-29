@@ -150,15 +150,15 @@ async function process(word, isSyllabary=true) {
         //         put together a simple word that might match the database
         if (wholeWord.definition === "") {
             // right here put together a generic verb entry and then look it up
-            if (wholeWord?.pronounPrefixes?.length > 0) {
+            if (wholeWord.pronounPrefixes && wholeWord.pronounPrefixes.length > 0) {
                 var pronPrefix = getPronPrefix();
 
-                // other endings need to be added h, l, s, d, and others
+                //other endings need to be added h, l, s, d, and others
                 if (wholeWord.tmpParse.endsWith("s")) {
                     wholeWord.tmpParse = wholeWord.tmpParse.substring(0, wholeWord.tmpParse.length -1) + "h";
                 }
 
-                // once parsed then try another lookup in the database
+                //once parsed then try another lookup in the database
                 var tmpWord = pronPrefix + wholeWord.tmpParse + VerbTenseLookup.get("PRESENT");
                 // console.log("tmpWord " + tmpWord);
                 tmpWord = tsalagiToSyllabary(tmpWord);

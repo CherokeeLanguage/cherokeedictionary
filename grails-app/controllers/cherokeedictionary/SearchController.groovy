@@ -24,7 +24,6 @@ class SearchController {
         params.includeRRD = true
 
         def searchResults = getSearchResults(params)
-        println searchResults.size()
 
         def bob = "";
         if (searchResults.isEmpty()) {

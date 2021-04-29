@@ -21,7 +21,19 @@
         <asset:javascript src="cherokeeParser.js"/>
         <asset:javascript src="ajaxCall.js"/>
         <asset:javascript src="verbTables.js"/>
+        <asset:javascript src="wordDisplay.js"/>
         <asset:javascript src="deconstructionMethods.js"/>
+        <style>
+        .tableRowz {
+                padding-right:10px;
+                text-align: center;
+            }
+
+        .tableCell {
+                padding-right:10px;
+                text-align: center;
+            }
+        </style>
     </head>
 <body>
 <div style="display:table-row">
@@ -76,10 +88,88 @@
         <div id="display"></div>
         <div id="resultData"></div> style="display:block; visibility:hidden"
     </div>
+
+    <div id="wordDisplay"></div>
+
+%{--    // for (const initialPrefix of initialPrefixes) {--}%
+%{--    //     console.log(initialPrefix);--}%
+%{--    // }--}%
+%{--    //--}%
+%{--    // for (const initialPrefix of pronounPrefixes) {--}%
+%{--    //     console.log(initialPrefix);--}%
+%{--    // }--}%
+%{--    //--}%
+%{--    // for (const initialPrefix of finalSuffixes) {--}%
+%{--    //     console.log(initialPrefix);--}%
+%{--    // }--}%
+%{--    //--}%
+%{--    // for (const initialPrefix of definitions) {--}%
+%{--    //     console.log(initialPrefix.definitiond);--}%
+%{--    // }--}%
+
+%{--    // <div id="displayWord">--}%
+%{--    //     <div class="tableRowz" style="display:table-row">--}%
+%{--        //     <div class="tableCell" style="display:table-cell">word</div>--}%
+%{--        //     <div class="tableCell" style="display:table-cell">word2</div>--}%
+%{--        //     <div class="tableCell" style="display:table-cell">word3</div>--}%
+%{--        //     </div>--}%
+%{--    //     <div class="tableRowz" style="display:table-row">--}%
+%{--        //     <div class="tableCell" style="display:table-cell">definition</div>--}%
+%{--        //     <div class="tableCell" style="display:table-cell">definition2</div>--}%
+%{--        //     <div class="tableCell" style="display:table-cell">definition3</div>--}%
+%{--        //     </div>--}%
+%{--    // </div>--}%
+%{--    // <div class="tableRowz" style="display:table-row">--}%
+%{--    //     <div class="tableCell" style="display:table-cell">word</div>--}%
+%{--    //     <div class="tableCell" style="display:table-cell">word2</div>--}%
+%{--    //     <div class="tableCell" style="display:table-cell">word3</div>--}%
+%{--    //     </div>--}%
+%{--    //     <div class="tableRowz" style="display:table-row">--}%
+%{--    //     <div class="tableCell" style="display:table-cell">definition</div>--}%
+%{--    //     <div class="tableCell" style="display:table-cell">definition2</div>--}%
+%{--    //     <div class="tableCell" style="display:table-cell">definition3</div>--}%
+%{--    //     </div>--}%
 </div>
 <asset:javascript src="verbdeconstruction.js"/>
 <asset:javascript src="tests.js"/>
 <script>
+
+
+    function createDisplayWordTest() {
+        var html = "";
+        var ww = newWholeWord("ᏱᎦᏬᏂᏏᎶᏍᎬᎢᏛ", true);
+        //initialprefixes + pronominalprefixes + reflexive + root + root ending + nonfinal suffixes + final suffixes
+        ww.initialPrefixes = ["negative"];// need to add all of the prefix
+        ww.pronounPrefixes = ["SG3SG3IN"];// need to add the pronoun portion
+        ww.finalSuffixes = [{"phonetic":"dv","syllabary":"","meaning":"focus","purpose":"","name":""}];
+        ww.definitions = [{"id":73206,"vsecondimpertone":"hi.2wo1ni23hi","definitionlarge":"","definitiond":"he's speaking","entrytone":"ga.2wo3ni.2ha","vthirdprestone":"ga.2wo3ni2sgo3?i","vthirdprestranslit":"gawonisgoi","notes":"","nounadjpluraltone":"","crossreferencet":"gawonida","sentenceq":"Tsgwisdi <u>gawoniha</u>, asehnv hla gohusdi yadiha.","vsecondimperm":"hiwonihi","partofspeechc":"vi","vfirstprestone":"ji.2wo3ni.2ha","vthirdinfsyllp":"ᎤᏬᏂᎯᏍᏗ","vthirdinfo":"uwonihisdi","source":"ced","sentenceenglishs":"<u>He's</u> <u>talking</u> a lot, but he's not saying anything.","entrytranslit":"gawoniha","vthirdinftranslit":"uwonihisdi","vthirdpasti":"uwonisvi","nounadjpluraltranslit":"","vthirdpressylll":"ᎦᏬᏂᏍᎪᎢ","vthirdpasttone":"u1wo3ni2sv23?i","vsecondimpertranslit":"hiwonihi","vfirstpresg":"jiwoniha","vfirstpresh":"ᏥᏬᏂᎭ","vthirdpastsyllj":"ᎤᏬᏂᏒᎢ","sentencesyllr":"ᏥᏈᏍᏗ <u>ᎦᏬᏂᎭ</u>, ᎠᏎᏅ Ꮭ ᎪᎱᏍᏗ ᏯᏗᎭ.","category":"","vthirdpasttranslit":"uwonisvi","sentencetranslit":"tsiquisdi <u>gawoniha</u>, asenv tla gohusdi yadiha.","nounadjpluralsyllf":"","nounadjplurale":"","entrya":"gawoniha","vthirdinftone":"u2wo1ni23hi.3sdi","vsecondimpersylln":"ᎯᏬᏂᎯ","syllabaryb":"ᎦᏬᏂᎭ","etymology":"","vfirstprestranslit":"tsiwoniha","vthirdpresk":"gawonisgoi"},{"id":100923,"vsecondimpertone":"hịwonhi","definitionlarge":"","definitiond":"He is talking.; He is speaking","entrytone":"gạwoniha","vthirdprestone":"gạwonisgo³ɂi","vthirdprestranslit":"gawonisgoi","notes":"","nounadjpluraltone":"","crossreferencet":"","sentenceq":"[King p40]","vsecondimperm":"hiwonhi","partofspeechc":"vi","vfirstprestone":"tsịwonịɂa","vthirdinfsyllp":"ᎤᏬᏂᎯᏍᏗ","vthirdinfo":"uwonhisdi","source":"rrd","sentenceenglishs":"“<u>I will speak</u> in Cherokee.”","entrytranslit":"gawoniha","vthirdinftranslit":"uwonihisdi","vthirdpasti":"uwonsvi","nounadjpluraltranslit":"","vthirdpressylll":"ᎦᏬᏂᏍᎪᎢ","vthirdpasttone":"uwonsv²³ɂi","vsecondimpertranslit":"hiwonihi","vfirstpresg":"tsiwonia","vfirstpresh":"ᏥᏬᏂᎠ","vthirdpastsyllj":"ᎤᏬᏂᏒᎢ","sentencesyllr":"ᏴᏫᏯ ᎬᏗ <u>ᏓᏥᏬᏂᏏ</u>.","category":"","vthirdpasttranslit":"uwonisvi","sentencetranslit":"yvwiya gvdi <u>datsiwonisi</u>.","nounadjpluralsyllf":"","nounadjplurale":"","entrya":"gawoniha","vthirdinftone":"uwonhisdi","vsecondimpersylln":"ᎯᏬᏂᎯ","syllabaryb":"ᎦᏬᏂᎭ","etymology":"","vfirstprestranslit":"tsiwonia","vthirdpresk":"gawonisgoi"}];
+        ww.verbTenses = [{"phonetic":"vi","syllabary":"","meaning":"PAST","purpose":"","name":""}];
+        ww.root_syllabary = "ᏬᏂ";
+        ww.root_ending = "h";
+        ww.root_phonetic = "woni";
+        console.log("ww " + ww.syllabary);
+        console.log("ww " + ww.phonetic);
+        console.log("root " + ww.root_syllabary);
+
+        html += formBase(ww.root_syllabary, ww.definitions)
+
+        html += formRootEnding(ww.root_ending);
+
+        // todo: verb tense should be in syllabary too
+        html += formVerbTense(ww.verbTenses);
+
+        // todo: non final suffixes should be in syllabary too
+        html += formNonFinalSuffixes(ww.nonFinalSuffixes);
+
+        // todo: final suffixes should have syllabary
+        html += formFinalSuffixes(ww.finalSuffixes);
+
+        document.getElementById("wordDisplay").innerHTML = html;
+
+    }
+
+    // createDisplayWordTest();
+
     function processText() {
         display(document.getElementById('texttoprocess').value);
     }

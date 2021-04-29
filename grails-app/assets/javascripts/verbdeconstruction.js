@@ -16,12 +16,13 @@ function newWholeWord(word, isSyllabary) {
         root_ending: "", // what the root ending is - phonetic only
         constructedVerbToLookup: "", // if this word is a verb then this takes the third person prefix type (A or B), root, root ending, present tense to give a lookup so uwonisvi (third past) would become gawoniha (third present) and is then
         verbTense: {tense: "", ending: ""}, // what is the tense of the current word
+        verbTenseSuffixes: [], // what are the tense options of the current word
         initialPrefixes: [], // what are the initial prefixes found
         pronounPrefixes: [], // what are the pronoun prefixes found
         reflexive: false, // was a reflexive prefix found
         nonFinalSuffixes: [], // what are the non final suffixes found
         finalSuffixes: [] // what are the final suffixes found
-    }
+    };
 
     if (isSyllabary) {
         wholeWord.syllabary = word;
@@ -51,9 +52,11 @@ async function deconstruct(wholeWord, word) {
         wholeWord = await valueFound(values, wholeWord);
         // console.log("displayObject 2nd " + JSON.stringify(wholeWord));
     } else {
+        //TODO: Need to make sure if we have a definition and it's a verb then we can continue OR if the definition is empty or undefined
+        //      Repeat through the findings
         wholeWord = getVerbTenseSuffixes(wholeWord);
 
-        for (const tmpElementElement of wholeWord.verbTenseSuffix) {
+        for (const tmpElementElement of wholeWord.verbTenseSuffixes) {
             wholeWord.verbTenseType = tmpElementElement.meaning;
             //TODO: also need to get verb tense ending here -- will need another map
         }
@@ -72,14 +75,14 @@ async function valueFound(values, wholeWord) {
     var vals = JSON.parse(values[0]);
 
     for (const value of vals) {
-        wholeWord.dictionaryEntries.push(value);
+        wholeWord.definitions.push(value);
     }
 
     return wholeWord;
 }
 
 function getPronPrefix(wholeWord) {
-    var pronPrefixes = wholeWord?.pronounPrefixes[0];
+    var pronPrefixes = wholeWord && wholeWord.pronounPrefixes ? wholeWord.pronounPrefixes[0] : "";
     var pronPrefix = undefined;
 
     if (pronPrefixes !== undefined) {
@@ -95,13 +98,13 @@ function getPronPrefix(wholeWord) {
         }
 
         //TODO: at this point uwoniha becomes uw + onih + a -- it should be u + wonih + a
-        if (pronPrefix.startsWith("uw")) {
+        if (pronPrefixes && pronPrefix.startsWith("uw")) {
             if (wholeWord.pronounPrefixes[0].endsWith("B")) {
                 pronPrefix = "ga";
             }
 
             wholeWord.tmpParse = "w" + wholeWord.tmpParse;
-        } else if (pronPrefix.startsWith("u")) {
+        } else if (pronPrefixes && pronPrefix.startsWith("u")) {
             if (wholeWord.pronounPrefixes[0].endsWith("B")) {
                 pronPrefix = "ga";
             }
@@ -178,9 +181,9 @@ async function process(word, isSyllabary=true) {
 
 async function display(word, isSyllabary=true) {
     var wholeWord = await process(word, isSyllabary);
-    console.log("dictionary entries " + wholeWord.dictionaryEntries.length);
-    for (const dictionaryEntry of wholeWord.dictionaryEntries) {
-        console.log("dictionary Entry " + dictionaryEntry.definitiond);
+    console.log("dictionary entries " + wholeWord.definitions.length);
+    for (const dictionaryEntry of wholeWord.definitions) {
+        console.log("dictionary Entry " + dictionaryEntry.definitions);
     }
 
     // console.log(JSON.stringify(wholeWord));
@@ -192,8 +195,30 @@ async function display(word, isSyllabary=true) {
     document.getElementById("reflexivePrefixes").innerText = JSON.stringify(wholeWord.reflexivePrefix);
     document.getElementById("root").innerText = JSON.stringify(wholeWord.tmpParse);
     document.getElementById("nonFinalSuffixes").innerText = JSON.stringify(wholeWord.nonFinalSuffixes);
-    document.getElementById("tenseSuffixes").innerText = JSON.stringify(wholeWord.verbTenseSuffix);
+    document.getElementById("tenseSuffixes").innerText = JSON.stringify(wholeWord.verbTenseSuffixes);
     document.getElementById("finalSuffixes").innerText = JSON.stringify(wholeWord.finalSuffixes);
+
+    // document.getElementById("displayWord")
+    createDisplayWord(wholeWord);
+}
+
+function createDisplayWord(ww) {
+    let html = "";
+
+    html += formBase(ww.root_syllabary, ww.definitions)
+
+    html += formRootEnding(ww.root_ending);
+
+    // todo: verb tense should be in syllabary too
+    html += formVerbTense(ww.verbTenseSuffixes);
+
+    // todo: non final suffixes should be in syllabary too
+    html += formNonFinalSuffixes(ww.nonFinalSuffixes);
+
+    // todo: final suffixes should have syllabary
+    html += formFinalSuffixes(ww.finalSuffixes);
+
+    document.getElementById("wordDisplay").innerHTML = html;
 }
 
 function getBreakdown(word) {

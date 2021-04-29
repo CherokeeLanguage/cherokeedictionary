@@ -61,7 +61,7 @@ function getVerbTenseSuffixes(wholeWord) {
         }
     }
 
-    wholeWord.verbTenseSuffix = verbTenseSuffixesList;
+    wholeWord.verbTenseSuffixes = verbTenseSuffixesList;
     wholeWord.tmpParse = word;
 
     return wholeWord;

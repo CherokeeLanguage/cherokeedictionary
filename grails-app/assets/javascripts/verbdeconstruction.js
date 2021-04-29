@@ -8,19 +8,20 @@ function endsWithVowel(word) {
 
 function newWholeWord(word, isSyllabary) {
     var wholeWord = {
-        syllabary: "",
-        phonetic: "",
-        tmpParse: "",
-        rootPhonetic: "",
-        rootSyllabary: "",
-        initialPrefixes: [],
-        pronounPrefixes: [],
-        reflexivePrefix: false,
-        nonFinalSuffixes: [],
-        verbTense: {verbEnding: "", verbType: ""},
-        finalSuffixes: [],
-        dictionaryEntries: []
-    };
+        phonetic: "", // phonetic transliteration of original syllabary lookup
+        syllabary: "", // original word to look up
+        root_phonetic: "", // phonetic root of the word as broken down
+        root_syllabary: "", // syllabary root of the word as broken down - if the root ending contains a phonetic "letter" then it will appear as syllabary+phonetic letter
+        definitions: [], // all definitions found in the database
+        root_ending: "", // what the root ending is - phonetic only
+        constructedVerbToLookup: "", // if this word is a verb then this takes the third person prefix type (A or B), root, root ending, present tense to give a lookup so uwonisvi (third past) would become gawoniha (third present) and is then
+        verbTense: {tense: "", ending: ""}, // what is the tense of the current word
+        initialPrefixes: [], // what are the initial prefixes found
+        pronounPrefixes: [], // what are the pronoun prefixes found
+        reflexive: false, // was a reflexive prefix found
+        nonFinalSuffixes: [], // what are the non final suffixes found
+        finalSuffixes: [] // what are the final suffixes found
+    }
 
     if (isSyllabary) {
         wholeWord.syllabary = word;
@@ -68,41 +69,32 @@ async function deconstruct(wholeWord, word) {
 
 async function valueFound(values, wholeWord) {
     // TODO: what do we need from the dictionary entry?  definition,
-    // TODO: could also be an array of values
-    console.log("entries " + values.length);
+    var vals = JSON.parse(values[0]);
 
-    //TODO: need to get the results as an array then add that to the dictionary entries
-
-    for (const value of values) {
-        console.log("valueFound " + value);
-        var jsonParsedValue = JSON.parse(value)[0];
-        if (values.length > 1 && jsonParsedValue.source === 'ced') {
-            console.log(value[0]);
-        }
-
-        // console.log(jsonParsedValue);
-        //can probably just put the whole collection into the entries
-        wholeWord.dictionaryEntries.push(jsonParsedValue);
-        wholeWord.definition = jsonParsedValue.definitiond;
+    for (const value of vals) {
+        wholeWord.dictionaryEntries.push(value);
     }
 
     return wholeWord;
 }
 
 function getPronPrefix(wholeWord) {
-    var pronPrefix = PronominalPrefixes.get(wholeWord.pronounPrefixes[0]);
-    if (pronPrefix !== undefined) {
-        if (startsWithVowel(wholeWord.tmpParse)) {
-            pronPrefix = pronPrefix.preVowel
-        } else {
-            pronPrefix = pronPrefix.preConsonant
-        }
-    } else {
-        // console.log("wholeWord prefixes " + JSON.stringify(wholeWord));
-    }
+    var pronPrefixes = wholeWord?.pronounPrefixes[0];
+    var pronPrefix = undefined;
 
-    //TODO: at this point uwoniha becomes uw + onih + a -- it should be u + wonih + a
-    if (pronPrefix !== undefined) {
+    if (pronPrefixes !== undefined) {
+        pronPrefix = PronominalPrefixes.get(pronPrefixes);
+        if (pronPrefix !== undefined) {
+            if (startsWithVowel(wholeWord.tmpParse)) {
+                pronPrefix = pronPrefix.preVowel
+            } else {
+                pronPrefix = pronPrefix.preConsonant
+            }
+        } else {
+            // console.log("wholeWord prefixes " + JSON.stringify(wholeWord));
+        }
+
+        //TODO: at this point uwoniha becomes uw + onih + a -- it should be u + wonih + a
         if (pronPrefix.startsWith("uw")) {
             if (wholeWord.pronounPrefixes[0].endsWith("B")) {
                 pronPrefix = "ga";
@@ -129,7 +121,6 @@ async function process(word, isSyllabary=true) {
     //     lookup
     // look up in database
     let values = await lookupWordInCED(word);
-    console.log("values " + values.length);
 
     //     if exists
     //         setup wholeWord and return
@@ -148,7 +139,7 @@ async function process(word, isSyllabary=true) {
         wholeWord = await deconstruct(wholeWord, word);
 
         //         put together a simple word that might match the database
-        if (wholeWord.definition === "") {
+        if (wholeWord.definition === "" || wholeWord.definition === undefined) {
             // right here put together a generic verb entry and then look it up
             if (wholeWord.pronounPrefixes && wholeWord.pronounPrefixes.length > 0) {
                 var pronPrefix = getPronPrefix();
@@ -191,17 +182,18 @@ async function display(word, isSyllabary=true) {
     for (const dictionaryEntry of wholeWord.dictionaryEntries) {
         console.log("dictionary Entry " + dictionaryEntry.definitiond);
     }
+
     // console.log(JSON.stringify(wholeWord));
-    // document.getElementById("display").innerText = JSON.stringify(wholeWord);
-    // document.getElementById("syllabary").innerText = JSON.stringify(wholeWord.syllabary);
-    // document.getElementById("phonetic").innerText = JSON.stringify(wholeWord.phonetic);
-    // document.getElementById("initialPrefixes").innerText = JSON.stringify(wholeWord.initialPrefixes);
-    // document.getElementById("pronominalPrefixes").innerText = JSON.stringify(wholeWord.pronounPrefixes);
-    // document.getElementById("reflexivePrefixes").innerText = JSON.stringify(wholeWord.reflexivePrefix);
-    // document.getElementById("root").innerText = JSON.stringify(wholeWord.tmpParse);
-    // document.getElementById("nonFinalSuffixes").innerText = JSON.stringify(wholeWord.nonFinalSuffixes);
-    // document.getElementById("tenseSuffixes").innerText = JSON.stringify(wholeWord.verbTenseSuffix);
-    // document.getElementById("finalSuffixes").innerText = JSON.stringify(wholeWord.finalSuffixes);
+    document.getElementById("display").innerText = JSON.stringify(wholeWord);
+    document.getElementById("syllabary").innerText = JSON.stringify(wholeWord.syllabary);
+    document.getElementById("phonetic").innerText = JSON.stringify(wholeWord.phonetic);
+    document.getElementById("initialPrefixes").innerText = JSON.stringify(wholeWord.initialPrefixes);
+    document.getElementById("pronominalPrefixes").innerText = JSON.stringify(wholeWord.pronounPrefixes);
+    document.getElementById("reflexivePrefixes").innerText = JSON.stringify(wholeWord.reflexivePrefix);
+    document.getElementById("root").innerText = JSON.stringify(wholeWord.tmpParse);
+    document.getElementById("nonFinalSuffixes").innerText = JSON.stringify(wholeWord.nonFinalSuffixes);
+    document.getElementById("tenseSuffixes").innerText = JSON.stringify(wholeWord.verbTenseSuffix);
+    document.getElementById("finalSuffixes").innerText = JSON.stringify(wholeWord.finalSuffixes);
 }
 
 function getBreakdown(word) {

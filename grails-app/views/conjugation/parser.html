@@ -1,32 +1,22 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: winkimac
-  Date: 4/20/21
-  Time: 12:04 PM
---%>
-
-<%@ page contentType="text/html;charset=UTF-8" %>
-
 <!DOCTYPE html>
     <html lang="en">
     <head>
-%{--        <meta name="layout" content="manager"/>--}%
         <meta charset="UTF-8">
         <title>Verb Deconstructor</title>
         <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-%{--        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>--}%
-%{--        <asset:javascript src="grooscript.min.js"/>--}%
-%{--        <asset:javascript src="grooscript-html-builder.js"/>--}%
-
-        <asset:javascript src="cherokeeParser.js"/>
+        <script src="cherokeeParser.js"></script>
+        <script src="ajaxCall.js"></script>
+        <script src="verbTables.js"></script>
+        <script src="deconstructionMethods.js"></script>
+        <!--<asset:javascript src="cherokeeParser.js"/>
         <asset:javascript src="ajaxCall.js"/>
         <asset:javascript src="verbTables.js"/>
-        <asset:javascript src="deconstructionMethods.js"/>
+        <asset:javascript src="deconstructionMethods.js"/>-->
     </head>
 <body>
 <div style="display:table-row">
     <div style="display:table-cell;width:300px">
-        <div style="display:table-row">%{--ᎦᏬᏂᏍᎨᏍᏗ--}%
+        <div style="display:table-row">
             <div style="display:table-cell"><input type="text" id="texttoprocess" value="ᎠᎦᏍᎦᏛ"/><br/><button onclick='javascript:processText();'>Process</button><br/><br/></div>
         </div>
         <div style="display:table-row">
@@ -77,8 +67,8 @@
         <div id="resultData"></div> style="display:block; visibility:hidden"
     </div>
 </div>
-<asset:javascript src="verbdeconstruction.js"/>
-<asset:javascript src="tests.js"/>
+<script src="verbdeconstruction.js"></script>
+<script src="tests.js"></script>
 <script>
     function processText() {
         display(document.getElementById('texttoprocess').value);
@@ -129,6 +119,7 @@
         list.appendChild(anchor);
         list.appendChild(document.createElement("br"));
     };
+
 
     appendAnchorTag('ᎦᏬᏂᎭ');
     appendAnchorTag('ᎤᏬᏂᏏᎶᎡᎢ');

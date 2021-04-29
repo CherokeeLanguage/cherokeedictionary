@@ -21,8 +21,6 @@ async function lookupWordInCED(word) {
 
     let values = await Promise.all([content]);
 
-    console.log("values lookup " + values);
-
     if (values.length > 0 && values[0] !== "null") {
         return values;
     } else {

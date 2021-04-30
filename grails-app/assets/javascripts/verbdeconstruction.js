@@ -1,4 +1,3 @@
-
 async function deconstruct(wholeWord, word) {
     wholeWord = getFinalSuffixes(wholeWord);
 
@@ -28,17 +27,6 @@ async function deconstruct(wholeWord, word) {
         wholeWord = getInitialPrefixes(wholeWord);
         wholeWord = getPronominalPrefixes(wholeWord);
         // wholeWord = getReflexivePrefix(wholeWord);
-    }
-
-    return wholeWord;
-}
-
-async function valueFound(values, wholeWord) {
-    // TODO: what do we need from the dictionary entry?  definition,
-    let vals = JSON.parse(values[0]);
-
-    for (const value of vals) {
-        wholeWord.definitions.push(value);
     }
 
     return wholeWord;
@@ -141,3 +129,19 @@ async function process(word, isSyllabary=true) {
 
     return wholeWord;
 }
+
+async function valueFound(values, wholeWord) {
+    // TODO: what do we need from the dictionary entry?  definition,
+    let vals = JSON.parse(values[0]);
+
+    for (const value of vals) {
+        wholeWord.definitions.push(value);
+    }
+
+    return wholeWord;
+}
+
+// do lookup and if there's a definition look for the part of speech then if it's a verb deconstruct the rest of the way
+// if it's a noun or adjective pull the final suffix and then check for pronominal prefixes
+// if it has a definition do something like remove the syllabary value from the lookup value to figure out what might be the actual value
+//  like agasgadv looked up comes back with agasga then remove agasga from agasgadv providing -dv as the last part

@@ -32,9 +32,9 @@ class ConjugationController {
         }
     }
 
-    def parser() {
+    def parser() {}
 
-    }
+    def verbTable() {}
 
     def getDisplayValue(params) {
         if (useV2) {

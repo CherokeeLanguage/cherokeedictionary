@@ -8,8 +8,8 @@ grails:
             # Whether to translate GORM events into Reactor events
             # Disabled by default for performance reasons
             events: false
-#    cors:
-#        enabled: true
+    cors:
+        enabled: true
 #        allowedHeaders:
 #            - Access-Control-Allow-Origin
 #            - Access-Control-Allow-Credentials
@@ -117,11 +117,10 @@ dataSource:
     driverClassName: com.mysql.cj.jdbc.Driver
     dbCreate: update
     username: root
-
+    password: Tk02030#
 environments:
     development:
         dataSource:
-            password: Tk02030#
             #            logSql: true
             url: jdbc:mysql://localhost:3306/cherokeedictionary?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=CST&useSSL=false
             properties:
@@ -148,7 +147,6 @@ environments:
             url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
     production:
         dataSource:
-            password: Tk02030#
             url: jdbc:mysql://localhost:3306/likespreadsheets?useUnicode=yes&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=CST&useSSL=false
             properties:
                 readOnly: false

@@ -11,7 +11,7 @@ class ConjugationDisplayTagLib {
         def item = params.item
 
         //v2
-        if (item.pronounReflexiveRoot) {
+//        if (item.pronounReflexiveRoot) {
             def sb = new StringBuilder();
             sb << item.pronounReflexiveRoot
             sb << "<span id=\"showHideDisplay\">"
@@ -19,9 +19,9 @@ class ConjugationDisplayTagLib {
             sb << SyllabaryUtil.parseSyllabary(item.pronounReflexiveRoot)
             sb << "</span>"
             out << raw(sb.toString())
-        } else {
-            out << "---------"
-        }
+//        } else {
+//            out << "---------"
+//        }
             //v1
 //        if (item.getClass() != "java.lang.String") {
 //            item = item.syllabary

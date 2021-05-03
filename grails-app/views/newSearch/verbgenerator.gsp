@@ -278,28 +278,28 @@ def remotepast = entry.vthirdpastsyllj
     <input type="hidden" name="id" id="id" value="${params.id}"/>
     <div style="display:table-cell">
         <input type="checkbox" name="yi" id="yi"/>YI<br/>
-        <input type="checkbox" name="ji" id="ji"/>JI<br/>
+%{--        <input type="checkbox" name="ji" id="ji"/>JI<br/>--}%
     </div>
-    <div style="display:table-cell">
-        <input type="checkbox" name="wi" id="wi"/>WI<br/>
-    </div>
-    <div style="display:table-cell">
-        <input type="checkbox" name="ni" id="ni"/>NI<br/>
-    </div>
-    <div style="display:table-cell">
-        <input type="checkbox" name="de" id="de"/>DE<br/>
-    </div>
-    <div style="display:table-cell">
-        <input type="checkbox" name="da" id="da" disabled/>DA<br/>
-        <input type="checkbox" name="di" id="di"/>DI<br/>
-    </div>
-    <div style="display:table-cell">
-        <input type="checkbox" name="i" id="i"/>I<br/>
-    </div>
-    <div style="display:table-cell">
-        <input type="checkbox" name="ga" id="ga"/>GA<br/>
-        <input type="checkbox" name="e" id="e"/>E<br/>
-    </div>
+%{--    <div style="display:table-cell">--}%
+%{--        <input type="checkbox" name="wi" id="wi"/>WI<br/>--}%
+%{--    </div>--}%
+%{--    <div style="display:table-cell">--}%
+%{--        <input type="checkbox" name="ni" id="ni"/>NI<br/>--}%
+%{--    </div>--}%
+%{--    <div style="display:table-cell">--}%
+%{--        <input type="checkbox" name="de" id="de"/>DE<br/>--}%
+%{--    </div>--}%
+%{--    <div style="display:table-cell">--}%
+%{--        <input type="checkbox" name="da" id="da" disabled/>DA<br/>--}%
+%{--        <input type="checkbox" name="di" id="di"/>DI<br/>--}%
+%{--    </div>--}%
+%{--    <div style="display:table-cell">--}%
+%{--        <input type="checkbox" name="i" id="i"/>I<br/>--}%
+%{--    </div>--}%
+%{--    <div style="display:table-cell">--}%
+%{--        <input type="checkbox" name="ga" id="ga"/>GA<br/>--}%
+%{--        <input type="checkbox" name="e" id="e"/>E<br/>--}%
+%{--    </div>--}%
 
     <select name="subject" id="subject">
         <option value="SG1" <g:if test="${subject == "SG1"}">selected</g:if>>1SG</option>
@@ -338,10 +338,10 @@ def remotepast = entry.vthirdpastsyllj
         <option value="${Tense.PROGRESSIVE_FUTURE}">Future Progressive</option>
         <option value="pluperfect">Pluperfect</option>
     </select>
-    <input id="submitButton" name="submitButton" type="button" value="Search"/>
+%{--    <input id="submitButton" name="submitButton" type="button" value="Search"/>--}%
     <input onclick="jQuery.ajax({type:'POST',data:jQuery(this).parents('form:first').serialize(), url:'/conjugation/index',success:function(data,textStatus){jQuery('#searchresults').html(data);},error:function(XMLHttpRequest,textStatus,errorThrown){}});return false" type="button" value="Search">
- submitToRemote was an ajax tag - the code above is what it was replaced with in the page anyway so because it was removed I just used the code above
-<g:submitToRemote update="searchresults" url="[controller:'conjugation', action:'index']" value="Search"/>
+%{-- submitToRemote was an ajax tag - the code above is what it was replaced with in the page anyway so because it was removed I just used the code above--}%
+%{--<g:submitToRemote update="searchresults" url="[controller:'conjugation', action:'index']" value="Search"/>--}%
 </g:form>
 <br/>
 

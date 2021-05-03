@@ -22,10 +22,10 @@
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <script type="text/javascript">
     $(function() {
-      $('#verbTense').change(function() {
-        var selectedValue = $('#verbTense').find(":selected").val();
-        document.forms['verbTenses'].submit();
-      });
+      // $('#verbTense').change(function() {
+      //   var selectedValue = $('#verbTense').find(":selected").val();
+      //   document.forms['verbTenses'].submit();
+      // });
 
       $('#generate').click(function() {
           document.forms['verbTenses'].submit();
@@ -43,75 +43,70 @@
   </style>
 </head>
 <%
-  def lks = Likespreadsheets.findById(params.id);
-
-  def habitual = lks.vthirdpressylll
-  def imperative = lks.vsecondimpersylln
-  def infinitive = lks.vthirdinfsyllp
-  def present1st = lks.vfirstpresh
-  def present3rd = lks.syllabaryb
-  def remotepast = lks.vthirdpastsyllj
-  def partofspeechc = lks.partofspeechc
-
-  Stemmer stemmer = new Stemmer()
-  stemmer.habitual = new DefinitionLine(syllabary: habitual)
-  stemmer.imperative = new DefinitionLine(syllabary: imperative)
-  stemmer.infinitive = new DefinitionLine(syllabary: infinitive)
-  stemmer.present1st = new DefinitionLine(syllabary:  present1st)
-  stemmer.present3rd = new DefinitionLine(syllabary: present3rd)
-  stemmer.remotepast = new DefinitionLine(syllabary: remotepast)
-
-  String verbTense = params.verbTense ?: "PRESENT";
-  Tense vtense = Tense.valueOf(verbTense)
-  boolean intransitive = false;
-  if (lks.partofspeechc == 'vi') {
-    intransitive = true
-  }
-
-  def entry = lks;
-
-  def paramMap = [:]
-  paramMap.habitual = lks.vthirdpressylll
-  paramMap.imperative = lks.vsecondimpersylln
-  paramMap.infinitive = lks.vthirdinfsyllp
-  paramMap.present1st = lks.vfirstpresh
-  paramMap.present3rd = lks.syllabaryb
-  paramMap.remotepast = lks.vthirdpastsyllj
-  paramMap.partofspeechc = lks.partofspeechc
-  paramMap.verbTense = verbTense
-  paramMap.subject = "SG1"
-  paramMap.object = "SG3AN"
-  paramMap.yi = request.getParameter("yi") == 'on'
-//      paramMap.ji = params.ji == 'on'
-//      paramMap.wi = params.wi == 'on'
-//      paramMap.ni = params.ni == 'on'
-//      paramMap.de = params.de == 'on'
-//      paramMap.da = params.da == 'on'
-//      paramMap.di = params.di == 'on'
-//      paramMap.i = params.i == 'on'
-//      paramMap.ga = params.ga == 'on'
-//      paramMap.e = params.e == 'on'
-  Verb verb = VerbFactory.createVerbFromParameters(paramMap)
+    def lks = Likespreadsheets.findById(params.id);
+  
+    def habitual = lks.vthirdpressylll
+    def imperative = lks.vsecondimpersylln
+    def infinitive = lks.vthirdinfsyllp
+    def present1st = lks.vfirstpresh
+    def present3rd = lks.syllabaryb
+    def remotepast = lks.vthirdpastsyllj
+    def partofspeechc = lks.partofspeechc
+  
+    Stemmer stemmer = new Stemmer()
+    stemmer.habitual = new DefinitionLine(syllabary: habitual)
+    stemmer.imperative = new DefinitionLine(syllabary: imperative)
+    stemmer.infinitive = new DefinitionLine(syllabary: infinitive)
+    stemmer.present1st = new DefinitionLine(syllabary:  present1st)
+    stemmer.present3rd = new DefinitionLine(syllabary: present3rd)
+    stemmer.remotepast = new DefinitionLine(syllabary: remotepast)
+  
+    String verbTense = params.verbTense ?: "PRESENT";
+    Tense vtense = Tense.valueOf(verbTense)
+    boolean intransitive = false;
+    if (lks.partofspeechc == 'vi') {
+      intransitive = true
+    }
+  
+    def entry = lks;
+  
+    def paramMap = [:]
+    paramMap.habitual = lks.vthirdpressylll
+    paramMap.imperative = lks.vsecondimpersylln
+    paramMap.infinitive = lks.vthirdinfsyllp
+    paramMap.present1st = lks.vfirstpresh
+    paramMap.present3rd = lks.syllabaryb
+    paramMap.remotepast = lks.vthirdpastsyllj
+    paramMap.partofspeechc = lks.partofspeechc
+    paramMap.verbTense = verbTense
+    paramMap.subject = "SG1"
+    paramMap.object = "SG3AN"
+    paramMap.yi = request.getParameter("yi") == 'on'
+    paramMap.ji = request.getParameter("ji") == 'on'
+    paramMap.wi = request.getParameter("wi") == 'on'
+    paramMap.ni = request.getParameter("ni") == 'on'
+    paramMap.de = request.getParameter("de") == 'on'
+    paramMap.da = request.getParameter("da") == 'on'
+    paramMap.di = request.getParameter("di") == 'on'
+    paramMap.i = request.getParameter("i") == 'on'
+    paramMap.ga = request.getParameter("ga") == 'on'
+    paramMap.e = request.getParameter("e") == 'on'
+    //todo: make these sticky for the selection every page
 
   def conjugate = {subject, object ->
-
-
+      Verb verb = VerbFactory.createVerbFromParameters(paramMap)
       verb.subject = PrefixTableSubject.valueOf(subject)
+    try {
       verb.object = object ? PrefixTableObject.valueOf(object) : PrefixTableObject.NONE
 
-      def displayValue
-      try {
+
           verb = Conjugate.conjugate(verb)
-          displayValue = verb.wholeWord
-      } catch (Exception e) {
-          e.printStackTrace()
-          displayValue = "there was an error with your request"
-      }
-
-      if (!displayValue || displayValue == "null") {
-          displayValue = "      "
-      }
-
+//      } catch (Exception e) {
+//          e.printStackTrace()
+//      }
+    } catch (Exception e) {
+//        e.printStackTrace()
+    }
       return verb
   }
 %>
@@ -131,34 +126,33 @@ verbName.remotepast = new DefinitionLine(syllabary: "${stemmer.remotepast.syllab
 <% } %>
 
 <g:render template="/newSearch/simplifiedOriginalEntry" model="[entry:entry]"/>
-
+<br/>
 <form action="/newSearch/verbgenerator" name="verbTenses">
   <input type="hidden" name="id" value="${entry.id}"/>
   <div style="display:table-cell">
     <input type="checkbox" name="yi" id="yi"/>YI<br/>
-    %{--        <input type="checkbox" name="ji" id="ji"/>JI<br/>--}%
+    <input type="checkbox" name="ji" id="ji"/>JI<br/>
   </div>
-  %{--    <div style="display:table-cell">--}%
-  %{--        <input type="checkbox" name="wi" id="wi"/>WI<br/>--}%
-  %{--    </div>--}%
-  %{--    <div style="display:table-cell">--}%
-  %{--        <input type="checkbox" name="ni" id="ni"/>NI<br/>--}%
-  %{--    </div>--}%
-  %{--    <div style="display:table-cell">--}%
-  %{--        <input type="checkbox" name="de" id="de"/>DE<br/>--}%
-  %{--    </div>--}%
-  %{--    <div style="display:table-cell">--}%
-  %{--        <input type="checkbox" name="da" id="da" disabled/>DA<br/>--}%
-  %{--        <input type="checkbox" name="di" id="di"/>DI<br/>--}%
-  %{--    </div>--}%
-  %{--    <div style="display:table-cell">--}%
-  %{--        <input type="checkbox" name="i" id="i"/>I<br/>--}%
-  %{--    </div>--}%
-  %{--    <div style="display:table-cell">--}%
-  %{--        <input type="checkbox" name="ga" id="ga"/>GA<br/>--}%
-  %{--        <input type="checkbox" name="e" id="e"/>E<br/>--}%
-  %{--    </div>--}%
-  </div>
+      <div style="display:table-cell">
+          <input type="checkbox" name="wi" id="wi"/>WI<br/>
+      </div>
+      <div style="display:table-cell">
+          <input type="checkbox" name="ni" id="ni"/>NI<br/>
+      </div>
+      <div style="display:table-cell">
+          <input type="checkbox" name="de" id="de"/>DE<br/>
+      </div>
+      <div style="display:table-cell">
+          <input type="checkbox" name="da" id="da" disabled/>DA<br/>
+          <input type="checkbox" name="di" id="di"/>DI<br/>
+      </div>
+      <div style="display:table-cell">
+          <input type="checkbox" name="i" id="i"/>I<br/>
+      </div>
+      <div style="display:table-cell">
+          <input type="checkbox" name="ga" id="ga"/>GA<br/>
+          <input type="checkbox" name="e" id="e"/>E<br/>
+      </div>
   <select name="verbTense" id="verbTense">
     <option value="${Tense.PRESENT}" <g:if test="${Tense.valueOf(verbTense) == Tense.PRESENT}">selected</g:if>>Present</option>
     %{--        <option value="${Tense.RECENT_PAST_IMPERATIVE}">Present/Recent Past Imperative</option>--}%

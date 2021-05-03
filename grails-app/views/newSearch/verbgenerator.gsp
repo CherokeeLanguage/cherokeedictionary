@@ -1,359 +1,426 @@
-%{--<%@ page import="cherokee.dictionary.Likespreadsheets; cherokee.dictionary.verb.conjugation.originalConjugation.Tense; java.util.regex.Matcher; java.util.regex.Pattern" contentType="text/html;charset=UTF-8" %>--}%
-<%@ page import="cherokee.dictionary.Likespreadsheets; java.util.regex.Matcher; java.util.regex.Pattern" contentType="text/html;charset=UTF-8" %>
-%{--v2--}%
-<%@ page import="net.cherokeedictionary.util.Tense; net.cherokeedictionary.stemmer.Stemmer; net.cherokeedictionary.stemmer.DefinitionLine" contentType="text/html;charset=UTF-8" %>
-<%@ page import="net.cherokeedictionary.verb.conjugation.Conjugate" contentType="text/html;charset=UTF-8" %>
-%{--v1--}%
-%{--<%@ page import="cherokee.dictionary.conjugation.cdpbook.Stemmer; cherokee.dictionary.conjugation.stem.DefinitionLine;cherokee.dictionary.conjugation.wordFormation.Word;cherokee.dictionary.conjugation.Conjugate" contentType="text/html;charset=UTF-8"%>--}%
-%{--<%@ page import="cherokee.dictionary.conjugation.conjugate.Tense; cherokee.dictionary.conjugation.conjugate.PartOfSpeech;cherokee.dictionary.conjugation.Conjugate" contentType="text/html;charset=UTF-8"%>--}%
+<%--
+  Created by IntelliJ IDEA.
+  User: torr
+  Date: 8/16/2015
+  Time: 3:47 PM
+--%>
 
+%{--<%@ page import="cherokee.dictionary.verb.conjugation.originalConjugation.Stemmer; cherokee.dictionary.hold.stem.DefinitionLine; cherokee.dictionary.verb.conjugation.originalConjugation.Conjugate; cherokee.dictionary.verb.conjugation.originalConjugation.Tense; com.cobradoc.cherokee.SyllabaryUtil; cherokee.dictionary.Likespreadsheets;" contentType="text/html;charset=UTF-8" %>--}%
+<%@ page import="cherokee.dictionary.Likespreadsheets; java.util.regex.Matcher; java.util.regex.Pattern" contentType="text/html;charset=UTF-8" %>
+%{--V2--}%
+<%@ page import="net.cherokeedictionary.util.Tense; net.cherokeedictionary.stemmer.Stemmer; net.cherokeedictionary.stemmer.DefinitionLine" contentType="text/html;charset=UTF-8" %>
+<%@ page import="net.cherokeedictionary.verb.conjugation.Conjugate;net.cherokeedictionary.factory.VerbFactory;net.cherokeedictionary.core.Verb" contentType="text/html;charset=UTF-8" %>
+<%@ page import="net.cherokeedictionary.util.PrefixTableSubject; net.cherokeedictionary.util.PrefixTableObject;" contentType="text/html;charset=UTF-8" %>
+
+%{--V1--}%
+%{--<%@ page import="cherokee.dictionary.conjugation.cdpbook.Stemmer; cherokee.dictionary.conjugation.stem.DefinitionLine;cherokee.dictionary.conjugation.wordFormation.Word;cherokee.dictionary.conjugation.Conjugate" contentType="text/html;charset=UTF-8"%>--}%
+%{--<%@ page import="cherokee.dictionary.conjugation.Conjugate.Tense; cherokee.dictionary.conjugation.Conjugate.PartOfSpeech;cherokee.dictionary.conjugation.Conjugate" contentType="text/html;charset=UTF-8"%>--}%
 <html>
 <head>
-    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>
-    <g:set var="showLinks" value="false" scope="request"/>
-    <meta name="layout" content="manager"/>
-    <title>Dictionary</title>
-    <script type="text/javascript">
-        $(function() {
-            $('#showtranslit').click(function() {
-                $('span').toggle();
-            });
+  <meta name="layout" content="manager"/>
+  <title>Conjugation Table</title>
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      $('#verbTense').change(function() {
+        var selectedValue = $('#verbTense').find(":selected").val();
+        document.forms['verbTenses'].submit();
+      });
 
-            $('#verbTense').change(function() {
-                var selectedValue = $('#verbTense').find(":selected").val();
-                hideAllNotes();
+      $('#generate').click(function() {
+          document.forms['verbTenses'].submit();
+      });
 
-                if (selectedValue == "${Tense.PRESENT}") {
-                    $('#presentNote').show();
-                } else if (selectedValue == "${Tense.REMOTE_PAST}") {
-                    $('#remotePastNote').show();
-                } else if (selectedValue == "${Tense.HABITUAL}") {
-                    $('#habitualNote').show();
-                } else if (selectedValue == "${Tense.FUTURE_COMMAND}") {
-                    $('#futureCommandNote').show();
-                } else if (selectedValue == "${Tense.INFINITIVE}") {
-                    $('#infinitiveNote').show();
-                }
-            });
-
-            function hideAllNotes() {
-                $('#presentNote').hide();
-                $('#remotePastNote').hide();
-                $('#futureCommandNote').hide();
-                $('#infinitiveNote').hide();
-                $('#habitualNote').hide();
-            }
-
-            hideAllNotes();
-            $('#presentNote').show();
-
-            var verbType;//same as verbset
-            function processVerbSet(verbset) {
-                verbType = verbset;
-
-                // intransitive verbs are a different breed - both have set a and set b
-//            the set a vs set b should be handled by determining the start of the verb stem - if du,nu,u,wu in 3rd sing present then set b rest are a
-                if (verbType == 'vi') {
-//                    $('#subject').empty();
-                    $('#object').remove();
-//                    resetSubject();
-
-                    processIntransitive("SG1");
-                } else {
-                    processTransitive("SG1");
-                }
-            }
-
-            $('#submitButton').click(function() {
-                submitForm();
-            });
-
-            $('#subject').change(function() {
-                if (verbType == 'vi') {
-                    processIntransitive();
-                } else {
-                    processTransitive(this.value);
-                }
-            });
-
-            function processIntransitive(value) {
-
-            }
-
-            function processTransitive(value) {
-                $('#object').empty();
-                resetObject();
-
-                if (value == "SG1") {
-                    $('#object option[value="SG1"]').remove();
-                    $('#object option[value="DL1INCL"]').remove();
-                    $('#object option[value="DL1EXCL"]').remove();
-                    $('#object option[value="PL1INCL"]').remove();
-                    $('#object option[value="PL1EXCL"]').remove();
-                } else if (value == "SG2") {
-                    $('#object option[value="SG2"]').remove();
-                    $('#object option[value="DL1INCL"]').remove();
-                    $('#object option[value="PL1INCL"]').remove();
-                    $('#object option[value="DL2"]').remove();
-                    $('#object option[value="PL2"]').remove();
-                } else if (value == "SG3") {
-                } else if (value == "DL1INCL") {
-                    $('#object option[value="SG1"]').remove();
-                    $('#object option[value="SG2"]').remove();
-                    $('#object option[value="DL1INCL"]').remove();
-                    $('#object option[value="DL1EXCL"]').remove();
-                    $('#object option[value="PL1INCL"]').remove();
-                    $('#object option[value="PL1EXCL"]').remove();
-                    $('#object option[value="DL2"]').remove();
-                    $('#object option[value="PL2"]').remove();
-                } else if (value == "DL1EXCL") {
-                    $('#object option[value="SG1"]').remove();
-                    $('#object option[value="DL1INCL"]').remove();
-                    $('#object option[value="DL1EXCL"]').remove();
-                    $('#object option[value="PL1INCL"]').remove();
-                    $('#object option[value="PL1EXCL"]').remove();
-                } else if (value == "PL1INCL") {
-                    $('#object option[value="SG1"]').remove();
-                    $('#object option[value="SG2"]').remove();
-                    $('#object option[value="DL1INCL"]').remove();
-                    $('#object option[value="DL1EXCL"]').remove();
-                    $('#object option[value="PL1INCL"]').remove();
-                    $('#object option[value="PL1EXCL"]').remove();
-                    $('#object option[value="DL2"]').remove();
-                    $('#object option[value="PL2"]').remove();
-                } else if (value == "PL1EXCL") {
-                    $('#object option[value="SG1"]').remove();
-                    $('#object option[value="DL1INCL"]').remove();
-                    $('#object option[value="DL1EXCL"]').remove();
-                    $('#object option[value="PL1INCL"]').remove();
-                    $('#object option[value="PL1EXCL"]').remove();
-                    $('#object option[value="DL2"]').remove();
-                    $('#object option[value="PL2"]').remove();
-                } else if (value == "DL2") {
-                    $('#object option[value="SG2"]').remove();
-                    $('#object option[value="DL1INCL"]').remove();
-                    $('#object option[value="PL1INCL"]').remove();
-                    $('#object option[value="DL2"]').remove();
-                    $('#object option[value="PL2"]').remove();
-                } else if (value == "PL2") {
-                    $('#object option[value="SG2"]').remove();
-                    $('#object option[value="DL1INCL"]').remove();
-                    $('#object option[value="PL1INCL"]').remove();
-                    $('#object option[value="PL1EXCL"]').remove();
-                    $('#object option[value="DL2"]').remove();
-                    $('#object option[value="PL2"]').remove();
-                } else if (value == "PL3") {
-                } else {
-                }
-            }
-
-            function resetSubject() {
-                $('#subject').append($("<option></option>").attr("value", "SG1").text("SG1"));
-                $('#subject').append($("<option></option>").attr("value", "SG2").text("SG2"));
-                $('#subject').append($("<option></option>").attr("value", "SG3").text("SG3"));
-                $('#subject').append($("<option></option>").attr("value", "DL1INCL").text("DL1INCL"));
-                $('#subject').append($("<option></option>").attr("value", "DL1EXCL").text("DL1EXCL"));
-                $('#subject').append($("<option></option>").attr("value", "PL1INCL").text("PL1INCL"));
-                $('#subject').append($("<option></option>").attr("value", "PL1EXCL").text("PL1EXCL"));
-
-                $('#subject').append($("<option></option>").attr("value", "DL2INCL").text("DL2INCL"));
-                $('#subject').append($("<option></option>").attr("value", "DL2EXCL").text("DL2EXCL"));
-                $('#subject').append($("<option></option>").attr("value", "PL2INCL").text("PL2INCL"));
-                $('#subject').append($("<option></option>").attr("value", "PL2EXCL").text("PL2EXCL"));
-
-//            $('#subject').append($("<option></option>").attr("value", "DL3INCL").text("DL3INCL"));
-//            $('#subject').append($("<option></option>").attr("value", "DL3EXCL").text("DL3EXCL"));
-                $('#subject').append($("<option></option>").attr("value", "PL3INCL").text("PL3INCL"));
-                $('#subject').append($("<option></option>").attr("value", "PL3EXCL").text("PL3EXCL"));
-            }
-
-            function resetObject() {
-                var objectSelect = $('#object');
-                objectSelect.append($("<option></option>").attr("value", "SG1").text("SG1"));
-                objectSelect.append($("<option></option>").attr("value", "SG2").text("SG2"));
-                objectSelect.append($("<option></option>").attr("value", "SG3AN").text("SG3AN"));
-                objectSelect.append($("<option></option>").attr("value", "SG3IN").text("SG3IN"));
-                objectSelect.append($("<option></option>").attr("value", "DL1INCL").text("DL1INCL"));
-                objectSelect.append($("<option></option>").attr("value", "DL1EXCL").text("DL1EXCL"));
-                objectSelect.append($("<option></option>").attr("value", "PL1INCL").text("PL1INCL"));
-                objectSelect.append($("<option></option>").attr("value", "PL1EXCL").text("PL1EXCL"));
-                objectSelect.append($("<option></option>").attr("value", "DL2").text("DL2"));
-                objectSelect.append($("<option></option>").attr("value", "PL2").text("PL2"));
-                objectSelect.append($("<option></option>").attr("value", "PL3AN").text("PL3AN"));
-                objectSelect.append($("<option></option>").attr("value", "PL3IN").text("PL3IN"));
-            }
-
-            processVerbSet('${params.set}');
-
-            // $('#yi').click(function() {
-            //     if($('#yi:checked').val() == 'on') {
-            //         $('#ji').prop( "checked", false )
-            //     }
-            // });
-            //
-            // $('#ji').click(function() {
-            //     if($('#ji:checked').val() == 'on') {
-            //         $('#yi').prop( "checked", false )
-            //     }
-            // });
-
-            $('#da').click(function() {
-                if($('#da:checked').val() == 'on') {
-                    $('#di').prop( "checked", false )
-                }
-            });
-
-            $('#di').click(function() {
-                if($('#di:checked').val() == 'on') {
-                    $('#da').prop( "checked", false )
-                }
-            });
-
-            $('#ga').click(function() {
-                if($('#ga:checked').val() == 'on') {
-                    $('#e').prop( "checked", false )
-                }
-            });
-
-            $('#e').click(function() {
-                if($('#e:checked').val() == 'on') {
-                    $('#ga').prop( "checked", false )
-                }
-            });
-
-            function submitForm() {
-                var data = {
-                    id: $('#id').val(),
-                    subject:$('#subject').val(),
-                    object:$('#object').val(),
-                    verbTense: $('#verbTense').val(),
-                    showHide: false,
-                    yi: $('#yi:checked').val(),
-                    ji: $('#ji:checked').val(),
-                    wi: $('#wi:checked').val(),
-                    ni: $('#ni:checked').val(),
-                    de: $('#de:checked').val(),
-                    da: $('#da:checked').val(),
-                    di: $('#di:checked').val(),
-                    i: $('#i:checked').val(),
-                    ga: $('#ga:checked').val(),
-                    e: $('#e:checked').val()
-                };
-
-//                console.log(data);
-
-                $.ajax({
-                    method: "POST",
-                    url: "/conj",
-                    data: data,
-                    success: function(data) {
-                        $('#searchresults').html(data);
-                    }
-                });
-            }
-        });
-    </script>
+      $('#showtranslit').click(function() {
+        $('span').toggle();
+      });
+    });
+  </script>
+  <style>
+  table, th, td {
+    /*border: 1px solid black;*/
+  }
+  </style>
 </head>
-<body>
+<%
+  def lks = Likespreadsheets.findById(params.id);
 
-<%--
-todo: on the page, I'll have to remember to do an initial check of the verb and then only set those values that apply to set b if the verb is set b
-todo: javascript to limit options of object based on subject and vice versa
---%>
-<!-- eventually some javascript to only allow you to pick the correct matching items -->
-<%def entry = Likespreadsheets.findById(params.id)
-def habitual = entry.vthirdpressylll
-def imperative = entry.vsecondimpersylln
-def infinitive = entry.vthirdinfsyllp
-def present1st = entry.vfirstpresh
-def present3rd = entry.syllabaryb
-def remotepast = entry.vthirdpastsyllj
+  def habitual = lks.vthirdpressylll
+  def imperative = lks.vsecondimpersylln
+  def infinitive = lks.vthirdinfsyllp
+  def present1st = lks.vfirstpresh
+  def present3rd = lks.syllabaryb
+  def remotepast = lks.vthirdpastsyllj
+  def partofspeechc = lks.partofspeechc
+
+  Stemmer stemmer = new Stemmer()
+  stemmer.habitual = new DefinitionLine(syllabary: habitual)
+  stemmer.imperative = new DefinitionLine(syllabary: imperative)
+  stemmer.infinitive = new DefinitionLine(syllabary: infinitive)
+  stemmer.present1st = new DefinitionLine(syllabary:  present1st)
+  stemmer.present3rd = new DefinitionLine(syllabary: present3rd)
+  stemmer.remotepast = new DefinitionLine(syllabary: remotepast)
+
+  String verbTense = params.verbTense ?: "PRESENT";
+  Tense vtense = Tense.valueOf(verbTense)
+  boolean intransitive = false;
+  if (lks.partofspeechc == 'vi') {
+    intransitive = true
+  }
+
+  def entry = lks;
+
+  def paramMap = [:]
+  paramMap.habitual = lks.vthirdpressylll
+  paramMap.imperative = lks.vsecondimpersylln
+  paramMap.infinitive = lks.vthirdinfsyllp
+  paramMap.present1st = lks.vfirstpresh
+  paramMap.present3rd = lks.syllabaryb
+  paramMap.remotepast = lks.vthirdpastsyllj
+  paramMap.partofspeechc = lks.partofspeechc
+  paramMap.verbTense = verbTense
+  paramMap.subject = "SG1"
+  paramMap.object = "SG3AN"
+  paramMap.yi = request.getParameter("yi") == 'on'
+//      paramMap.ji = params.ji == 'on'
+//      paramMap.wi = params.wi == 'on'
+//      paramMap.ni = params.ni == 'on'
+//      paramMap.de = params.de == 'on'
+//      paramMap.da = params.da == 'on'
+//      paramMap.di = params.di == 'on'
+//      paramMap.i = params.i == 'on'
+//      paramMap.ga = params.ga == 'on'
+//      paramMap.e = params.e == 'on'
+  Verb verb = VerbFactory.createVerbFromParameters(paramMap)
+
+  def conjugate = {subject, object ->
+
+
+      verb.subject = PrefixTableSubject.valueOf(subject)
+      verb.object = object ? PrefixTableObject.valueOf(object) : PrefixTableObject.NONE
+
+      def displayValue
+      try {
+          verb = Conjugate.conjugate(verb)
+          displayValue = verb.wholeWord
+      } catch (Exception e) {
+          e.printStackTrace()
+          displayValue = "there was an error with your request"
+      }
+
+      if (!displayValue || displayValue == "null") {
+          displayValue = "      "
+      }
+
+      return verb
+  }
 %>
-<%@ page import="java.util.regex.Matcher; java.util.regex.Pattern" contentType="text/html;charset=UTF-8" %>
+<body>
+<%if (session.getAttribute("loggedin")){%>
+This is to generate conjugation tests easier for boilerplate script<br/>
+
+static def verbName = new Stemmer()<br/>
+static {<br/>
+verbName.habitual = new DefinitionLine(syllabary: "${stemmer.habitual.syllabary}")<br/>
+verbName.imperative = new DefinitionLine(syllabary: "${stemmer.imperative.syllabary}")<br/>
+verbName.infinitive = new DefinitionLine(syllabary: "${stemmer.infinitive.syllabary}")<br/>
+verbName.present1st = new DefinitionLine(syllabary: "${stemmer.present1st.syllabary}")<br/>
+verbName.present3rd = new DefinitionLine(syllabary: "${stemmer.present3rd.syllabary}")<br/>
+verbName.remotepast = new DefinitionLine(syllabary: "${stemmer.remotepast.syllabary}")<br/>
+}
+<% } %>
+
 <g:render template="/newSearch/simplifiedOriginalEntry" model="[entry:entry]"/>
-<br/><br/>
 
-<g:form controller="conjugation" id="thisForm">
-    <input type="hidden" name="id" id="id" value="${params.id}"/>
-    <div style="display:table-cell">
-        <input type="checkbox" name="yi" id="yi"/>YI<br/>
-%{--        <input type="checkbox" name="ji" id="ji"/>JI<br/>--}%
-    </div>
-%{--    <div style="display:table-cell">--}%
-%{--        <input type="checkbox" name="wi" id="wi"/>WI<br/>--}%
-%{--    </div>--}%
-%{--    <div style="display:table-cell">--}%
-%{--        <input type="checkbox" name="ni" id="ni"/>NI<br/>--}%
-%{--    </div>--}%
-%{--    <div style="display:table-cell">--}%
-%{--        <input type="checkbox" name="de" id="de"/>DE<br/>--}%
-%{--    </div>--}%
-%{--    <div style="display:table-cell">--}%
-%{--        <input type="checkbox" name="da" id="da" disabled/>DA<br/>--}%
-%{--        <input type="checkbox" name="di" id="di"/>DI<br/>--}%
-%{--    </div>--}%
-%{--    <div style="display:table-cell">--}%
-%{--        <input type="checkbox" name="i" id="i"/>I<br/>--}%
-%{--    </div>--}%
-%{--    <div style="display:table-cell">--}%
-%{--        <input type="checkbox" name="ga" id="ga"/>GA<br/>--}%
-%{--        <input type="checkbox" name="e" id="e"/>E<br/>--}%
-%{--    </div>--}%
+<form action="/newSearch/verbgenerator" name="verbTenses">
+  <input type="hidden" name="id" value="${entry.id}"/>
+  <div style="display:table-cell">
+    <input type="checkbox" name="yi" id="yi"/>YI<br/>
+    %{--        <input type="checkbox" name="ji" id="ji"/>JI<br/>--}%
+  </div>
+  %{--    <div style="display:table-cell">--}%
+  %{--        <input type="checkbox" name="wi" id="wi"/>WI<br/>--}%
+  %{--    </div>--}%
+  %{--    <div style="display:table-cell">--}%
+  %{--        <input type="checkbox" name="ni" id="ni"/>NI<br/>--}%
+  %{--    </div>--}%
+  %{--    <div style="display:table-cell">--}%
+  %{--        <input type="checkbox" name="de" id="de"/>DE<br/>--}%
+  %{--    </div>--}%
+  %{--    <div style="display:table-cell">--}%
+  %{--        <input type="checkbox" name="da" id="da" disabled/>DA<br/>--}%
+  %{--        <input type="checkbox" name="di" id="di"/>DI<br/>--}%
+  %{--    </div>--}%
+  %{--    <div style="display:table-cell">--}%
+  %{--        <input type="checkbox" name="i" id="i"/>I<br/>--}%
+  %{--    </div>--}%
+  %{--    <div style="display:table-cell">--}%
+  %{--        <input type="checkbox" name="ga" id="ga"/>GA<br/>--}%
+  %{--        <input type="checkbox" name="e" id="e"/>E<br/>--}%
+  %{--    </div>--}%
+  </div>
+  <select name="verbTense" id="verbTense">
+    <option value="${Tense.PRESENT}" <g:if test="${Tense.valueOf(verbTense) == Tense.PRESENT}">selected</g:if>>Present</option>
+    %{--        <option value="${Tense.RECENT_PAST_IMPERATIVE}">Present/Recent Past Imperative</option>--}%
+    <option value="${Tense.REMOTE_PAST}" <g:if test="${Tense.valueOf(verbTense) == Tense.REMOTE_PAST}">selected</g:if>>Remote Past</option>
+    <option value="${Tense.HABITUAL}" <g:if test="${Tense.valueOf(verbTense) == Tense.HABITUAL}">selected</g:if>>Habitual</option>
+    <option value="${Tense.FUTURE_COMMAND}" <g:if test="${Tense.valueOf(verbTense) == Tense.FUTURE_COMMAND}">selected</g:if>>Immediate</option>
+    %{--        <option value="${Tense.FUTURE_COMMAND}">Future Imperative</option>--}%
+    <option value="${Tense.INFINITIVE}" <g:if test="${Tense.valueOf(verbTense) == Tense.INFINITIVE}">selected</g:if>>Infinitive</option>
+    %{--        <option value="reportative">Reportative</option>--}%
+    %{--        <option value="${Tense.PROGRESSIVE_FUTURE}">Future Progressive</option>--}%
+    %{--        <option value="pluperfect">Pluperfect</option>--}%
+  </select>
+  <br/>
+  <input type="submit" id="generate" value="Generate">
+</form>
 
-    <select name="subject" id="subject">
-        <option value="SG1" <g:if test="${subject == "SG1"}">selected</g:if>>1SG</option>
-        <option value="SG2" <g:if test="${subject == "SG2"}">selected</g:if>>2SG</option>
-        <option value="SG3" <g:if test="${subject == "SG3"}">selected</g:if>>3SG</option>
-        <option value="DL1INCL" <g:if test="${subject == "DL1INCL"}">selected</g:if>>1DLINCL</option>
-        <option value="DL1EXCL" <g:if test="${subject == "DL1EXCL"}">selected</g:if>>1DLEXCL</option>
-        <option value="PL1INCL" <g:if test="${subject == "PL1INCL"}">selected</g:if>>1PLINCL</option>
-        <option value="PL1EXCL" <g:if test="${subject == "PL1EXCL"}">selected</g:if>>1PLEXCL</option>
-        <option value="DL2" <g:if test="${subject == "DL2"}">selected</g:if>>2DL</option>
-        <option value="PL2" <g:if test="${subject == "PL2"}">selected</g:if>>2PL</option>
-        <option value="PL3" <g:if test="${subject == "PL3"}">selected</g:if>>3PL</option>
-    </select>
-    <select name="object" id="object">
-        <option value="SG1" <g:if test="${object == "SG1"}">selected</g:if>>1SG</option>
-        <option value="SG2" <g:if test="${subject == "SG2"}">selected</g:if>>2SG</option>
-        <option value="SG3AN" <g:if test="${subject == "SG3AN"}">selected</g:if>>3SGAN</option>
-        <option value="SG3IN" <g:if test="${subject == "SG3IN"}">selected</g:if>>3SGIN</option>
-        <option value="DL1INCL" <g:if test="${subject == "DL1INCL"}">selected</g:if>>1DLINCL</option>
-        <option value="DL1EXCL" <g:if test="${subject == "DL1EXCL"}">selected</g:if>>1DLEXCL</option>
-        <option value="PL1INCL" <g:if test="${subject == "PL1INCL"}">selected</g:if>>1PLINCL</option>
-        <option value="PL1EXCL" <g:if test="${subject == "PL1EXCL"}">selected</g:if>>1PLEXCL</option>
-        <option value="DL2" <g:if test="${subject == "DL2"}">selected</g:if>>2DL</option>
-        <option value="PL2" <g:if test="${subject == "PL2"}">selected</g:if>>2PL</option>
-        <option value="PL3AN" <g:if test="${subject == "PL3AN"}">selected</g:if>>3PLAN</option>
-        <option value="PL3IN" <g:if test="${subject == "PL3IN"}">selected</g:if>>3PLIN</option>
-    </select>
-    <select name="verbTense" id="verbTense">
-        <option value="${Tense.PRESENT}" <g:if test="${verbTense == Tense.PRESENT}">selected</g:if>>Present</option>
-        <option value="${Tense.RECENT_PAST_IMPERATIVE}">Present/Recent Past Imperative</option>
-        <option value="${Tense.REMOTE_PAST}" <g:if test="${verbTense == Tense.REMOTE_PAST}">selected</g:if>>Remote Past</option>
-        <option value="${Tense.HABITUAL}" <g:if test="${verbTense == Tense.HABITUAL}">selected</g:if>>Habitual</option>
-        <option value="${Tense.FUTURE_COMMAND}" <g:if test="${verbTense == Tense.FUTURE_COMMAND}">selected</g:if>>Immediate</option><%--<option value="${Tense.FUTURE_COMMAND}">Future Imperative</option>--%>
-        <option value="${Tense.INFINITIVE}" <g:if test="${verbTense == Tense.INFINITIVE}">selected</g:if>>Infinitive</option>
-        <option value="reportative">Reportative</option>
-        <option value="${Tense.PROGRESSIVE_FUTURE}">Future Progressive</option>
-        <option value="pluperfect">Pluperfect</option>
-    </select>
-%{--    <input id="submitButton" name="submitButton" type="button" value="Search"/>--}%
-    <input onclick="jQuery.ajax({type:'POST',data:jQuery(this).parents('form:first').serialize(), url:'/conjugation/index',success:function(data,textStatus){jQuery('#searchresults').html(data);},error:function(XMLHttpRequest,textStatus,errorThrown){}});return false" type="button" value="Search">
-%{-- submitToRemote was an ajax tag - the code above is what it was replaced with in the page anyway so because it was removed I just used the code above--}%
-%{--<g:submitToRemote update="searchresults" url="[controller:'conjugation', action:'index']" value="Search"/>--}%
-</g:form>
+<table>
+  <tr>
+    <td>
+      <div style="transform: rotate(90deg); -webkit-transform: rotate(90deg); -moz-transform: rotate(90deg); -ms-transform: rotate(90deg); position:relative; top: 5px; text-align:center; display:inline-block; width:20px; margin: 0 0 0 0; padding: 0 0 0 0; border-spacing: 0;">
+        SUBJECT
+      </div>
+    </td>
+    <td>
+      <% if (intransitive) { %>
+      <table>
+        <tr>
+          <td>1SG</td>
+          <td><g:displayGenerated item="${conjugate("SG1", "")}"/></td>
+        </tr>
+        <tr>
+          <td>2SG</td>
+          <td><g:displayGenerated item="${conjugate("SG2", "")}"/></td>
+        </tr>
+        <tr>
+          <td>3SG</td>
+          <td><g:displayGenerated item="${conjugate("SG3", "")}"/></td>
+        </tr>
+        <tr>
+          <td>1DLINCL</td>
+          <td><g:displayGenerated item="${conjugate("DL1INCL", "")}"/></td>
+        </tr>
+        <tr>
+          <td>1DLEXCL</td>
+          <td><g:displayGenerated item="${conjugate("DL1EXCL", "")}"/></td>
+        </tr>
+        <tr>
+          <td>1PLINCL</td>
+          <td><g:displayGenerated item="${conjugate("PL1INCL", "")}"/></td>
+        </tr>
+        <tr>
+          <td>1PLEXCL</td>
+          <td><g:displayGenerated item="${conjugate("PL1EXCL", "")}"/></td>
+        </tr>
+        <tr>
+          <td>2DL</td>
+          <td><g:displayGenerated item="${conjugate("DL2", "")}"/></td>
+        </tr>
+        <tr>
+          <td>2PL</td>
+          <td><g:displayGenerated item="${conjugate("PL2", "")}"/></td>
+        </tr>
+        <tr>
+          <td>3PL</td>
+          <td><g:displayGenerated item="${conjugate("PL3", "")}"/></td>
+        </tr>
+      </table>
+      <% } else { %>
+      <center>OBJECT</center>
+      <table>
+        <tr>
+          <td></td>
+          <td>1SG</td>
+          <td>2SG</td>
+          <td>3SGAN</td>
+          <td>3SGIN</td>
+          <td>1DLINCL</td>
+          <td>1DLEXCL</td>
+          <td>1PLINCL</td>
+          <td>1PLEXCL</td>
+          <td>2DL</td>
+          <td>2PL</td>
+          <td>3PLAN</td>
+          <td>3PLIN</td>
+        </tr>
+        <tr>
+          <td>1SG</td>
+          <td><g:displayGenerated item="${conjugate("SG1", "SG1")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG1", "SG2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG1", "SG3AN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG1", "SG3IN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG1", "DL1INCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG1", "DL1EXCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG1", "PL1INCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG1", "PL1EXCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG1", "DL2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG1", "PL2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG1", "PL3AN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG1", "PL3IN")}"/></td>
+        </tr>
+        <tr>
+          <td>2SG</td>
+          <td><g:displayGenerated item="${conjugate("SG2", "SG1")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG2", "SG2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG2", "SG3AN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG2", "SG3IN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG2", "DL1INCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG2", "DL1EXCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG2", "PL1INCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG2", "PL1EXCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG2", "DL2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG2", "PL2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG2", "PL3AN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG2", "PL3IN")}"/></td>
+        </tr>
+        <tr>
+          <td>3SG</td>
+          <td><g:displayGenerated item="${conjugate("SG3", "SG1")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG3", "SG2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG3", "SG3AN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG3", "SG3IN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG3", "DL1INCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG3", "DL1EXCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG3", "PL1INCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG3", "PL1EXCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG3", "DL2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG3", "PL2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG3", "PL3AN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("SG3", "PL3IN")}"/></td>
+        </tr>
+        <tr>
+          <td>1DLINCL</td>
+          <td><g:displayGenerated item="${conjugate("DL1INCL", "SG1")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL1INCL", "SG2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL1INCL", "SG3AN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL1INCL", "SG3IN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL1INCL", "DL1INCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL1INCL", "DL1EXCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL1INCL", "PL1INCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL1INCL", "PL1EXCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL1INCL", "DL2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL1INCL", "PL2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL1INCL", "PL3AN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL1INCL", "PL3IN")}"/></td>
+        </tr>
+        <tr>
+          <td>1DLEXCL</td>
+          <td><g:displayGenerated item="${conjugate("DL1EXCL", "SG1")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL1EXCL", "SG2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL1EXCL", "SG3AN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL1EXCL", "SG3IN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL1EXCL", "DL1INCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL1EXCL", "DL1EXCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL1EXCL", "PL1INCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL1EXCL", "PL1EXCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL1EXCL", "DL2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL1EXCL", "PL2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL1EXCL", "PL3AN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL1EXCL", "PL3IN")}"/></td>
+        </tr>
+        <tr>
+          <td>1PLINCL</td>
+          <td><g:displayGenerated item="${conjugate("PL1INCL", "SG1")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL1INCL", "SG2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL1INCL", "SG3AN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL1INCL", "SG3IN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL1INCL", "DL1INCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL1INCL", "DL1EXCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL1INCL", "PL1INCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL1INCL", "PL1EXCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL1INCL", "DL2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL1INCL", "PL2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL1INCL", "PL3AN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL1INCL", "PL3IN")}"/></td>
+        </tr>
+        <tr>
+          <td>1PLEXCL</td>
+          <td><g:displayGenerated item="${conjugate("PL1EXCL", "SG1")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL1EXCL", "SG2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL1EXCL", "SG3AN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL1EXCL", "SG3IN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL1EXCL", "DL1INCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL1EXCL", "DL1EXCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL1EXCL", "PL1INCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL1EXCL", "PL1EXCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL1EXCL", "DL2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL1EXCL", "PL2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL1EXCL", "PL3AN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL1EXCL", "PL3IN")}"/></td>
+        </tr>
+        <tr>
+          <td>2DL</td>
+          <td><g:displayGenerated item="${conjugate("DL2", "SG1")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL2", "SG2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL2", "SG3AN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL2", "SG3IN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL2", "DL1INCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL2", "DL1EXCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL2", "PL1INCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL2", "PL1EXCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL2", "DL2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL2", "PL2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL2", "PL3AN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("DL2", "PL3IN")}"/></td>
+        </tr>
+        <tr>
+          <td>2PL</td>
+          <td><g:displayGenerated item="${conjugate("PL2", "SG1")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL2", "SG2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL2", "SG3AN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL2", "SG3IN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL2", "DL1INCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL2", "DL1EXCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL2", "PL1INCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL2", "PL1EXCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL2", "DL2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL2", "PL2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL2", "PL3AN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL2", "PL3IN")}"/></td>
+        </tr>
+        <tr>
+          <td>3PL</td>
+          <td><g:displayGenerated item="${conjugate("PL3", "SG1")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL3", "SG2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL3", "SG3AN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL3", "SG3IN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL3", "DL1INCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL3", "DL1EXCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL3", "PL1INCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL3", "PL1EXCL")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL3", "DL2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL3", "PL2")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL3", "PL3AN")}"/></td>
+          <td><g:displayGenerated item="${conjugate("PL3", "PL3IN")}"/></td>
+        </tr>
+      </table>
+      <%}%>
+    </td>
+  </tr>
+</table><br/>
+* disclaimer - conjugations may be incorrect - they are for potential reference only<br/>
 <br/>
-
-<div id="searchresults"></div><br/>
-* disclaimer - conjugations may be incorrect - they are for potential reference only<br/><br/>
 <a href="#" id="showtranslit">Show/Hide Transliteration</a><br/><br/>
-<div id="presentNote"><g:render template="/newSearch/presentNote"/></div>
-<div id="remotePastNote"><g:render template="/newSearch/remotePastNote"/></div>
-<div id="habitualNote"><g:render template="/newSearch/habitualNote"/></div>
-<div id="futureCommandNote"><g:render template="/newSearch/futureCommandNote"/></div>
-<div id="infinitiveNote"><g:render template="/newSearch/infinitiveNote"/></div>
+<g:if test="${vtense == Tense.PRESENT}">
+  <div id="presentNote"><g:render template="/newSearch/presentNote"/></div>
+</g:if>
 
+<g:if test="${vtense == Tense.REMOTE_PAST}">
+  <div id="remotePastNote"><g:render template="/newSearch/remotePastNote"/></div>
+</g:if>
+
+<g:if test="${vtense == Tense.HABITUAL}">
+  <div id="habitualNote"><g:render template="/newSearch/habitualNote"/></div>
+</g:if>
+
+<g:if test="${vtense == Tense.FUTURE_COMMAND}">
+  <div id="futureCommandNote"><g:render template="/newSearch/futureCommandNote"/></div>
+</g:if>
+
+<g:if test="${vtense == Tense.INFINITIVE}">
+  <div id="infinitiveNote"><g:render template="/newSearch/infinitiveNote"/></div>
+</g:if>
 
 </body>
 </html>

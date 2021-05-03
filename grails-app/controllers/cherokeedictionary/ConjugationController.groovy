@@ -131,50 +131,11 @@ class ConjugationController {
         paramMap.i = params.i == 'on'
         paramMap.ga = params.ga == 'on'
         paramMap.e = params.e == 'on'
-        println paramMap
 
         def displayValue
         try {
-            def habitual = paramMap.habitual
-            def imperative = paramMap.imperative
-            def infinitive = paramMap.infinitive
-            def present1st = paramMap.present1st
-            def present3rd = paramMap.present3rd
-            def remotepast = paramMap.remotepast
-            def partofspeechc = paramMap.partofspeechc
-
-//        println paramMap
-
-            def stemmer = new Stemmer()
-            stemmer.habitual = new DefinitionLine(syllabary: habitual)//"ᎦᏬᏂᏍᎪᎢ")
-            stemmer.imperative = new DefinitionLine(syllabary: imperative)//"ᎯᏬᏂᎯ")
-            stemmer.infinitive = new DefinitionLine(syllabary: infinitive)//"ᎤᏬᏂᎯᏍᏗ")
-            stemmer.present1st = new DefinitionLine(syllabary:  present1st)//"ᏥᏬᏂᎭ")
-            stemmer.present3rd = new DefinitionLine(syllabary: present3rd)//"ᎦᏬᏂᎭ")
-            stemmer.remotepast = new DefinitionLine(syllabary: remotepast)//"ᎤᏬᏂᏒᎢ")
-
-            if (partofspeechc == 'v.i.' || partofspeechc == 'vi') {
-                partofspeechc = PartOfSpeech.VERB_INTRANSITIVE
-            } else {
-                partofspeechc = PartOfSpeech.VERB_TRANSITIVE
-            }
-
-            Verb verb = Conjugate.createVerbToConjugate(paramMap.subject, paramMap.object, stemmer, paramMap.verbTense, partofspeechc, false)
-            verb.initialPrefixHolder.yi = paramMap.yi
-            verb.initialPrefixHolder.ji = paramMap.ji
-            verb.initialPrefixHolder.wi = paramMap.wi
-            verb.initialPrefixHolder.ni = paramMap.ni
-            verb.initialPrefixHolder.de = paramMap.de
-            verb.initialPrefixHolder.da = paramMap.da
-            verb.initialPrefixHolder.di = paramMap.dis
-            verb.initialPrefixHolder.i = paramMap.i
-            verb.initialPrefixHolder.ga = paramMap.ga
-            verb.initialPrefixHolder.e = paramMap.e
-            verb = Conjugate.conjugate(verb);
+            Verb verb = VerbFactory.createVerbFromParameters(paramMap)
             displayValue = verb.wholeWord
-
-
-//            return displayValuedisplayValue = VerbFactory.createVerbFromParameters(paramMap)
         } catch (Exception e) {
             e.printStackTrace()
             displayValue = "there was an error with your request"

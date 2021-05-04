@@ -19,10 +19,10 @@ class NewSearchService {
     def englishFields = ['definitiond']
 
     def search(params) {
-        def tsalagiSearchParam = params.tsalagiSearch?.trim()
-        def englishSearchParam = params.englishSearch?.trim()
-        def syllabarySearchParam = params.syllabarySearch?.trim()
-        def categorySearchParam = params.categorySearch?.trim()
+        def tsalagiSearchParam = params?.tsalagiSearch?.trim()
+        def englishSearchParam = params?.englishSearch?.trim()
+        def syllabarySearchParam = params?.syllabarySearch?.trim()
+        def categorySearchParam = params?.categorySearch?.trim()
 
         def definitionId = params.definitionId
 
@@ -33,11 +33,11 @@ class NewSearchService {
 //        final Date today = Calendar.getInstance().getTime()
 
         if (tsalagiSearchParam) {
-            searchParam = tsalagiSearchParam.trim().toLowerCase()
+            searchParam = tsalagiSearchParam?.trim()?.toLowerCase()
         } else if (englishSearchParam) {
-            searchParam = englishSearchParam.trim()
+            searchParam = englishSearchParam?.trim()
         } else if (syllabarySearchParam) {
-            searchParam = syllabarySearchParam.trim()
+            searchParam = syllabarySearchParam?.trim()
         } else if (definitionId) {
             //noop
         } else {
@@ -211,13 +211,15 @@ class NewSearchService {
                         sb << " or "
                     }
 
-                    sb << "source = ?${idx}"
+                    //because the new sql needs indexed parameters so the current source index plus the total query parameters from the map give us the next index
+                    sb << "source = ?${idx + map.size()}"
                     lst << it
                 }
                 sb << ")"
             }
 
             sb << " order by l.entrya"
+
 
             if (isRegex) {
                 return Likespreadsheets.findAll(sb, lst, [max: 40]);

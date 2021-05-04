@@ -5,7 +5,7 @@
     <script>
         $(function () {
             $('#englishSearch').autocomplete({
-                source: '<g:createLink controller='newSearch' action='ajaxEnglishFinder'/>'
+                source: 'newSearch/ajaxEnglishFinder'%{--<g:createLink controller='newSearch' action='ajaxEnglishFinder'/>'--}%
             });
 
             $('#tsalagiSearch').autocomplete({
@@ -65,7 +65,7 @@
 
             $('#visitCNOSkeletonPage').click(function () {
                 var win = window.open('https://language.cherokee.org/media/rpmooxvr/humanskeleton.pdf', '_blank');
-                ᏃᎴ      if (win) {
+                if (win) {
                     win.focus();
                 } else {
                     alert('Please allow popups for this site');

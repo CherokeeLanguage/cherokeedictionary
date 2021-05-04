@@ -11,6 +11,7 @@
 <%@ page import="net.cherokeedictionary.util.Tense; net.cherokeedictionary.stemmer.Stemmer; net.cherokeedictionary.stemmer.DefinitionLine" contentType="text/html;charset=UTF-8" %>
 <%@ page import="net.cherokeedictionary.verb.conjugation.Conjugate;net.cherokeedictionary.factory.VerbFactory;net.cherokeedictionary.core.Verb" contentType="text/html;charset=UTF-8" %>
 <%@ page import="net.cherokeedictionary.util.PrefixTableSubject; net.cherokeedictionary.util.PrefixTableObject;" contentType="text/html;charset=UTF-8" %>
+<%@ page import="net.cherokeedictionary.util.CompoundPrefixes;net.cherokeedictionary.verb.conjugation.VerbConjugationProcessor" contentType="text/html;charset=UTF-8" %>
 
 %{--V1--}%
 %{--<%@ page import="cherokee.dictionary.conjugation.cdpbook.Stemmer; cherokee.dictionary.conjugation.stem.DefinitionLine;cherokee.dictionary.conjugation.wordFormation.Word;cherokee.dictionary.conjugation.Conjugate" contentType="text/html;charset=UTF-8"%>--}%
@@ -61,54 +62,46 @@
     stemmer.present3rd = new DefinitionLine(syllabary: present3rd)
     stemmer.remotepast = new DefinitionLine(syllabary: remotepast)
   
-    String verbTense = params.verbTense ?: "PRESENT";
+    String verbTense = params.verbTense ?: "PRESENT"
     Tense vtense = Tense.valueOf(verbTense)
-    boolean intransitive = false;
+    boolean intransitive = false
+
     if (lks.partofspeechc == 'vi') {
       intransitive = true
     }
   
-    def entry = lks;
+    def entry = lks
   
-    def paramMap = [:]
-    paramMap.habitual = lks.vthirdpressylll
-    paramMap.imperative = lks.vsecondimpersylln
-    paramMap.infinitive = lks.vthirdinfsyllp
-    paramMap.present1st = lks.vfirstpresh
-    paramMap.present3rd = lks.syllabaryb
-    paramMap.remotepast = lks.vthirdpastsyllj
-    paramMap.partofspeechc = lks.partofspeechc
-    paramMap.verbTense = verbTense
-    paramMap.subject = "SG1"
-    paramMap.object = "SG3AN"
-    paramMap.yi = request.getParameter("yi") == 'on'
-    paramMap.ji = request.getParameter("ji") == 'on'
-    paramMap.wi = request.getParameter("wi") == 'on'
-    paramMap.ni = request.getParameter("ni") == 'on'
-    paramMap.de = request.getParameter("de") == 'on'
-    paramMap.da = request.getParameter("da") == 'on'
-    paramMap.di = request.getParameter("di") == 'on'
-    paramMap.i = request.getParameter("i") == 'on'
-    paramMap.ga = request.getParameter("ga") == 'on'
-    paramMap.e = request.getParameter("e") == 'on'
-    //todo: make these sticky for the selection every page
+    def conjugate = {subject, object ->
+        def paramMap = [:]
+        paramMap.habitual = lks.vthirdpressylll
+        paramMap.imperative = lks.vsecondimpersylln
+        paramMap.infinitive = lks.vthirdinfsyllp
+        paramMap.present1st = lks.vfirstpresh
+        paramMap.present3rd = lks.syllabaryb
+        paramMap.remotepast = lks.vthirdpastsyllj
+        paramMap.partofspeechc = lks.partofspeechc
+        paramMap.verbTense = verbTense
+        paramMap.subject = subject
+        paramMap.object = object
+        paramMap.yi = request.getParameter("yi") == 'on'
+        paramMap.ji = request.getParameter("ji") == 'on'
+        paramMap.wi = request.getParameter("wi") == 'on'
+        paramMap.ni = request.getParameter("ni") == 'on'
+        paramMap.de = request.getParameter("de") == 'on'
+        paramMap.da = request.getParameter("da") == 'on'
+        paramMap.di = request.getParameter("di") == 'on'
+        paramMap.i = request.getParameter("i") == 'on'
+        paramMap.ga = request.getParameter("ga") == 'on'
+        paramMap.e = request.getParameter("e") == 'on'
 
-  def conjugate = {subject, object ->
-      Verb verb = VerbFactory.createVerbFromParameters(paramMap)
-      verb.subject = PrefixTableSubject.valueOf(subject)
-    try {
-      verb.object = object ? PrefixTableObject.valueOf(object) : PrefixTableObject.NONE
+//        out << paramMap
+        //todo: make these sticky for the selection every page
+        Verb verb = VerbFactory.createVerbFromParameters(paramMap)
+        verb = Conjugate.conjugate(verb)
 
-
-          verb = Conjugate.conjugate(verb)
-//      } catch (Exception e) {
-//          e.printStackTrace()
-//      }
-    } catch (Exception e) {
-//        e.printStackTrace()
+        return verb
     }
-      return verb
-  }
 %>
 <body>
 <%if (session.getAttribute("loggedin")){%>
@@ -130,37 +123,37 @@ verbName.remotepast = new DefinitionLine(syllabary: "${stemmer.remotepast.syllab
 <form action="/newSearch/verbgenerator" name="verbTenses">
   <input type="hidden" name="id" value="${entry.id}"/>
   <div style="display:table-cell">
-    <input type="checkbox" name="yi" id="yi"/>YI<br/>
-    <input type="checkbox" name="ji" id="ji"/>JI<br/>
+    <input type="checkbox" name="yi" id="yi" <% if (request.getParameter("yi") == 'on') { %> checked="true" <% } %>/>YI<br/>
+    <input type="checkbox" name="ji" id="ji" disabled <% if (request.getParameter("ji") == 'on') { %> checked="true" <% } %>/>JI<br/>
   </div>
       <div style="display:table-cell">
-          <input type="checkbox" name="wi" id="wi"/>WI<br/>
+          <input type="checkbox" name="wi" id="wi" <% if (request.getParameter("wi") == 'on') { %> checked="true" <% } %>/>WI<br/>
       </div>
       <div style="display:table-cell">
-          <input type="checkbox" name="ni" id="ni"/>NI<br/>
+          <input type="checkbox" name="ni" id="ni" disabled <% if (request.getParameter("ni") == 'on') { %> checked="true" <% } %>/>NI<br/>
       </div>
       <div style="display:table-cell">
-          <input type="checkbox" name="de" id="de"/>DE<br/>
+          <input type="checkbox" name="de" id="de" disabled <% if (request.getParameter("de") == 'on') { %> checked="true" <% } %>/>DE<br/>
       </div>
       <div style="display:table-cell">
-          <input type="checkbox" name="da" id="da" disabled/>DA<br/>
-          <input type="checkbox" name="di" id="di"/>DI<br/>
+          <input type="checkbox" name="da" id="da" disabled <% if (request.getParameter("da") == 'on') { %> checked="true" <% } %>/>DA<br/>
+          <input type="checkbox" name="di" id="di" disabled <% if (request.getParameter("di") == 'on') { %> checked="true" <% } %>/>DI<br/>
       </div>
       <div style="display:table-cell">
-          <input type="checkbox" name="i" id="i"/>I<br/>
+          <input type="checkbox" name="i" id="i" disabled <% if (request.getParameter("i") == 'on') { %> checked="true" <% } %>/>I<br/>
       </div>
       <div style="display:table-cell">
-          <input type="checkbox" name="ga" id="ga"/>GA<br/>
-          <input type="checkbox" name="e" id="e"/>E<br/>
+          <input type="checkbox" name="ga" id="ga" disabled <% if (request.getParameter("ga") == 'on') { %> checked="true" <% } %>/>GA<br/>
+          <input type="checkbox" name="e" id="e" disabled <% if (request.getParameter("e") == 'on') { %> checked="true" <% } %>/>E<br/>
       </div>
   <select name="verbTense" id="verbTense">
-    <option value="${Tense.PRESENT}" <g:if test="${Tense.valueOf(verbTense) == Tense.PRESENT}">selected</g:if>>Present</option>
+    <option value="${Tense.PRESENT}" <g:if test="${vtense == Tense.PRESENT}">selected</g:if>>Present</option>
     %{--        <option value="${Tense.RECENT_PAST_IMPERATIVE}">Present/Recent Past Imperative</option>--}%
-    <option value="${Tense.REMOTE_PAST}" <g:if test="${Tense.valueOf(verbTense) == Tense.REMOTE_PAST}">selected</g:if>>Remote Past</option>
-    <option value="${Tense.HABITUAL}" <g:if test="${Tense.valueOf(verbTense) == Tense.HABITUAL}">selected</g:if>>Habitual</option>
-    <option value="${Tense.FUTURE_COMMAND}" <g:if test="${Tense.valueOf(verbTense) == Tense.FUTURE_COMMAND}">selected</g:if>>Immediate</option>
+    <option value="${Tense.REMOTE_PAST}" <g:if test="${vtense == Tense.REMOTE_PAST}">selected</g:if>>Remote Past</option>
+    <option value="${Tense.HABITUAL}" <g:if test="${vtense == Tense.HABITUAL}">selected</g:if>>Habitual</option>
+    <option value="${Tense.FUTURE_COMMAND}" <g:if test="${vtense == Tense.FUTURE_COMMAND}">selected</g:if>>Immediate</option>
     %{--        <option value="${Tense.FUTURE_COMMAND}">Future Imperative</option>--}%
-    <option value="${Tense.INFINITIVE}" <g:if test="${Tense.valueOf(verbTense) == Tense.INFINITIVE}">selected</g:if>>Infinitive</option>
+    <option value="${Tense.INFINITIVE}" <g:if test="${vtense == Tense.INFINITIVE}">selected</g:if>>Infinitive</option>
     %{--        <option value="reportative">Reportative</option>--}%
     %{--        <option value="${Tense.PROGRESSIVE_FUTURE}">Future Progressive</option>--}%
     %{--        <option value="pluperfect">Pluperfect</option>--}%
@@ -168,7 +161,6 @@ verbName.remotepast = new DefinitionLine(syllabary: "${stemmer.remotepast.syllab
   <br/>
   <input type="submit" id="generate" value="Generate">
 </form>
-
 <table>
   <tr>
     <td>

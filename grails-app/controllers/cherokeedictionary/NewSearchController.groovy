@@ -60,6 +60,68 @@ class NewSearchController {
     }
 
     def dictionary() {
+        // pagination code
+//        List searchResults = session["results"]
+//        List displayResults = searchResults
+//        if (params.index && searchResults) {
+//            def searchResultsSize = searchResults.size()
+//            if (searchResultsSize >= 40) {
+//                def index = 0
+//                if (params.index) {
+//                    index = Integer.parseInt(params.index)
+//                }
+//
+//                if (params.goBack == "true") {
+//                    println "going back a page"
+//                }
+//
+//                if (index < searchResultsSize) {
+//                    def tmpIndex = index + searchResultsSize;
+//                    if (tmpIndex >= searchResultsSize) {
+//                        tmpIndex = index
+//                    }
+//
+//                    index = tmpIndex
+//                }
+//
+//                def parmsOffset = index + 40
+//
+//                if (parmsOffset >= searchResultsSize) {
+//                    parmsOffset = searchResultsSize
+//                }
+//
+//                println "index ${index}"
+//                println "offset ${parmsOffset}"
+//
+//                params.index = index;
+//
+////                if (index >= 40) {
+////                    params.goBack = true;
+////                    if (index - 40 <= 0) {
+////                        params.backIndex = 0
+////                        params.backOffset = 40
+////                    }
+////                }
+//
+//                displayResults = searchResults.subList(index, parmsOffset)
+//            } else {
+//                displayResults = searchResults.subList(0, 40)
+//            }
+//        } else {
+//            searchResults = newSearchService.search(params)
+//            searchResults = searchResults.subList(0, 40)
+//            session["results"] = searchResults;
+
+//        }
+
+//        if (!searchResults || (searchResults && searchResults.isEmpty())) {
+//            session.removeAttribute("results")
+//            redirect(uri: "/", params: [noresults: true])
+//        } else {
+//            return [entries: searchResults, params: params]
+//        }
+
+        //original code
         def searchResults = newSearchService.search(params)
         session["results"] = searchResults;
 

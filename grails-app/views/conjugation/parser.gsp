@@ -20,9 +20,11 @@
 
         <asset:javascript src="cherokeeParser.js"/>
         <asset:javascript src="ajaxCall.js"/>
+        <asset:javascript src="rework.js"/>
         <asset:javascript src="verbTables.js"/>
         <asset:javascript src="wordDisplay.js"/>
         <asset:javascript src="deconstructionMethods.js"/>
+        <asset:javascript src="display.js"/>
         <style>
         .tableRowz {
                 padding-right:10px;
@@ -133,8 +135,6 @@
 <asset:javascript src="verbdeconstruction.js"/>
 <asset:javascript src="tests.js"/>
 <script>
-
-
     function createDisplayWordTest() {
         var html = "";
         var ww = newWholeWord("ᏱᎦᏬᏂᏏᎶᏍᎬᎢᏛ", true);

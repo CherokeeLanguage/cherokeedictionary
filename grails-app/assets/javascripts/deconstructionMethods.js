@@ -1,27 +1,5 @@
 var verbTense = Tense.PRESENT;
 
-// phonetic = value of item in explanation
-// syllabary = syllabic representation if available
-// type = suffix, prefix, root, non-final suffix, final suffix, initial prefix, proniminal prefix, reflexive prefix
-// function = pronoun, like focus,
-// meaning = focus etc
-function createExplanation(phonetic, syllabary, type, purpose, meaning, name) {
-    var explanation = {
-        phonetic: phonetic,
-        syllabary: syllabary,
-        meaning: meaning,
-        purpose: purpose,
-        name: name
-        // morpheme_romanized: "d",
-        // morpheme_syllabary: "XX",
-        // morpheme_name: "prefix",
-        // morpheme_function: "plurality",
-        // morpheme_meaning: "many",
-    };
-
-    return explanation;
-}
-
 function getFinalSuffixes(wholeWord) {
     //iterate over final endings to remove each one from top to bottom right to left
     var finalSuffixesList = [];

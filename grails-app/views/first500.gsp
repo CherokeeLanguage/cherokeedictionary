@@ -2,230 +2,42 @@
 <html>
 <head>
     <meta name="layout" content="manager"/>
-    <title>First 500</title>
+    <title>First 500 Page 1</title>
 </head>
-%{--patterned after See it & Say it in German and First 1000 words in Arabic--}%
-%{--I am going -- ᎨᎦ -- gega <br/>--}%
-%{--to a hotel -- ᏧᏂᏒᏍᏗᎢ -- junisvsdii<br/>--}%
-%{--I am going to a hotel -- ᏧᏂᏒᏍᏗᎢ ᎨᎦ<br/>--}%
-%{--I went -- ᎠᏇᏅᏒᎢ -- aquenvsvi <br/>--}%
-%{--I went to a hotel -- ᏧᏂᏒᏍᏗᎢ ᎠᏇᏅᏒᎢ<br/>--}%
-%{-- replaced the below with the ones from the word doc --}%
-%{--<g:lookup definition="son"/>*
-<g:lookup definition="daughter"/>*
-<g:lookup definition="mother"/>
-<g:lookup definition="father"/>
-<g:lookup definition="parent"/> (= mother/father)
-<g:lookup definition="baby"/>
-<g:lookup definition="man"/>
-<g:lookup definition="woman"/>
-<g:lookup definition="brother"/>*
-<g:lookup definition="sister"/>*
-<g:lookup definition="family"/>
-<g:lookup definition="grandfather"/>
-<g:lookup definition="grandmother"/>
-<g:lookup definition="husband"/>*
-<g:lookup definition="wife"/>*
-<g:lookup definition="king"/>
-<g:lookup definition="queen"/>
-<g:lookup definition="president"/>
-<g:lookup definition="neighbor"/>
-<g:lookup definition="boy"/>
-<g:lookup definition="girl"/>
-<g:lookup definition="child"/> (= boy/girl)
-<g:lookup definition="adult"/> (= man/woman)
-<g:lookup definition="human"/> (≠ animal)
-<g:lookup definition="friend"/> (Add a friend’s name)
-<g:lookup definition="victim"/>
-<g:lookup definition="ball player."/>
-<g:lookup definition="fan"/>
-<g:lookup definition="crowd"/>
-<g:lookup definition="person"/> [C]--}%
-%{--
-<g:lookup definition="work"/>
-<g:lookup definition="play"/>
-<g:lookup definition="walk"/>
-<g:lookup definition="run"/>
-<g:lookup definition="drive"/>
-<g:lookup definition="fly"/>
-<g:lookup definition="swim"/>
-<g:lookup definition="go"/> [C]
-<g:lookup definition="stop"/>
-<g:lookup definition="follow"/>
-<g:lookup definition="he's thinking"/>
-<g:lookup definition="speak"/>/say
-<g:lookup definition="eat"/>
-<g:lookup definition="drink"/>
-<g:lookup definition="kill"/>
-<g:lookup definition="he's parting with him (in death)"/> (to die)
-<g:lookup definition="smile"/>
-<g:lookup definition="laugh"/>
-<g:lookup definition="cry"/>
-<g:lookup definition="buy"/>*
-<g:lookup definition="pay"/>*
-<g:lookup definition="sell"/>*
-<g:lookup definition="shoot"/>(a gun)
-<g:lookup definition="learn"/>
-<g:lookup definition="jump"/>
-<g:lookup definition="he smells it"/>
-<g:lookup definition="hear"/>* (a sound)
-<g:lookup definition="he's listening to him, it"/>* (music)
-<g:lookup definition="taste"/>
-<g:lookup definition="he's touching him, it"/>
-<g:lookup definition="see"/> (a bird)
-<g:lookup definition="watch"/> (TV)
-<g:lookup definition="kiss"/>
-<g:lookup definition="burn"/>
-<g:lookup definition="it's melting"/>
-<g:lookup definition="he's melting it"/>
-<g:lookup definition="dig"/>
-<g:lookup definition="it's exploding"/>
-<g:lookup definition="sit"/>
-<g:lookup definition="stand"/>
-<g:lookup definition="love"/>
-pass by <g:lookup definition="1. v.i. he's passing by without stopping 2. v.t. he's passing it (test, exam, etc.)"/> -- <g:lookup definition="He is passing by."/>
-<g:lookup definition="cut"/>
-<g:lookup definition="fight"/>
-<g:lookup definition="lie down"/>
-<g:lookup definition="dance"/>
-<g:lookup definition="sleep"/>
-wake up <g:lookup definition="he's waking up"/> -- <g:lookup definition="he's waking him up"/>
-<g:lookup definition="sing"/>
-<g:lookup definition="count"/>
-<g:lookup definition="marry"/>
-<g:lookup definition="pray"/>
-<g:lookup definition="win"/>
-<g:lookup definition="lose"/>
-<g:lookup definition="mix"/>/stir
-<g:lookup definition="bend"/>
-<g:lookup definition="wash"/>
-<g:lookup definition="cook"/>
-<g:lookup definition="open"/>
-<g:lookup definition="close"/>
-<g:lookup definition="write"/>
-<g:lookup definition="call"/>
-<g:lookup definition="turn"/>
-<g:lookup definition="build"/>
-<g:lookup definition="he's teaching"/>
-<g:lookup definition="grow"/>
-<g:lookup definition="draw"/>
-<g:lookup definition="feed"/>
-<g:lookup definition="catch"/>
-<g:lookup definition="1. he's throwing it 2. he's pitching (ball)"/>
-<g:lookup definition="clean"/>
-<g:lookup definition="find"/>
-<g:lookup definition="fall"/>
-<g:lookup definition="push"/>
-<g:lookup definition="pull"/>
-<g:lookup definition="carry"/>
-<g:lookup definition="break"/>
-<g:lookup definition="wear"/>
-<g:lookup definition="hang"/>
-<g:lookup definition="shake"/>
-<g:lookup definition="sign"/>
-<g:lookup definition="beat"/>
-<g:lookup definition="lift"/>
-
-<g:lookup definition="long"/>
-<g:lookup definition="short"/> (long)
-<g:lookup definition="tall."/>
-<g:lookup definition="Height.; Tall."/>
-<g:lookup definition="Tall and skinny."/>
-<g:lookup definition="short"/> (vs tall)
-<g:lookup definition="wide"/>
-<g:lookup definition="narrow"/>
-<g:lookup definition="big"/>/large
-<g:lookup definition="1. child, 2. small object"/>
-<g:lookup definition="little"/>
-<g:lookup definition="slow"/>
-<g:lookup definition="fast"/>
-<g:lookup definition="hot"/>
-<g:lookup definition="cold"/>
-<g:lookup definition="warm"/>
-<g:lookup definition="cool"/>
-<g:lookup definition="new"/>
-<g:lookup definition="old"/> (new)
-<g:lookup definition="young"/>
-<g:lookup definition="old"/> (young)
-<g:lookup definition="good"/>
-<g:lookup definition="bad"/>
-<g:lookup definition="wet"/>
-<g:lookup definition="dry"/>
-<g:lookup definition="sick"/>
-<g:lookup definition="healthy"/>
-<g:lookup definition="loud"/>
-<g:lookup definition="quiet"/>
-<g:lookup definition="happy"/>
-<g:lookup definition="sad"/>
-<g:lookup definition="beautiful"/>
-<g:lookup definition="ugly"/>
-<g:lookup definition="deaf"/>
-<g:lookup definition="blind"/>
-<g:lookup definition="nice"/>
-<g:lookup definition="mean"/>
-<g:lookup definition="rich"/>
-<g:lookup definition="poor"/>
-<g:lookup definition="thick"/>
-<g:lookup definition="thin (inanimate)"/>
-<g:lookup definition="expensive"/>
-<g:lookup definition="cheap"/>
-<g:lookup definition="flat"/>
-<g:lookup definition="curved"/>
-<g:lookup definition="male"/>
-<g:lookup definition="female"/>
-<g:lookup definition="tight"/>
-<g:lookup definition="loose"/>
-<g:lookup definition="high"/>
-<g:lookup definition="low"/>
-<g:lookup definition="soft"/>
-<g:lookup definition="hard"/>
-<g:lookup definition="deep"/>
-<g:lookup definition="shallow"/>
-<g:lookup definition="clean"/>
-<g:lookup definition="dirty"/>
-<g:lookup definition="strong"/>
-<g:lookup definition="weak"/>
-<g:lookup definition="dead"/>
-<g:lookup definition="alive"/>
-<g:lookup definition="heavy"/>
-<g:lookup definition="light"/> (heavy)
-<g:lookup definition="dark"/>
-<g:lookup definition="light"/> (dark)
-<g:lookup definition="nuclear"/>
-<g:lookup definition="famous"/>
-
---}%
-%{--<g:lookup definition="head"/>
-<g:lookup definition="neck"/>
-<g:lookup definition="face"/>
-<g:lookup definition="beard"/>
-<g:lookup definition="hair"/>
-<g:lookup definition="eye"/>
-<g:lookup definition="mouth"/>*
-<g:lookup definition="lip" source="cnomed"/>*
-<g:lookup definition="nose"/>
-<g:lookup definition="tooth."/>
-<g:lookup definition="ear"/>
-<g:lookup definition="tear" source="cnomed"/> (drop)
-<g:lookup definition="tongue" source="cnomed"/>
-<g:lookup definition="back"/>
-<g:lookup definition="toe."/>
-<g:lookup definition="finger"/>
-<g:lookup definition="foot"/>
-<g:lookup definition="hand"/>
-<g:lookup definition="leg"/>
-<g:lookup definition="arm"/>
-<g:lookup definition="shoulder"/>
-<g:lookup definition="heart"/>
-<g:lookup definition="blood"/>
-<g:lookup definition="brain"/>
-<g:lookup definition="knee."/>
-<g:lookup definition="sweat"/>
-<g:lookup definition="disease"/>
-<g:lookup definition="bone"/>
-<g:lookup definition="voice"/>
-<g:lookup definition="skin"/>
-<g:lookup definition="body"/>--}%
+<a name="top"></a>
+<a href="/first500Page2">Go to First 500 Page 2</a><br/><br/>
+<div style="display:table-cell">
+<b>Page 1</b><br/>
+<a href="#animal">Animals</a><br/>
+<a href="#transportation">Transportation</a><br/>
+<a href="#location">Location</a><br/>
+<a href="#clothing">Clothing</a><br/>
+<a href="#color">Color</a><br/>
+<a href="#people">People</a><br/>
+<a href="#job">Job</a><br/>
+<a href="#society">Society</a><br/>
+<a href="#art">Art</a><br/>
+<a href="#beverages">Beverages</a><br/>
+<a href="#food">Food</a><br/>
+<a href="#home">Home</a><br/>
+<a href="#electronics">Electronics</a><br/>
+<a href="#body">Body</a><br/>
+<a href="#nature">Nature</a><br/>
+<a href="#materials">Materials</a><br/>
+<a href="#mathMeasurements">Math/Measurements</a><br/>
+<a href="#miscNouns">Misc Nouns</a><br/>
+</div>
+<div style="display:table-cell">
+<b>Page 2</b><br/>
+<a href="/first500Page2#directions">Directions</a><br/>
+<a href="/first500Page2#seasons">Seasons</a><br/>
+<a href="/first500Page2#numbers">Numbers</a><br/>
+<a href="/first500Page2#months">Months</a><br/>
+<a href="/first500Page2#daysOfTheWeek">Days of the week</a><br/>
+<a href="/first500Page2#Time">Time</a><br/>
+<a href="/first500Page2#Verbs">Verbs</a><br/>
+<a href="/first500Page2#Adjectives">Adjectives</a><br/>
+</div>
 <pre>
 https://fluent-forever.com/base-vocabulary-list/
 Your First 625 Words (in Thematic Order, with notes):
@@ -239,7 +51,7 @@ groups of words that will use very similar images (girl/daughter, marriage/weddi
 touch (i.e., the name of a ‘daughter’ you might know) or an additional word or two in your target language (i.e., daughter
 might go with mother/father).
 
-<b>Animal:</b>
+<b><a name="animal">Animal:</a></b>
 <g:lookup definition="dog"/>
 <g:lookup definition="cat"/>
 <g:lookup definition="fish"/>
@@ -251,7 +63,9 @@ might go with mother/father).
 <g:lookup definition="wing"/>
 <g:lookup definition="animal"/> [C]
 
-<b>Transportation:</b>
+<a href="#top">Back to Top</a>
+
+<b><a name="transportation">Transportation:</a></b>
 <g:lkdisplay definition="A railroad train." syllabary="ᎠᏥᎳ ᏓᏆᎴᎷᎠᏥᎳ ᏓᏆᎴᎷ"/> %{--<g:lookup definition="A railroad train."/>--}%
 <g:lookup definition="plane"/>
 <g:lookup definition="car"/>
@@ -266,7 +80,9 @@ might go with mother/father).
 (train) <g:lookup definition="ticket"/>
 <g:lookup definition="transportation"/> [C]
 
-<b>Location:</b>
+<a href="#top">Back to Top</a>
+
+<b><a name="location">Location:</a></b>
 <g:lookup definition="city"/>
 <g:lkdisplay definition="town" syllabary="ᎦᏚᎲᎢ"/>
 <g:lookup definition="house"/>
@@ -301,7 +117,9 @@ might go with mother/father).
 <g:lookup definition="location"/> [C]
 **not included: outer space, bar %{--city, house, apartment, street/road, airport, train station, bridge, hotel, restaurant, farm, court, school, office, room, town, university, club, bar, park, camp, store/shop, theater, library, hospital, church, market, country (USA, France, etc.), building, ground, space (outer space), bank, locationC--}%
 
-<b>Clothing:</b>
+<a href="#top">Back to Top</a>
+
+<b><a name="clothing">Clothing:</a></b>
 <g:lookup definition="hat"/>
 <g:lookup definition="dress"/>
 <g:lookup definition="suit"/>
@@ -315,7 +133,9 @@ might go with mother/father).
 <g:lookup definition="stain"/>
 <g:lookup definition="clothing"/> [C]%{--hat, dress, suit, skirt, shirt, T-shirt, pants, shoes, pocket, coat, stain, clothing--}%
 
-<b>Color:</b>
+<a href="#top">Back to Top</a>
+
+<b><a name="color">Color:</a></b>
 <g:lookup definition="red"/>
 <g:lookup definition="green"/>
 <g:lookup definition="blue"/>
@@ -328,7 +148,9 @@ might go with mother/father).
 <g:lookup definition="gray"/>
 <g:lookup definition="color"/> [C]%{--red, green, blue (light/dark), yellow, brown, pink, orange, black, white, gray, color--}%%{--<g:lookup definition="light blue"/>--}% %{--<g:lookup definition="dark blue"/>--}%
 
-<b>People:</b>
+<a href="#top">Back to Top</a>
+
+<b><a name="people">People:</a></b>
 <g:lkdisplay definition="child (= boy/girl)" syllabary="ᎠᏲᎵ"/>
 
 <g:lkdisplay definition="his or her offspring (one)" syllabary="ᎤᏪᏥ"/>
@@ -403,7 +225,9 @@ might go with mother/father).
 <g:lkdisplay definition="crowd" syllabary="ᎤᎾᏓᏟᏌᎲ"/>
 <g:lkdisplay definition="person" syllabary="ᎠᏏᏴᏫ"/>%{--son*, daughter*, mother, father, parent (= mother/father), baby, man, woman, brother*, sister*, family, grandfather, grandmother, husband*, wife*, king, queen, president, neighbor, boy, girl, child (= boy/girl), adult (= man/woman), human (≠ animal), friend (Add a friend’s name), victim, player, fan, crowd, person--}%
 
-<b>Job:</b>
+<a href="#top">Back to Top</a>
+
+<b><a name="job">Job:</a></b>
 <g:lookup definition="teacher"/>
 <g:lookup definition="student"/>
 <g:lookup definition="lawyer"/>
@@ -421,8 +245,293 @@ might go with mother/father).
 <g:lookup definition="reporter"/>
 <g:lookup definition="actor"/>
 <g:lookup definition="job"/> [C]%{--Teacher, student, lawyer, doctor, patient, waiter, secretary, priest, police, army, soldier, artist, author, manager, reporter, actor, job--}%
-<g:include view="first5002.gsp"/>
-<g:include view="first5003.gsp"/>
 
+<a href="#top">Back to Top</a>
+
+<b><a name="society">Society:</a></b>
+<g:lookup definition="religion"/>
+<g:lookup definition="heaven"/>
+<g:lookup definition="hell"/>
+<g:lookup definition="death"/>
+<g:lookup definition="medicine"/>
+<g:lookup definition="money"/>
+<g:lookup definition="dollar"/>
+<g:lookup definition="bill"/>
+<g:lookup definition="marriage"/>*
+<g:lookup definition="wedding"/>*
+<g:lookup definition="murder"/>
+<g:lookup definition="prison"/>
+<g:lookup definition="energy"/>
+<g:lookup definition="war"/>
+<g:lookup definition="peace"/>
+<g:lookup definition="attack"/>
+<g:lookup definition="election"/>
+<g:lookup definition="magazine"/>
+<g:lookup definition="newspaper"/>
+<g:lookup definition="poison"/>
+<g:lookup definition="gun"/>
+<g:lookup definition="sport"/>
+<g:lookup definition="1. he's racing 2. he's running for office"/> (sport)
+<g:lookup definition="race" source="noq"/> (ethnicity)
+<g:lookup definition="exercise"/>
+<g:lookup definition="ball"/>
+<g:lkdisplay definition="game, stickball game" syllabary="ᎠᏁᏦᏗ"/>%{--<g:lookup definition="game"/>--}%
+<g:lookup definition="price"/>
+<g:lookup definition="contract"/>
+<g:lookup definition="drug"/>
+<g:lookup definition="sign"/>
+<g:lookup definition="science"/>
+<g:lookup definition="God"/>
+**not included: team, technology%{--religion, heaven, hell, death, medicine, money, dollar, bill, marriage*, wedding*, team, race (ethnicity), sex (the act), sex (gender), murder, prison, technology, energy, war, peace, attack, election, magazine, newspaper, poison, gun, sport, race (sport), exercise, ball, game, price, contract, drug, sign, science, God--}% %{--<g:lookup definition="sex"/> (the act)<g:lookup definition="sex"/> (gender)--}%
+
+<a href="#top">Back to Top</a>
+
+<b><a name="art">Art:</a></b>
+<g:lookup definition="band"/>
+<g:lookup definition="song"/>
+<g:lkdisplay definition="instrument (musical), songbook" syllabary="ᏗᎧᏃᎩᏍᏗ"/>%{--<g:lookup definition="instrument"/> (musical)--}%
+<g:lookup definition="music"/>
+<g:lookup definition="movie"/>
+<g:lookup definition="art"/>%{--band, song, instrument (musical), music, movie, art--}%
+
+<a href="#top">Back to Top</a>
+
+<b><a name="beverages">Beverages:</a></b>
+<g:lookup definition="coffee"/>
+<g:lookup definition="tea"/>
+<g:lookup definition="wine"/>
+<g:lookup definition="beer"/>
+<g:lookup definition="juice"/>
+<g:lookup definition="water"/>
+<g:lookup definition="milk"/>
+<g:lkdisplay definition="beverage" syllabary="ᎠᏗᏔᏍᏗ"/>%{--<g:lookup definition="beverage"/> [C]--}%%{--coffee, tea, wine, beer, juice, water, milk, beverage--}%
+
+<a href="#top">Back to Top</a>
+
+<b><a name="food">Food:</a></b>
+<g:lookup definition="egg"/>
+<g:lookup definition="cheese"/>
+<g:lookup definition="bread"/>
+<g:lookup definition="soup"/>
+<g:lookup definition="cake"/>
+<g:lookup definition="chicken"/>
+<g:lookup definition="pork"/>
+<g:lookup definition="beef"/>
+<g:lookup definition="apple"/>
+<g:lookup definition="banana"/>
+<g:lookup definition="orange"/>
+<g:lookup definition="lemon"/>
+<g:lookup definition="corn"/>
+<g:lookup definition="rice"/>
+<g:lookup definition="oil"/>
+<g:lookup definition="seed"/>
+<g:lookup definition="knife"/>
+<g:lookup definition="spoon"/>
+<g:lookup definition="fork"/>
+<g:lookup definition="plate"/>
+<g:lookup definition="cup"/>
+<g:lookup definition="breakfast"/>
+<g:lookup definition="lunch"/>
+<g:lookup definition="dinner"/>
+<g:lookup definition="sugar"/>
+<g:lookup definition="salt"/>
+<g:lookup definition="bottle"/>
+<g:lookup definition="food"/> [C]
+<g:lkdisplay definition="taste" syllabary="ᏄᏍᏓᎠᎩᏍᏗ"/>%{--egg, cheese, bread, soup, cake, chicken, pork, beef, apple, banana, orange, lemon, corn, rice, oil, seed, knife, spoon, fork, plate, cup, breakfast, lunch, dinner, sugar, salt, bottle, foodC--}%
+
+<a href="#top">Back to Top</a>
+
+<b><a name="home">Home:</a></b>
+<g:lkdisplay definition="table" syllabary="ᎦᏍᎩᎶ"/>%{--<g:lookup definition="table"/>--}%
+<g:lookup definition="chair"/>
+<g:lookup definition="bed"/>
+<g:lookup definition="dream"/>
+<g:lookup definition="window"/>
+<g:lkdisplay definition="door" syllabary="ᏍᏚᏗ"/>%{--<g:lookup definition="door"/>--}%
+<g:lookup definition="bed room"/>
+<g:lookup definition="kitchen"/>
+<g:lkdisplay definition="bathroom, restroom" syllabary="ᏙᏯ ᎤᎾᏨᏍᏗ"/>%{--<g:lookup definition="bathroom"/>--}%
+<g:lookup definition="restroom"/>
+<g:lookup definition="woman's restroom"/>
+<g:lookup definition="men's restroom"/>
+<g:lookup definition="patient restroom"/>
+<g:lookup definition="staff restroom"/>
+<g:lkdisplay definition="pencil, pen" syllabary="ᏗᎪᏪᎶᏗ"/>%{--<g:lookup definition="pencil"/>--}% %{--<g:lookup definition="pen"/>--}%
+<g:lkdisplay definition="photograph" syllabary="ᏗᏓᏟᎶᏍᏔᏅ"/>%{--<g:lookup definition="photograph"/>--}%
+<g:lookup definition="soap"/>
+<g:lookup definition="book"/>
+<g:lookup definition="page"/>
+<g:lookup definition="key"/>
+<g:lookup definition="paint"/>
+<g:lookup definition="letter"/>
+<g:lookup definition="note"/>
+<g:lkdisplay definition="wall" syllabary="ᎧᎾᏑᎦᏢ"/>%{--<g:lookup definition="wall"/>--}%
+<g:lkdisplay definition="fence" syllabary="ᎠᏐᏴᎢ"/>
+<g:lookup definition="1. paper 2. letter"/>
+<g:lookup definition="floor"/>
+<g:lookup definition="ceiling"/>
+<g:lookup definition="roof"/>
+<g:lkdisplay definition="pool of water" syllabary="ᎦᏁᎲ"/>%{--<g:lookup definition="pool"/>--}%
+<g:lkdisplay definition="swimming pool" syllabary="ᎠᏓᏬᏍᏗ"/>
+<g:lookup definition="lock"/>
+<g:lookup definition="telephone"/>
+<g:lookup definition="garden"/>
+<g:lookup definition="yard"/>
+<g:lookup definition="needle"/>
+<g:lookup definition="bag"/>
+<g:lookup definition="box"/>
+<g:lookup definition="gift"/>
+<g:lookup definition="card"/>
+<g:lookup definition="ring"/>
+<g:lookup definition="tools"/>%{--table, chair, bed, dream, window, door, bedroom, kitchen, bathroom, pencil, pen, photograph, soap, book, page, key, paint, letter, note, wall, paper, floor, ceiling, roof, pool, lock, telephone, garden, yard, needle, bag, box, gift, card, ring, tool--}%
+
+<a href="#top">Back to Top</a>
+
+<b><a name="electronics">Electronics:</a></b>
+<g:lookup definition="clock"/>
+<g:lookup definition="lamp"/>
+<g:lookup definition="fan"/>
+<g:lookup definition="iphone"/>
+<g:lookup definition="network" source="msct"/>
+<g:lkdisplay definition="computer" syllabary="ᎥᎦᏔᎲ ᎠᏍᏆᎾᎪᏗᏍᎩ"/>%{--<g:lookup definition="computer" source="msct"/>--}%
+(computer) <g:lookup definition="program"/>
+<g:lookup definition="laptop"/>
+<g:lookup definition="screen"/>
+<g:lookup definition="camera"/>
+<g:lookup definition="television"/>
+<g:lkdisplay definition="radio" syllabary="ᎧᏃᎩᏍᏗ"/>
+**not included: cell phone%{--<g:lookup definition="radio"/>--}%%{--clock, lamp, fan, cell phone, network, computer, program (computer), laptop, screen, camera, television, radio--}%
+
+<a href="#top">Back to Top</a>
+
+<b><a name="body">Body:</a></b>
+<g:lkdisplay definition="head (his or her)" syllabary="ᎠᏍᎪᎵ"/>
+<g:lkdisplay definition="neck (his or her)" syllabary="ᎠᏴᏤᏂ"/>
+<g:lkdisplay definition="face (his or her)" syllabary="ᎤᎧᏛᎯ"/>
+<g:lkdisplay definition="beard" syllabary="ᎠᎭᏄᎸᏒ"/>
+<g:lkdisplay definition="hair (his or her)" syllabary="ᎤᏍᏘᎬᎢ"/>
+<g:lkdisplay definition="eye (his or her)" syllabary="ᎠᎦᏙᎵ"/>
+<g:lkdisplay definition="mouth (his or her)" syllabary="ᎠᎰᎵ"/>*
+<g:lkdisplay definition="lip (his or her)" syllabary="ᎤᎭᏁᎦᎸᎢ"/>*
+<g:lkdisplay definition="nose (his or her)" syllabary="ᎦᏴᏐᎵn"/>
+<g:lkdisplay definition="tooth(his or her)" syllabary="ᎦᏅᏙᎬᎢ"/>
+<g:lkdisplay definition="ear (his or her)" syllabary="ᎦᎴᏂ"/>
+<g:lkdisplay definition="tear drop (his or her)" syllabary="ᎤᎦᏔᏬᎸ"/>
+<g:lkdisplay definition="tongue (his or her)" syllabary="ᎦᏅᎪᎢ"/>
+<g:lkdisplay definition="back (his or her)" syllabary="ᎦᏐᎯ"/>
+<g:lkdisplay definition="toe (his or her)" syllabary="ᎦᎾᏌᏛᎢ"/>
+<g:lkdisplay definition="finger (his or her)" syllabary="ᎦᏰᏌᏛᎢ"/>
+<g:lkdisplay definition="foot (his or her)" syllabary="ᎢᎳᏏᏕᏂ"/>
+<g:lkdisplay definition="hand (his or her)" syllabary="ᎤᏬᏰᏂ"/>
+<g:lkdisplay definition="leg (his or her)" syllabary="ᎦᏅᏍᎨᏂ"/>
+<g:lkdisplay definition="arm (his or her), it's wing" syllabary="ᎧᏃᎨᏂ"/>
+<g:lkdisplay definition="knee(his or her)" syllabary="ᎧᏂᎨᏂ"/>
+<g:lkdisplay definition="side (his or her)" syllabary="ᎠᏍᏆᎨᏂ"/>
+<g:lkdisplay definition="shoulder (his or her)" syllabary="ᎦᏅᏬᎢ"/>
+<g:lkdisplay definition="heart" syllabary="ᎠᏓᏅᏙ"/>
+<g:lkdisplay definition="heart (his or her)" syllabary="ᎤᏓᏅᏙ"/>
+<g:lkdisplay definition="blood" syllabary="ᎩᎦ"/>
+<g:lkdisplay definition="brain" syllabary="ᎤᏅᏥᏓ"/>
+<g:lkdisplay definition="sweat" syllabary="ᎠᎵ"/>
+<g:lkdisplay definition="disease" syllabary="ᎥᏳᎩ"/>
+<g:lkdisplay definition="bone" syllabary="ᎪᎳ"/>
+<g:lkdisplay definition="voice" syllabary="ᎧᏁᎬ ᎤᏲᏴᎬ"/>
+<g:lkdisplay definition="skin, animal hide" syllabary="ᎦᏁᎦ"/>
+<g:lkdisplay definition="body" syllabary="ᎠᏰᎸ"/>%{--head, neck, face, beard, hair, eye, mouth*, lip*, nose, tooth, ear, tear (drop), tongue, back, toe, finger, foot, hand, leg, arm, shoulder, heart, blood, brain, knee, sweat, disease, bone, voice, skin, body--}%
+
+<a href="#top">Back to Top</a>
+
+<b><a name="nature">Nature:</a></b>
+<g:lookup definition="sea"/>*
+<g:lookup definition="ocean"/>*
+<g:lookup definition="river"/>
+<g:lookup definition="mountain"/>
+<g:lookup definition="rain"/>
+<g:lookup definition="snow"/>
+<g:lookup definition="tree"/>
+<g:lookup definition="sun"/>
+<g:lookup definition="moon"/>
+<g:lookup definition="world"/>
+<g:lookup definition="Earth"/>
+<g:lkdisplay definition="forest" syllabary="ᎢᎾᎨᎢ"/>%{--<g:lookup definition="forest"/>--}%
+<g:lookup definition="sky"/>
+<g:lookup definition="plant"/>
+<g:lookup definition="wind"/>
+<g:lkdisplay definition="soil, land" syllabary="ᎦᏓ"/>%{--<g:lookup definition="soil"/>/earth--}%
+<g:lkdisplay definition="ground, on the ground" syllabary="ᎦᏙᎯ"/>
+<g:lookup definition="flower"/>
+<g:lookup definition="valley"/>
+<g:lookup definition="root"/>
+<g:lookup definition="lake"/>
+<g:lookup definition="star"/>
+<g:lookup definition="grass"/>
+<g:lookup definition="leaf"/>
+<g:lookup definition="air"/>
+<g:lookup definition="sand"/>
+<g:lookup definition="beach"/>
+<g:lkdisplay definition="waves" syllabary="ᎠᎹ ᏓᎵᏍᏗᎳᏁᎬ"/>%{--<g:lookup definition="wave"/>--}%
+<g:lookup definition="fire"/>
+<g:lookup definition="ice"/>
+<g:lookup definition="island"/>
+<g:lookup definition="hill"/>
+<g:lookup definition="heat"/>
+<g:lookup definition="nature"/>%{--sea*, ocean*, river, mountain, rain, snow, tree, sun, moon, world, Earth, forest, sky, plant, wind, soil/earth, flower, valley, root, lake, star, grass, leaf, air, sand, beach, wave, fire, ice, island, hill, heat, natureC--}%
+
+<a href="#top">Back to Top</a>
+
+<b><a name="materials">Materials:</a></b>
+<g:lookup definition="glass"/>
+<g:lookup definition="metal"/>
+<g:lookup definition="plastic"/>
+<g:lookup definition="wood"/>
+<g:lookup definition="stone"/>
+<g:lookup definition="diamond"/>
+<g:lookup definition="clay"/>
+<g:lookup definition="dust"/>
+<g:lookup definition="gold"/>
+<g:lookup definition="copper"/>
+<g:lookup definition="silver"/>
+<g:lookup definition="material"/> [C]%{--glass, metal, plastic, wood, stone, diamond, clay, dust, gold, copper, silver, material--}%
+
+<a href="#top">Back to Top</a>
+
+<b><a name="mathMeasurements">Math/Measurements:</a></b>
+<g:lookup definition="meter"/>
+<g:lookup definition="centimeter"/>
+<g:lookup definition="kilogram"/>
+<g:lookup definition="inch"/>
+<g:lookup definition="foot"/>
+<g:lookup definition="pound"/>
+<g:lookup definition="half"/>
+<g:lookup definition="circle"/>
+<g:lookup definition="square"/>
+<g:lkdisplay definition="temperature" syllabary="ᏄᏁᏌᏴᏢ, ᎢᏳᏴᏢ"/>%{--<g:lookup definition="temperature"/>--}%
+<g:lookup definition="date"/>
+<g:lookup definition="weight"/>
+<g:lookup definition="edge"/>
+<g:lookup definition="corner"/>%{--meter, centimeter, kilogram, inch, foot, pound, half, circle, square, temperature, date, weight, edge, corner--}%
+
+<a href="#top">Back to Top</a>
+
+<b><a name="miscNouns">Misc Nouns:</a></b>
+<g:lkdisplay definition="map" syllabary="ᏒᎶᎯ ᏓᏟᎶᏍᏔᏅ"/>%{--<g:lookup definition="map"/>--}%
+<g:lkdisplay definition="light, lamp" syllabary="ᎠᏨᏍᏗ"/>%{--<g:lookup definition="light"/>--}%
+<g:lookup definition="sound"/>
+<g:lookup definition="yes"/>
+<g:lookup definition="no"/>
+<g:lookup definition="piece"/>
+<g:lookup definition="pain"/>
+<g:lookup definition="injury"/>
+<g:lookup definition="hole"/>
+<g:lookup definition="image"/>
+<g:lookup definition="pattern"/>
+**not included: dot, consonant, vowel
+%{--map, dot, consonant, vowel, light, sound, yes, no, piece, pain, injury, hole, image, pattern, nounC, verbC, adjectiveC--}%
+
+Note: Use these last three (noun, verb, adjective) as labels to help distinguish between very similar-looking words
+(i.e., to die (verb), death (noun), dead (adjective))
+
+<g:include view="first500disclaimer.gsp"/>
+</pre>
 </body>
 </html>

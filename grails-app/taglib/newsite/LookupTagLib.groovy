@@ -7,7 +7,9 @@ class LookupTagLib {
     static defaultEncodeAs = [taglib: 'html']
     //static encodeAsForTags = [tagName: [taglib:'html'], otherTagName: [taglib:'none']]
 
-    static final def su = new SyllabaryUtil();
+    static def popbox = {String transLabel, String trans ->"<div id=\"${transLabel}a\" class=\"popbox\" style=\"display: none; top: 129px; left: 231px;\">${trans}</div>"}
+
+    static def popLink = {String transLabel, String trans, ls -> "<a href=\"#\" class=\"popper\" id=\"${transLabel}a\" data-popbox=\"${transLabel}a\" style=\"color:blue;text-decoration:none;cursor-style:hand\">${ls}</a>"}
 
     def lookup = {params ->
         def source = params.source
@@ -30,7 +32,7 @@ class LookupTagLib {
     def sylldisplayHover = {params ->
         StringBuilder sb = new StringBuilder()
 
-        def trans = su.parseSyllabary(params.syllabary)
+        def trans = SyllabaryUtil.parseSyllabary(params.syllabary)
         def transLabel = trans.replaceAll(/\s/, "")
         sb << " -- "
         sb << "<div id=\"${transLabel}a\" class=\"popbox\" style=\"display: none; top: 129px; left: 231px;\">${trans}</div>"
@@ -43,15 +45,15 @@ class LookupTagLib {
         StringBuilder sb = new StringBuilder()
         sb << definition
         if (ls) {
-            def trans = su.parseSyllabary(ls)
+            String trans = SyllabaryUtil.parseSyllabary(ls)
             def transLabel = trans.replaceAll(/\s/, "")
             sb << " -- "
-            sb << "<div id=\"${transLabel}a\" class=\"popbox\" style=\"display: none; top: 129px; left: 231px;\">${trans}</div>"
-            sb << "<a href=\"#\" class=\"popper\" id=\"${transLabel}a\" data-popbox=\"${transLabel}a\" style=\"color:blue;text-decoration:none;cursor-style:hand\">${ls}</a>"
+            sb << popbox(transLabel, trans)
+            sb << popLink(transLabel, trans, ls)
         } else {
             sb << " -- no result"
         }
 
-        out << raw(sb.toString())
+        out << raw(sb)
     }
 }

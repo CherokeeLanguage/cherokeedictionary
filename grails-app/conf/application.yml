@@ -122,7 +122,7 @@ environments:
     development:
         dataSource:
             #            logSql: true
-            url: jdbc:mysql://localhost:3306/cherokeedictionary?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=CST&useSSL=false
+            url: jdbc:mysql://localhost:3306/smallDb?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=CST&useSSL=false
             properties:
                 readOnly: false
                 jmxEnabled: true

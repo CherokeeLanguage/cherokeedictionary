@@ -50,6 +50,9 @@
     </div>
     <div style="display:table-cell">
         <div style="display:table-row">
+            <div style="display:table-cell"><div id="wordDisplay"></div></div>
+        </div>
+        <div style="display:table-row">
             <div style="display:table-cell">Syllabary</div>
             <div style="display:table-cell"><div id="syllabary"></div></div>
         </div>
@@ -91,7 +94,7 @@
         <div id="resultData"></div> style="display:block; visibility:hidden"
     </div>
 
-    <div id="wordDisplay"></div>
+
 
 %{--    // for (const initialPrefix of initialPrefixes) {--}%
 %{--    //     console.log(initialPrefix);--}%

@@ -122,42 +122,8 @@ verbName.remotepast = new DefinitionLine(syllabary: "${stemmer.remotepast.syllab
 <br/>
 <form action="/newSearch/verbgenerator" name="verbTenses">
   <input type="hidden" name="id" value="${entry.id}"/>
-  <div style="display:table-cell">
-    <input type="checkbox" name="yi" id="yi" <% if (request.getParameter("yi") == 'on') { %> checked="true" <% } %>/>YI<br/>
-    <input type="checkbox" name="ji" id="ji" disabled <% if (request.getParameter("ji") == 'on') { %> checked="true" <% } %>/>JI<br/>
-  </div>
-      <div style="display:table-cell">
-          <input type="checkbox" name="wi" id="wi" <% if (request.getParameter("wi") == 'on') { %> checked="true" <% } %>/>WI<br/>
-      </div>
-      <div style="display:table-cell">
-          <input type="checkbox" name="ni" id="ni" disabled <% if (request.getParameter("ni") == 'on') { %> checked="true" <% } %>/>NI<br/>
-      </div>
-      <div style="display:table-cell">
-          <input type="checkbox" name="de" id="de" disabled <% if (request.getParameter("de") == 'on') { %> checked="true" <% } %>/>DE<br/>
-      </div>
-      <div style="display:table-cell">
-          <input type="checkbox" name="da" id="da" disabled <% if (request.getParameter("da") == 'on') { %> checked="true" <% } %>/>DA<br/>
-          <input type="checkbox" name="di" id="di" disabled <% if (request.getParameter("di") == 'on') { %> checked="true" <% } %>/>DI<br/>
-      </div>
-      <div style="display:table-cell">
-          <input type="checkbox" name="i" id="i" disabled <% if (request.getParameter("i") == 'on') { %> checked="true" <% } %>/>I<br/>
-      </div>
-      <div style="display:table-cell">
-          <input type="checkbox" name="ga" id="ga" disabled <% if (request.getParameter("ga") == 'on') { %> checked="true" <% } %>/>GA<br/>
-          <input type="checkbox" name="e" id="e" disabled <% if (request.getParameter("e") == 'on') { %> checked="true" <% } %>/>E<br/>
-      </div>
-  <select name="verbTense" id="verbTense">
-    <option value="${Tense.PRESENT}" <g:if test="${vtense == Tense.PRESENT}">selected</g:if>>Present</option>
-    %{--        <option value="${Tense.RECENT_PAST_IMPERATIVE}">Present/Recent Past Imperative</option>--}%
-    <option value="${Tense.REMOTE_PAST}" <g:if test="${vtense == Tense.REMOTE_PAST}">selected</g:if>>Remote Past</option>
-    <option value="${Tense.HABITUAL}" <g:if test="${vtense == Tense.HABITUAL}">selected</g:if>>Habitual</option>
-    <option value="${Tense.FUTURE_COMMAND}" <g:if test="${vtense == Tense.FUTURE_COMMAND}">selected</g:if>>Immediate</option>
-    %{--        <option value="${Tense.FUTURE_COMMAND}">Future Imperative</option>--}%
-    <option value="${Tense.INFINITIVE}" <g:if test="${vtense == Tense.INFINITIVE}">selected</g:if>>Infinitive</option>
-    %{--        <option value="reportative">Reportative</option>--}%
-    %{--        <option value="${Tense.PROGRESSIVE_FUTURE}">Future Progressive</option>--}%
-    %{--        <option value="pluperfect">Pluperfect</option>--}%
-  </select>
+    <g:include view="newSearch/_initialPrefixes.gsp"/>
+    <g:include view="newSearch/_verbTenseSelector.gsp"/>
   <br/>
   <input type="submit" id="generate" value="Generate">
 </form>
@@ -170,217 +136,217 @@ verbName.remotepast = new DefinitionLine(syllabary: "${stemmer.remotepast.syllab
     </td>
     <td>
       <% if (intransitive) { %>
-      <table>
-        <tr>
-          <td>1SG</td>
-          <td><g:displayGenerated item="${conjugate("SG1", "")}"/></td>
-        </tr>
-        <tr>
-          <td>2SG</td>
-          <td><g:displayGenerated item="${conjugate("SG2", "")}"/></td>
-        </tr>
-        <tr>
-          <td>3SG</td>
-          <td><g:displayGenerated item="${conjugate("SG3", "")}"/></td>
-        </tr>
-        <tr>
-          <td>1DLINCL</td>
-          <td><g:displayGenerated item="${conjugate("DL1INCL", "")}"/></td>
-        </tr>
-        <tr>
-          <td>1DLEXCL</td>
-          <td><g:displayGenerated item="${conjugate("DL1EXCL", "")}"/></td>
-        </tr>
-        <tr>
-          <td>1PLINCL</td>
-          <td><g:displayGenerated item="${conjugate("PL1INCL", "")}"/></td>
-        </tr>
-        <tr>
-          <td>1PLEXCL</td>
-          <td><g:displayGenerated item="${conjugate("PL1EXCL", "")}"/></td>
-        </tr>
-        <tr>
-          <td>2DL</td>
-          <td><g:displayGenerated item="${conjugate("DL2", "")}"/></td>
-        </tr>
-        <tr>
-          <td>2PL</td>
-          <td><g:displayGenerated item="${conjugate("PL2", "")}"/></td>
-        </tr>
-        <tr>
-          <td>3PL</td>
-          <td><g:displayGenerated item="${conjugate("PL3", "")}"/></td>
-        </tr>
-      </table>
+        <table>
+            <tr>
+                <td>1SG</td>
+                <td><g:displayGenerated item="${conjugate("SG1", "")}"/></td>
+            </tr>
+            <tr>
+                <td>2SG</td>
+                <td><g:displayGenerated item="${conjugate("SG2", "")}"/></td>
+            </tr>
+            <tr>
+                <td>3SG</td>
+                <td><g:displayGenerated item="${conjugate("SG3", "")}"/></td>
+            </tr>
+            <tr>
+                <td>1DLINCL</td>
+                <td><g:displayGenerated item="${conjugate("DL1INCL", "")}"/></td>
+            </tr>
+            <tr>
+                <td>1DLEXCL</td>
+                <td><g:displayGenerated item="${conjugate("DL1EXCL", "")}"/></td>
+            </tr>
+            <tr>
+                <td>1PLINCL</td>
+                <td><g:displayGenerated item="${conjugate("PL1INCL", "")}"/></td>
+            </tr>
+            <tr>
+                <td>1PLEXCL</td>
+                <td><g:displayGenerated item="${conjugate("PL1EXCL", "")}"/></td>
+            </tr>
+            <tr>
+                <td>2DL</td>
+                <td><g:displayGenerated item="${conjugate("DL2", "")}"/></td>
+            </tr>
+            <tr>
+                <td>2PL</td>
+                <td><g:displayGenerated item="${conjugate("PL2", "")}"/></td>
+            </tr>
+            <tr>
+                <td>3PL</td>
+                <td><g:displayGenerated item="${conjugate("PL3", "")}"/></td>
+            </tr>
+        </table>
       <% } else { %>
-      <center>OBJECT</center>
-      <table>
-        <tr>
-          <td></td>
-          <td>1SG</td>
-          <td>2SG</td>
-          <td>3SGAN</td>
-          <td>3SGIN</td>
-          <td>1DLINCL</td>
-          <td>1DLEXCL</td>
-          <td>1PLINCL</td>
-          <td>1PLEXCL</td>
-          <td>2DL</td>
-          <td>2PL</td>
-          <td>3PLAN</td>
-          <td>3PLIN</td>
-        </tr>
-        <tr>
-          <td>1SG</td>
-          <td><g:displayGenerated item="${conjugate("SG1", "SG1")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG1", "SG2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG1", "SG3AN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG1", "SG3IN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG1", "DL1INCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG1", "DL1EXCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG1", "PL1INCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG1", "PL1EXCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG1", "DL2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG1", "PL2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG1", "PL3AN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG1", "PL3IN")}"/></td>
-        </tr>
-        <tr>
-          <td>2SG</td>
-          <td><g:displayGenerated item="${conjugate("SG2", "SG1")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG2", "SG2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG2", "SG3AN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG2", "SG3IN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG2", "DL1INCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG2", "DL1EXCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG2", "PL1INCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG2", "PL1EXCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG2", "DL2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG2", "PL2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG2", "PL3AN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG2", "PL3IN")}"/></td>
-        </tr>
-        <tr>
-          <td>3SG</td>
-          <td><g:displayGenerated item="${conjugate("SG3", "SG1")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG3", "SG2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG3", "SG3AN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG3", "SG3IN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG3", "DL1INCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG3", "DL1EXCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG3", "PL1INCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG3", "PL1EXCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG3", "DL2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG3", "PL2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG3", "PL3AN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("SG3", "PL3IN")}"/></td>
-        </tr>
-        <tr>
-          <td>1DLINCL</td>
-          <td><g:displayGenerated item="${conjugate("DL1INCL", "SG1")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL1INCL", "SG2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL1INCL", "SG3AN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL1INCL", "SG3IN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL1INCL", "DL1INCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL1INCL", "DL1EXCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL1INCL", "PL1INCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL1INCL", "PL1EXCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL1INCL", "DL2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL1INCL", "PL2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL1INCL", "PL3AN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL1INCL", "PL3IN")}"/></td>
-        </tr>
-        <tr>
-          <td>1DLEXCL</td>
-          <td><g:displayGenerated item="${conjugate("DL1EXCL", "SG1")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL1EXCL", "SG2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL1EXCL", "SG3AN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL1EXCL", "SG3IN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL1EXCL", "DL1INCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL1EXCL", "DL1EXCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL1EXCL", "PL1INCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL1EXCL", "PL1EXCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL1EXCL", "DL2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL1EXCL", "PL2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL1EXCL", "PL3AN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL1EXCL", "PL3IN")}"/></td>
-        </tr>
-        <tr>
-          <td>1PLINCL</td>
-          <td><g:displayGenerated item="${conjugate("PL1INCL", "SG1")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL1INCL", "SG2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL1INCL", "SG3AN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL1INCL", "SG3IN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL1INCL", "DL1INCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL1INCL", "DL1EXCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL1INCL", "PL1INCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL1INCL", "PL1EXCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL1INCL", "DL2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL1INCL", "PL2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL1INCL", "PL3AN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL1INCL", "PL3IN")}"/></td>
-        </tr>
-        <tr>
-          <td>1PLEXCL</td>
-          <td><g:displayGenerated item="${conjugate("PL1EXCL", "SG1")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL1EXCL", "SG2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL1EXCL", "SG3AN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL1EXCL", "SG3IN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL1EXCL", "DL1INCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL1EXCL", "DL1EXCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL1EXCL", "PL1INCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL1EXCL", "PL1EXCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL1EXCL", "DL2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL1EXCL", "PL2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL1EXCL", "PL3AN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL1EXCL", "PL3IN")}"/></td>
-        </tr>
-        <tr>
-          <td>2DL</td>
-          <td><g:displayGenerated item="${conjugate("DL2", "SG1")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL2", "SG2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL2", "SG3AN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL2", "SG3IN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL2", "DL1INCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL2", "DL1EXCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL2", "PL1INCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL2", "PL1EXCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL2", "DL2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL2", "PL2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL2", "PL3AN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("DL2", "PL3IN")}"/></td>
-        </tr>
-        <tr>
-          <td>2PL</td>
-          <td><g:displayGenerated item="${conjugate("PL2", "SG1")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL2", "SG2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL2", "SG3AN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL2", "SG3IN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL2", "DL1INCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL2", "DL1EXCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL2", "PL1INCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL2", "PL1EXCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL2", "DL2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL2", "PL2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL2", "PL3AN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL2", "PL3IN")}"/></td>
-        </tr>
-        <tr>
-          <td>3PL</td>
-          <td><g:displayGenerated item="${conjugate("PL3", "SG1")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL3", "SG2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL3", "SG3AN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL3", "SG3IN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL3", "DL1INCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL3", "DL1EXCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL3", "PL1INCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL3", "PL1EXCL")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL3", "DL2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL3", "PL2")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL3", "PL3AN")}"/></td>
-          <td><g:displayGenerated item="${conjugate("PL3", "PL3IN")}"/></td>
-        </tr>
-      </table>
+        <center>OBJECT</center>
+        <table>
+            <tr>
+                <td></td>
+                <td>1SG</td>
+                <td>2SG</td>
+                <td>3SGAN</td>
+                <td>3SGIN</td>
+                <td>1DLINCL</td>
+                <td>1DLEXCL</td>
+                <td>1PLINCL</td>
+                <td>1PLEXCL</td>
+                <td>2DL</td>
+                <td>2PL</td>
+                <td>3PLAN</td>
+                <td>3PLIN</td>
+            </tr>
+            <tr>
+                <td>1SG</td>
+                <td><g:displayGenerated item="${conjugate("SG1", "SG1")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG1", "SG2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG1", "SG3AN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG1", "SG3IN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG1", "DL1INCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG1", "DL1EXCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG1", "PL1INCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG1", "PL1EXCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG1", "DL2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG1", "PL2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG1", "PL3AN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG1", "PL3IN")}"/></td>
+            </tr>
+            <tr>
+                <td>2SG</td>
+                <td><g:displayGenerated item="${conjugate("SG2", "SG1")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG2", "SG2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG2", "SG3AN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG2", "SG3IN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG2", "DL1INCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG2", "DL1EXCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG2", "PL1INCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG2", "PL1EXCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG2", "DL2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG2", "PL2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG2", "PL3AN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG2", "PL3IN")}"/></td>
+            </tr>
+            <tr>
+                <td>3SG</td>
+                <td><g:displayGenerated item="${conjugate("SG3", "SG1")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG3", "SG2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG3", "SG3AN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG3", "SG3IN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG3", "DL1INCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG3", "DL1EXCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG3", "PL1INCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG3", "PL1EXCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG3", "DL2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG3", "PL2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG3", "PL3AN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("SG3", "PL3IN")}"/></td>
+            </tr>
+            <tr>
+                <td>1DLINCL</td>
+                <td><g:displayGenerated item="${conjugate("DL1INCL", "SG1")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL1INCL", "SG2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL1INCL", "SG3AN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL1INCL", "SG3IN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL1INCL", "DL1INCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL1INCL", "DL1EXCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL1INCL", "PL1INCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL1INCL", "PL1EXCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL1INCL", "DL2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL1INCL", "PL2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL1INCL", "PL3AN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL1INCL", "PL3IN")}"/></td>
+            </tr>
+            <tr>
+                <td>1DLEXCL</td>
+                <td><g:displayGenerated item="${conjugate("DL1EXCL", "SG1")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL1EXCL", "SG2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL1EXCL", "SG3AN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL1EXCL", "SG3IN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL1EXCL", "DL1INCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL1EXCL", "DL1EXCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL1EXCL", "PL1INCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL1EXCL", "PL1EXCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL1EXCL", "DL2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL1EXCL", "PL2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL1EXCL", "PL3AN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL1EXCL", "PL3IN")}"/></td>
+            </tr>
+            <tr>
+                <td>1PLINCL</td>
+                <td><g:displayGenerated item="${conjugate("PL1INCL", "SG1")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL1INCL", "SG2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL1INCL", "SG3AN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL1INCL", "SG3IN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL1INCL", "DL1INCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL1INCL", "DL1EXCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL1INCL", "PL1INCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL1INCL", "PL1EXCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL1INCL", "DL2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL1INCL", "PL2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL1INCL", "PL3AN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL1INCL", "PL3IN")}"/></td>
+            </tr>
+            <tr>
+                <td>1PLEXCL</td>
+                <td><g:displayGenerated item="${conjugate("PL1EXCL", "SG1")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL1EXCL", "SG2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL1EXCL", "SG3AN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL1EXCL", "SG3IN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL1EXCL", "DL1INCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL1EXCL", "DL1EXCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL1EXCL", "PL1INCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL1EXCL", "PL1EXCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL1EXCL", "DL2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL1EXCL", "PL2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL1EXCL", "PL3AN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL1EXCL", "PL3IN")}"/></td>
+            </tr>
+            <tr>
+                <td>2DL</td>
+                <td><g:displayGenerated item="${conjugate("DL2", "SG1")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL2", "SG2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL2", "SG3AN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL2", "SG3IN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL2", "DL1INCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL2", "DL1EXCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL2", "PL1INCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL2", "PL1EXCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL2", "DL2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL2", "PL2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL2", "PL3AN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("DL2", "PL3IN")}"/></td>
+            </tr>
+            <tr>
+                <td>2PL</td>
+                <td><g:displayGenerated item="${conjugate("PL2", "SG1")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL2", "SG2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL2", "SG3AN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL2", "SG3IN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL2", "DL1INCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL2", "DL1EXCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL2", "PL1INCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL2", "PL1EXCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL2", "DL2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL2", "PL2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL2", "PL3AN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL2", "PL3IN")}"/></td>
+            </tr>
+            <tr>
+                <td>3PL</td>
+                <td><g:displayGenerated item="${conjugate("PL3", "SG1")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL3", "SG2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL3", "SG3AN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL3", "SG3IN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL3", "DL1INCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL3", "DL1EXCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL3", "PL1INCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL3", "PL1EXCL")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL3", "DL2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL3", "PL2")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL3", "PL3AN")}"/></td>
+                <td><g:displayGenerated item="${conjugate("PL3", "PL3IN")}"/></td>
+            </tr>
+        </table>
       <%}%>
     </td>
   </tr>

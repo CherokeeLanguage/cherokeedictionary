@@ -200,6 +200,9 @@
         <%@ page import="java.util.regex.Matcher; java.util.regex.Pattern" contentType="text/html;charset=UTF-8" %>
         <g:render template="/newSearch/simplifiedOriginalEntry" model="[entry:entry]"/>
         <g:form controller="conjugation">
+            <input type="hidden" name="id" value="${entry.id}"/>
+            <g:include view="newSearch/_initialPrefixes.gsp"/>
+
             <input type="hidden" name="id" value="${params.id}"/>
             <select name="subject" id="subject">
                 <option value="SG1" <g:if test="${subject == "SG1"}">selected</g:if>>1SG</option>
@@ -227,17 +230,7 @@
                 <option value="PL3AN" <g:if test="${subject == "PL3AN"}">selected</g:if>>3PLAN</option>
                 <option value="PL3IN" <g:if test="${subject == "PL3IN"}">selected</g:if>>3PLIN</option>
             </select>
-            <select name="verbTense" id="verbTense">
-                <option value="${Tense.PRESENT}" <g:if test="${verbTense == Tense.PRESENT}">selected</g:if>>Present</option>
-                %{--<option value="${Tense.RECENT_PAST_IMPERATIVE}">Present/Recent Past Imperative</option>--}%
-                <option value="${Tense.REMOTE_PAST}" <g:if test="${verbTense == Tense.REMOTE_PAST}">selected</g:if>>Remote Past</option>
-                <option value="${Tense.HABITUAL}" <g:if test="${verbTense == Tense.HABITUAL}">selected</g:if>>Habitual</option>
-                <option value="${Tense.FUTURE_COMMAND}" <g:if test="${verbTense == Tense.FUTURE_COMMAND}">selected</g:if>>Immediate</option><%--<option value="${Tense.FUTURE_COMMAND}">Future Imperative</option>--%>
-                <option value="${Tense.INFINITIVE}" <g:if test="${verbTense == Tense.INFINITIVE}">selected</g:if>>Infinitive</option>
-                %{--<option value="reportative">Reportative</option>--}%
-                %{--<option value="${Tense.PROGRESSIVE_FUTURE}">Future Progressive</option>--}%
-                %{--<option value="pluperfect">Pluperfect</option>--}%
-            </select>
+            <g:include view="newSearch/_verbTenseSelector.gsp"/>
             <input onclick="jQuery.ajax({type:'POST',data:jQuery(this).parents('form:first').serialize(), url:'/conjugation/index',success:function(data,textStatus){jQuery('#searchresults').html(data);},error:function(XMLHttpRequest,textStatus,errorThrown){}});return false" type="button" value="Search">
             %{-- submitToRemote was an ajax tag - the code above is what it was replaced with in the page anyway so because it was removed I just used the code above--}%
             %{--<g:submitToRemote update="searchresults" url="[controller:'conjugation', action:'index']" value="Search"/>--}%

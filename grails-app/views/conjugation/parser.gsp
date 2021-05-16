@@ -18,13 +18,30 @@
 %{--        <asset:javascript src="grooscript.min.js"/>--}%
 %{--        <asset:javascript src="grooscript-html-builder.js"/>--}%
 
-        <asset:javascript src="cherokeeParser.js"/>
-        <asset:javascript src="ajaxCall.js"/>
-        <asset:javascript src="rework.js"/>
-        <asset:javascript src="verbTables.js"/>
-        <asset:javascript src="wordDisplay.js"/>
-        <asset:javascript src="deconstructionMethods.js"/>
-        <asset:javascript src="display.js"/>
+        <asset:javascript src="deconstructor/cherokeeParser.js"/>
+        <asset:javascript src="deconstructor/ajaxCall.js"/>
+        <asset:javascript src="deconstructor/rework.js"/>
+        <asset:javascript src="deconstructor/verbTables.js"/>
+        <asset:javascript src="deconstructor/wordDisplay.js"/>
+        <asset:javascript src="deconstructor/deconstructionMethods.js"/>
+        <asset:javascript src="deconstructor/display.js"/>
+%{--            <asset:javascript src="parser.js"/>--}%
+%{--        <script>--}%
+%{--            function callAll(jsfiles) {--}%
+%{--                $.getScript(jsfiles, function() {--}%
+%{--                    // alert("Script loaded but not necessarily executed.");--}%
+%{--                });--}%
+%{--            }--}%
+
+%{--            callAll("/assets/cherokeeParser.js");--}%
+%{--            callAll("/assets/ajaxCall.js");--}%
+%{--            callAll("/assets/rework.js");--}%
+%{--            callAll("/assets/verbTables.js");--}%
+%{--            callAll("/assets/wordDisplay.js");--}%
+%{--            callAll("/assets/deconstructionMethods.js");--}%
+%{--            callAll("/assets/display.js");--}%
+%{--            // callAll("/assets/tests.js");--}%
+%{--        </script>--}%
         <style>
         .tableRowz {
                 padding-right:10px;
@@ -35,6 +52,15 @@
                 padding-right:10px;
                 text-align: center;
             }
+        </style>
+        <style>
+            .interlinear {clear: both; text-align: left; border: 0 black solid}
+            .intlin {margin: 0.25em; text-align: left;border: 0 black solid}
+            .intlin .morph, .intlin .trans, .intlin .orig, .interlinear {display: block; margin: 2px 0;}
+            .intlin .orig {font-weight: bold;height: 22px}
+            .interlinear .freetrans { font-style: italic;}
+            .interlinear div.orig { font-weight: bold; text-align: left;}
+            .interlinear .morph { color: #10a }
         </style>
     </head>
 <body>
@@ -52,7 +78,7 @@
         <div style="display:table-row">
             <div style="display:table-cell"><div id="wordDisplay"></div></div>
         </div>
-        <div style="display:table-row">
+        %{--<div style="display:table-row">
             <div style="display:table-cell">Syllabary</div>
             <div style="display:table-cell"><div id="syllabary"></div></div>
         </div>
@@ -91,11 +117,38 @@
 
         <br/>JSON Representation<br/>
         <div id="display"></div>
-        <div id="resultData"></div> style="display:block; visibility:hidden"
+        <div id="resultData"></div> style="display:block; visibility:hidden"--}%
     </div>
-
-
-
+    <div style="display:table-cell">
+        %{--<div class="interlinear">
+            <div class="orig">ᎦᏬᏂᎭ</div>
+            <div class="intlin">
+                <div class="orig">gawoniha</div>
+                <div class="intlin" style="float:left">
+                    <div class="orig">Ꭶ</div>
+                    <div class="morph">ga SG3SG3AN</div>
+                    <div class="trans">Pronominal Prefix</div>
+                </div>
+                <div class="intlin" style="float:left">
+                    <div class="orig">ᏬᏂ</div>
+                    <div class="morph">woni</div>
+                    <div class="trans">Root</div>
+                </div>
+                <div class="intlin" style="float:left">
+                    <div class="orig">h</div>
+                    <div class="morph">h</div>
+                    <div class="trans">Root Ending</div>
+                </div>
+                <div class="intlin" style="float:left">
+                    <div class="orig">Ꭰ</div>
+                    <div class="morph">a</div>
+                    <div class="trans">Present Tense</div>
+                </div>
+            </div>
+            <div class="freetrans">"he's speaking", "He is talking.; He is speaking"</div>
+        </div>--}%
+    </div>
+    <div style="display:table-cell">
 %{--    // for (const initialPrefix of initialPrefixes) {--}%
 %{--    //     console.log(initialPrefix);--}%
 %{--    // }--}%
@@ -134,9 +187,12 @@
 %{--    //     <div class="tableCell" style="display:table-cell">definition2</div>--}%
 %{--    //     <div class="tableCell" style="display:table-cell">definition3</div>--}%
 %{--    //     </div>--}%
+    </div>
 </div>
-<asset:javascript src="verbdeconstruction.js"/>
-<asset:javascript src="tests.js"/>
+
+
+<asset:javascript src="deconstructor/verbdeconstruction.js"/>
+%{--<asset:javascript src="tests.js"/>--}%
 <script>
     function createDisplayWordTest() {
         var html = "";
@@ -168,7 +224,6 @@
         html += formFinalSuffixes(ww.finalSuffixes);
 
         document.getElementById("wordDisplay").innerHTML = html;
-
     }
 
     // createDisplayWordTest();
@@ -223,6 +278,8 @@
         list.appendChild(document.createElement("br"));
     };
 
+    appendAnchorTag('ᎠᏆᏚᎵᎭ');
+    appendAnchorTag('ᏓᏆᏚᎵᎭ');
     appendAnchorTag('ᎦᏬᏂᎭ');
     appendAnchorTag('ᎤᏬᏂᏏᎶᎡᎢ');
     appendAnchorTag('ᎦᏬᏂᎭᏊᏧ');
@@ -234,8 +291,6 @@
     appendAnchorTag('ᎯᏬᏂᏏᎶᏣ');
     appendAnchorTag('ᎠᎦᏍᎦᏛ'); // it's raining'
     appendAnchorTag('ᏱᎦᏬᏂᏏᎶᏍᎬᎢᏛ');
-    appendAnchorTag('ᎠᏆᏚᎵᎭ');
-    appendAnchorTag('ᏓᏆᏚᎵᎭ');
 </script>
 
 </body>

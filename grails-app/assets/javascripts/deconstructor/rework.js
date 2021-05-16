@@ -38,7 +38,7 @@ function newWholeWord(word, isSyllabary) {
         root_ending: "", // what the root ending is - phonetic only
         constructedVerbToLookup: "", // if this word is a verb then this takes the third person prefix type (A or B), root, root ending, present tense to give a lookup so uwonisvi (third past) would become gawoniha (third present) and is then
         verbTense: {tense: "", ending: ""}, // what is the tense of the current word
-        verbTenseSuffixes: [], // what are the tense options of the current word
+        // verbTenseSuffixes: [], // what are the tense options of the current word
         initialPrefixes: [], // what are the initial prefixes found
         pronounPrefixes: [], // what are the pronoun prefixes found
         reflexive: false, // was a reflexive prefix found
@@ -74,6 +74,8 @@ function getPronPrefix(wholeWord) {
         } else {
             // console.log("wholeWord prefixes " + JSON.stringify(wholeWord));
         }
+
+        console.log("pron prefix " + pronPrefix);
 
         //TODO: at this point uwoniha becomes uw + onih + a -- it should be u + wonih + a
         if (pronPrefixes && pronPrefix.startsWith("uw")) {

@@ -19,7 +19,7 @@ function getFinalSuffixes(wholeWord) {
         }
     }
 
-    wholeWord.finalSuffixes = finalSuffixesList;
+    wholeWord.finalSuffixes = finalSuffixesList.reverse();
 
     wholeWord.tmpParse = word;
 
@@ -28,18 +28,16 @@ function getFinalSuffixes(wholeWord) {
 
 //TODO: what if there are multiples?  return both?
 function getVerbTenseSuffixes(wholeWord) {
-    var verbTenseSuffixesList = []
     var word = wholeWord.tmpParse;
     for (const verbTense of VerbTense.keys()) {
         if (word.endsWith(verbTense)) {
             var verbTenseItem = VerbTense.get(verbTense);
-            var explanation = createExplanation(verbTense, '', 'suffix', '', verbTenseItem, '');
-            verbTenseSuffixesList.push(explanation);
+            wholeWord.verbTense = {tense: verbTenseItem, ending:verbTense};
             word = word.substr(0, word.length - verbTense.length);
         }
     }
 
-    wholeWord.verbTenseSuffixes = verbTenseSuffixesList;
+    // wholeWord.verbTenseSuffixes = verbTenseSuffixesList;
     wholeWord.tmpParse = word;
 
     return wholeWord;
@@ -121,12 +119,14 @@ function getPronominalPrefixes(wholeWord) {
 
     var pronSize = 0;
     var tmp = wholeWord.tmpParse;
-
     for (const consonantPrefix of ConsonantPrefixes.keys()) {
         if (tmp.startsWith(consonantPrefix)) {
             if (consonantPrefix.length > pronSize) {
                 pronSize = consonantPrefix.length;
+                // wholeWord.root_phonetic = wholeWord.tmpParse.substring(pronSize.length);
             }
+
+            console.log("consonant prefix " + consonantPrefix);
 
             pronominalPrefixList.push(ConsonantPrefixes.get(consonantPrefix));
         }
@@ -138,13 +138,31 @@ function getPronominalPrefixes(wholeWord) {
             if (tmp.startsWith(vowelPrefix)) {
                 if (vowelPrefix.length > pronSize) {
                     pronSize = vowelPrefix.length;
+                    // wholeWord.root_phonetic = wholeWord.tmpParse.substring(pronSize.length);
                 }
+
+                console.log("vowel prefix " + vowelPrefix);
 
                 pronominalPrefixList.push(VowelPrefixes.get(vowelPrefix));
             }
         }
     }
 
+    //TODO: There's an other to look through
+
+    // if (pronSize === 0 ) {
+    //     for (const vowelPrefix of VowelPrefixes.keys()) {
+    //         if (tmp.startsWith(vowelPrefix)) {
+    //             if (vowelPrefix.length > pronSize) {
+    //                 pronSize = vowelPrefix.length;
+    //             }
+    //
+    //             pronominalPrefixList.push(VowelPrefixes.get(vowelPrefix));
+    //         }
+    //     }
+    // }
+
+    console.log(wholeWord.root_phonetic);
     wholeWord.tmpParse = tmp;
 
     wholeWord.pronounPrefixes = pronominalPrefixList;

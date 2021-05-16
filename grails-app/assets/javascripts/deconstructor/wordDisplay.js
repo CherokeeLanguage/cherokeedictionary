@@ -74,6 +74,38 @@ function formBase(root, definitions) {
     return html;
 }
 
+function formInitialPrefixes(initialPrefixes) {
+    let html = "";
+
+    html += "<div class=\"tableCell\" style=\"display:table-cell\">";
+    html += "initial prefixes";
+    html += "</div>";
+
+    return html;
+}
+
+function formPronominalPrefixes(pronomialPrefix) {
+    let html = "";
+
+    html += "<div class=\"tableCell\" style=\"display:table-cell\">";
+    html += createRowOneCell("Pronominal Prefix");
+    html += createRowOneCell(pronomialPrefix);
+
+    html += "</div>";
+
+    return html;
+}
+
+function formReflexivePrefixes(reflexivePrefix) {
+    let html = "";
+
+    html += "<div class=\"tableCell\" style=\"display:table-cell\">";
+    html += "reflexive";
+    html += "</div>";
+
+    return html;
+}
+
 function createRowOneCell(value) {
     var html = "";
     html += "<div class=\"tableRowz\" style=\"display:table-row\"><div class=\"tableCell\" style=\"display:table-cell\">" + value + "</div></div>";

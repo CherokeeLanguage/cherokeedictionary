@@ -32,6 +32,19 @@ function createDisplayWord(ww) {
 
         let pronPrefix = PronominalPrefixes.get(ww.pronounPrefixes[0]);
 
+        let definitionHTML = "";
+        let dictDefinition = "";
+        definitionHTML += "<div class=\"freetrans\">";
+            for (const definition of ww.definitions) {
+                definitionHTML += definition.definitiond;
+
+                if (definition.partofspeechc === 'n' || definition.partofspeechc === 'pt' || definition.partofspeechc === 'adj') {
+                    dictDefinition = definition.definitiond;
+                }
+                definitionHTML += "<br/>";
+            }
+        definitionHTML += "</div>";
+
         if (pronPrefix !== undefined) {
             if (startsWithVowel(ww.tmpParse)) {
                 pronPrefix = pronPrefix.preVowel
@@ -42,7 +55,19 @@ function createDisplayWord(ww) {
             // console.log("wholeWord prefixes " + JSON.stringify(wholeWord));
         }
 
+        for (const initialPrefix of ww.initialPrefixes) {
+            html += `    <div class="intlin" style="float:left">`;
+            html += `        <div class="orig">${newTsalagiToSyllabary(initialPrefix.affix, false, true)}</div>`;
+            html += `        <div class="morph">${initialPrefix.affix}</div>`;
+            html += `        <div class="trans">${initialPrefix.meaning}</div>`;
+            html += `    </div>`;
+        }
+
         if (pronPrefix) {
+            if (pronPrefix.endsWith("qu")) {
+                pronPrefix = pronPrefix.substring(0, pronPrefix.indexOf("qu")) + "gw";
+            }
+
             html += `    <div class="intlin" style="float:left">`;
             html += `        <div class="orig">${newTsalagiToSyllabary(pronPrefix, false, true)}</div>`;
             html += `        <div class="morph">${pronPrefix}</div>`;
@@ -66,20 +91,23 @@ function createDisplayWord(ww) {
             html += `    </div>`;
         }
 
+        for (const nonFinalSuffix of ww.nonFinalSuffixes) {
+            html += `    <div class="intlin" style="float:left">`;
+            html += `        <div class="orig">${newTsalagiToSyllabary(nonFinalSuffix.affix, false, true)}</div>`;
+            html += `        <div class="morph">${nonFinalSuffix.affix}</div>`;
+            html += `        <div class="trans">${nonFinalSuffix.meaning}</div>`;
+            html += `    </div>`;
+        }
+
         html += `    <div class="intlin" style="float:left">`;
         html += `        <div class="orig">${newTsalagiToSyllabary(ww.verbTense.ending, false, true)}</div>`;
         html += `        <div class="morph">${ww.verbTense.ending}</div>`;
         html += `        <div class="trans">${ww.verbTense.tense}</div>`;
         html += `    </div>`;
-        // html += `    <div class="intlin" style="float:left">`;
-        // html += `        <div class="orig">${newTsalagiToSyllabary(ww.nonFinalSuffixes, false, true)}</div>`;
-        // html += `        <div class="morph">${ww.nonFinalSuffixes}</div>`;
-        // html += `        <div class="trans">${ww.nonFinalSuffixes}</div>`;
-        // html += `    </div>`;
 
         for (const finalSuffix of ww.finalSuffixes) {
             html += `    <div class="intlin" style="float:left">`;
-            html += `        <div class="orig">${newTsalagiToSyllabary(finalSuffix.phonetic)}</div>`;//${newTsalagiToSyllabary(finalSuffix, false, true)}
+            html += `        <div class="orig">${newTsalagiToSyllabary(finalSuffix.phonetic, false, true)}</div>`;//${newTsalagiToSyllabary(finalSuffix, false, true)}
             html += `        <div class="morph">${finalSuffix.phonetic}</div>`;//${ww.nonFinalSuffixes}
             html += `        <div class="trans">${finalSuffix.meaning}</div>`;
             html += `    </div>`;
@@ -87,12 +115,7 @@ function createDisplayWord(ww) {
 
         html += `</div>`;
 
-        html += "<div class=\"freetrans\">";
-            for (const definition of ww.definitions) {
-                html += definition.definitiond;
-                html += "<br/>";
-            }
-        html += "</div>";
+        html += definitionHTML;
 
     html += "</div>"
 

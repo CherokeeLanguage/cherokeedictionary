@@ -59,12 +59,12 @@ function getNonFinalSuffixes(wholeWord) {
                     if (word.split(nonFinalEnding).length -1 > 1) {
                         foundAResult = true;
                         word = word.substring(0, word.length - nonFinalEnding.length);
-                        nonFinalSuffixesList.push(NonFinalEndings.get(nonFinalEnding));
+                        nonFinalSuffixesList.push({affix: nonFinalEnding, meaning: NonFinalEndings.get(nonFinalEnding)});
                     }
                 } else {
                     foundAResult = true;
                     word = word.substring(0, word.length - nonFinalEnding.length);
-                    nonFinalSuffixesList.push(NonFinalEndings.get(nonFinalEnding));
+                    nonFinalSuffixesList.push({affix: nonFinalEnding, meaning: NonFinalEndings.get(nonFinalEnding)});
                 }
             }
         }
@@ -84,24 +84,25 @@ function getInitialPrefixes(wholeWord) {
     while(foundAResult) {
         foundAResult = false;
 
+        //TODO: fix an issue like ᏥᎦᏬᏂᏏᎶᏍᎬᎢᏛ where tsi is not recognized as an initial prefix before ga
         for (const initialPrefix of InitialPrefixes.keys()) {
             if (tmp.startsWith(initialPrefix)) {
                 if (initialPrefix === "tsi") {
                     if (tmp.split(initialPrefix).length - 1 > 1) {
                         foundAResult = true;
                         tmp = tmp.substring(initialPrefix.length);
-                        initialPrefixList.push(InitialPrefixes.get(initialPrefix));
+                        initialPrefixList.push({affix: initialPrefix, meaning: InitialPrefixes.get(initialPrefix)});
                     }
                 } else if (initialPrefix === "ga") {
                     if (tmp.split(initialPrefix).length - 1 > 1) {
                         foundAResult = true;
                         tmp = tmp.substring(initialPrefix.length);
-                        initialPrefixList.push(InitialPrefixes.get(initialPrefix));
+                        initialPrefixList.push({affix: initialPrefix, meaning: InitialPrefixes.get(initialPrefix)});
                     }
                 } else {
                     foundAResult = true;
                     tmp = tmp.substring(initialPrefix.length);
-                    initialPrefixList.push(InitialPrefixes.get(initialPrefix));
+                    initialPrefixList.push({affix: initialPrefix, meaning: InitialPrefixes.get(initialPrefix)});
                 }
             }
         }

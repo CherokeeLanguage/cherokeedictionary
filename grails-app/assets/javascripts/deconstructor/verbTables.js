@@ -55,9 +55,10 @@ FinalEndings.set("quu", "onlyJustStill");
 const NonFinalEndings = new Map();
 NonFinalEndings.set("dohdan", "unintentional");
 NonFinalEndings.set("idol", "around");
-NonFinalEndings.set("ilo", "repetitive");
-NonFinalEndings.set("ilos", "repetitive");
 NonFinalEndings.set("ilots", "repetitive");
+NonFinalEndings.set("ilosg", "repetitive");
+NonFinalEndings.set("ilos", "repetitive");
+NonFinalEndings.set("ilo", "repetitive");
 NonFinalEndings.set("ihl", "comeTo");
 NonFinalEndings.set("dan", "instrumentalCausative");
 NonFinalEndings.set("ohn", "completive");
@@ -215,11 +216,12 @@ ConsonantPrefixes.set("u", "SG3SG3INB");
 
 
 var InitialPrefixes = new Map();
-InitialPrefixes.set("yi", "negative");
+InitialPrefixes.set("yi", "negative/conditional");
 InitialPrefixes.set("tsi", "relative");
 InitialPrefixes.set("wi", "away from speaker");
 InitialPrefixes.set("ni", "lateral position, already");
 InitialPrefixes.set("de", "plural object");
+InitialPrefixes.set("d", "plural object");
 InitialPrefixes.set("da", "future/motion toward speaker");
 InitialPrefixes.set("di", "distant position");
 InitialPrefixes.set("i", "again");

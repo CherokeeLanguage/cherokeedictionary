@@ -72,6 +72,15 @@
         <div style="display:table-row">
             <div style="display:table-cell"><textarea cols="30" rows="6" type="text" id="textareatoprocess">ᎤᏍᏗ ᎠᏓᏪᎳᎩᏍᎬ ᎤᏃᏛ ᏧᎾᏦᎯᏍᏗ, ᏌᎪᏂᎨ ᏃᎴ ᏓᎶᏂᎨ ᏓᏓᏪᎳᎩᏍᎬ ᏩᏁ ᏃᎴ, ᏘᎵ ᏚᏅᏛ. ᎧᎵ ᎠᏂᏅ ᏗᎦᏅᎯᏓ ᏗᎦᏍᎩᎶᎩ, ᏗᏂᏲᏟ ᎡᏓᏍᏘ ᎠᏂᏅ ᎠᎴ ᎠᏂᏅᎬ.</textarea><br/><button onclick='javascript:processTextArea();'>Process</button><br/><br/></div>
         </div>
+        <div id="todolist">
+            TODO LIST<br/>
+            <ul>
+                <li>verbs that start with 'a' are currently merged with the root</li>
+                <li>test different prefixes like di, de, etc</li>
+                <li>parse a whole sentence and display interlinear format</li>
+                <li>parse nonverbs</li>
+            </ul>
+        </div>
         <div id="testLinks"></div>
     </div>
     <div style="display:table-cell">
@@ -118,75 +127,6 @@
         <br/>JSON Representation<br/>
         <div id="display"></div>
         <div id="resultData"></div> style="display:block; visibility:hidden"--}%
-    </div>
-    <div style="display:table-cell">
-        %{--<div class="interlinear">
-            <div class="orig">ᎦᏬᏂᎭ</div>
-            <div class="intlin">
-                <div class="orig">gawoniha</div>
-                <div class="intlin" style="float:left">
-                    <div class="orig">Ꭶ</div>
-                    <div class="morph">ga SG3SG3AN</div>
-                    <div class="trans">Pronominal Prefix</div>
-                </div>
-                <div class="intlin" style="float:left">
-                    <div class="orig">ᏬᏂ</div>
-                    <div class="morph">woni</div>
-                    <div class="trans">Root</div>
-                </div>
-                <div class="intlin" style="float:left">
-                    <div class="orig">h</div>
-                    <div class="morph">h</div>
-                    <div class="trans">Root Ending</div>
-                </div>
-                <div class="intlin" style="float:left">
-                    <div class="orig">Ꭰ</div>
-                    <div class="morph">a</div>
-                    <div class="trans">Present Tense</div>
-                </div>
-            </div>
-            <div class="freetrans">"he's speaking", "He is talking.; He is speaking"</div>
-        </div>--}%
-    </div>
-    <div style="display:table-cell">
-%{--    // for (const initialPrefix of initialPrefixes) {--}%
-%{--    //     console.log(initialPrefix);--}%
-%{--    // }--}%
-%{--    //--}%
-%{--    // for (const initialPrefix of pronounPrefixes) {--}%
-%{--    //     console.log(initialPrefix);--}%
-%{--    // }--}%
-%{--    //--}%
-%{--    // for (const initialPrefix of finalSuffixes) {--}%
-%{--    //     console.log(initialPrefix);--}%
-%{--    // }--}%
-%{--    //--}%
-%{--    // for (const initialPrefix of definitions) {--}%
-%{--    //     console.log(initialPrefix.definitiond);--}%
-%{--    // }--}%
-
-%{--    // <div id="displayWord">--}%
-%{--    //     <div class="tableRowz" style="display:table-row">--}%
-%{--        //     <div class="tableCell" style="display:table-cell">word</div>--}%
-%{--        //     <div class="tableCell" style="display:table-cell">word2</div>--}%
-%{--        //     <div class="tableCell" style="display:table-cell">word3</div>--}%
-%{--        //     </div>--}%
-%{--    //     <div class="tableRowz" style="display:table-row">--}%
-%{--        //     <div class="tableCell" style="display:table-cell">definition</div>--}%
-%{--        //     <div class="tableCell" style="display:table-cell">definition2</div>--}%
-%{--        //     <div class="tableCell" style="display:table-cell">definition3</div>--}%
-%{--        //     </div>--}%
-%{--    // </div>--}%
-%{--    // <div class="tableRowz" style="display:table-row">--}%
-%{--    //     <div class="tableCell" style="display:table-cell">word</div>--}%
-%{--    //     <div class="tableCell" style="display:table-cell">word2</div>--}%
-%{--    //     <div class="tableCell" style="display:table-cell">word3</div>--}%
-%{--    //     </div>--}%
-%{--    //     <div class="tableRowz" style="display:table-row">--}%
-%{--    //     <div class="tableCell" style="display:table-cell">definition</div>--}%
-%{--    //     <div class="tableCell" style="display:table-cell">definition2</div>--}%
-%{--    //     <div class="tableCell" style="display:table-cell">definition3</div>--}%
-%{--    //     </div>--}%
     </div>
 </div>
 
@@ -278,18 +218,18 @@
         list.appendChild(document.createElement("br"));
     };
 
-    appendAnchorTag('ᎠᏆᏚᎵᎭ');
+    appendAnchorTag('ᎦᏬᏂᏍᎬᎢ');
     appendAnchorTag('ᏓᏆᏚᎵᎭ');
+    appendAnchorTag('ᎠᎦᏍᎦᏛ'); // it's raining'
+    appendAnchorTag('ᎠᏆᏚᎵᎭ');
     appendAnchorTag('ᎦᏬᏂᎭ');
     appendAnchorTag('ᎤᏬᏂᏏᎶᎡᎢ');
     appendAnchorTag('ᎦᏬᏂᎭᏊᏧ');
     appendAnchorTag('ᎦᏬᏂᏍᎬᎢ');
     appendAnchorTag('ᎤᏬᏂᏎᎢ');
-    appendAnchorTag('ᎦᏬᏂᏍᎬᎢ');
     appendAnchorTag('ᎦᏬᏂᏏᎶᏍᎬᎢ');
     appendAnchorTag('ᎯᏬᏂᎯ');
     appendAnchorTag('ᎯᏬᏂᏏᎶᏣ');
-    appendAnchorTag('ᎠᎦᏍᎦᏛ'); // it's raining'
     appendAnchorTag('ᏱᎦᏬᏂᏏᎶᏍᎬᎢᏛ');
 </script>
 

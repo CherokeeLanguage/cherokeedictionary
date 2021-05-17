@@ -220,6 +220,7 @@
 
     appendAnchorTag('ᎦᏬᏂᏍᎬᎢ');
     appendAnchorTag('ᏓᏆᏚᎵᎭ');
+    appendAnchorTag('ᏳᏫᎦᏬᏂᏏᎶᏍᎬᎢᏛ');
     appendAnchorTag('ᎠᎦᏍᎦᏛ'); // it's raining'
     appendAnchorTag('ᎠᏆᏚᎵᎭ');
     appendAnchorTag('ᎦᏬᏂᎭ');

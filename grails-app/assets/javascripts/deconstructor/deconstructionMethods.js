@@ -123,33 +123,32 @@ function getPronominalPrefixes(wholeWord) {
         if (tmp.startsWith(consonantPrefix)) {
             if (consonantPrefix.length > pronSize) {
                 pronSize = consonantPrefix.length;
-                // wholeWord.root_phonetic = wholeWord.tmpParse.substring(pronSize.length);
             }
-
-            console.log("consonant prefix " + consonantPrefix);
 
             pronominalPrefixList.push(ConsonantPrefixes.get(consonantPrefix));
         }
     }
 
-    tmp = tmp.substring(pronSize);
-    if (pronSize === 0 ) {
+    if (pronSize > 0) {
+        tmp = tmp.substring(pronSize);
+        pronSize = 0;
+    } else {
         for (const vowelPrefix of VowelPrefixes.keys()) {
             if (tmp.startsWith(vowelPrefix)) {
                 if (vowelPrefix.length > pronSize) {
                     pronSize = vowelPrefix.length;
-                    // wholeWord.root_phonetic = wholeWord.tmpParse.substring(pronSize.length);
                 }
-
-                console.log("vowel prefix " + vowelPrefix);
 
                 pronominalPrefixList.push(VowelPrefixes.get(vowelPrefix));
             }
         }
     }
 
-    //TODO: There's an other to look through
+    if (pronSize > 0) {
+        tmp = tmp.substring(pronSize);
+    }
 
+    //TODO: There's another to look through
     // if (pronSize === 0 ) {
     //     for (const vowelPrefix of VowelPrefixes.keys()) {
     //         if (tmp.startsWith(vowelPrefix)) {
@@ -162,10 +161,13 @@ function getPronominalPrefixes(wholeWord) {
     //     }
     // }
 
-    console.log(wholeWord.root_phonetic);
+
     wholeWord.tmpParse = tmp;
 
     wholeWord.pronounPrefixes = pronominalPrefixList;
+
+    wholeWord.root_phonetic = tmp;
+    wholeWord.root_syllabary = newTsalagiToSyllabary(tmp, false, true);
 
     return wholeWord;
 }

@@ -60,8 +60,6 @@ async function deconstruct(wholeWord, word) {
         wholeWord = getPronominalPrefixes(wholeWord);
 
         //TODO: START HERE TO GET THE CONSONANT PREFIXES
-        wholeWord.definitions = [];
-        console.log(JSON.stringify(wholeWord));
         // wholeWord = getReflexivePrefix(wholeWord);
     // }
 
@@ -114,6 +112,8 @@ async function process(word, isSyllabary=true) {
 
             wholeWord.root_phonetic = wholeWord.tmpParse;
             wholeWord.root_syllabary = tsalagiToSyllabary(wholeWord.root_phonetic);
+
+            console.log(wholeWord);
 
             //once parsed then try another lookup in the database
             var tmpWord = pronPrefix + wholeWord.tmpParse + VerbTenseLookup.get("PRESENT");

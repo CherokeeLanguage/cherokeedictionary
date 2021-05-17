@@ -217,6 +217,7 @@ ConsonantPrefixes.set("u", "SG3SG3INB");
 
 var InitialPrefixes = new Map();
 InitialPrefixes.set("yi", "negative/conditional");
+InitialPrefixes.set("yu", "negative/conditional");
 InitialPrefixes.set("tsi", "relative");
 InitialPrefixes.set("wi", "away from speaker");
 InitialPrefixes.set("ni", "lateral position, already");

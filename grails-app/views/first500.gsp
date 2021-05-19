@@ -10,7 +10,7 @@
 <g:render template="/templates/first500Page1"/>
 <g:render template="/templates/first500Page2"/>
 
-<g:include view="first500disclaimer.gsp"/>
+<g:include view="/templates/first500disclaimer.gsp"/>
 </pre>
     </body>
 </html>

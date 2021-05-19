@@ -1,10 +1,7 @@
-%{--<%@ page import="cherokee.dictionary.verb.conjugation.originalConjugation.Tense; cherokee.dictionary.Likespreadsheets; java.util.regex.Matcher; java.util.regex.Pattern" contentType="text/html;charset=UTF-8" %>--}%
 <%@ page import="cherokee.dictionary.Likespreadsheets; java.util.regex.Matcher; java.util.regex.Pattern" contentType="text/html;charset=UTF-8" %>
 <%@ page import="net.cherokeedictionary.util.Tense" contentType="text/html;charset=UTF-8" %>
 <html>
     <head>
-        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-        <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>
 %{--        why was this set to false? was that intentional? --}%
 %{--        <g:set var="showLinks" value="false" scope="request"/>--}%
         <meta name="layout" content="manager"/>
@@ -190,19 +187,14 @@
         <!-- eventually some javascript to only allow you to pick the correct matching items -->
         <%
             def entry = Likespreadsheets.findById(params.id)
-//        def habitual = entry.vthirdpressylll
-//        def imperative = entry.vsecondimpersylln
-//        def infinitive = entry.vthirdinfsyllp
-//        def present1st = entry.vfirstpresh
-//        def present3rd = entry.syllabaryb
-//        def remotepast = entry.vthirdpastsyllj
+            String verbTense = params.verbTense ?: "PRESENT"
+            Tense vtense = Tense.valueOf(verbTense)
         %>
         <%@ page import="java.util.regex.Matcher; java.util.regex.Pattern" contentType="text/html;charset=UTF-8" %>
-        <g:render template="/newSearch/simplifiedOriginalEntry" model="[entry:entry]"/>
+        <g:render template="simplifiedOriginalEntry" model="[entry:entry]"/>
         <g:form controller="conjugation">
             <input type="hidden" name="id" value="${entry.id}"/>
-            <g:include view="newSearch/_initialPrefixes.gsp"/>
-
+            <g:render template="initialPrefixes" mode="[vtense: vtense]"/>
             <input type="hidden" name="id" value="${params.id}"/>
             <select name="subject" id="subject">
                 <option value="SG1" <g:if test="${subject == "SG1"}">selected</g:if>>1SG</option>
@@ -230,7 +222,7 @@
                 <option value="PL3AN" <g:if test="${subject == "PL3AN"}">selected</g:if>>3PLAN</option>
                 <option value="PL3IN" <g:if test="${subject == "PL3IN"}">selected</g:if>>3PLIN</option>
             </select>
-            <g:include view="newSearch/_verbTenseSelector.gsp"/>
+            <g:render template="verbTenseSelector" model="[vtense:vtense]"/>
             <input onclick="jQuery.ajax({type:'POST',data:jQuery(this).parents('form:first').serialize(), url:'/conjugation/index',success:function(data,textStatus){jQuery('#searchresults').html(data);},error:function(XMLHttpRequest,textStatus,errorThrown){}});return false" type="button" value="Search">
             %{-- submitToRemote was an ajax tag - the code above is what it was replaced with in the page anyway so because it was removed I just used the code above--}%
             %{--<g:submitToRemote update="searchresults" url="[controller:'conjugation', action:'index']" value="Search"/>--}%

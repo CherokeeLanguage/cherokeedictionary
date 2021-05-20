@@ -20,6 +20,8 @@ class UrlMappings {
         "/index"(controller:"dictionary.newSearch", view:"/index")
         "/share/$id"(controller:"newSearch", action:"share")
         "/individual"(controller:"newSearch", action:"individual")
+        "/monday"(view:"/monday")
+
         "/transliteration"(view:"/transliteration")
         "/transliterate"(view:"/transliterate")
         "/translation"(view:"/translation")

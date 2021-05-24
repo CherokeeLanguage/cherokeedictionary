@@ -12,7 +12,7 @@
         <title>Mondays</title>
     </head>
     <body>
-        <div style="display:table-row">
+        <div style="display:table-row; margin-left:20px">
             <div style="display:table-cell">
                 <button id="nextButton">Next</button>
             </div>

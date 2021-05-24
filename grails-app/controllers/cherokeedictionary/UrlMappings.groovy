@@ -21,6 +21,7 @@ class UrlMappings {
         "/share/$id"(controller:"newSearch", action:"share")
         "/individual"(controller:"newSearch", action:"individual")
         "/monday"(view:"/monday")
+        "/syllabary"(view:"/syllabary")
 
         "/transliteration"(view:"/transliteration")
         "/transliterate"(view:"/transliterate")

@@ -2,7 +2,7 @@
     def lst = cherokee.mylearningstyle.LearningEntry.findAll()
 %>
 
-<div style="display:table">
+<div style="display:table; margin-left:20px">
     <div style="display:table-row">
         <div style="display:table-cell;padding-right:20px" class="syllabary">Syllabary</div>
         <div style="display:table-cell;padding-right:20px" class="phonetic">Phonetic</div>

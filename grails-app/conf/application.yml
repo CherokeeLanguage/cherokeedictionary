@@ -109,6 +109,7 @@ hibernate:
         #        cache.provider_class: 'org.hibernate.cache.EhCacheProvider'
         lazy: false
         max_fetch_depth: '5'
+    allow_update_outside_transaction: true
 dataSource:
     pooled: true
     jmxExport: true
@@ -118,6 +119,7 @@ dataSource:
     dbCreate: update
     username: root
     password: Tk02030#
+
 environments:
     development:
         dataSource:

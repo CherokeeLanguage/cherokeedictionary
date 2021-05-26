@@ -1,8 +1,8 @@
 package cherokee.relational
 
 class Definition {
-
-    static constraints = {
+    static mapping = {
+        definition type: 'text'
     }
 
     String definition

@@ -1,8 +1,8 @@
 package cherokee.relational
 
 class DefinitionLarge {
-
-    static constraints = {
+    static mapping = {
+        definitionlarge type: 'text'
     }
 
     String definitionlarge

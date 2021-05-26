@@ -2,31 +2,40 @@ package cherokeedictionary
 
 import grails.converters.JSON
 import grails.converters.XML
+import net.cherokeedictionary.transliteration.SyllabaryUtil
 
 class SearchController {
     def newSearchService
 
     def index() {}
 
-    def jsonshow() {
-        def searchParam;
-        if (params.definition) {
-//            render newSearchService.englishSearch(params.definition, params) as JSON
-            params.englishSearch=params.definition
-            searchParam = params.englishSearch
-        } else if (params.entry) {
-//            render newSearchService.tsalagiSearch(params.entry, params) as JSON
-            params.tsalagiSearch = params.entry
-            searchParam = params.tsalagiSearch
-        } else if (params.syllabary) {
-//            render newSearchService.syllabarySearch(params.syllabary, params) as JSON
-            params.syllabarySearch=params.syllabary
-            searchParam = params.syllabarySearch
+    def specificLookup(params) {
+        params.isSyllabary = true
+        params.includeCED = true;
+        params.includeSentence = false
+        params.searchForExactMatch = true
+        params.searchForExactMatch = true
+        params.includeCED = true
+        params.includeConsortiumWordList = true
+        params.includeCNOMedWordList = true
+        params.includeNCMedWordList = true
+        params.includeMicrosoftWordList = true
+        params.includeNOQWordList = true
+        params.includeRRD = true
+
+        def searchResults = getSearchResults(params)
+
+        def bob = "";
+        if (searchResults.isEmpty()) {
+            bob = "null";
+        } else {
+            bob = (searchResults as JSON).toString()
         }
 
-//        def searchResults = newSearchService.search(params, request.getRemoteAddr())
-        def searchResults = newSearchService.newSearch(params, searchParam)
+        render bob
+    }
 
+    def renderJson(params, searchResults) {
         def bob = (searchResults as JSON).toString()
 
         //replacing the unicode character so the html is unbroken - i'd rather figure out a way to replace all of it
@@ -47,49 +56,34 @@ class SearchController {
         }
     }
 
-    def xmlshow() {
-        def searchParam;
+    def jsonshow() {
+        def searchResults = getSearchResults(params)
 
+        renderJson(params, searchResults)
+    }
+
+    def xmlshow() {
+        def searchResults = getSearchResults(params)
+        render searchResults as XML
+    }
+
+    def getSearchResults(params) {
+        def searchParam
         if (params.definition) {
-//            render newSearchService.englishSearch(params.definition, params) as JSON
             params.englishSearch=params.definition
             searchParam = params.englishSearch
         } else if (params.entry) {
-//            render newSearchService.tsalagiSearch(params.entry, params) as JSON
             params.tsalagiSearch = params.entry
             searchParam = params.tsalagiSearch
         } else if (params.syllabary) {
-//            render newSearchService.syllabarySearch(params.syllabary, params) as JSON
             params.syllabarySearch=params.syllabary
             searchParam = params.syllabarySearch
         }
 
-        def searchResults = newSearchService.newSearch(params, searchParam)
-//        def searchResults = newSearchService.search(params, request.getRemoteAddr())
-        render searchResults as XML
-//        if (params.definition) {
-//            render newSearchService.englishSearch(params.definition, params) as XML
-//        } else if (params.entry) {
-//            render newSearchService.tsalagiSearch(params.entry, params) as XML
-//        } else if (params.syllabary) {
-//            render newSearchService.syllabarySearch(params.syllabary, params) as XML
-//        }
+//        println SyllabaryUtil.parseSyllabary(params.syllabary)
+
+        def searchResults = newSearchService.newSearch(params, searchParam);
+
+        return searchResults
     }
 }
-
-/*http://sbglasius.tumblr.com/post/16661253375/grails-jsonp
-withFormat {
- json {
-   if (params.callback) {
-     render (
-       text: "${params.callback}(${data as JSON})",
-       contentType: "text/javascript",
-       encoding: "UTF-8"
-     )
-   } else {
-      render data as JSON
-   }
- }
- xml { render data as XML }
-}
-*/

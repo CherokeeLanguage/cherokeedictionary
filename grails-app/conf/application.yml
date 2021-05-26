@@ -8,6 +8,15 @@ grails:
             # Whether to translate GORM events into Reactor events
             # Disabled by default for performance reasons
             events: false
+    cors:
+        enabled: true
+#        allowedHeaders:
+#            - Access-Control-Allow-Origin
+#            - Access-Control-Allow-Credentials
+#            - Access-Control-Allow-Methods
+#            - Access-Control-Max-Age
+#        allowedOrigins:
+#            - http://localhost:8080
 info:
     app:
         name: '@info.app.name@'
@@ -100,6 +109,7 @@ hibernate:
         #        cache.provider_class: 'org.hibernate.cache.EhCacheProvider'
         lazy: false
         max_fetch_depth: '5'
+    allow_update_outside_transaction: true
 dataSource:
     pooled: true
     jmxExport: true
@@ -109,6 +119,7 @@ dataSource:
     dbCreate: update
     username: root
     password: Tk02030#
+
 environments:
     development:
         dataSource:

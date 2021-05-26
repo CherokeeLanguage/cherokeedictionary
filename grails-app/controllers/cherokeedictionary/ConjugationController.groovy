@@ -2,11 +2,10 @@ package cherokeedictionary
 
 import cherokee.dictionary.Likespreadsheets
 import net.cherokeedictionary.factory.VerbFactory
-import net.cherokeedictionary.stemmer.DefinitionLine
-import net.cherokeedictionary.stemmer.Stemmer
+
+import net.cherokeedictionary.verb.conjugation.Conjugate
 
 class ConjugationController {
-
     def index() {
         def displayValue = getDisplayValue(params)
 
@@ -17,7 +16,15 @@ class ConjugationController {
         }
     }
 
+    def parser() {}
+
+    def verbPrefixTable() {}
+
     def getDisplayValue(params) {
+        return getDisplayValueConjugationEngineV2(params)
+    }
+
+    def getDisplayValueConjugationEngineV2(params) {
         def lks = Likespreadsheets.findById(params.id)
         def paramMap = [:]
         paramMap.habitual = lks.vthirdpressylll
@@ -30,16 +37,30 @@ class ConjugationController {
         paramMap.verbTense = params.verbTense
         paramMap.subject = params.subject
         paramMap.object = params.object
+        paramMap.yi = params.yi == 'on'
+        paramMap.ji = params.ji == 'on'
+        paramMap.wi = params.wi == 'on'
+        paramMap.ni = params.ni == 'on'
+        paramMap.de = params.de == 'on'
+        paramMap.da = params.da == 'on'
+        paramMap.di = params.di == 'on'
+        paramMap.i = params.i == 'on'
+        paramMap.ga = params.ga == 'on'
+        paramMap.e = params.e == 'on'
 
         def displayValue
         try {
-            displayValue = VerbFactory.createVerbFromParameters(paramMap)
+            def verb = VerbFactory.createVerbFromParameters(paramMap)
+            verb = Conjugate.conjugate(verb);
+
+            displayValue = verb.wholeWord
         } catch (Exception e) {
+            e.printStackTrace()
             displayValue = "there was an error with your request"
         }
 
         if (!displayValue || displayValue == "null") {
-            displayValue = "------"
+            displayValue = "      "
         }
 
         return displayValue;

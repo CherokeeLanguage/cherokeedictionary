@@ -6,7 +6,7 @@
  */
 --%>
 
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="cherokee.dictionary.SourceManagement" contentType="text/html;charset=UTF-8" %>
 <html>
   <head>
       <meta name="layout" content="manager"/>
@@ -16,15 +16,13 @@
   <b>About</b><br/>
   <br/>
   The purpose of this online searchable dictionary database is to make access to the contents of rigorously reviewed language materials more widely available and more easily searchable in a combined database that maintains the integrity of the sources upon which it draws. The contents of this page are derived from several sources:
-  <ul>
-      <li>Cherokee English Dictionary (CED) by Durbin Feeling,</li>
-      <li>Cherokee Language Consortium word list</li>
-      <li>Raven Rock Dictionary</li>
-      <li>Microsoft Terminology Collection</li>
-      <li>Medical terms provided by Cherokee Nation (western dialect)</li>
-      <li>Medical terms in Giduwa (North Carolina/eastern dialect), based on class notes provided by Bo Taylor of the Eastern Band.</li>
-      <li>Noquisis Word List</li>
-  </ul>
+
+        <ul>
+            <g:each var="source" in="${cherokee.dictionary.SourceManagement.findAll()}">
+              <li>${source.bibliographyFullAPA}</li>
+            </g:each>
+        </ul>
+
   All of these sources are vetted by reputable, fluent Cherokee language speakers and the above sources are cited for every entry in the combined database. This is to maintain transparency for the user so they can judge the authenticity of these definitions, as well as to attribute credit where due. Though word definitions are not protected by copyright, original content like the example sentences in the CED are protected and are used here with permission. Microsoft terms are used under license.
   There are currently many Cherokee-English word lists available on the internet, but most of these do not provide basic dictionary information like part of speech, different conjugations or inflections, or example sentences. Dr. Feeling's dictionary, however, provides all of these and is the definitive Cherokee language resource. For this reason, the CED is foundation of this database.
   The current online project was accomplished by a team of Cherokee language students who volunteered to retype the CED entries one-by-one into an Excel spreadsheet and develop the database and web platform*. The completed entries were then uploaded into a database and published on this website with capacity to search in phonetic Cherokee, Cherokee syllabary, and English; Cherokee searches will catch many spelling variants, which is a huge leap forward. After the basic database structure was established and populated with entries from the CED, the other sources were added. As new sources become available, those will be added as well. Only well documented language resources will be added to the database, so learners will know the information is valid and accurate.

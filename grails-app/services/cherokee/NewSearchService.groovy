@@ -19,10 +19,10 @@ class NewSearchService {
     def englishFields = ['definitiond']
 
     def search(params) {
-        def tsalagiSearchParam = params.tsalagiSearch?.trim()
-        def englishSearchParam = params.englishSearch?.trim()
-        def syllabarySearchParam = params.syllabarySearch?.trim()
-        def categorySearchParam = params.categorySearch?.trim()
+        def tsalagiSearchParam = params?.tsalagiSearch?.trim()
+        def englishSearchParam = params?.englishSearch?.trim()
+        def syllabarySearchParam = params?.syllabarySearch?.trim()
+        def categorySearchParam = params?.categorySearch?.trim()
 
         def definitionId = params.definitionId
 
@@ -33,11 +33,11 @@ class NewSearchService {
 //        final Date today = Calendar.getInstance().getTime()
 
         if (tsalagiSearchParam) {
-            searchParam = tsalagiSearchParam.trim().toLowerCase()
+            searchParam = tsalagiSearchParam?.trim()?.toLowerCase()
         } else if (englishSearchParam) {
-            searchParam = englishSearchParam.trim()
+            searchParam = englishSearchParam?.trim()
         } else if (syllabarySearchParam) {
-            searchParam = syllabarySearchParam.trim()
+            searchParam = syllabarySearchParam?.trim()
         } else if (definitionId) {
             //noop
         } else {
@@ -70,163 +70,185 @@ class NewSearchService {
         def isSyllabary = params.syllabarySearch?.trim()
         def includeCED = params.includeCED
         def includeSentences = params.includeSentences
-        def sourcesSize = 7;
+        def sourcesSize = 7
         def searchForExactMatch = params.searchForExactMatch
+//        def resultsOffset = params.offset ?: null
+//        def resultsMax = params.max ?: null
 
         Map<String, String> map = new LinkedHashMap<String, String>();
 
-        def isRegex = false;
-
         if (searchTerm) {
-            if (searchTerm.contains("\\*")) {
-               isRegex = true;
-            }
-
             searchTerm = searchTerm.replaceAll("\\*", "%")
+
             if (isTsalagi) {
-                String replacedSearchTerm = su.replace(searchTerm);
-
-                //When adding multiple of the same key to the map I've added a suffix of "||" this is removed when adding to the final stringbuilder for the dictionary search -- timo 4Sep15
-                tsalagiFields.each {
-                    if (searchForExactMatch) {
-                        map.put("$it||", replacedSearchTerm)
-                        map.put(it, searchTerm)
-                    } else {
-                        map.put("$it||", "%$replacedSearchTerm%")
-                        map.put(it, "%$searchTerm%")
-                    }
-                }
-
-                tsalagiTranslitFields.each {
-                    if (searchForExactMatch) {
-                        map.put("$it||", replacedSearchTerm)
-                        map.put(it, searchTerm)
-                    } else {
-                        map.put("$it||", "%$replacedSearchTerm%" as String)
-                        map.put(it, "%$searchTerm%" as String)
-                    }
-                }
-
-                if (includeSentences && includeCED) {
-                    if (searchForExactMatch) {
-                        map.put('sentenceq', replacedSearchTerm)
-                        map.put('sentencetranslit', replacedSearchTerm)
-                        map.put('sentenceq||', searchTerm)
-                        map.put('sentencetranslit||', searchTerm)
-                    } else {
-                        map.put('sentenceq', "%$replacedSearchTerm%" as String)
-                        map.put('sentencetranslit', "%$replacedSearchTerm%" as String)
-
-                        map.put('sentenceq||', "%$searchTerm%" as String)
-                        map.put('sentencetranslit||', "%$searchTerm%" as String)
-                    }
-                }
-
-                /*if (includeSentences && includeCED) {
-                if (searchForExactMatch) {
-                    map.put('sentenceq', searchTerm)
-                    map.put('sentencetranslit', searchTerm)
-                } else {
-                    map.put('sentenceq', "%$searchTerm%" as String)
-                    map.put('sentencetranslit', "%$searchTerm%" as String)
-                }
-            }*/
+                processTsalagiRequest(searchForExactMatch, map, searchTerm, includeSentences, includeCED)
             }
 
             if (isEnglish) {
-                englishFields.each {
-                    if (searchForExactMatch) {
-                        map.put(it, searchTerm)
-                    } else {
-                        map.put(it, "%$searchTerm%" as String)
-                    }
-                }
-
-                if (includeSentences && includeCED) {
-                    if (searchForExactMatch) {
-                        map.put('sentenceenglishs', searchTerm)
-                    } else {
-                        map.put('sentenceenglishs', "%$searchTerm%" as String)
-                    }
-                }
+                processEnglishRequest(searchForExactMatch, map, searchTerm, includeSentences, includeCED)
             }
 
             if (isSyllabary) {
-                syllabaryFields.each {
-                    if (searchForExactMatch) {
-                        map.put(it, searchTerm)
-                    } else {
-                        map.put(it, "%$searchTerm%" as String)
-                    }
-                }
-
-                if (includeSentences && includeCED) {
-                    if (searchForExactMatch) {
-                        map.put('sentencesyllr', searchTerm)
-                    } else {
-                        map.put('sentencesyllr', "%$searchTerm%" as String)
-                    }
-                }
+                processSyllabaryRequest(searchForExactMatch, map, searchTerm, includeSentences, includeCED)
             }
-
-            def sb = new StringBuilder()
-            sb << "from Likespreadsheets l where "
 
             def lst = new LinkedList<String>();
+            def sb = generateQuery(params, sourcesSize, searchForExactMatch, lst, map)
 
-            def sources = []
-
-            def sourceList = SourceManagement.findAll()
-
-            sourceList.each {
-                if (params."${it.searchParameter}") {
-                    sources << "${it.code}" as String
-                }
-            }
-
-            if (sources.size != sourcesSize && sources.size != 0) {
-                sb << "("
-            }
-
-            map.eachWithIndex { it, idx ->
-                if (idx > 0) {
-                    sb << " or"
-                }
-
-                sb << " l.${it.key.endsWith("||") ? it.key.substring(0, it.key.size() - 2) : it.key}"
-
-                if (searchForExactMatch) {
-                    sb << " = ?${idx}"
-                } else {
-                    sb << " like ?${idx}"
-                }
-
-                lst << it.value
-            }
-
-            if (sources.size != sourcesSize && sources.size != 0) {
-                sb << ") and ("
-                sources.eachWithIndex { it, idx ->
-                    if (idx > 0) {
-                        sb << " or "
-                    }
-
-                    sb << "source = ?${idx}"
-                    lst << it
-                }
-                sb << ")"
-            }
-
-            sb << " order by l.entrya"
-
-            if (isRegex) {
-                return Likespreadsheets.findAll(sb, lst, [max: 40]);
-            } else {
-                return Likespreadsheets.findAll(sb, lst);
-            }
+//            def mapOfRules = [:]
+//            if (resultsMax) {
+//                println "resultsMax ${resultsMax}"
+//                mapOfRules.put("max", resultsMax)
+//            }
+//
+//            if (resultsOffset) {
+//                println "resultsOffset ${resultsOffset}"
+//                mapOfRules.put("offset", resultsOffset)
+//            }
+//            [max: resultsMax, offset:resultsOffset]
+            return Likespreadsheets.findAll(sb, lst);
         }
 
         return []
+    }
+
+    def generateQuery(params, sourcesSize, searchForExactMatch, lst, map) {
+        def sb = new StringBuilder()
+        sb << "from Likespreadsheets l where "
+
+        def sources = []
+
+        def sourceList = SourceManagement.findAll()
+
+        sourceList.each {
+            if (params."${it.searchParameter}") {
+                sources << "${it.code}" as String
+            }
+        }
+
+        if (sources.size() != sourcesSize && sources.size() != 0) {
+            sb << "("
+        }
+
+        map.eachWithIndex { it, idx ->
+            if (idx > 0) {
+                sb << " or"
+            }
+
+            sb << " l.${it.key.endsWith("||") ? it.key.substring(0, it.key.size() - 2) : it.key}"
+
+            if (searchForExactMatch) {
+                sb << " = ?${idx}"
+            } else {
+                sb << " like ?${idx}"
+            }
+
+            lst << it.value
+        }
+
+        if (sources.size() != sourcesSize && sources.size() != 0) {
+            sb << ") and ("
+            sources.eachWithIndex { it, idx ->
+                if (idx > 0) {
+                    sb << " or "
+                }
+
+                //because the new sql needs indexed parameters so the current source index plus the total query parameters from the map give us the next index
+                sb << "source = ?${idx + map.size()}"
+                lst << it
+            }
+            sb << ")"
+        }
+
+        sb << " order by l.entrya"
+
+        return sb
+    }
+
+    def processEnglishRequest(searchForExactMatch, map, searchTerm, includeSentences, includeCED) {
+        englishFields.each {
+            if (searchForExactMatch) {
+                map.put(it, searchTerm)
+            } else {
+                map.put(it, "%$searchTerm%" as String)
+            }
+        }
+
+        if (includeSentences && includeCED) {
+            if (searchForExactMatch) {
+                map.put('sentenceenglishs', searchTerm)
+            } else {
+                map.put('sentenceenglishs', "%$searchTerm%" as String)
+            }
+        }
+    }
+
+    def processTsalagiRequest(searchForExactMatch, map, searchTerm, includeSentences, includeCED) {
+        String replacedSearchTerm = su.replace(searchTerm);
+
+        //When adding multiple of the same key to the map I've added a suffix of "||" this is removed when adding to the final stringbuilder for the dictionary search -- timo 4Sep15
+        tsalagiFields.each {
+            if (searchForExactMatch) {
+                map.put("$it||", replacedSearchTerm)
+                map.put(it, searchTerm)
+            } else {
+                map.put("$it||", "%$replacedSearchTerm%")
+                map.put(it, "%$searchTerm%")
+            }
+        }
+
+        tsalagiTranslitFields.each {
+            if (searchForExactMatch) {
+                map.put("$it||", replacedSearchTerm)
+                map.put(it, searchTerm)
+            } else {
+                map.put("$it||", "%$replacedSearchTerm%" as String)
+                map.put(it, "%$searchTerm%" as String)
+            }
+        }
+
+        if (includeSentences && includeCED) {
+            if (searchForExactMatch) {
+                map.put('sentenceq', replacedSearchTerm)
+                map.put('sentencetranslit', replacedSearchTerm)
+                map.put('sentenceq||', searchTerm)
+                map.put('sentencetranslit||', searchTerm)
+            } else {
+                map.put('sentenceq', "%$replacedSearchTerm%" as String)
+                map.put('sentencetranslit', "%$replacedSearchTerm%" as String)
+
+                map.put('sentenceq||', "%$searchTerm%" as String)
+                map.put('sentencetranslit||', "%$searchTerm%" as String)
+            }
+        }
+
+        /*if (includeSentences && includeCED) {
+        if (searchForExactMatch) {
+            map.put('sentenceq', searchTerm)
+            map.put('sentencetranslit', searchTerm)
+        } else {
+            map.put('sentenceq', "%$searchTerm%" as String)
+            map.put('sentencetranslit', "%$searchTerm%" as String)
+        }
+    }*/
+    }
+
+    def processSyllabaryRequest(searchForExactMatch, map, searchTerm, includeSentences, includeCED) {
+        syllabaryFields.each {
+            if (searchForExactMatch) {
+                map.put(it, searchTerm)
+            } else {
+                map.put(it, "%$searchTerm%" as String)
+            }
+        }
+
+        if (includeSentences && includeCED) {
+            if (searchForExactMatch) {
+                map.put('sentencesyllr', searchTerm)
+            } else {
+                map.put('sentencesyllr', "%$searchTerm%" as String)
+            }
+        }
     }
 
     def advSearch(params) {
@@ -519,8 +541,8 @@ class NewSearchService {
     }
 
     def categorySearch(params) {
-        cherokee.relational.Category category = cherokee.relational.Category.findById(Integer.parseInt(params.categorySearch))
-        def lst = Likespreadsheets.findAll('from Likespreadsheets l where l.category = ?1', [category.category])
+        Category category = Category.findById(Integer.parseInt(params.categorySearch))
+        def lst = Likespreadsheets.findAll('from Likespreadsheets l where l.category = ?0', [category.category])
 
         return lst
     }
@@ -529,12 +551,12 @@ class NewSearchService {
         //multiple entries
         def searchTerm = term.indexOf(",") ? term.split(",") : term
         if (searchTerm.size() == 1)
-            return Likespreadsheets.findAll("from Likespreadsheets l where l.entrya like ?1", ["%$term%"])
+            return Likespreadsheets.findAll("from Likespreadsheets l where l.entrya like ?0", ["%$term%"])
         else {
             List lst = []
 
             searchTerm.each {
-                def leest = Likespreadsheets.findAll("from Likespreadsheets l where l.entrya like ?1", ["%$it%"])
+                def leest = Likespreadsheets.findAll("from Likespreadsheets l where l.entrya like ?0", ["%$it%"])
                 lst.addAll(leest)
             }
 

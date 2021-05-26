@@ -12,7 +12,7 @@ class MyLearningStyleController {
         //create a model to pass to the page
         def model = [:]
 
-        translate()
+//        translate()
 
         //render the index page with the model map we've created
         render(view : "index", model : model)
@@ -47,29 +47,29 @@ class MyLearningStyleController {
 //        response.outputStream.flush()
 //    }
 
-    def translate() {
-        def transliterated = SyllabaryUtil.mixedTransliteration("Jani: Osiyo, Meli.  Osigwuju?")
-
-        def splits = transliterated.split(" ")
-
-        splits.each {
-            it = it.replaceAll(",", "").replaceAll(":", "").replaceAll("/.", "").replaceAll("/?", "").trim()
-            if (it.endsWith(".")) {
-                it = it.substring(0, it.size() - 1)
-            }
-
-            if (it.endsWith("?")) {
-                it = it.substring(0, it.size() - 1)
-            }
-
-            if (it.endsWith("Ꮷ")) {
-                it = it.substring(0, it.size() - 1)
-            }
-
-            println it
-            println "result is " + Cherokeewordsearch.findAll("from Cherokeewordsearch where syllabaryb = ?", [it]).syllabaryb
-        }
-    }
+//    def translate() {
+//        def transliterated = SyllabaryUtil.mixedTransliteration("Jani: Osiyo, Meli.  Osigwuju?")
+//
+//        def splits = transliterated.split(" ")
+//
+//        splits.each {
+//            it = it.replaceAll(",", "").replaceAll(":", "").replaceAll("/.", "").replaceAll("/?", "").trim()
+//            if (it.endsWith(".")) {
+//                it = it.substring(0, it.size() - 1)
+//            }
+//
+//            if (it.endsWith("?")) {
+//                it = it.substring(0, it.size() - 1)
+//            }
+//
+//            if (it.endsWith("Ꮷ")) {
+//                it = it.substring(0, it.size() - 1)
+//            }
+//
+//            println it
+//            println "result is " + Cherokeewordsearch.findAll("from Cherokeewordsearch where syllabaryb = ?", [it]).syllabaryb
+//        }
+//    }
 
     //pulls from grails server -- not optimal for a lot of audio files
     def downloadAudioLocally() {

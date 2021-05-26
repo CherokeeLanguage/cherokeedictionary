@@ -11,6 +11,7 @@
 
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>
+%{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.colorbox/1.6.4/jquery.colorbox-min.js"/>--}%
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <asset:javascript src="jquery.colorbox-min.js"/>
@@ -214,7 +215,7 @@
     <g:if test="${!showLinks}">
         <div id="header" class="clearfix">
             <div id="navmenu">
-                    <g:link uri="/" elementId="homelink">Home</g:link>  |  <g:link uri="/transliteration" elementId="transliterationlink">Transliterate</g:link>  |  <g:link uri="/grammar" elementId="grammarLink">Grammar Guide</g:link>%{--  |  <g:link uri="/translation">translation</g:link>--}%  |  <g:link uri="/corpus/corpusMain" elementId="corpusMain">Corpus Main</g:link>  |  <g:link uri="/first500">First 500</g:link>  |  <g:link uri="/readingAndListening">Reading and Listening Links</g:link>  |  <g:link uri="/cnt" elementId="cntMain">Cherokee New Testament</g:link>  |  <g:link uri="/about" elementId="aboutLink">About</g:link><%if (!session.getAttribute("loggedin")){%>  |  <g:link uri="/login" elementId="loginLink">Login</g:link><%} else {%>  |  <g:link uri="/sourceManagement" elementId="sourceManagementLink">Source Management</g:link>  |  <g:link uri="/likespreadsheets/simplifiedEntry" elementId="simplifiedEntryLInk">New Entry</g:link>  |  <g:link uri="/announcements" elementId="announcementsLink">Announcements</g:link>  |  <g:link uri="/admin/logout" elementId="logoutLInk">Logout</g:link><%}%><br/><br/>
+                    <g:link uri="/" elementId="homelink">Home</g:link>  |  <g:link uri="/transliteration" elementId="transliterationlink">Transliterate</g:link>  |  <g:link uri="/grammar" elementId="grammarLink">Grammar Guide</g:link>%{--  |  <g:link uri="/translation">translation</g:link>--}%  |  <g:link uri="/corpus/corpusMain" elementId="corpusMain">Corpus Main</g:link>  |  <g:link uri="/first500">First 500</g:link>  |  <g:link uri="/readingAndListening">Reading and Listening Links</g:link>  |  <g:link uri="/cnt" elementId="cntMain">Cherokee New Testament</g:link>  |  <g:link uri="/syllabary" elementId="syllabary">Syllabary Table</g:link>  |<g:link uri="/about" elementId="aboutLink">About</g:link><%if (!session.getAttribute("loggedin")){%>  |  <g:link uri="/login" elementId="loginLink">Login</g:link><%} else {%>  |  <g:link uri="/sourceManagement" elementId="sourceManagementLink">Source Management</g:link>  |  <g:link uri="/likespreadsheets/simplifiedEntry" elementId="simplifiedEntryLInk">New Entry</g:link>  |  <g:link uri="/announcements" elementId="announcementsLink">Announcements</g:link>  |  <g:link uri="/admin/logout" elementId="logoutLInk">Logout</g:link><%}%><br/><br/>
             </div>
         </div>
     </g:if>

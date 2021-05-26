@@ -5,7 +5,7 @@
     <script>
         $(function () {
             $('#englishSearch').autocomplete({
-                source: '<g:createLink controller='newSearch' action='ajaxEnglishFinder'/>'
+                source: 'newSearch/ajaxEnglishFinder'%{--<g:createLink controller='newSearch' action='ajaxEnglishFinder'/>'--}%
             });
 
             $('#tsalagiSearch').autocomplete({
@@ -175,7 +175,7 @@
 </head>
 
 <body>
-<h1>Cherokee-English Dictionary Online Database</h1>
+<h3>Cherokee-English Dictionary Online Database</h3>
 <%
     if (request.getParameter("showSup").equals("false")) {
         session.setAttribute("showSup", false);
@@ -185,7 +185,7 @@
 
     if (session.getAttribute("loggedin")) {
         out << raw("<div style=\"color : red\">you are logged in</div>")
-        out << ("setting showSup to " + session.getAttribute("showSup") + "<br/>");
+//        out << ("setting showSup to " + session.getAttribute("showSup") + "<br/>");
     }
 
     if (params.noresults == "true") {
@@ -204,6 +204,7 @@
         ${raw(it.announcement)}<br/>
     </g:each>
 </div>
+<br/>
 <div>
     <div id="tsalagidigoweli" class="popbox">
         <h2>Cherokee (phonetic):</h2>

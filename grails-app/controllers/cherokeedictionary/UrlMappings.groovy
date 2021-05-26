@@ -20,6 +20,9 @@ class UrlMappings {
         "/index"(controller:"dictionary.newSearch", view:"/index")
         "/share/$id"(controller:"newSearch", action:"share")
         "/individual"(controller:"newSearch", action:"individual")
+        "/monday"(view:"/monday")
+        "/syllabary"(view:"/syllabary")
+
         "/transliteration"(view:"/transliteration")
         "/transliterate"(view:"/transliterate")
         "/translation"(view:"/translation")
@@ -38,6 +41,7 @@ class UrlMappings {
         "/jsonsearch/chr/$entry "(controller: "search", action: "jsonshow")
         "/jsonsearch/en/$definition"(controller: "search", action: "jsonshow")
         "/jsonsearch/syll/$syllabary"(controller: "search", action: "jsonshow")
+        "/jsonlookup/$syllabary"(controller: "search", action: "specificLookup")
 
         "500"(view:'/error')
         "404"(view:'/notFound')

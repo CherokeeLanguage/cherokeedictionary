@@ -1,0 +1,37 @@
+wholeWord = {
+    phonetic: "", // phonetic transliteration of original syllabary lookup
+    syllabary: "", // original word to look up
+    root_phonetic: "", // phonetic root of the word as broken down
+    root_syllabary: "", // syllabary root of the word as broken down - if the root ending contains a phonetic "letter" then it will appear as syllabary+phonetic letter
+    definitions: [], // all definitions found in the database
+    root_ending: "", // what the root ending is - phonetic only
+    constructedVerbToLookup: "", // if this word is a verb then this takes the third person prefix type (A or B), root, root ending, present tense to give a lookup so uwonisvi (third past) would become gawoniha (third present) and is then
+    verbTense: {tense: "", ending: ""}, // what is the tense of the current word
+    initialPrefixes: [], // what are the initial prefixes found
+    pronounPrefixes: [], // what are the pronoun prefixes found
+    reflexive: false, // was a reflexive prefix found
+    nonFinalSuffixes: [], // what are the non final suffixes found
+    finalSuffixes: [] // what are the final suffixes found
+}
+
+Here is the current flow of the code
+process()
+    lookup word in dictioanry
+        if word exits
+            setup wholeWord with dictionary entries and return to user
+        else
+            deconstruct()
+                strip final suffixes
+                lookup word in dictionary
+                    if exists
+                        setup wholeWord with dictionary entries and final suffix list and return to user
+                    else
+                        remove affixes and add to wholeWord object
+
+                    put together a simple word that might match the database - this is the uwoniha to gawoniha example above
+                    lookup this simple word in the dictionary
+                        if exists
+                            setup wholeWord with dictionary entries and complete breakdowns and return to user
+                        else
+                           we didn't find a match so no definition - this is still a possibility of occurring, however, I've not seen it much.
+                           return wholeWord

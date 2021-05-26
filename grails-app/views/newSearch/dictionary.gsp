@@ -123,6 +123,7 @@
         <br/><br/>
 %{--        <a href="/newSearch/download/pdf">Download results as Excel Spreadsheet</a><br/>--}%
         <g:render template="/newSearch/desktopView" model="[entries:entries]"/>
+%{--        <g:render template="/newSearch/paginationView" model="[entries:entries]"/>--}%
     </div>
     <!-- mobile view -->
     <div class="smallishes">

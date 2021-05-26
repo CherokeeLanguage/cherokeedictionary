@@ -87,6 +87,13 @@ class LikespreadsheetsController {
         }
     }
 
+    def simplifiedEntry() {
+        if (params.syllabaryb) {
+            def lks = new Likespreadsheets(params)
+            save(lks)
+        }
+    }
+
     protected void notFound() {
         request.withFormat {
             form multipartForm {

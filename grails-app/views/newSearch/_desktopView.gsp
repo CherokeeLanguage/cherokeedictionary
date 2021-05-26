@@ -39,23 +39,24 @@
         def tdstyle = "";
         def divstyle = "";
         def anchorstyle = "";
+        def sourceMgmt = SourceManagement.findByCode(entry.source)
+
     %>
     <tr class="${(i % 2) == 0 ? 'even' : 'odd'}" id="edit${i}">
         <% if (session.getAttribute("loggedin")) { %><td><a href="/likespreadsheets/show/${entry.id}" target="_blank">edit</a></td><%}%>
-        <td style="width:1px; margin: 0 0 0 0; padding: 0 0 0 0; border-spacing: 0;background-color:${SourceManagement.findByCode(entry.source)?.color};text-color${SourceManagement.findByCode(entry.source)?.textColor}">
+        <td style="width:1px; margin: 0 0 0 0; padding: 0 0 0 0; border-spacing: 0;background-color:${sourceMgmt?.color};text-color${sourceMgmt?.textColor}">
             <div style="transform: rotate(90deg); -webkit-transform: rotate(90deg); -moz-transform: rotate(90deg); -ms-transform: rotate(90deg); position:relative; top: 5px; text-align:center; display:inline-block; text-transform:lowercase;width:20px; margin: 0 0 0 0; padding: 0 0 0 0; border-spacing: 0;">
                 <a href="#" class="popper" data-popbox="tsalagidigoweli2" style="<%if (entry.source != 'ced' && entry.source != 'noq') { println "color:white;"}%>">
-                    ${entry.source}
+                    ${sourceMgmt.code}
                 </a>
             </div>
             <div id="tsalagidigoweli2" class="popbox">
-                CED = Cherokee English Dictionary<br/>
-                CWL = Consortium Word List<br/>
-                MSCT = Microsoft Computer Terminology<br/>
-                CNOMED = Cherokee Nation Online Medical Terminology<br/>
-                NCMED = Cherokee North Carolina Medical Terminology<br/>
-                NOQ = Noquisis Word List<br/>
-                RRD = Raven Dictionary<br/>
+                <%-- not sure why the colors work above but here the code is always the same - i'm missing something - timo 4may21--%>
+%{--                    <% out << sourceMgmt.code--}%
+%{--                    out << sourceMgmt.bibliographyFullAPA %>--}%
+                    <g:each var="source" in="${cherokee.dictionary.SourceManagement.findAll([sort: 'code', order: 'asc'])}">
+                        <b>${source.code.toUpperCase()}</b> - ${source.bibliographyFullAPA}<br/>
+                    </g:each>
             </div>
         </td>
         <td>

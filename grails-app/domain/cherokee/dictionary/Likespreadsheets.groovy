@@ -2,7 +2,7 @@ package cherokee.dictionary
 
 import grails.rest.Resource
 
-@Resource(uri='/spreadsheets/$entrya', formats=['json', 'xml'])
+//@Resource(uri='/likespreadsheets/$entrya', formats=['json', 'xml'])
 class Likespreadsheets {
 
 //    static searchable = true

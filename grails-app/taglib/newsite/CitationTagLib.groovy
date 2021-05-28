@@ -11,7 +11,19 @@ class CitationTagLib {
         citationMap = [:]
     }
 
-    def citation = {params ->
+    def footnote = {
+        def sb = new StringBuilder()
+
+        sb << "<sup>${it.src}"
+        if (it.link) {
+            sb << "<a href=\"#${it.link}\">${it.linkTitle}</a>"
+        }
+        sb << "</sup>"
+
+        out << raw(sb.toString())
+    }
+
+    def citation = {params, body ->
         citationIndex++
         def sb = new StringBuilder()
 
@@ -19,6 +31,7 @@ class CitationTagLib {
         citationMap[citationIndex] = params.src
 
         out << raw(sb.toString())
+//        out << raw(body())
     }
 
     def printCitations = {

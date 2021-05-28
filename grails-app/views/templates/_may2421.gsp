@@ -25,4 +25,4 @@
     </g:each>
 </div>
 
-<g:render template="may2421Testyourself"/>
+%{--<g:render template="/templates/may2421TestYourself"/>--}%

@@ -1,0 +1,16 @@
+John is standing in a coffee shop line reading a menu.  Mark walks up to John.
+Mark: Hey, John.  Do you speak Cherokee?
+John: Yes, I do speak Cherokee.
+Mark: Where are you from?  I'm from Asheville.
+John: I'm from Cullowhee.  I'm going to get dinner later if you'd like to go with me.
+Mark: Sure.  What's your phone number?  I'll text you later.
+John: My phone number is 417-555-1934
+Mark: My number is 512-555-2068.  I'll text you later about plans.
+John: I'm thinking about getting chicken, corn, green beans, and a Coke.
+Mark: Chicken sounds good.  What time are you thinking of eating?
+John: Probably 6:30 tonight.
+Mark: Sounds great.  I'll see you then.
+Mark leaves John at the table.
+Waiter: What can I get for you?
+John: I'll have the large coffee with sugar and creamer.
+Waiter: That'll be 4.99

@@ -164,13 +164,24 @@ class RelationalController {
     }
 
     def createAndSaveDefinition(definitiond, word) {
-        def definition = new Definition(definition:definitiond.trim());
-        if (!definition.save(flush: true)) {
-            definition.errors.allErrors.each {
-                println it
+        def definition = Definition.findAll("from Definition where definition=?0", [definitiond.trim()])
+        if (!definition) {
+            definition = new Definition(definition: definitiond.trim());
+
+            if (!definition.save(flush: true)) {
+                definition.errors.allErrors.each {
+                    println it
+                }
+            } else {
+                DefinitionLink wl2 = new DefinitionLink(word:word, definition: definition)
+                if (!wl2.save(flush: true)) {
+                    wl2.errors.allErrors.each {
+                        println it
+                    }
+                }
             }
         } else {
-            DefinitionLink wl2 = new DefinitionLink(word:word, definition: definition)
+            DefinitionLink wl2 = new DefinitionLink(word:word, definition: definition.get(0))
             if (!wl2.save(flush: true)) {
                 wl2.errors.allErrors.each {
                     println it
@@ -178,5 +189,4 @@ class RelationalController {
             }
         }
     }
-
 }

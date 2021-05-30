@@ -43,11 +43,11 @@
         vocabulary1.Mark = 'Maga'
         vocabulary1.Daniel = 'Danili'
         vocabulary1.Susan = 'Susani'
-        vocabulary1.John = 'jani'
+        vocabulary1.John = 'Jani'
         vocabulary1.Hello = '(o)siyo'
         vocabulary1.And = 'ale <e>or nole'
         vocabulary1.Good = 'osda'
-        vocabulary1."Well Fine" = 'osigwu'
+        vocabulary1."Well/Fine" = 'osigwu'
     %>
     <div style="display:table-cell">
         <g:vocabulary src="${vocabulary1}"/>
@@ -109,6 +109,8 @@ Fill in the missing words:\\
 \subsection{Vocabulary}
 \input{chap1vocab2.tex}
 </pre>--}%
+<br/><br/><br/>
+<br/><br/><br/>
 <g:printCitations/>
 %{--<g:render template="/templates/may2421TestYourself"/>--}%
 

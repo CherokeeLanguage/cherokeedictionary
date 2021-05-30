@@ -24,12 +24,23 @@ class CitationTagLib {
     }
 
     def citation = {params, body ->
-        citationIndex++
         def sb = new StringBuilder()
+        //todo: maybe some other day figure out how I want citations
+//        if (citationMap.containsValue(params.src)) {
+//            def tmpCitationIndex = ""
+//            citationMap.each {key, value ->
+//                if (value == params.src) {
+//                    tmpCitationIndex = key
+//                }
+//            }
+//            sb << "<a name=\"#cite${citationIndex}\"></a><sup><a id=\"#cite${citationIndex}\" href=\"#ref${citationIndex}\">${citationIndex}</a></sup>"
+//        } else {
+            citationIndex++
 
-        sb << "<a name=\"#cite${citationIndex}\"></a><sup><a id=\"#cite${citationIndex}\" href=\"#ref${citationIndex}\">${citationIndex}</a></sup>"
-        citationMap[citationIndex] = params.src
 
+            sb << "<a name=\"#cite${citationIndex}\"></a><sup><a id=\"#cite${citationIndex}\" href=\"#ref${citationIndex}\">${citationIndex}</a></sup>"
+            citationMap[citationIndex] = params.src
+//        }
         out << raw(sb.toString())
 //        out << raw(body())
     }

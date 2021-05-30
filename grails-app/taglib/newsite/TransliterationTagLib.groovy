@@ -7,6 +7,9 @@ class TransliterationTagLib {
     //static encodeAsForTags = [tagName: [taglib:'html'], otherTagName: [taglib:'none']]
 
     def translit = {params ->
-        out << SyllabaryUtil.tsalagiToSyllabary(params.src)
+        def src = params.src
+        if (src) {
+            out << SyllabaryUtil.tsalagiToSyllabary(src)
+        }
     }
 }

@@ -43,7 +43,7 @@ class LessonsTagLib {
 
     def vocabulary = {params ->
         def sb = new StringBuilder()
-        sb << "<h4>Vocabulary - </h4>"
+        sb << "<h4>Vocabulary - ${SyllabaryUtil.tsalagiToSyllabary("dikaneisdi")}</h4>"
 
         params.src.each { key, value ->
             def translit = value

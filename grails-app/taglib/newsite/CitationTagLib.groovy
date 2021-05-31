@@ -54,4 +54,66 @@ class CitationTagLib {
 
         out << raw(sb.toString())
     }
+
+    def wordBreakdown = {params, body ->
+        if (params.anchor) {
+            out << raw("<a name=\"${params.anchor.replaceAll(" ", "")}\"></a>")
+        }
+        out << raw("<h4>Word Breakdown - ${params.title}</h4>")
+        out << raw(body())
+    }
+
+    def bookChapter = { params, body ->
+        out << raw("<a name=\"${params.anchor.replaceAll(" ", "")}\"></a>")
+        out << raw("<h2>${params.title}</h2>")
+        out << raw(body())
+    }
+
+    def redSpan = {params, body ->
+        out << raw("<span style=\"color:red\">${body()}</span>")
+    }
+
+    def exercise = {params, body ->
+        out << raw("<h4>Exercise - ${g.translit(src:"alisinahisdisgv digvdodi")}</h4>")
+        out << raw("Translate to Cherokee syllabary and the phonetic equivalent<br/>")
+        out << params.text
+    }
+
+    def bookSection = { params, body ->
+        out << raw("<h4>${params.title} - ${g.translit(src:params.phonetic)}</h4>")
+        out << raw(body())
+    }
+
+    def whatYouWillLearn = {params, body ->
+        out << raw("<b>What You Will Learn In This Chapter</b><br/><ul>")
+        def objectives = params.objectives
+
+        objectives.each {
+            out << raw("<li>${it}</li>")
+        }
+
+        out << raw("</ul>")
+    }
+
+    def dialogVocab = {params, body ->
+        def sb = new StringBuilder()
+        def vocabulary = params.vocab
+        sb << "<div style=\"display:table-row\">"
+        sb << "<div style=\"display:table-cell;padding-right:20px\">"
+        sb << "<h4>Dialog - </h4>"
+        sb << raw(body())
+        sb << "</div>"
+        sb << "<div style=\"display:table-cell\">"
+        sb << g.vocabulary(src:vocabulary)
+        sb << "</div>"
+        sb << "</div>"
+
+        out << raw(sb.toString())
+    }
+
+    def dialogItem = {params, body ->
+        def key = params.key
+        def value = params.value
+        out << g.dialogLine(name: key, dialog: value, phonetic: 'true')
+    }
 }

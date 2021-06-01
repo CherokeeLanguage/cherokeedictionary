@@ -23,7 +23,22 @@
         def tdstyle = "";
         def divstyle = "";
         def anchorstyle = "";
-    %>
+
+        def hasAudio = false
+        def settings = cherokee.Settings.findAll("from Settings where setting_name=?0", ['showAudio'])
+        def audioFile = null
+        if (settings) {
+            if (settings[0].value == 'true') {
+                def audioLink = cherokee.audio.AudioLink.findByLikespreadsheets(entry)
+                if (audioLink) {
+                    audioFile = cherokee.audio.AudioFile.findAllById(audioLink.audioFileId)
+                    if (audioFile) {
+                        hasAudio = true
+                    }
+                }
+            }
+        }
+%>
     <% if (!expand) { %>
         <div class="accordion ${(i % 2) == 0 ? 'even' : 'odd'}" style="margin: 0 0 0 0;padding: 0 0 0 0; border-spacing: 0" id="accordionClick${i}">
     <% } else { %>
@@ -38,7 +53,7 @@
                 </div>
             </div>
             <div style="display:table-cell;vertical-align: middle;padding-left:10px;padding-top:5px; padding-bottom:5px">
-                ${entry.syllabaryb} - <% if (!first.trim().equals("")) { %>${first}<br/>
+                ${entry.syllabaryb} - <% if (!first.trim().equals("")) { %>${first}<%if (entry.definitionlarge || entry.etymology || entry.category) {%>&nbsp;&nbsp;<i class="fas fa-plus-square"></i><%}%><%if (hasAudio) {%>&nbsp;&nbsp;<i class="fas fa-audio-description"></i><%}%><br/>
                 <%if (second && !second.trim().equals("")) { %>${second}<br/><%}%>
                 <% } else { %>${raw(definition)}<br/>
                 <% } %>
@@ -239,7 +254,6 @@
 
             <%if (entry.crossreferencet) {%>
             <tr>
-
                 <%
                         String crossReference = entry.crossreferencet;
                 %>
@@ -261,6 +275,21 @@
                 </td>
             </tr>
             <%}%>
+
+<%
+    if (hasAudio) {
+%>
+            <tr>
+                <td colspan="2">
+                    <b>Pronunciation:</b><br/>
+                    <audio controls style="width: 100px;height:20px">
+                        <source src="${audioFile.audioFilePath[0]}" type="audio/mpeg">
+                    </audio>
+                </td>
+            </tr>
+<%
+    }
+%>
         </table>
     </div>
 </g:each>

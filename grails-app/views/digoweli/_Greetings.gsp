@@ -16,12 +16,12 @@
         greetingsVocabulary.Susan = 'Susani'
         greetingsVocabulary.John = 'Jani'
         greetingsVocabulary.Hello = '(o)siyo'
-        greetingsVocabulary.And = 'ale <e>or nole'
+        greetingsVocabulary.And = 'ale <e>or</e> nole'
         greetingsVocabulary.Good = 'osda'
         greetingsVocabulary."Well/Fine" = 'osigwu'
 %>
 
-<g:clearCitations/>
+
 <g:bookChapter anchor="${title}" title="Greetings" titletranslit="unalihelijeti">
     <g:whatYouWillLearn objectives="${greetOthersTopics}"/>
     <g:dialogVocab vocab="${greetingsVocabulary}">

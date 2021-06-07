@@ -14,79 +14,78 @@
 <body>
 %{--<g:render template="hold/old/1Greetings/Chapter"/>--}%
 %{--<g:render template="hold/old/2WhatDoYouWantToDo/Chapter"/>--}%
-
-<g:printVersion trueFalse="${request.getParameter("print")}"/>
-
-<h3><g:translit src="tsalagi gawonihisd digoweli"/><br/>Cherokee Language Book </h3>
-<%
-    def greetOthersChapterTitle = 'Greet Others'
-    def tableOfContents = ['Dedication'
-                           , 'From The Author'
-                           , 'Greetings'
-                           , '\tWhat You Will Learn'
-                           , '\t' + greetOthersChapterTitle
-                           , 'What is your name?'
-                           , 'I\'d like you to meet'
-                           , 'I want.  I see'
-                           , 'Where are you from?'
-                           , 'Do you speak Cherokee?'
-                           , 'Cardinal Numbers'
-                           , 'Ordinal Numbers'
-                           , 'On the Telephone'
-                           , 'Address and Email'
-                           , 'Profession'
-                           , 'Dates, Months, and Days of Week'
-                           , 'Time'
-                           , 'Body Parts'
-                           , 'Emotions'
-                           , '5 senses'
-                           , 'prepositions'
-                           , 'conjunctions'
-                           , 'interjections'
-                           , 'negation'
-                           , 'are you hungry'
-                           , 'Seasons'
-                           , 'This and That'
-                           , 'Family'
-                           , 'To Have and Have Not'
-                           , 'Describing Others'
-                           , 'Directions'
-                           , 'Weather'
-                           , 'Money'
-                           , 'Clothes and Shopping'
-                           , 'Animals'
-                           , 'Colors'
-                           , 'Food'
-                           , 'On the farm'
-                           , 'Visiting Friends'
-                           , 'Verb Conjugation'
-                           , 'Yours, Mine, Ours'
-                           , 'Questions'
-                           , 'Pronouns'
-                           , 'At the doctor'
-                           , 'Around the House'
-                           , 'At the beach'
-                           , 'Transporation'
-                           , 'Festivals and Celebrations'
-                           , 'At the airport'
-                           , 'Articles and Conversion'
-                           , 'advanced Verb'
-                           , 'Clitics'
-                           , 'Grammar Summary'
-                           , 'Charts'
-                           , 'Shapes'
-                           , 'Publication bibliography']
+<%  def greetOthersChapterTitle = 'Greet Others'
+def tableOfContents = ['Dedication'
+                       , 'From The Author'
+                       , 'Greetings'
+                       , '\tWhat You Will Learn'
+                       , '\t' + greetOthersChapterTitle
+                       , 'What is your name?'
+                       , 'I\'d like you to meet'
+                       , 'I want.  I see'
+                       , 'Where are you from?'
+                       , 'Do you speak Cherokee?'
+                       , 'Cardinal Numbers'
+                       , 'Ordinal Numbers'
+                       , 'On the Telephone'
+                       , 'Address and Email'
+                       , 'Profession'
+                       , 'Dates, Months, and Days of Week'
+                       , 'Time'
+                       , 'Body Parts'
+                       , 'Emotions'
+                       , '5 senses'
+                       , 'prepositions'
+                       , 'conjunctions'
+                       , 'interjections'
+                       , 'negation'
+                       , 'are you hungry'
+                       , 'Seasons'
+                       , 'This and That'
+                       , 'Family'
+                       , 'To Have and Have Not'
+                       , 'Describing Others'
+                       , 'Directions'
+                       , 'Weather'
+                       , 'Money'
+                       , 'Clothes and Shopping'
+                       , 'Animals'
+                       , 'Colors'
+                       , 'Food'
+                       , 'On the farm'
+                       , 'Visiting Friends'
+                       , 'Verb Conjugation'
+                       , 'Yours, Mine, Ours'
+                       , 'Questions'
+                       , 'Pronouns'
+                       , 'At the doctor'
+                       , 'Around the House'
+                       , 'At the beach'
+                       , 'Transporation'
+                       , 'Festivals and Celebrations'
+                       , 'At the airport'
+                       , 'Articles and Conversion'
+                       , 'advanced Verb'
+                       , 'Clitics'
+                       , 'Grammar Summary'
+                       , 'Charts'
+                       , 'Shapes'
+                       , 'Publication bibliography']
 %>
+<g:clearCitations/>
+<g:printVersion trueFalse="${request.getParameter("print")}"/>
 <g:if test="${request.getParameter("print") && request.getParameter("print") == "false"}">
-<pre>
-    <g:each var="title" in="${tableOfContents}">
-        <a href="#${title.replaceAll(" ", "")}">${title}</a><br/>
-    </g:each>
-</pre>
+    <h3><g:translit src="tsalagi gawonihisd digoweli"/><br/>Cherokee Language Book </h3>
+    <pre>
+        <g:each var="title" in="${tableOfContents}">
+            <a href="#${title.replaceAll(" ", "")}">${title}</a><br/>
+        </g:each>
+    </pre>
 </g:if>
 <br/>
-<g:render template="Greetings" model="['title': greetOthersChapterTitle]"/>
 
+<g:render template="Greetings" model="['title': greetOthersChapterTitle]"/>
+<g:citation title="bibliotest" src="Another biblio totest"/>
 <g:wordBreakdown title="${g.transl(src:"dohi")} and ${g.transl(src:"osi")} Tohi and Osi" anchor="wordBreakdownTohiOsi">
     Altman and Belt (pp91-92) have this to say about Tohi and Osi:
     Tohi is a Cherokee morpheme that indicates the state in which nature is flowing at its appropriate pace and everything

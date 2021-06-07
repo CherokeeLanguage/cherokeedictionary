@@ -72,6 +72,7 @@ def tableOfContents = ['Dedication'
                        , 'Shapes'
                        , 'Publication bibliography']
 %>
+
 <g:clearCitations/>
 <g:printVersion trueFalse="${request.getParameter("print")}"/>
 <g:if test="${request.getParameter("print") && request.getParameter("print") == "false"}">
@@ -85,7 +86,6 @@ def tableOfContents = ['Dedication'
 <br/>
 
 <g:render template="Greetings" model="['title': greetOthersChapterTitle]"/>
-<g:citation title="bibliotest" src="Another biblio totest"/>
 <g:wordBreakdown title="${g.transl(src:"dohi")} and ${g.transl(src:"osi")} Tohi and Osi" anchor="wordBreakdownTohiOsi">
     Altman and Belt (pp91-92) have this to say about Tohi and Osi:
     Tohi is a Cherokee morpheme that indicates the state in which nature is flowing at its appropriate pace and everything

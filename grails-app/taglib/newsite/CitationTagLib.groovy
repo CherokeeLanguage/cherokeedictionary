@@ -2,9 +2,6 @@ package newsite
 
 import net.cherokeedictionary.transliteration.SyllabaryUtil
 
-import java.util.regex.Matcher
-import java.util.regex.Pattern
-
 class CitationTagLib {
     static defaultEncodeAs = [taglib:'html']
     //static encodeAsForTags = [tagName: [taglib:'html'], otherTagName: [taglib:'none']]
@@ -47,18 +44,7 @@ class CitationTagLib {
         if (isPrintVersion) {
             sb << "\\cite{${params.title}}"
         } else {
-            //todo: maybe some other day figure out how I want citations
-//        if (citationMap.containsValue(params.src)) {
-//            def tmpCitationIndex = ""
-//            citationMap.each {key, value ->
-//                if (value == params.src) {
-//                    tmpCitationIndex = key
-//                }
-//            }
-//            sb << "<a name=\"#cite${citationIndex}\"></a><sup><a id=\"#cite${citationIndex}\" href=\"#ref${citationIndex}\">${citationIndex}</a></sup>"
-//        } else {
             sb << "<a name=\"#cite${params.title}\"></a><sup><a id=\"#cite${params.title}\" href=\"#ref${params.title}\">${citationIndex}</a></sup>"
-//        }
         }
 
         citationMap[params.title] = params.src
@@ -71,11 +57,10 @@ class CitationTagLib {
 
         if (isPrintVersion) {
             sb << "%+Bibliography<br/>\\begin{thebibliography}{99}<br/>"
-            println citationMap.size()
+
             citationMap.eachWithIndex { item, idx ->
                 def value = item.value.replaceAll("&", "\\\\&")
                 sb << "\\bibitem{${item.key}} ${value}<br/>"
-//                sb << "<sup id=\"ref${item.key}\">[${item.key}]</sup> ${item.value} <br/>"//<a href=\"#cite${item.key}\">go back</a>
             }
             sb << "<br/>\\end{thebibliography}<br/>%-Bibliography<br/>"
         } else {
@@ -224,32 +209,32 @@ class CitationTagLib {
 
         out << raw(sb.toString())
     }
-    final Pattern eTag = Pattern.compile("<e\\b[^>]*>(.*?)</e>")
+
     def vocabulary = {params ->
         def sb = new StringBuilder()
 
         if (isPrintVersion) {
-            sb << "\\subsection{Vocabulary - \\Cherokee ${SyllabaryUtil.tsalagiToSyllabary("dikaneisdi")} \\selectfont}<br/>"
+            sb << "\\subsection{Vocabulary - \\Cherokee ${SyllabaryUtil.mixedTransliteration("dikaneisdi")} \\selectfont}<br/>"
             sb << "\\begin{tabular}{p{3cm} p{11cm}}<br/>"
             params.src.each { key, value ->
-                def translit = value
+                def sb2 = new StringBuilder()
+                def translit = ""
+                if (value instanceof List) {
+                    translit = value.join(" ")
+                    value.each {val ->
+                        if (val.contains("<e>")) {
+                            sb2 << "\\selectfont ${val.substring("<e>".size())} "
+                        } else {
+                            sb2 << "\\Cherokee ${SyllabaryUtil.mixedTransliteration(val)}\\selectfont "
+                        }
+                    }
+                } else {
+                    translit = value
+                    sb2 << "\\Cherokee ${SyllabaryUtil.mixedTransliteration(value)}\\selectfont "
+                }
 
-//                if (translit.contains("<e>")) {
-//                    final Matcher m = eTag.matcher(translit)
-//
-//                    final StringBuffer sb2 = new StringBuffer(translit.length());
-//                    while (m.find()) {
-//                        final String text = m.group();
-//                        def tmpText = text.substring("<e>".length(), text.length() - "</e>".length())
-//                        //some way to separate out the syllabary?
-//                        m.appendReplacement(sb2, "\\selectfont ${SyllabaryUtil.tsalagiToSyllabary(tmpText))}")
-//                    }
-//
-//                    m.appendTail(sb2);
-//                    sb << sb2
-////                    translit = translit.replaceAll("<e>", "\\selectfont")
-//                }
-                sb << "${key} & \\Cherokee ${SyllabaryUtil.mixedTransliteration(translit)} \\selectfont\\newline \\textcolor{red}{${translit}}\\\\<br/>"
+                sb << "${key} & ${sb2}\\newline \\textcolor{red}{${translit}}\\\\<br/>"
+//                sb << "${key} & \\Cherokee ${SyllabaryUtil.mixedTransliteration(translit)} \\selectfont\\newline \\textcolor{red}{${translit}}\\\\<br/>"
 //                sb << "<div style=\"display:table-row\"><div style=\"display:table-cell;padding-right:10px\">${key}</div><div style=\"display:table-cell\">${SyllabaryUtil.mixedTransliteration(translit)}"
 //                sb << "<br/><span style=\"color:red\">${translit}</span>"
 //                sb << "</div></div>"

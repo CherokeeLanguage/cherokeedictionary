@@ -12,8 +12,12 @@
     <title>Cherokee Language Book - <g:translit src="tsalagi gawonihisd digoweli"/></title>
 </head>
 <body>
+%{--<g:render template="hold/old/1Greetings/Chapter"/>--}%
+%{--<g:render template="hold/old/2WhatDoYouWantToDo/Chapter"/>--}%
+
+<g:printVersion trueFalse="${request.getParameter("print")}"/>
+
 <h3><g:translit src="tsalagi gawonihisd digoweli"/><br/>Cherokee Language Book </h3>
-%{--<g:render template="old/2WhatDoYouWantToDo/Chapter"/>--}%
 <%
     def greetOthersChapterTitle = 'Greet Others'
     def tableOfContents = ['Dedication'
@@ -73,15 +77,17 @@
                            , 'Shapes'
                            , 'Publication bibliography']
 %>
-
+<g:if test="${request.getParameter("print") && request.getParameter("print") == "false"}">
 <pre>
     <g:each var="title" in="${tableOfContents}">
-        <a href="#${title.replaceAll(" ", "")}">${title}</a>
+        <a href="#${title.replaceAll(" ", "")}">${title}</a><br/>
     </g:each>
 </pre>
+</g:if>
+<br/>
 <g:render template="Greetings" model="['title': greetOthersChapterTitle]"/>
 
-<g:wordBreakdown title="${g.translit(src:"dohi")} and ${g.translit(src:"osi")} Tohi and Osi" anchor="wordBreakdownTohiOsi">
+<g:wordBreakdown title="${g.transl(src:"dohi")} and ${g.transl(src:"osi")} Tohi and Osi" anchor="wordBreakdownTohiOsi">
     Altman and Belt (pp91-92) have this to say about Tohi and Osi:
     Tohi is a Cherokee morpheme that indicates the state in which nature is flowing at its appropriate pace and everything
     is as it should be. This fundamental concept is used in greetings and responses (<g:redSpan>Tohigwatsv?</g:redSpan> and <g:redSpan>Tohigwu.</g:redSpan>), and in a
@@ -96,16 +102,18 @@
     being is crucial in ensuring that all is flowing well in the larger Cherokee world. Osi is properly understood as
     referring to the state of neutrality and balance, but it is most often glossed as "good." If individuals are out of
     balance, they can cause problems in the larger system.
-    <g:citation src="Altman, H.M., & Belt, T.N. (2008). Reading History: Cherokee History through a Cherokee Lens. Native South 1, 90-98. http://doi.org/10.1353/nso.0.0003"/>
+    <g:citation title="altmanBelt90-98" src="Altman, H.M., & Belt, T.N. (2008). Reading History: Cherokee History through a Cherokee Lens. Native South 1, 90-98. http://doi.org/10.1353/nso.0.0003"/>
 </g:wordBreakdown>
 <br/>
 <br/>
 <br/>
 <br/>
-<div>
-    <span><b>Bibliography</b></span>
-</div>
-<br/>
+<g:if test="${request.getParameter("print") && request.getParameter("print") == "false"}">
+    <div>
+        <span><b>Bibliography</b></span>
+    </div>
+    <br/>
+</g:if>
 <g:printCitations/>
 <br/><br/>
 <br/><br/>

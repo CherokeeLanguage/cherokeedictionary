@@ -41,53 +41,7 @@ class LessonsTagLib {
         out << raw("<h2>${params.en} - ${g.translit(src: params.chr)}</h2>")
     }
 
-    def vocabulary = {params ->
-        def sb = new StringBuilder()
-        sb << "<h4>Vocabulary - ${SyllabaryUtil.tsalagiToSyllabary("dikaneisdi")}</h4>"
 
-        params.src.each { key, value ->
-            def translit = value
-            sb << "<div style=\"display:table-row\"><div style=\"display:table-cell;padding-right:10px\">${key}</div><div style=\"display:table-cell\">${SyllabaryUtil.mixedTransliteration(translit)}"
-            sb << "<br/><span style=\"color:red\">${translit}</span>"
-            sb << "</div></div>"
-        }
-
-        out << raw(sb.toString())
-    }
-
-    def dialogLine = {params ->
-        def sb = new StringBuilder()
-        def name = params.name
-        def dialog = params.dialog
-        def showRedHelper = params.phonetic ? true : false
-
-        sb << "<div style=\"display:table-row\">\n" +
-                "    <div style=\"display:table-cell;padding-right:10px\">\n" +
-                "        <div style=\"display:table-row\">\n" +
-                "            <div style=\"display:table-cell\">${SyllabaryUtil.mixedTransliteration(name)}:</div>\n" +
-                "        </div>\n"
-        if (showRedHelper) {
-            sb << "        <div style=\"display:table-row\">\n" +
-                    "            <div style=\"display:table-cell\"><span style=\"color:red\">${name}:</span></div>\n" +
-                    "        </div>\n"
-        }
-            sb << "    </div>\n" +
-                "    <div style=\"display:table-cell\">\n" +
-                "        <div style=\"display:table-row\">\n" +
-                "            <div style=\"display:table-cell\">${SyllabaryUtil.mixedTransliteration(dialog)}</div>\n" +
-                "        </div>\n"
-        if (showRedHelper) {
-            sb << "        <div style=\"display:table-row\">\n" +
-                    "            <div style=\"display:table-cell\"><span style=\"color:red\">${dialog}</span></div>\n" +
-                    "        </div>\n"
-        }
-
-        sb <<        "    </div>\n" +
-                "</div>"
-
-
-        out << raw(sb.toString())
-    }
 
 //    def audio = {params ->
 //        File audioFile = grailsApplication.mainContext.getResource(params.fileName).file

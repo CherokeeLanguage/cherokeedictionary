@@ -7,4 +7,6 @@ class DigoweliController {
     def index() {
 
     }
+
+    def printVersion() {}
 }

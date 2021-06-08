@@ -1,4 +1,4 @@
-<%@ page import="cherokee.dictionary.Announcements" contentType="text/html;charset=UTF-8" %>
+<%@ page import="cherokee.dictionary.SourceManagement; cherokee.dictionary.Announcements" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <meta name="layout" content="manager"/>
@@ -141,6 +141,29 @@
                  }*/
             });
 
+            $(":checkbox").change(function() {
+                $('#uncheckAll').prop("checked", false);
+            });
+
+            $('#uncheckAll').click(function () {
+                if ($("#uncheckAll").is(":checked")) {
+                    $(":checkbox").each(function(i) {
+                        $( this ).prop("checked", false);
+                    });
+                    $('#uncheckAll').prop("checked", true);
+                }
+            });
+
+            $('#checkAll').click(function () {
+                if ($("#checkAll").is(":checked")) {
+                    $(":checkbox").each(function(i) {
+                        $( this ).prop("checked", true);
+                    });
+                    $('#uncheckAll').prop("checked", false);
+                    $('#searchForExactMatch').prop("checked", false);
+                }
+            });
+
             $('#tsalagiSearch').click(function () {
                 $('#syllabarySearch').val("");
                 $('#englishSearch').val("");
@@ -270,64 +293,100 @@
                                 <td></td>
                             </tr>
                             <tr>
-                                <td colspan=3></td>
-                            </tr>
-                            <tr>
-                                <td><g:checkBox name="includeCED" id="includeCED" checked="true"/></td>
-                                <td>Include Cherokee English Dictionary</td>
-                                <td><a href="#" id="buyCED">Buy CED from Cherokee Gift Shop</a>
-                                    %{--<input type="button" name="buyCED" id="buyCED" value="Buy Cherokee English Dictionary">--}%
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>&nbsp;&nbsp;<g:checkBox id="includeSentences" name="includeSentences" checked="true"/></td>
-                                <td>Include sentences in searches</td>
+                                <td><g:checkBox id="audio" name="audio" checked="false"/></td>
+                                <td>Has Audio</td>
                                 <td></td>
                             </tr>
+                        <g:each var="source" in="${cherokee.dictionary.SourceManagement.findAll()}">
                             <tr>
-                                <td><g:checkBox name="includeConsortiumWordList" id="includeConsortiumWordList"
-                                                checked="true"/></td>
-                                <td>Include Consortium Word List</td>
-                                <td><a href="#" id="visitConsortium">Visit Consortium Word List Page</a>
-                                    %{--<input type="button" name="visitConsortium" id="visitConsortium" value="Visit Consortium Word List Page">--}%
-                                </td>
+                                <td><g:checkBox name="${source.searchParameter}" id="${source.searchParameter}" checked="true"/></td>
+                                <td>Include ${source.fullName}</td>
                             </tr>
-                            <tr style="vertical-align: top">
-                                <td><g:checkBox name="includeCNOMedWordList" id="includeCNOMedWordList" checked="true"/></td>
-                                <td>Include Cherokee Nation Medical Terms</td>
-                                <td><a href="#" id="visitCNOMed">Visit CNO Body Parts Page</a><br/>
-                                    <a href="#" id="visitCNOHumanBody">Visit CNO Medical Human Body Page</a><br/>
-                                    <a href="#" id="visitCNOSkeletonPage">Visit CNO Medical Skeleton Page</a>
-                                    %{--<input type="button" name="visitCNOMed" id="visitCNOMed" value="Visit CNO Medical Terms Page">--}%
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><g:checkBox name="includeNCMedWordList" id="includeNCMedWordList" checked="true"/></td>
-                                <td>Include North Carolina Medical Terms</td>
-                                <td>%{--<a href="#" id="visitNCMed">Visit NC Medical Terms Page</a>--}%
-                                %{--<input type="button" name="visitNCMed" id="visitNCMed" value="Visit NC Medical Terms Page">--}%</td>
-                            </tr>
-                            <tr style="vertical-align: top">
-                                <td><g:checkBox name="includeMicrosoftWordList" id="includeMicrosoftWordList"
-                                                checked="true"/></td>
-                                <td>Include Microsoft Computer Terms</td>
-                                <td><a href="#" id="visitMSCT">Visit Microsoft Cherokee Translations Page</a><br/>
-                                    <a href="#" id="visitMSCTTerms">Visit Microsoft Cherokee Terms and Conditions Page</a><br/>
-                                    <a href="#" id="win8screenshots">Windows 8 Screenshots</a>
-                                    %{--<input type="button" name="visitMSCT" id="visitMSCT" value="Visit Microsoft Cherokee Translations Page"><br/>
-                                <input type="button" name="visitMSCTTerms" id="visitMSCTTerms" value="Visit Microsoft Cherokee Terms and ConditionsPage">--}%
-                                </td>
-                            </tr>
-                            <tr style="vertical-align: top">
-                                <td><g:checkBox name="includeNOQWordList" id="includeNOQWordList" checked="true"/></td>
-                                <td>Include Noquisis Word List</td>
-                                <td><a href="#" id="visitNOQ">Visit Noquisis Word List Page</a></td>
-                            </tr>
-                            <tr style="vertical-align: top">
-                                <td><g:checkBox name="includeRRD" id="includeRRD" checked="true"/></td>
-                                <td>Include Raven Rock Dictionary</td>
-                                <td><a href="#" id="visitRRD">Visit Raven Rock Dictionary Page</a></td>
-                            </tr>
+                            <g:if test="${source.code == 'ced'}">
+                                <tr>
+                                    <td>&nbsp;&nbsp;<g:checkBox id="includeSentences" name="includeSentences" checked="true" /></td>
+                                    <td>Include sentences in searches</td>
+                                    <td></td>
+                                </tr>
+                            </g:if>
+                        </g:each>
+                        <tr>
+                            <td><g:checkBox id="uncheckAll" name="uncheckAll" checked="false"/></td>
+                            <td>Unselect All</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><g:checkBox id="checkAll" name="checkAll" checked="false"/></td>
+                            <td>Select All</td>
+                            <td></td>
+                        </tr>
+
+%{--                        <b>Search Options:</b><br/>--}%
+%{--                        <table>--}%
+%{--                            <tr>--}%
+%{--                                <td><g:checkBox name="searchForExactMatch" id="searchForExactMatch"/></td>--}%
+%{--                                <td>Search For Exact Match</td>--}%
+%{--                                <td></td>--}%
+%{--                            </tr>--}%
+%{--                            <tr>--}%
+%{--                                <td colspan=3></td>--}%
+%{--                            </tr>--}%
+%{--                            <tr>--}%
+%{--                                <td><g:checkBox name="includeCED" id="includeCED" checked="true"/></td>--}%
+%{--                                <td>Include Cherokee English Dictionary</td>--}%
+%{--                                <td><a href="#" id="buyCED">Buy CED from Cherokee Gift Shop</a>--}%
+%{--                                    --}%%{--<input type="button" name="buyCED" id="buyCED" value="Buy Cherokee English Dictionary">--}%
+%{--                                </td>--}%
+%{--                            </tr>--}%
+%{--                            <tr>--}%
+%{--                                <td>&nbsp;&nbsp;<g:checkBox id="includeSentences" name="includeSentences" checked="true"/></td>--}%
+%{--                                <td>Include sentences in searches</td>--}%
+%{--                                <td></td>--}%
+%{--                            </tr>--}%
+%{--                            <tr>--}%
+%{--                                <td><g:checkBox name="includeConsortiumWordList" id="includeConsortiumWordList"--}%
+%{--                                                checked="true"/></td>--}%
+%{--                                <td>Include Consortium Word List</td>--}%
+%{--                                <td><a href="#" id="visitConsortium">Visit Consortium Word List Page</a>--}%
+%{--                                    --}%%{--<input type="button" name="visitConsortium" id="visitConsortium" value="Visit Consortium Word List Page">--}%
+%{--                                </td>--}%
+%{--                            </tr>--}%
+%{--                            <tr style="vertical-align: top">--}%
+%{--                                <td><g:checkBox name="includeCNOMedWordList" id="includeCNOMedWordList" checked="true"/></td>--}%
+%{--                                <td>Include Cherokee Nation Medical Terms</td>--}%
+%{--                                <td><a href="#" id="visitCNOMed">Visit CNO Body Parts Page</a><br/>--}%
+%{--                                    <a href="#" id="visitCNOHumanBody">Visit CNO Medical Human Body Page</a><br/>--}%
+%{--                                    <a href="#" id="visitCNOSkeletonPage">Visit CNO Medical Skeleton Page</a>--}%
+%{--                                    --}%%{--<input type="button" name="visitCNOMed" id="visitCNOMed" value="Visit CNO Medical Terms Page">--}%
+%{--                                </td>--}%
+%{--                            </tr>--}%
+%{--                            <tr>--}%
+%{--                                <td><g:checkBox name="includeNCMedWordList" id="includeNCMedWordList" checked="true"/></td>--}%
+%{--                                <td>Include North Carolina Medical Terms</td>--}%
+%{--                                <td>--}%%{--<a href="#" id="visitNCMed">Visit NC Medical Terms Page</a>--}%
+%{--                                --}%%{--<input type="button" name="visitNCMed" id="visitNCMed" value="Visit NC Medical Terms Page">--}%%{--</td>--}%
+%{--                            </tr>--}%
+%{--                            <tr style="vertical-align: top">--}%
+%{--                                <td><g:checkBox name="includeMicrosoftWordList" id="includeMicrosoftWordList"--}%
+%{--                                                checked="true"/></td>--}%
+%{--                                <td>Include Microsoft Computer Terms</td>--}%
+%{--                                <td><a href="#" id="visitMSCT">Visit Microsoft Cherokee Translations Page</a><br/>--}%
+%{--                                    <a href="#" id="visitMSCTTerms">Visit Microsoft Cherokee Terms and Conditions Page</a><br/>--}%
+%{--                                    <a href="#" id="win8screenshots">Windows 8 Screenshots</a>--}%
+%{--                                    --}%%{--<input type="button" name="visitMSCT" id="visitMSCT" value="Visit Microsoft Cherokee Translations Page"><br/>--}%
+%{--                                <input type="button" name="visitMSCTTerms" id="visitMSCTTerms" value="Visit Microsoft Cherokee Terms and ConditionsPage">--}%
+%{--                                </td>--}%
+%{--                            </tr>--}%
+%{--                            <tr style="vertical-align: top">--}%
+%{--                                <td><g:checkBox name="includeNOQWordList" id="includeNOQWordList" checked="true"/></td>--}%
+%{--                                <td>Include Noquisis Word List</td>--}%
+%{--                                <td><a href="#" id="visitNOQ">Visit Noquisis Word List Page</a></td>--}%
+%{--                            </tr>--}%
+%{--                            <tr style="vertical-align: top">--}%
+%{--                                <td><g:checkBox name="includeRRD" id="includeRRD" checked="true"/></td>--}%
+%{--                                <td>Include Raven Rock Dictionary</td>--}%
+%{--                                <td><a href="#" id="visitRRD">Visit Raven Rock Dictionary Page</a></td>--}%
+%{--                            </tr>--}%
                             %{--<tr style="vertical-align: top">--}%
                                 %{--<td><g:checkBox name="includeMST" id="includeMST" checked="true"/></td>--}%
                                 %{--<td>Include MST</td>--}%

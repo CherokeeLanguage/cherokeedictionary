@@ -1,5 +1,6 @@
 package cherokee
 
+import cherokee.audio.AudioLink
 import cherokee.dictionary.Likespreadsheets
 import cherokee.dictionary.SourceManagement
 import cherokee.relational.PartOfSpeech
@@ -106,7 +107,21 @@ class NewSearchService {
 //                mapOfRules.put("offset", resultsOffset)
 //            }
 //            [max: resultsMax, offset:resultsOffset]
-            return Likespreadsheets.findAll(sb, lst);
+            def results = Likespreadsheets.findAll(sb, lst);
+
+            if (params.audio) {
+                def returnResults = []
+                results.each {
+                    def tmp = AudioLink.findAll("from AudioLink where likespreadsheets_id=?0", [it.id])
+                    if (tmp) {
+                        returnResults << it
+                    }
+                }
+
+                return returnResults
+            } else {
+                return results
+            }
         }
 
         return []

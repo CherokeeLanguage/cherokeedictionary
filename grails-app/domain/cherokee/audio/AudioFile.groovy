@@ -6,4 +6,8 @@ class AudioFile {
     }
 
     String audioFilePath
+
+    String toString() {
+        audioFilePath
+    }
 }

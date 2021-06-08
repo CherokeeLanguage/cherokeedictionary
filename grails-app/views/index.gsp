@@ -161,6 +161,7 @@
                     });
                     $('#uncheckAll').prop("checked", false);
                     $('#searchForExactMatch').prop("checked", false);
+                    $('#audio').prop("checked", false);
                 }
             });
 

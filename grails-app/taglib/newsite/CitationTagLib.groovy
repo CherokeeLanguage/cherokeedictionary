@@ -94,7 +94,7 @@ class CitationTagLib {
     def bookChapter = { params, body ->
         def sb = new StringBuilder()
         if (isPrintVersion) {
-            sb << "\\chapter{${params.title} - \\Cherokee ${SyllabaryUtil.tsalagiToSyllabary(params.titletranslit)} \\selectfont}<br/>"
+            sb << "\\chapter{${params.title} - ${SyllabaryUtil.tsalagiToSyllabary(params.titletranslit)} }<br/>"
             sb << body()
         } else {
             sb << "<a name=\"${params.anchor.replaceAll(" ", "")}\"></a>"
@@ -120,9 +120,9 @@ class CitationTagLib {
     def exercise = {params, body ->
         def sb = new StringBuilder()
         if (isPrintVersion) {
-            sb << "\\section{Exercise - ${g.transl(src: "alisinahisdisgv digvdodi")}}<br/>"
+            sb << "<br/>\\section{Exercise - ${g.transl(src: "alisinahisdisgv digvdodi")}}<br/>"
             sb << "Translate to Cherokee syllabary and the phonetic equivalent\\\\<br/>"
-            sb << "${params.text}\\\\<br/>"
+            sb << "${params.text}<br/>"
         } else {
             sb << "<h4>Exercise - ${g.transl(src: "alisinahisdisgv digvdodi")}</h4>"
             sb << "Translate to Cherokee syllabary and the phonetic equivalent<br/>"
@@ -135,8 +135,9 @@ class CitationTagLib {
     def bookSection = { params, body ->
         def sb = new StringBuilder()
         if (isPrintVersion) {
-            sb << "\\subsection{${params.title} - \\Cherokee ${g.translit(src: params.phonetic)}\\selectfont}<br/>"
+            sb << "\\subsection{${params.title} - ${g.translit(src: params.phonetic)}}<br/>"
             sb << body()
+            sb << "<br/>"
         } else {
             sb << "<h4>${params.title} - ${g.translit(src:params.phonetic)}</h4>"
             sb << body()
@@ -148,7 +149,7 @@ class CitationTagLib {
     def transl = {params ->
         def src = params.src
         if (isPrintVersion) {
-            out << "\\Cherokee ${SyllabaryUtil.tsalagiToSyllabary(src)} \\selectfont "
+            out << "${SyllabaryUtil.tsalagiToSyllabary(src)}  "
         } else {
             if (src) {
                 out << SyllabaryUtil.tsalagiToSyllabary(src)
@@ -190,10 +191,10 @@ class CitationTagLib {
         def vocabulary = params.vocab
 
         if (isPrintVersion) {
-            sb << "\\section{Dialog - }<br/>"
+            sb << "\\subsection{Dialog - }<br/>"
             sb << "\\begin{tabular}{p{2cm} p{11cm}}<br/>"
             sb << body()
-            sb << "\\end{tabular}\\\\<br/>"
+            sb << "\\end{tabular}<br/><br/>"
             sb << g.vocabulary(src: vocabulary)
         } else {
             sb << "<div style=\"display:table-row\">"
@@ -214,7 +215,7 @@ class CitationTagLib {
         def sb = new StringBuilder()
 
         if (isPrintVersion) {
-            sb << "\\subsection{Vocabulary - \\Cherokee ${SyllabaryUtil.mixedTransliteration("dikaneisdi")} \\selectfont}<br/>"
+            sb << "\\subsection{Vocabulary - ${SyllabaryUtil.mixedTransliteration("dikaneisdi")} }<br/>"
             sb << "\\begin{tabular}{p{3cm} p{11cm}}<br/>"
             params.src.each { key, value ->
                 def sb2 = new StringBuilder()
@@ -223,18 +224,18 @@ class CitationTagLib {
                     translit = value.join(" ")
                     value.each {val ->
                         if (val.contains("<e>")) {
-                            sb2 << "\\selectfont ${val.substring("<e>".size())} "
+                            sb2 << " ${val.substring("<e>".size())} "
                         } else {
-                            sb2 << "\\Cherokee ${SyllabaryUtil.mixedTransliteration(val)}\\selectfont "
+                            sb2 << "${SyllabaryUtil.mixedTransliteration(val)} "
                         }
                     }
                 } else {
                     translit = value
-                    sb2 << "\\Cherokee ${SyllabaryUtil.mixedTransliteration(value)}\\selectfont "
+                    sb2 << "${SyllabaryUtil.mixedTransliteration(value)} "
                 }
 
                 sb << "${key} & ${sb2}\\newline \\textcolor{red}{${translit}}\\\\<br/>"
-//                sb << "${key} & \\Cherokee ${SyllabaryUtil.mixedTransliteration(translit)} \\selectfont\\newline \\textcolor{red}{${translit}}\\\\<br/>"
+//                sb << "${key} & ${SyllabaryUtil.mixedTransliteration(translit)} \\newline \\textcolor{red}{${translit}}\\\\<br/>"
 //                sb << "<div style=\"display:table-row\"><div style=\"display:table-cell;padding-right:10px\">${key}</div><div style=\"display:table-cell\">${SyllabaryUtil.mixedTransliteration(translit)}"
 //                sb << "<br/><span style=\"color:red\">${translit}</span>"
 //                sb << "</div></div>"
@@ -244,8 +245,27 @@ class CitationTagLib {
             sb << "<h4>Vocabulary - ${SyllabaryUtil.tsalagiToSyllabary("dikaneisdi")}</h4>"
 
             params.src.each { key, value ->
-                def translit = value
-                sb << "<div style=\"display:table-row\"><div style=\"display:table-cell;padding-right:10px\">${key}</div><div style=\"display:table-cell\">${SyllabaryUtil.mixedTransliteration(translit)}"
+                def sb2 = new StringBuilder()
+                def translit = ""
+                if (value instanceof List) {
+                    translit = value.join(" ")
+                    value.each {val ->
+                        if (val.contains("<e>")) {
+                            sb2 << "${val.substring("<e>".size())} "
+                        } else {
+                            sb2 << "${SyllabaryUtil.mixedTransliteration(val)} "
+                        }
+                    }
+                } else {
+                    translit = value
+                    sb2 << "${SyllabaryUtil.mixedTransliteration(value)}"
+                }
+
+//                sb << "${key} & ${sb2}\\newline \\textcolor{red}{${translit}}\\\\<br/>"
+
+                sb << "<div style=\"display:table-row\">"
+                sb << "<div style=\"display:table-cell;padding-right:10px\">${key}</div>"
+                sb << "<div style=\"display:table-cell\">${sb2}"
                 sb << "<br/><span style=\"color:red\">${translit}</span>"
                 sb << "</div></div>"
             }
@@ -261,8 +281,8 @@ class CitationTagLib {
         def showRedHelper = params.phonetic ? true : false
 
         if (isPrintVersion) {
-            sb << "\\Cherokee ${SyllabaryUtil.mixedTransliteration(name)}\\selectfont:"
-            sb << " & \\Cherokee ${SyllabaryUtil.mixedTransliteration(dialog)}\\selectfont\\newline \\textcolor{red}{${dialog}}\\\\<br/>"
+            sb << "${SyllabaryUtil.mixedTransliteration(name)}:"
+            sb << " & ${SyllabaryUtil.mixedTransliteration(dialog)}\\newline \\textcolor{red}{${dialog}}\\\\<br/>"
         } else {
             sb << "<div style=\"display:table-row\">\n" +
                     "    <div style=\"display:table-cell;padding-right:10px\">\n" +
@@ -291,7 +311,6 @@ class CitationTagLib {
 
         out << raw(sb.toString())
     }
-
 
     def dialogItem = {params, body ->
         def key = params.key

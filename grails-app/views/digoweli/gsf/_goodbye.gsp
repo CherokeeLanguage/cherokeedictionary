@@ -5,6 +5,6 @@
     <g:footnote src="We will discuss the plurality prefixes (d-) in the section " linkTitle="Word Breakdown - Plurality Prefixes" link="wordBreakdownPluralityPrefixes"/>
     <br/>
     <g:if test="${showExercise}">
-        <g:exercise text="1. Goodbye, Mary and John 2. Goodbye, Titus 3. Goodbye, Daniel 4. Goodbye, Mary, John, Susan, and Mark"/>
+        <g:exercise text="1. Goodbye, Mary and John. 2. Goodbye, Titus. 3. Goodbye, Daniel. 4. Goodbye, Mary, John, Susan, and Mark." answers="1. Dodadagohvi, Meli ale Jani. 2. Donadagohvi, Dadasi 3. Donadagohvi, Danili 4. Dodadagohvi, Meli, Jani, Susani, ale Maga"/>
     </g:if>
 </g:bookSection>

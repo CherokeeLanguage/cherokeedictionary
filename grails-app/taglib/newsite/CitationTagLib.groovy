@@ -9,6 +9,8 @@ class CitationTagLib {
     def citationMap = [:]
     def isPrintVersion = false
 
+    def answerKey = [:]
+
     def printVersion = {
         isPrintVersion = it.trueFalse && it.trueFalse=="true"
     }
@@ -119,14 +121,27 @@ class CitationTagLib {
 
     def exercise = {params, body ->
         def sb = new StringBuilder()
+        def exerciseTitle = "Exercise - ${g.transl(src: "alisinahisdisgv digvdodi")}}"
         if (isPrintVersion) {
-            sb << "<br/>\\section{Exercise - ${g.transl(src: "alisinahisdisgv digvdodi")}}<br/>"
+            sb << "<br/>\\section{${exerciseTitle}<br/>"
             sb << "Translate to Cherokee syllabary and the phonetic equivalent\\\\<br/>"
-            sb << "${params.text}<br/>"
+            sb << "${params.text}\\\\"
+            if (params.answers) {
+                sb << "<br/>${params.answers}\\\\"
+                sb << "<br/>${SyllabaryUtil.mixedTransliteration(params.answers)}"
+            }
         } else {
-            sb << "<h4>Exercise - ${g.transl(src: "alisinahisdisgv digvdodi")}</h4>"
+            sb << "<h4>${exerciseTitle}</h4>"
             sb << "Translate to Cherokee syllabary and the phonetic equivalent<br/>"
             sb << params.text
+            if (params.answers) {
+                sb << "<br/>${params.answers}"
+                sb << "<br/>${SyllabaryUtil.mixedTransliteration(params.answers)}"
+            }
+        }
+
+        if (params.answers) {
+            answerKey."${params.text}" = params.answers
         }
 
         out << raw(sb.toString())
@@ -242,7 +257,7 @@ class CitationTagLib {
                     sb2 << "${SyllabaryUtil.mixedTransliteration(value)} "
                 }
 
-                sb << "${key} & ${sb2}\\newline \\textcolor{red}{${translit}}\\\\<br/>"
+                sb << "${key.replaceAll("_", " ")} & ${sb2}\\newline \\textcolor{red}{${translit}}\\\\<br/>"
 //                sb << "${key} & ${SyllabaryUtil.mixedTransliteration(translit)} \\newline \\textcolor{red}{${translit}}\\\\<br/>"
 //                sb << "<div style=\"display:table-row\"><div style=\"display:table-cell;padding-right:10px\">${key}</div><div style=\"display:table-cell\">${SyllabaryUtil.mixedTransliteration(translit)}"
 //                sb << "<br/><span style=\"color:red\">${translit}</span>"
@@ -272,7 +287,7 @@ class CitationTagLib {
 //                sb << "${key} & ${sb2}\\newline \\textcolor{red}{${translit}}\\\\<br/>"
 
                 sb << "<div style=\"display:table-row\">"
-                sb << "<div style=\"display:table-cell;padding-right:10px\">${key}</div>"
+                sb << "<div style=\"display:table-cell;padding-right:10px\">${key.replaceAll("_", " ")}</div>"
                 sb << "<div style=\"display:table-cell\">${sb2}"
                 sb << "<br/><span style=\"color:red\">${translit}</span>"
                 sb << "</div></div>"
@@ -324,5 +339,51 @@ class CitationTagLib {
         def key = params.key
         def value = params.value
         out << g.dialogLine(name: key, dialog: value, phonetic: 'true')
+    }
+
+    def answerKeyPrint = {
+        def sb = new StringBuilder()
+        if (isPrintVersion) {
+            sb << "\\section{Answer Key -}<br/>"
+            answerKey.each { key, value ->
+                sb << "\\noindent${key}"
+                sb << "\\\\<br/>"
+                sb << value
+                sb << "\\\\<br/>"
+                sb << SyllabaryUtil.mixedTransliteration(value)
+                sb << "<br/><br/>"
+            }
+        } else {
+            sb << "<h3>Answer Key - </h3>"
+            answerKey.each { key, value ->
+                sb << key
+                sb << "<br/>"
+                sb << value
+                sb << "<br/>"
+                sb << SyllabaryUtil.mixedTransliteration(value)
+                sb << "<br/><br/>"
+            }
+        }
+
+        out << raw(sb.toString())
+    }
+
+    def reader = {
+        def sb = new StringBuilder()
+        if (isPrintVersion) {
+            sb << "\\section{Reader -}<br/>"
+            answerKey.each { key, value ->
+                sb << SyllabaryUtil.mixedTransliteration(value)
+                sb << "\\\\<br/>"
+            }
+        } else {
+            sb << "<h3>Reader - </h3>"
+            answerKey.each { key, value ->
+                sb << SyllabaryUtil.mixedTransliteration(value)
+                sb << "<br/>"
+            }
+        }
+
+        out << raw(sb.toString())
     }
 }

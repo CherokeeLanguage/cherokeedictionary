@@ -8,5 +8,5 @@ class DigoweliController {
 
     }
 
-    def printVersion() {}
+    def parameters() {}
 }

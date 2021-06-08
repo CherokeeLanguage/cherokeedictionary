@@ -135,11 +135,19 @@ class CitationTagLib {
     def bookSection = { params, body ->
         def sb = new StringBuilder()
         if (isPrintVersion) {
-            sb << "\\subsection{${params.title} - ${g.translit(src: params.phonetic)}}<br/>"
+            sb << "\\subsection{${params.title}"
+            if (params.phonetic) {
+                sb << " - ${g.translit(src: params.phonetic)}"
+            }
+            sb << "}<br/>"
             sb << body()
             sb << "<br/>"
         } else {
-            sb << "<h4>${params.title} - ${g.translit(src:params.phonetic)}</h4>"
+            sb << "<h4>${params.title}"
+            if (params.phonetic) {
+                sb << " - ${g.translit(src: params.phonetic)}"
+            }
+            sb << "</h4>"
             sb << body()
         }
 
@@ -276,12 +284,12 @@ class CitationTagLib {
 
     def dialogLine = {params ->
         def sb = new StringBuilder()
-        def name = params.name
+        def name = params.name.trim()
         def dialog = params.dialog
         def showRedHelper = params.phonetic ? true : false
 
         if (isPrintVersion) {
-            sb << "${SyllabaryUtil.mixedTransliteration(name)}:"
+            sb << "${SyllabaryUtil.mixedTransliteration(name).trim()}:"
             sb << " & ${SyllabaryUtil.mixedTransliteration(dialog)}\\newline \\textcolor{red}{${dialog}}\\\\<br/>"
         } else {
             sb << "<div style=\"display:table-row\">\n" +

@@ -6,7 +6,8 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="net.cherokeedictionary.transliteration.SyllabaryUtil; groovy.xml.MarkupBuilder"%>
+<%@ page import="cherokee.dictionary.taglibUtil.NumbersSection; cherokee.dictionary.taglibUtil.GreetingsSection;cherokee.dictionary.taglibUtil.ColorsSection; cherokee.dictionary.taglibUtil.WhatIsYourNameSection" %>
+<%@ page import="cherokee.dictionary.taglibUtil.DatesSection;" %>
 <html>
 <head>
     <title>Cherokee Language Book - <g:translit src="tsalagi gawonihisd digoweli"/></title>
@@ -16,78 +17,89 @@
 %{--<g:render template="hold/old/2WhatDoYouWantToDo/Chapter"/>--}%
 <%
 def isPrintVersion = request.getParameter("print") && request.getParameter("print") == "true"
-def greetOthersChapterTitle = 'Greet Others'
-def whatIsYourNameTitle = "What is your name?"
+def greetingsSection = new GreetingsSection()
+def whatIsYourNameSection = new WhatIsYourNameSection()
+def numbersSection = new NumbersSection()
+def colorsSection = new ColorsSection()
+def datesSection = new DatesSection()
 
 def tableOfContents = ['Dedication'
                        , 'From The Author'
                        , 'Greetings'
-                       , '\t' + greetOthersChapterTitle
-                       , whatIsYourNameTitle
-                       , 'I\'d like you to meet'
-                       , 'I want.  I see'
-                       , 'Where are you from?'
                        , 'Do you speak Cherokee?'
+                       , '\t' + greetingsSection.linkTitle
+                       ,  whatIsYourNameSection.linkTitle
+                       , 'Where are you from?'
+                       , 'I\'d like you to meet'
+                       , 'Do you understand?'
+                       , ''
+                       , 'Numbers and Money'
                        , 'Cardinal Numbers'
                        , 'Ordinal Numbers'
+                       , 'Money'
+                       , ''
                        , 'On the Telephone'
+                       , ''
                        , 'Address and Email'
-                       , 'Profession'
+                       , ''
                        , 'Dates, Months, and Days of Week'
-                       , 'Time'
-                       , 'Body Parts'
-                       , 'Emotions'
-                       , '5 senses'
-                       , 'prepositions'
-                       , 'conjunctions'
-                       , 'interjections'
-                       , 'negation'
+                       , 'Time, Counting, Hours, Minutes, Seconds, Fractions'
+                       , ''
+                       , 'Special Occasions'
+                       , ''
+                       , 'Describing Things'
+                       , 'Colors'
+                       , 'Clothes and Shopping'
+                       , 'Describing Others'
+                       , 'Shapes'
+                       , ''
+                       , 'Food, eating, drinking'
+                       , 'Breakfast, Coffee, Lunch, Dinner, Dating'
                        , 'are you hungry'
+                       , ''
+                       , 'Directions, where is something, directions around town'
+                       , 'Weather, Seasons'
+                       , ''
+                       , 'Profession'
+                       , 'Body Parts & Functions'
+                       , '5 senses'
+                       , 'Emotions'
+                       , ''
                        , 'Seasons'
                        , 'This and That'
                        , 'Family'
-                       , 'To Have and Have Not'
-                       , 'Describing Others'
-                       , 'Directions'
-                       , 'Weather'
-                       , 'Money'
-                       , 'Clothes and Shopping'
+                       , ''
+                       , 'This & That'
+                       , 'Posessive'
                        , 'Animals'
-                       , 'Colors'
-                       , 'Food'
+                       , ''
                        , 'On the farm'
                        , 'Visiting Friends'
                        , 'Verb Conjugation'
                        , 'Yours, Mine, Ours'
-                       , 'Questions'
-                       , 'Pronouns'
                        , 'At the doctor'
                        , 'Around the House'
                        , 'At the beach'
                        , 'Transporation'
                        , 'Festivals and Celebrations'
                        , 'At the airport'
+                       , ''
+                       , 'I want.  I see'
+                       , 'Questions'
+                       , 'Pronouns'
+                       , 'Singular/Plural'
+                       , 'Derived Nouns'
                        , 'Articles and Conversion'
-                       , 'advanced Verb'
+                       , 'prepositions'
+                       , 'conjunctions'
+                       , 'interjections'
+                       , 'negation'
+                       , 'To Have and Have Not'
+                       , 'Advanced Verb'
                        , 'Clitics'
                        , 'Grammar Summary'
                        , 'Charts'
-                       , 'Shapes'
                        , 'Publication bibliography']
-
-//todo: what if these have audio files?
-def greetingsVocabulary = [:]
-greetingsVocabulary.Titus = 'Dadasi'
-greetingsVocabulary.Timothy = 'Dimadi'
-greetingsVocabulary.Mary = 'Meli'
-greetingsVocabulary.Mark = 'Maga'
-greetingsVocabulary.Daniel = 'Danili'
-greetingsVocabulary.Susan = 'Susani'
-greetingsVocabulary.John = 'Jani'
-greetingsVocabulary.Hello = '(o)siyo'
-greetingsVocabulary.And = ['ale', '<e>or', 'nole']
-greetingsVocabulary.Good = 'osda'
-greetingsVocabulary."Well/Fine" = 'osigwu'
 
 def yesNoVocabulary = [:]
 yesNoVocabulary.yes = "vv"
@@ -103,38 +115,118 @@ greetings2."And you?" = "nihina"
 greetings2."Thank you." = "wado"
 greetings2."Thank you very much." = "wadodv"
 greetings2."Ok." = "howa"
-
-def whatIsYourNameVocabulary = [:]
 %>
 <g:clearCitations/>
 <g:printVersion trueFalse="${request.getParameter("print")}"/>
-<g:render template="gsf/titleTOC" model="[tableOfContents: tableOfContents]"/>
 
-<g:render template="gsf/Greetings" model="['title': greetOthersChapterTitle, vocabulary:greetingsVocabulary]"/>
+%{--<g:render template="gsf/sections/titleTOC" model="[tableOfContents: tableOfContents]"/>--}%
+<pre>
+Dedication
+From The Author
+</pre>
+<pre>
+Greetings
+Do you speak Cherokee?
+    ${greetingsSection.linkTitle}
+${whatIsYourNameSection.linkTitle}
+Where are you from?
+I\d like you to meet
+Do you understand?
+</pre>
+<g:render template="gsf/chapters/Greetings" model="[baseSection: greetingsSection, isPrintVersion:isPrintVersion]"/>
+<g:render template="gsf/chapters/WhatIsYourName" model="[baseSection: whatIsYourNameSection, isPrintVersion:isPrintVersion]"/>
+<pre>
+Numbers and Money
+Cardinal Numbers
+Ordinal Numbers
+Money
+</pre>
+<g:render template="gsf/chapters/Numbers" model="[baseSection: numbersSection, isPrintVersion:isPrintVersion]"/>
+<pre>
+On the Telephone
 
-<g:render template="gsf/WhatIsYourName" model="['title': whatIsYourNameTitle, vocabulary:whatIsYourNameVocabulary]"/>
-%{--<g:vocabulary src="${yesNoVocabulary}"/>--}%
-%{--<g:vocabulary src="${greetings2}"/>--}%
-%{--<g:vocabulary src="${greetingsVocabulary << yesNoVocabulary << greetings2}"/>--}%
+Address and Email
 
-<g:render template="gsf/items"/>
-<g:render template="gsf/dialect"/>
+Dates, Months, and Days of Week
+</pre>
+<g:render template="gsf/chapters/Dates" model="[baseSection: datesSection, isPrintVersion:isPrintVersion]"/>
+<pre>
+Time, Counting, Hours, Minutes, Seconds, Fractions
 
-<g:render template="gsf/tohiDohiWordBreakdownQuote"/>
+Special Occasions
+
+Describing Things</pre>
+<g:render template="gsf/chapters/Colors" model="[baseSection: colorsSection, isPrintVersion:isPrintVersion]"/>
+<pre>Clothes and Shopping
+Describing Others
+Shapes
+
+Food, eating, drinking
+Breakfast, Coffee, Lunch, Dinner, Dating
+are you hungry
+
+Directions, where is something, directions around town
+Weather, Seasons
+
+Profession
+Body Parts \& Functions
+5 senses
+Emotions
+
+Seasons
+This and That
+Family
+
+This \& That
+Possessive
+Animals
+
+On the farm
+Visiting Friends
+Verb Conjugation
+Yours, Mine, Ours
+At the doctor
+Around the House
+At the beach
+Transportation
+Festivals and Celebrations
+At the airport
+
+I want.  I see
+Questions
+Pronouns
+Singular/Plural
+Derived Nouns
+Articles and Conversion
+prepositions
+conjunctions
+interjections
+negation
+To Have and Have Not
+Advanced Verb
+Clitics
+</pre>
+
+Grammar Summary<br/>
+<g:render template="gsf/sections/dialect"/>
+<g:render template="gsf/sections/tohiDohiWordBreakdownQuote"/>
+<g:render template="gsf/sections/daysOfWeekMeaning"/>
+<br/><br/>
+<br/>Charts<br/>
 
 <g:reader/>
 <g:answerKeyPrint/>
+
 <g:if test="${!request.getParameter("print") || request.getParameter("print") == "false"}">
+    <a name="bibliography"></a>
     <h2>Bibliography</h2>
 </g:if>
 <g:printCitations/>
-<br/><br/>
-<br/><br/>
-<br/><br/>
-<br/><br/>
-<br/><br/>
-<br/><br/>
-<br/><br/>
+
+%{--<g:vocabulary src="${yesNoVocabulary}"/>--}%
+%{--<g:vocabulary src="${greetings2}"/>--}%
+%{--<g:vocabulary src="${greetingsVocabulary << yesNoVocabulary << greetings2}"/>--}%
+%{--<g:render template="gsf/items"/>--}%
 </body>
 </html>
 

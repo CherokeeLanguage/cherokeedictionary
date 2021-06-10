@@ -349,53 +349,7 @@ I see 2 apples
 I want 4 bananas
 I want some grapes
 
-\section{What You Will Learn}
-In this unit you will learn:
-\begin{itemize}
-\item Tell time
-\item
-\end{itemize}
 
-\section{ - <s></s>}
-
-\section{Vocabulary Section}
-
-\noindent\textbf{Nouns}\\
-\indent <s>saquu</s> \textcolor{red}{[sa-quu]} 1\\
-\indent <s>tali</s> \textcolor{red}{[ta-li]} 2\\
-\indent <s>tsoi</s> \textcolor{red}{[tso-i]} 3\\
-\indent <s>nvhigi</s> \textcolor{red}{[nv-gi]} 4\\
-\indent <s>hisgi</s> \textcolor{red}{[hi-s-gi]} 5\\
-\indent <s>sudali</s> \textcolor{red}{[su-da-li]} 6\\
-\indent <s>galiquogi</s> \textcolor{red}{[ga-l(i)-quo-gi]} 7\\
-\indent <s>tsanela</s> \textcolor{red}{[tsa-ne-la]} 8\\
-\indent <s>sonela</s> \textcolor{red}{[so-ne-la]} 9\\
-\indent <s>sgohi</s> \textcolor{red}{[s-go-hi]} 10\\
-
-\indent <s>igvyii</s>  \textcolor{red}{[i-gv-yi-(i)]} First\\
-\indent <s>talinei</s>  \textcolor{red}{[ta-li-ne-(i)]} Second\\
-\indent <s>tsoinei</s>  \textcolor{red}{[tso-i-ne-(i)]} Third\\
-\indent <s>nvsginei</s>  \textcolor{red}{[nv-s-gi-ne-(i)]} Fourth\\
-\indent <s>hisginei</s>  \textcolor{red}{[hi-s-gi-ne-(i)]} Fifth\\
-\indent <s>sudalinei</s>  \textcolor{red}{[su-da-li-ne-(i)]} Sixth\\
-\indent <s>galiquoginei</s>  \textcolor{red}{[ga-li-quo-gi-ne-(i)]} Seventh\\
-\indent <s>tsunelinei</s>  \textcolor{red}{[tsu-ne-li-ne-(i)]} Eighth\\
-\indent <s>sonelinei</s>  \textcolor{red}{[so-ne-li-ne-(i)]} Ninth\\
-\indent <s>sgohinei</s>  \textcolor{red}{[s-go-hi-ne-(i)]} Tenth\\
-
-\indent <s></s> \textcolor{red}{[]} \\
-
-\section{Cardinal Numbers}
-Also called cardinal numeral. Any of the numbers that express amount, as one, two, three,  etc. (distinguished from ordinal number ).\footnote{cite - http://dictionary.reference.com/browse/cardinal+numbers?s=t}
-
-Cardinal numbers answer the question: How many are there? and tell the total.
-
-\section{Ordinal Numbers}
-Also called ordinal numeral. any of the numbers that express degree, quality, or position in a series, as first, second, and third  (distinguished from cardinal number ).\footnote{cite - http://dictionary.reference.com/browse/ordinal+numbers?s=t}
-
-Ordinal numbers answer the question: Where does it fit in a numbered set? and tell the order.
-
-Ord(inal) - Ord(er)
 
 What do you do?
 

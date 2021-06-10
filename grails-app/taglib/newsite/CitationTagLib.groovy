@@ -20,6 +20,16 @@ class CitationTagLib {
         out << raw(citationUtil.footnote(it))
     }
 
+    def br = {
+        def sb = new StringBuilder()
+        if (citationUtil.isPrintVersion) {
+            sb << "\\\\"
+        }
+
+        sb << raw("<br/>")
+        out << raw(sb.toString())
+    }
+
     def citation = {params, body ->
         out << raw(citationUtil.citation(params, body))
     }
@@ -56,16 +66,16 @@ class CitationTagLib {
         out << raw(citationUtil.whatYouWillLearn(params, body))
     }
 
-    def dialogVocab = {params, body ->
-        out << raw(citationUtil.dialogVocab(params, body))
-    }
+//    def dialogVocab = {params, body ->
+//        out << raw(citationUtil.dialogVocab(params, body))
+//    }
+//
+//    def dialogLine = {params ->
+//        out << raw(citationUtil.dialogLine(params))
+//    }
 
     def vocabulary = {params ->
-        out << raw(citationUtil.vocabulary)
-    }
-
-    def dialogLine = {params ->
-        out << raw(citationUtil.dialogLine(params))
+        out << raw(citationUtil.vocabulary(params))
     }
 
     def dialogItem = {params, body ->

@@ -105,7 +105,7 @@ class CitationUtil {
             sb << "\\chapter{${title}}<br/>"
             sb << body()
         } else {
-            sb << "<a name=\"${params.anchor.replaceAll(" ", "")}\"></a>"
+            sb << "<a name=\"${params.anchor.replaceAll(" ", "").replaceAll(",", "").replaceAll("\\?", "").replaceAll("\\.", "")}\"></a>"
             sb << "<h2>${title}</h2>"
             sb << body()
         }
@@ -219,31 +219,89 @@ class CitationUtil {
         return sb.toString()
     }
 
-    def dialogVocab = {params, body ->
-        def sb = new StringBuilder()
-        def vocab = params.vocab
+//    def dialogVocab = {params, body ->
+//        def sb = new StringBuilder()
+//        def vocab = params.vocab
+//
+//        if (isPrintVersion) {
+//            sb << "\\subsection{Dialog - }<br/>"
+//            sb << "\\begin{tabular}{p{2cm} p{11cm}}<br/>"
+//            sb << body()
+//            sb << "\\end{tabular}<br/><br/>"
+//            sb << vocabulary(src: vocab)
+//        } else {
+//            sb << "<div style=\"display:table-row\">"
+////            sb << "<div style=\"display:table-cell;padding-right:20px\">"
+//            sb << "<h4>Dialog - </h4>"
+//            sb << body()
+////            sb << "</div>"
+////            sb << "<div style=\"display:table-cell\">"
+//
+////            sb << "</div>"
+//            sb << "</div>"
+//            sb << vocabulary(src: vocab)
+//        }
+//
+//        return sb.toString()
+//    }
 
-        if (isPrintVersion) {
-            sb << "\\subsection{Dialog - }<br/>"
-            sb << "\\begin{tabular}{p{2cm} p{11cm}}<br/>"
-            sb << body()
-            sb << "\\end{tabular}<br/><br/>"
-            sb << vocabulary(src: vocab)
-        } else {
-            sb << "<div style=\"display:table-row\">"
-//            sb << "<div style=\"display:table-cell;padding-right:20px\">"
-            sb << "<h4>Dialog - </h4>"
-            sb << body()
+
+//    def dialogLine = {params ->
+//        def sb = new StringBuilder()
+//        def name = params.name.trim()
+//        def engName = params?.engName?.trim() ?: ""
+//        def engDialog = params?.engDialog ?: ""
+//        def dialog = params.dialog
+//        def showRedHelper = params.phonetic ? true : false
+//
+//        if (isPrintVersion) {
+//            sb << "${SyllabaryUtil.mixedTransliteration(name).trim()}:"
+//            sb << " & ${SyllabaryUtil.mixedTransliteration(dialog)}\\newline \\textcolor{red}{${dialog}}"
+//            sb << " & ${engName}: & ${engDialog}\\\\<br/>"
+//        } else {
+//            sb << "<div style=\"display:table-row;padding-right:20px\">"
+//            sb << "<div style=\"display:table-cell\">"
+//            sb << "<div style=\"display:table-row\">\n" +
+//                    "    <div style=\"display:table-cell;padding-right:10px\">\n" +
+//                    "        <div style=\"display:table-row\">\n" +
+//                    "            <div style=\"display:table-cell\">${SyllabaryUtil.mixedTransliteration(name)}:</div>\n" +
+//                    "        </div>\n"
+//            if (showRedHelper) {
+//                sb << "        <div style=\"display:table-row\">\n" +
+//                        "            <div style=\"display:table-cell\"><span style=\"color:red\">${name}:</span></div>\n" +
+//                        "        </div>\n"
+//            }
+//            sb << "    </div>\n" +
+//                    "    <div style=\"display:table-cell\">\n" +
+//                    "        <div style=\"display:table-row\">\n" +
+//                    "            <div style=\"display:table-cell\">${SyllabaryUtil.mixedTransliteration(dialog)}</div>\n" +
+//                    "        </div>\n"
+//            if (showRedHelper) {
+//                sb << "        <div style=\"display:table-row\">\n" +
+//                        "            <div style=\"display:table-cell\"><span style=\"color:red\">${dialog}</span></div>\n" +
+//                        "        </div>\n"
+//            }
+//
+//            sb << "</div></div>"
 //            sb << "</div>"
 //            sb << "<div style=\"display:table-cell\">"
-
-//            sb << "</div>"
-            sb << "</div>"
-            sb << vocabulary(src: vocab)
-        }
-
-        return sb.toString()
-    }
+//            sb << "<div style=\"display:table-row\">\n" +
+//                    "    <div style=\"display:table-cell;padding-left:20px;padding-right:20px\">\n" +
+//                    "        <div style=\"display:table-row\">\n" +
+//                    "            <div style=\"display:table-cell\">${engName}:</div>\n" +
+//                    "        </div>\n"
+//            sb << "    </div>\n" +
+//                    "    <div style=\"display:table-cell\">\n" +
+//                    "        <div style=\"display:table-row\">\n" +
+//                    "            <div style=\"display:table-cell\">${engDialog}</div>\n" +
+//                    "        </div>\n"
+//
+//            sb << "</div></div>"
+//            sb << "</div></div>"
+//        }
+//
+//        return sb.toString()
+//    }
 
     def vocabulary = {params ->
         def sb = new StringBuilder()
@@ -303,63 +361,6 @@ class CitationUtil {
                 sb << "<br/><span style=\"color:red\">${translit}</span>"
                 sb << "</div></div>"
             }
-        }
-
-        return sb.toString()
-    }
-
-    def dialogLine = {params ->
-        def sb = new StringBuilder()
-        def name = params.name.trim()
-        def engName = params?.engName?.trim() ?: ""
-        def engDialog = params?.engDialog ?: ""
-        def dialog = params.dialog
-        def showRedHelper = params.phonetic ? true : false
-
-        if (isPrintVersion) {
-            sb << "${SyllabaryUtil.mixedTransliteration(name).trim()}:"
-            sb << " & ${SyllabaryUtil.mixedTransliteration(dialog)}\\newline \\textcolor{red}{${dialog}}"
-            sb << " & ${engName}: & ${engDialog}\\\\<br/>"
-        } else {
-            sb << "<div style=\"display:table-row;padding-right:20px\">"
-            sb << "<div style=\"display:table-cell\">"
-                sb << "<div style=\"display:table-row\">\n" +
-                        "    <div style=\"display:table-cell;padding-right:10px\">\n" +
-                        "        <div style=\"display:table-row\">\n" +
-                        "            <div style=\"display:table-cell\">${SyllabaryUtil.mixedTransliteration(name)}:</div>\n" +
-                        "        </div>\n"
-                if (showRedHelper) {
-                    sb << "        <div style=\"display:table-row\">\n" +
-                            "            <div style=\"display:table-cell\"><span style=\"color:red\">${name}:</span></div>\n" +
-                            "        </div>\n"
-                }
-                sb << "    </div>\n" +
-                        "    <div style=\"display:table-cell\">\n" +
-                        "        <div style=\"display:table-row\">\n" +
-                        "            <div style=\"display:table-cell\">${SyllabaryUtil.mixedTransliteration(dialog)}</div>\n" +
-                        "        </div>\n"
-                if (showRedHelper) {
-                    sb << "        <div style=\"display:table-row\">\n" +
-                            "            <div style=\"display:table-cell\"><span style=\"color:red\">${dialog}</span></div>\n" +
-                            "        </div>\n"
-                }
-
-                sb << "</div></div>"
-            sb << "</div>"
-            sb << "<div style=\"display:table-cell\">"
-                sb << "<div style=\"display:table-row\">\n" +
-                        "    <div style=\"display:table-cell;padding-left:20px;padding-right:20px\">\n" +
-                        "        <div style=\"display:table-row\">\n" +
-                        "            <div style=\"display:table-cell\">${engName}:</div>\n" +
-                        "        </div>\n"
-                sb << "    </div>\n" +
-                        "    <div style=\"display:table-cell\">\n" +
-                        "        <div style=\"display:table-row\">\n" +
-                        "            <div style=\"display:table-cell\">${engDialog}</div>\n" +
-                        "        </div>\n"
-
-                sb << "</div></div>"
-            sb << "</div></div>"
         }
 
         return sb.toString()

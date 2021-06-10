@@ -14,13 +14,16 @@
 <body>
 %{--<g:render template="hold/old/1Greetings/Chapter"/>--}%
 %{--<g:render template="hold/old/2WhatDoYouWantToDo/Chapter"/>--}%
-<% def greetOthersChapterTitle = 'Greet Others'
+<%
+def isPrintVersion = request.getParameter("print") && request.getParameter("print") == "true"
+def greetOthersChapterTitle = 'Greet Others'
+def whatIsYourNameTitle = "What is your name?"
+
 def tableOfContents = ['Dedication'
                        , 'From The Author'
                        , 'Greetings'
-                       , '\tWhat You Will Learn'
                        , '\t' + greetOthersChapterTitle
-                       , 'What is your name?'
+                       , whatIsYourNameTitle
                        , 'I\'d like you to meet'
                        , 'I want.  I see'
                        , 'Where are you from?'
@@ -100,6 +103,8 @@ greetings2."And you?" = "nihina"
 greetings2."Thank you." = "wado"
 greetings2."Thank you very much." = "wadodv"
 greetings2."Ok." = "howa"
+
+def whatIsYourNameVocabulary = [:]
 %>
 <g:clearCitations/>
 <g:printVersion trueFalse="${request.getParameter("print")}"/>
@@ -107,11 +112,13 @@ greetings2."Ok." = "howa"
 
 <g:render template="gsf/Greetings" model="['title': greetOthersChapterTitle, vocabulary:greetingsVocabulary]"/>
 
-<g:render template="gsf/dialect"/>
-
+<g:render template="gsf/WhatIsYourName" model="['title': whatIsYourNameTitle, vocabulary:whatIsYourNameVocabulary]"/>
 %{--<g:vocabulary src="${yesNoVocabulary}"/>--}%
 %{--<g:vocabulary src="${greetings2}"/>--}%
 %{--<g:vocabulary src="${greetingsVocabulary << yesNoVocabulary << greetings2}"/>--}%
+
+<g:render template="gsf/items"/>
+<g:render template="gsf/dialect"/>
 
 <g:render template="gsf/tohiDohiWordBreakdownQuote"/>
 
@@ -128,6 +135,9 @@ greetings2."Ok." = "howa"
 <br/><br/>
 <br/><br/>
 <br/><br/>
-
 </body>
 </html>
+
+%{--<g:render template="gsf/layout/footnote" model="[isPrintVersion:isPrintVersion, src:'Osi will be discussed more in the section ', linkTitle:'Word Breakdown - Tohi and Osi', link:'wordBreakdownTohiOsi']"/>--}%
+%{--<g:footnote src="Osi will be discussed more in the section " linkTitle="Word Breakdown - Tohi and Osi" link="wordBreakdownTohiOsi"/>--}%
+%{--<g:render template="gsf/layout/footnote" model='[isPrintVersion: false, src:'Osi will be discussed more in the section ', linkTitle:Word Breakdown - Tohi and Osi", link:"wordBreakdownTohiOsi"]"/>--}%

@@ -5,6 +5,7 @@
     <g:footnote src="Osi will be discussed more in the section " linkTitle="Word Breakdown - Tohi and Osi" link="wordBreakdownTohiOsi"/>
     <br/>
     <g:if test="${showExercise}">
+%{--        <g:exercise text="${["Hello, Mary", "Hello, Mark", "Hello, Daniel", "Hello, Susan"]}" answers="${["1. (O)siyo, Meli.", "(O)siyo, Maga.", "(O)siyo, Danili", "(O)siyo, Susani"]}"/>--}%
         <g:exercise text="1. Hello, Mary 2. Hello, Mark 3. Hello, Daniel 4. Hello, Susan" answers="1. (O)siyo, Meli. 2. (O)siyo, Maga. 3. (O)siyo, Danili 4. (O)siyo, Susani"/>
     </g:if>
 </g:bookSection>

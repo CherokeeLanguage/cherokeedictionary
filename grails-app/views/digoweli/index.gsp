@@ -7,7 +7,7 @@
 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="cherokee.dictionary.taglibUtil.NumbersSection; cherokee.dictionary.taglibUtil.GreetingsSection;cherokee.dictionary.taglibUtil.ColorsSection; cherokee.dictionary.taglibUtil.WhatIsYourNameSection" %>
-<%@ page import="cherokee.dictionary.taglibUtil.DatesSection;" %>
+<%@ page import="cherokee.dictionary.taglibUtil.DatesSection;cherokee.dictionary.taglibUtil.TimesSection;" %>
 <html>
 <head>
     <title>Cherokee Language Book - <g:translit src="tsalagi gawonihisd digoweli"/></title>
@@ -22,6 +22,7 @@ def whatIsYourNameSection = new WhatIsYourNameSection()
 def numbersSection = new NumbersSection()
 def colorsSection = new ColorsSection()
 def datesSection = new DatesSection()
+def timesSection = new TimesSection()
 
 def tableOfContents = ['Dedication'
                        , 'From The Author'
@@ -150,9 +151,8 @@ Address and Email
 Dates, Months, and Days of Week
 </pre>
 <g:render template="gsf/chapters/Dates" model="[baseSection: datesSection, isPrintVersion:isPrintVersion]"/>
+<g:render template="gsf/chapters/Times" model="[baseSection: timesSection, isPrintVersion:isPrintVersion]"/>
 <pre>
-Time, Counting, Hours, Minutes, Seconds, Fractions
-
 Special Occasions
 
 Describing Things</pre>

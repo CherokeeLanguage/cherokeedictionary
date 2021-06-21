@@ -5,11 +5,11 @@ class Verse {
     static constraints = {
     }
 
-    String Book
-    String Chapter
-    String Verse
-    String LineMark
-    String Context
+    String bookName
+    String chapterNumber
+    String verseNumber
+    String lineMark
+    String verseContext
 
     String source
 }

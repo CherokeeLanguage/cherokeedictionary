@@ -1,6 +1,7 @@
 package cherokee
 
 import cherokee.audio.AudioLink
+import cherokee.corpus.Verse
 import cherokee.dictionary.Likespreadsheets
 import cherokee.dictionary.SourceManagement
 import cherokee.relational.PartOfSpeech
@@ -107,7 +108,27 @@ class NewSearchService {
 //                mapOfRules.put("offset", resultsOffset)
 //            }
 //            [max: resultsMax, offset:resultsOffset]
-            def results = Likespreadsheets.findAll(sb, lst);
+            def results = new LinkedList<Object>()
+            def result = Likespreadsheets.findAll(sb, lst);
+            if (result) {
+                results.addAll(result)
+            }
+
+            if (params.bible) {
+                def returnResults = []
+                if (isTsalagi) {
+                    searchTerm = SyllabaryUtil.tsalagiToSyllabary(searchTerm)
+                    returnResults = Verse.findAll("from Verse where verseContext like ?0 and source = ?1", ["%${searchTerm}%", 'chr'])
+                } else if (isSyllabary) {
+                    returnResults = Verse.findAll("from Verse where verseContext like ?0 and source = ?1", ["%${searchTerm}%", 'chr'])
+                } else if (isEnglish) {
+                    returnResults = Verse.findAll("from Verse where verseContext like ?0 and source != ?1", ["%${searchTerm}%", 'chr'])
+                }
+
+                if (returnResults) {
+                    results.addAll(returnResults)
+                }
+            }
 
             if (params.audio) {
                 def returnResults = []

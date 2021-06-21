@@ -312,6 +312,11 @@
                             </g:if>
                         </g:each>
                         <tr>
+                            <td><g:checkBox id="bible" name="bible" checked="false"/></td>
+                            <td>Bible</td>
+                            <td></td>
+                        </tr>
+                        <tr>
                             <td><g:checkBox id="uncheckAll" name="uncheckAll" checked="false"/></td>
                             <td>Unselect All</td>
                             <td></td>

@@ -487,8 +487,10 @@ class NewSearchController {
         // add what dialect it is
         // also parse <u></u> into an underline command
         lst.each {
-            generateTable(it, document)
-            addEmpty(document)
+            if (it instanceof Likespreadsheets) {
+                generateTable(it, document)
+                addEmpty(document)
+            }
         }
 
         document.close();

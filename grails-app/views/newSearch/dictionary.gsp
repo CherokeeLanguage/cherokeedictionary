@@ -128,7 +128,7 @@
     <!-- mobile view -->
     <div class="smallishes">
         <!-- desktop view -->
-%{--        <g:render template="/newSearch/mobileView"  model="[entries:entries]"/>--}%
+        <g:render template="/newSearch/mobileView"  model="[entries:entries]"/>
     </div>
     </body>
 </html>

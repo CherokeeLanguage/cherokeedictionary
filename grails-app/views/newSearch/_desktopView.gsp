@@ -1,4 +1,4 @@
-<%@ page import="cherokee.corpus.Verse; cherokee.dictionary.Likespreadsheets; cherokee.dictionary.SourceManagement; java.util.regex.Pattern; java.util.regex.Matcher" %>
+<%@ page import="cherokee.Settings; cherokee.corpus.Verse; cherokee.dictionary.Likespreadsheets; cherokee.dictionary.SourceManagement; java.util.regex.Pattern; java.util.regex.Matcher" %>
 <table>
 <% if (session.getAttribute("loggedin")) { %><th>Edit</th><% } %>
 <th style="width:1px; margin: 0 0 0 0; padding: 0 0 0 0; border-spacing: 0"></th>
@@ -14,19 +14,16 @@
 <th>Sentence</th>
 <th>See Also</th>
 </tr>
-
+<% def showBible = Settings.findAll("from Settings where setting_name=?0", ['showBible'])[0].value%>
 <g:each in="${entries}" var="entry" status="i">
-<% if (entry instanceof cherokee.corpus.Verse) {
+<% if (showBible == 'true' && entry instanceof Verse) {
         def listv = Verse.findAll("from Verse where chapterNumber=?0 and bookName=?1 and verseNumber=?2", [entry.chapterNumber, entry.bookName, entry.verseNumber])
 %>
     <tr>
+        <% if (session.getAttribute("loggedin")) { %><td></td><% } %>
         <td style="width:1px; margin: 0 0 0 0; padding: 0 0 0 0; border-spacing: 0"></td>
-        <td colspan="10">
-            chr
-            asv
-            bbe
-            dar
-            wbt
+        <td>${entry.bookName} ${entry.chapterNumber}: ${entry.verseNumber}</td>
+        <td colspan="9">
 <%
         listv.each {
             def color = ""
@@ -37,12 +34,36 @@
                 fontColor = "white"
             } else if (it.source == 'asv') {
                 color = "blue"
+                fontColor = "white"
             } else if (it.source == 'bbe') {
+                color = "yellow"
+                fontColor = "black"
             } else if (it.source == 'dar') {
+                color = "white"
+                fontColor = "black"
             } else if (it.source == 'wbt') {
+                color = "black"
+                fontColor = "white"
             }
 %>
-            <span style="color: ${color}; font-color: ${fontColor}">${it.source}</span> | ${it.verseContext}<br/>
+            <div style="display:table-row;height:50px">
+                <div style="display:table-cell;background-color: ${color}; color: ${fontColor}; padding: 5px">
+                    <div style="transform: rotate(90deg); -webkit-transform: rotate(90deg); -moz-transform: rotate(90deg); -ms-transform: rotate(90deg); position:relative; top: 5px; text-align:center; display:inline-block; text-transform:lowercase;width:20px; margin: 0 0 0 0; padding: 0 0 0 0; border-spacing: 0;">
+                        <a href="#" class="popper" style="color: ${fontColor}" data-popbox="thb">
+                            ${it.source}
+                        </a>
+                    </div>
+                    <div id="thb" class="popbox">
+                        <b>chr</b> - Cherokee New Testament<br/>
+                        <b>asv</b> - American Standard Version<br/>
+                        <b>bbe</b> - Bible in Basic English<br/>
+                        <b>dar</b> - Darby Version<br/>
+                        <b>wbt</b> - Webster Bible Translation<br/>
+                        <b>web</b> - World English Bible<br/>
+                    </div>
+                </div>
+                <div style="display:table-cell;padding-left: 5px">${it.verseContext}</div>
+            </div>
     <% } %>
         </td>
         <td></td>

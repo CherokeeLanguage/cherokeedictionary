@@ -1,4 +1,5 @@
-<%@ page import="cherokee.dictionary.SourceManagement; cherokee.dictionary.Announcements" contentType="text/html;charset=UTF-8" %>
+<%@ page import="cherokee.Settings; cherokee.dictionary.SourceManagement; cherokee.dictionary.Announcements" contentType="text/html;charset=UTF-8" %>
+%{--TODO: autocomplete should take into account the boxes that are checked - including the bible and others?--}%
 <html>
 <head>
     <meta name="layout" content="manager"/>
@@ -311,11 +312,14 @@
                                 </tr>
                             </g:if>
                         </g:each>
+                        <% def showBible = Settings.findAll("from Settings where setting_name=?0", ['showBible'])%>
+                        <% if (showBible[0].value == 'true') { %>
                         <tr>
                             <td><g:checkBox id="bible" name="bible" checked="false"/></td>
                             <td>Bible</td>
                             <td></td>
                         </tr>
+                        <% } %>
                         <tr>
                             <td><g:checkBox id="uncheckAll" name="uncheckAll" checked="false"/></td>
                             <td>Unselect All</td>

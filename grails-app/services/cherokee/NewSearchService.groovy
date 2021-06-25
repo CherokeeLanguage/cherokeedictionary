@@ -118,11 +118,11 @@ class NewSearchService {
                 def returnResults = []
                 if (isTsalagi) {
                     searchTerm = SyllabaryUtil.tsalagiToSyllabary(searchTerm)
-                    returnResults = Verse.findAll("from Verse where verseContext like ?0 and source = ?1", ["%${searchTerm}%", 'chr'])
+                    returnResults = Verse.findAll("from Verse where verseContext like ?0 and source = ?1 and ( bookName = 'MAT' or bookName = 'MAK' or bookName = 'LUK' or bookName = 'JHN' or bookName = 'ACT' or bookName = 'ROM' or bookName = '1CO' or bookName = '2CO' or bookName = 'GAL' or bookName = 'EPH' or bookName = 'PHL' or bookName = 'COL' or bookName = '1TS' or bookName = '2TS' or bookName = '1TM' or bookName = '2TM' or bookName = 'TIT' or bookName = 'PHM' or bookName = 'HEB' or bookName = 'JAM' or bookName = '1PE' or bookName = '2PE' or bookName = '1JN' or bookName = '2JN' or bookName = '3JN' or bookName = 'JUD' or bookName = 'REV')", ["%${searchTerm}%", 'chr'])
                 } else if (isSyllabary) {
-                    returnResults = Verse.findAll("from Verse where verseContext like ?0 and source = ?1", ["%${searchTerm}%", 'chr'])
+                    returnResults = Verse.findAll("from Verse where verseContext like ?0 and source = ?1 and ( bookName = 'MAT' or bookName = 'MAK' or bookName = 'LUK' or bookName = 'JHN' or bookName = 'ACT' or bookName = 'ROM' or bookName = '1CO' or bookName = '2CO' or bookName = 'GAL' or bookName = 'EPH' or bookName = 'PHL' or bookName = 'COL' or bookName = '1TS' or bookName = '2TS' or bookName = '1TM' or bookName = '2TM' or bookName = 'TIT' or bookName = 'PHM' or bookName = 'HEB' or bookName = 'JAM' or bookName = '1PE' or bookName = '2PE' or bookName = '1JN' or bookName = '2JN' or bookName = '3JN' or bookName = 'JUD' or bookName = 'REV')", ["%${searchTerm}%", 'chr'])
                 } else if (isEnglish) {
-                    returnResults = Verse.findAll("from Verse where verseContext like ?0 and source != ?1", ["%${searchTerm}%", 'chr'])
+                    returnResults = Verse.findAll("from Verse where verseContext like ?0 and source != ?1 and ( bookName = 'MAT' or bookName = 'MAK' or bookName = 'LUK' or bookName = 'JHN' or bookName = 'ACT' or bookName = 'ROM' or bookName = '1CO' or bookName = '2CO' or bookName = 'GAL' or bookName = 'EPH' or bookName = 'PHL' or bookName = 'COL' or bookName = '1TS' or bookName = '2TS' or bookName = '1TM' or bookName = '2TM' or bookName = 'TIT' or bookName = 'PHM' or bookName = 'HEB' or bookName = 'JAM' or bookName = '1PE' or bookName = '2PE' or bookName = '1JN' or bookName = '2JN' or bookName = '3JN' or bookName = 'JUD' or bookName = 'REV')", ["%${searchTerm}%", 'chr'])
                 }
 
                 if (returnResults) {

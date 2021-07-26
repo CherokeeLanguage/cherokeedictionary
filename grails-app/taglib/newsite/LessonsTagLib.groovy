@@ -1,6 +1,5 @@
 package newsite
 
-
 import net.cherokeedictionary.transliteration.SyllabaryUtil
 
 class LessonsTagLib {
@@ -38,24 +37,30 @@ class LessonsTagLib {
         out << raw(sb.toString())
     }
 
-    def audio = {params ->
-        File audioFile = grailsApplication.mainContext.getResource(params.fileName).file
-        println audioFile != null ? "audio not null" : "audio is null"
-        println audioFile.absolutePath
-
-        response.setContentType('audio/mp3')
-        response.setContentLength (audioFile.bytes.length)
-        response.setHeader("Content-disposition", "attachment;filename=${audioFile.getName()}")
-        response.outputStream << audioFile.newInputStream() // Performing a binary stream copys
-        response.reset();
-        response.setStatus(206);
-        response.setHeader("Accept-Ranges", "bytes");
-        def sb = new StringBuilder()
-        sb << "<audio controls>"
-        sb << "<source src=\"$audioFile\" type=\"audio/mp3\">"
-        sb << "Your browser does not support the audio element."
-        sb << "</audio>"
-
-        out << raw(sb.toString())
+    def chapter = { params ->
+        out << raw("<h2>${params.en} - ${g.translit(src: params.chr)}</h2>")
     }
+
+
+
+//    def audio = {params ->
+//        File audioFile = grailsApplication.mainContext.getResource(params.fileName).file
+//        println audioFile != null ? "audio not null" : "audio is null"
+//        println audioFile.absolutePath
+//
+//        response.setContentType('audio/mp3')
+//        response.setContentLength (audioFile.bytes.length)
+//        response.setHeader("Content-disposition", "attachment;filename=${audioFile.getName()}")
+//        response.outputStream << audioFile.newInputStream() // Performing a binary stream copys
+//        response.reset();
+//        response.setStatus(206);
+//        response.setHeader("Accept-Ranges", "bytes");
+//        def sb = new StringBuilder()
+//        sb << "<audio controls>"
+//        sb << "<source src=\"$audioFile\" type=\"audio/mp3\">"
+//        sb << "Your browser does not support the audio element."
+//        sb << "</audio>"
+//
+//        out << raw(sb.toString())
+//    }
 }

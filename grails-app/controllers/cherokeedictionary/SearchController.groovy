@@ -44,10 +44,9 @@ class SearchController {
 
         //wrap the data in a JSON class
 //        bob = "{'data' : ${bob}}"
-        bob = bob
+//        bob = bob
 
         if (params.callback) {
-
             render (text: "${params.callback}($bob)",
                     contentType: "text/javascript",
                     encoding: "UTF-8")

@@ -1,5 +1,7 @@
 package cherokee
 
+import cherokee.audio.AudioLink
+import cherokee.corpus.Verse
 import cherokee.dictionary.Likespreadsheets
 import cherokee.dictionary.SourceManagement
 import cherokee.relational.PartOfSpeech
@@ -106,7 +108,42 @@ class NewSearchService {
 //                mapOfRules.put("offset", resultsOffset)
 //            }
 //            [max: resultsMax, offset:resultsOffset]
-            return Likespreadsheets.findAll(sb, lst);
+            def results = new LinkedList<Object>()
+            def result = Likespreadsheets.findAll(sb, lst);
+            if (result) {
+                results.addAll(result)
+            }
+
+            if (params.bible) {
+                def returnResults = []
+
+                if (isTsalagi) {
+                    searchTerm = SyllabaryUtil.tsalagiToSyllabary(searchTerm)
+                    returnResults = Verse.findAll("from Verse where verseContext like ?0 and source = ?1 and ( bookName = 'MAT' or bookName = 'MAK' or bookName = 'LUK' or bookName = 'JHN' or bookName = 'ACT' or bookName = 'ROM' or bookName = '1CO' or bookName = '2CO' or bookName = 'GAL' or bookName = 'EPH' or bookName = 'PHL' or bookName = 'COL' or bookName = '1TS' or bookName = '2TS' or bookName = '1TM' or bookName = '2TM' or bookName = 'TIT' or bookName = 'PHM' or bookName = 'HEB' or bookName = 'JAM' or bookName = '1PE' or bookName = '2PE' or bookName = '1JN' or bookName = '2JN' or bookName = '3JN' or bookName = 'JUD' or bookName = 'REV')", ["%${searchTerm}%", 'chr'], [max:40])
+                } else if (isSyllabary) {
+                    returnResults = Verse.findAll("from Verse where verseContext like ?0 and source = ?1 and ( bookName = 'MAT' or bookName = 'MAK' or bookName = 'LUK' or bookName = 'JHN' or bookName = 'ACT' or bookName = 'ROM' or bookName = '1CO' or bookName = '2CO' or bookName = 'GAL' or bookName = 'EPH' or bookName = 'PHL' or bookName = 'COL' or bookName = '1TS' or bookName = '2TS' or bookName = '1TM' or bookName = '2TM' or bookName = 'TIT' or bookName = 'PHM' or bookName = 'HEB' or bookName = 'JAM' or bookName = '1PE' or bookName = '2PE' or bookName = '1JN' or bookName = '2JN' or bookName = '3JN' or bookName = 'JUD' or bookName = 'REV')", ["%${searchTerm}%", 'chr'], [max:40])
+                } else if (isEnglish) {
+                    returnResults = Verse.findAll("from Verse where verseContext like ?0 and source != ?1 and ( bookName = 'MAT' or bookName = 'MAK' or bookName = 'LUK' or bookName = 'JHN' or bookName = 'ACT' or bookName = 'ROM' or bookName = '1CO' or bookName = '2CO' or bookName = 'GAL' or bookName = 'EPH' or bookName = 'PHL' or bookName = 'COL' or bookName = '1TS' or bookName = '2TS' or bookName = '1TM' or bookName = '2TM' or bookName = 'TIT' or bookName = 'PHM' or bookName = 'HEB' or bookName = 'JAM' or bookName = '1PE' or bookName = '2PE' or bookName = '1JN' or bookName = '2JN' or bookName = '3JN' or bookName = 'JUD' or bookName = 'REV')", ["%${searchTerm}%", 'chr'], [max:40])
+                }
+
+                if (returnResults) {
+                    results.addAll(returnResults)
+                }
+            }
+
+            if (params.audio) {
+                def returnResults = []
+                results.each {
+                    def tmp = AudioLink.findAll("from AudioLink where likespreadsheets_id=?0", [it.id])
+                    if (tmp) {
+                        returnResults << it
+                    }
+                }
+
+                return returnResults
+            } else {
+                return results
+            }
         }
 
         return []

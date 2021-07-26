@@ -18,6 +18,9 @@ class MyLearningStyleController {
         render(view : "index", model : model)
     }
 
+    def newIndex() {}
+    def oldIndex() {}
+
     //https://stackoverflow.com/questions/21756532/how-to-download-an-image-from-url-in-grails
 //    def downloadImage = {
 //        def fileURL = "http://www.google.com/images/logo.gif"
@@ -72,20 +75,20 @@ class MyLearningStyleController {
 //    }
 
     //pulls from grails server -- not optimal for a lot of audio files
-    def downloadAudioLocally() {
-        File audioFile = grailsApplication.mainContext.getResource("/mystyle/chap1/CherokeeConsortiumbyAnnaSixkiller.mp3").file
-
-        response.setContentType('audio/mp3')
-        response.setContentLength (audioFile.bytes.length)
-        response.setHeader("Content-disposition", "attachment;filename=${audioFile.getName()}")
-        response.outputStream << audioFile.newInputStream() // Performing a binary stream copys
-        response.reset();
-        response.setStatus(206);
-        response.setHeader("Accept-Ranges", "bytes");
-    }
-
-    //this is to eventually play audio
-    def audio() {
-        downloadAudioLocally();
-    }
+//    def downloadAudioLocally() {
+//        File audioFile = grailsApplication.mainContext.getResource("/mystyle/chap1/CherokeeConsortiumbyAnnaSixkiller.mp3").file
+//
+//        response.setContentType('audio/mp3')
+//        response.setContentLength (audioFile.bytes.length)
+//        response.setHeader("Content-disposition", "attachment;filename=${audioFile.getName()}")
+//        response.outputStream << audioFile.newInputStream() // Performing a binary stream copys
+//        response.reset();
+//        response.setStatus(206);
+//        response.setHeader("Accept-Ranges", "bytes");
+//    }
+//
+//    //this is to eventually play audio
+//    def audio() {
+//        downloadAudioLocally();
+//    }
 }

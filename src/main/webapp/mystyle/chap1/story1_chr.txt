@@ -1,0 +1,23 @@
+Jani ai gitli ujelii <e>down <e>the <e>street <e>when <e>he <e>encounters Meli.  Meli <e>is <e>on <e>her <e>way <e>to <e>work.
+Jani: Osiyo, Meli.  Osigwuju?
+Meli: Siyo, Jani.  Osigwu.  Nihina?
+Jani: Osda.  Wado.
+Meli: Howa.  Kagi iyusdi hia?  Dudoa.
+Jani: Hia gitli.  Jaji, Dudoa.
+Meli: Siyo, Jaji.
+Magi <e>is <e>walking <e>by <e>across <e>the <e>street.
+Jani: Siyo, Magi!
+Magi <e>sees Jani ale Meli <e>and <e>crosses <e>to <e>them.
+Jani: Siyo, Magi. Dohiju?
+Magi: Siyo, Jani.  Dohigwu.  Dohiju?
+Jani: Osdadv!  Meli, hia onigalii Magi.  Magi, hia Meli
+Magi: Galieliga Jigvgowata
+Meli: Ayasgwu galieliga jigvgowata.
+Jani: Ale hia gitli, Jaji.
+Magi: Siyo, Jaji.
+Meli: <e>I'm <e>sorry <e>I <e>have <e>to <e>get <e>to <e>work <e>now. Dodadagohvi
+Jani: Donadagohvi, Meli.
+Magi: Donadagohvi, Meli.
+Jani: <e>Why <e>don't <e>you <e>come <e>get <e>coffee <e>with <e>me . <e>We <e>can <e>play <e>games.
+Magi: Hadi, doyu agwenusdi. Donadagohvi.
+Jani: Donadagohvi, Magi.

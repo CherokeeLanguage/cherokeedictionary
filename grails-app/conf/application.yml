@@ -10,6 +10,17 @@ grails:
             events: false
     cors:
         enabled: true
+
+
+
+    plugin:
+        springsecurity:
+            rest:
+                token:
+                    storage:
+                        jwt:
+                            secret: 'secret01234567890ABCDEFGHIJKLMNO'
+
 #        allowedHeaders:
 #            - Access-Control-Allow-Origin
 #            - Access-Control-Allow-Credentials
@@ -42,6 +53,23 @@ spring:
 management:
     endpoints:
         enabled-by-default: false
+
+#plugin:
+#    springsecurity:
+#        rest:
+#            token:
+#                storage:
+#                    jwt:
+#                        secret: 'secret01234567890ABCDEFGHIJKLMNO'
+#                validation:
+#                    useBearerToken: false
+#                    headerName: 'X-Auth-Token'
+#            logout:
+#                endpointUrl: '/api/logout'
+#        controllerAnnotations:
+#            chainMap:
+#                '/api/**': 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter'
+#                '/**': 'JOINED_FILTERS,-restTokenValidationFilter,-restExceptionTranslationFilter'
 
 ---
 grails:

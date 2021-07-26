@@ -22,6 +22,7 @@ class UrlMappings {
         "/individual"(controller:"newSearch", action:"individual")
         "/monday"(view:"/monday")
         "/syllabary"(view:"/syllabary")
+        "/vrules"(view:"/conjugationRules")
 
         "/transliteration"(view:"/transliteration")
         "/transliterate"(view:"/transliterate")

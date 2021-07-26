@@ -1,13 +1,31 @@
-<%@ page import="cherokee.dictionary.SourceManagement; java.util.regex.Pattern; java.util.regex.Matcher" %>
+<%@ page import="cherokee.corpus.Verse; cherokee.Settings; cherokee.dictionary.SourceManagement; java.util.regex.Pattern; java.util.regex.Matcher" %>
+<% def showBible = Settings.findAll("from Settings where setting_name=?0", ['showBible'])[0].value%>
+
 <g:each in="${entries}" var="entry" status="i">
-    <%
+<%
+        def bible = false
+        def tdstyle = ""
+        def divstyle = ""
+        def anchorstyle = ""
+
+        def hasAudio = false
+        def settings = Settings.findAll("from Settings where setting_name=?0", ['showAudio'])
+        def audioFile = null
+        String definition = ""
+        String first = ""
+        String second = ""
+        String third = ""
+
+        if (showBible == 'true' && entry instanceof Verse) {
+            bible = true
+
+        }
+%>
+    <% if (!bible) {
+        definition = entry.definitiond
         Pattern p = Pattern.compile("([0-9]?.?\\s?[a-zA-Z'(),\\s.]*)?([0-9].\\s?[a-zA-Z'(),\\s.]*)?([0-9].\\s?[a-zA-Z'(),\\s.]*)?");
 
-        String definition = entry.definitiond;
         Matcher m = p.matcher(definition)
-        String first = "";
-        String second = "";
-        String third = "";
 
         if (m.matches()) {
             switch (m.groupCount()) {
@@ -20,16 +38,26 @@
             }
         }
 
-        def tdstyle = "";
-        def divstyle = "";
-        def anchorstyle = "";
-    %>
+        if (settings) {
+            if (settings[0].value == 'true') {
+                def audioLink = cherokee.audio.AudioLink.findByLikespreadsheets(entry)
+                if (audioLink) {
+                    audioFile = cherokee.audio.AudioFile.findAllById(audioLink.audioFileId)
+                    if (audioFile) {
+                        hasAudio = true
+                    }
+                }
+            }
+        }
+    }
+%>
     <% if (!expand) { %>
         <div class="accordion ${(i % 2) == 0 ? 'even' : 'odd'}" style="margin: 0 0 0 0;padding: 0 0 0 0; border-spacing: 0" id="accordionClick${i}">
     <% } else { %>
         <div class="accordion ${(i % 2) == 0 ? 'even' : 'odd'}" style="margin: 0 0 0 0;padding: 0 0 0 0; border-spacing: 0">
     <% } %>
         <div style="width:500px;display:table-cell">
+            <% if (!bible) { %>
             <div style="height:60px;width:25px;display:table-cell;margin: 0 0 0 0; padding: 0 0 0 0; border-spacing: 0;background-color:${SourceManagement.findByCode(entry.source)?.color};text-color${SourceManagement.findByCode(entry.source)?.textColor}">
                 <div style="display:table-cell;transform: rotate(90deg); -webkit-transform: rotate(90deg); -moz-transform: rotate(90deg); -ms-transform: rotate(90deg); position:relative; top: 5px; text-align:center; display:inline-block; text-transform:lowercase;width:20px; margin: 0 0 0 0; padding: 0 0 0 0; border-spacing: 0;">
                     <a href="#" class="popper" data-popbox="tsalagidigoweli2" style="text-align: center; <%if (entry.source != 'ced' && entry.source != 'noq') { println "color:white;"}%>">
@@ -37,12 +65,20 @@
                     </a>
                 </div>
             </div>
+            <% } else { %>
+            <div style="display:table-cell">
+                ${entry.verseContext}
+            </div>
+            <% } %>
             <div style="display:table-cell;vertical-align: middle;padding-left:10px;padding-top:5px; padding-bottom:5px">
-                ${entry.syllabaryb} - <% if (!first.trim().equals("")) { %>${first}<br/>
-                <%if (second && !second.trim().equals("")) { %>${second}<br/><%}%>
-                <% } else { %>${raw(definition)}<br/>
+                <% if (!bible) { %>
+                    ${entry.syllabaryb} - <% if (!first.trim().equals("")) { %>${first}<%if (entry.definitionlarge || entry.etymology || entry.category) {%>&nbsp;&nbsp;<i class="fas fa-plus-square"></i><%}%><%if (hasAudio) {%>&nbsp;&nbsp;<i class="fas fa-audio-description"></i><%}%><br/>
+                    <%if (second && !second.trim().equals("")) { %>${second}<br/><%}%>
+                    <% } else { %>${raw(definition)}<br/>
+                    <% } %>
+                    <%if (entry.sentencesyllr) {%>${raw(entry.sentencesyllr)}<br/>${raw(entry.sentenceenglishs)}<%}%>
+                <% } else { %>
                 <% } %>
-                <%if (entry.sentencesyllr) {%>${raw(entry.sentencesyllr)}<br/>${raw(entry.sentenceenglishs)}<%}%>
             </div>
         </div>
         <% if (expand) { %>
@@ -67,6 +103,7 @@
         </script>
     </div>
     <div class="panel">
+        <% if (!bible) { %>
         <table>
             <% if (!expand) { %>
             <tr><td><span><a href="/share/${entry.id}">share</a><br/></span></td></tr>
@@ -239,7 +276,6 @@
 
             <%if (entry.crossreferencet) {%>
             <tr>
-
                 <%
                         String crossReference = entry.crossreferencet;
                 %>
@@ -261,7 +297,74 @@
                 </td>
             </tr>
             <%}%>
+
+<%
+    if (hasAudio) {
+%>
+            <tr>
+                <td colspan="2">
+                    <b>Pronunciation:</b><br/>
+                    <audio controls style="width: 100px;height:20px">
+                        <source src="${audioFile.audioFilePath[0]}" type="audio/mpeg">
+                    </audio>
+                </td>
+            </tr>
+<%
+    }
+%>
         </table>
+        <% } else {
+            def listv = Verse.findAll("from Verse where chapterNumber=?0 and bookName=?1 and verseNumber=?2", [entry.chapterNumber, entry.bookName, entry.verseNumber])
+        %>
+        <table>
+            <tr>
+%{--                <td></td>--}%
+                <td>${entry.bookName} ${entry.chapterNumber}: ${entry.verseNumber}</td>
+                <td>
+                    <% listv.each {
+                        def color = ""
+                        def fontColor = ""
+
+                        if (it.source == 'chr') {
+                            color = "orange"
+                            fontColor = "white"
+                        } else if (it.source == 'asv') {
+                            color = "blue"
+                            fontColor = "white"
+                        } else if (it.source == 'bbe') {
+                            color = "yellow"
+                            fontColor = "black"
+                        } else if (it.source == 'dar') {
+                            color = "white"
+                            fontColor = "black"
+                        } else if (it.source == 'wbt') {
+                            color = "black"
+                            fontColor = "white"
+                        }
+                        %>
+                    <div style="display:table-row;height:50px">
+                        <div style="display:table-cell;background-color: ${color}; color: ${fontColor}; padding: 5px">
+                            <div style="transform: rotate(90deg); -webkit-transform: rotate(90deg); -moz-transform: rotate(90deg); -ms-transform: rotate(90deg); position:relative; top: 5px; text-align:center; display:inline-block; text-transform:lowercase;width:20px; margin: 0 0 0 0; padding: 0 0 0 0; border-spacing: 0;">
+                                <a href="#" class="popper" style="color: ${fontColor}" data-popbox="thb">
+                                    ${it.source}
+                                </a>
+                            </div>
+                            <div id="thb" class="popbox">
+                                <b>chr</b> - Cherokee New Testament<br/>
+                                <b>asv</b> - American Standard Version<br/>
+                                <b>bbe</b> - Bible in Basic English<br/>
+                                <b>dar</b> - Darby Version<br/>
+                                <b>wbt</b> - Webster Bible Translation<br/>
+                                <b>web</b> - World English Bible<br/>
+                            </div>
+                        </div>
+                        <div style="display:table-cell;padding-left: 5px">${it.verseContext}</div>
+                    </div>
+                    <% } %>
+                </td>
+            </tr>
+        </table>
+        <% } %>
     </div>
 </g:each>
     <script>

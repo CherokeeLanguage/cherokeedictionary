@@ -53,13 +53,13 @@
     <b>Example:</b>Wadodv ani&lt;e&gt;Ridge &lt;e&gt;Baltimore howa<br/><br/>
     <table>
         <tr>
-            <td rowspan="4" align="center"><b>Type or paste latin-script:</b><br/><textarea id="text" name="text" cols="50" rows="25"></textarea><br/><button id="textClear">^ Clear Panel ^</button></td>
+            <td rowspan="4" align="center"><b>Type or paste latin-script:</b><br/><textarea id="text" name="text" cols="25" rows="5"></textarea><br/><button id="textClear">^ Clear Panel ^</button></td>
             <td align="center">
                 <button id="transliteratea">to Syllabary >></button><br/>
                 <button id="clear"><< Clear >></button><br/>
                 <button id="transliterateb"><< from Syllabary</button>
             </td>
-            <td align="center"><b>Type or Paste Syllabary:</b><br/><textarea id="searchresults" name="searchresults" cols="50" rows="25"></textarea><br/><button id="syllabaryClear">^ Clear Panel ^</button></td>
+            <td align="center"><b>Type or Paste Syllabary:</b><br/><textarea id="searchresults" name="searchresults" cols="25" rows="5"></textarea><br/><button id="syllabaryClear">^ Clear Panel ^</button></td>
         </tr>
     </table>
 

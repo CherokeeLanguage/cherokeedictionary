@@ -1,0 +1,23 @@
+John is walking his dog down the street when he encounters Mary.  Mary is on her way to work.
+John: Hello, Mary.  How are you?
+Mary: Hi, John.  I'm fine.  And you?
+John: Good thanks.
+Mary: Ok.  Who's is this?  What's his name?
+John: This is my dog George.
+Mary: Hello, George.
+Mark is walking by across the street.
+John: Hey, Mark.
+Mark sees John and Mary and crosses to them.
+John: Hi, Mark.  How are you?
+Mark: Hey, John.  I'm well.  How are you?
+John: I'm doing great.  Mary, this is my friend Mark.  Mark, this is Mary.
+Mark: Nice to meet you, Mary.
+Mary: It's nice to meet you too, Mark.
+John: And this is my dog, George.
+Mark: Hello, George.
+Mary: I'm sorry.  I have to get to work now.  Good bye all.
+John: Good Bye, Mary.
+Mark: Good Bye, Mary.
+John: Why don't you come get coffee with me.  We can play games.
+Mark: No, I really have to go.  Later.
+John: Later, Mark.

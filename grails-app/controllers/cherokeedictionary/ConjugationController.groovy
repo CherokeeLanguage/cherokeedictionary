@@ -20,6 +20,8 @@ class ConjugationController {
 
     def verbPrefixTable() {}
 
+    def aspect() {}
+
     def getDisplayValue(params) {
         return getDisplayValueConjugationEngineV2(params)
     }

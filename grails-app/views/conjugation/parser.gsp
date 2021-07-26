@@ -18,13 +18,13 @@
 %{--        <asset:javascript src="grooscript.min.js"/>--}%
 %{--        <asset:javascript src="grooscript-html-builder.js"/>--}%
 
-        <asset:javascript src="deconstructor/cherokeeParser.js"/>
-        <asset:javascript src="deconstructor/ajaxCall.js"/>
-        <asset:javascript src="deconstructor/rework.js"/>
-        <asset:javascript src="deconstructor/verbTables.js"/>
-        <asset:javascript src="deconstructor/wordDisplay.js"/>
-        <asset:javascript src="deconstructor/deconstructionMethods.js"/>
-        <asset:javascript src="deconstructor/display.js"/>
+        <asset:javascript src="deconstructor/HOLD/cherokeeParser.js"/>
+        <asset:javascript src="deconstructor/HOLD/ajaxCall.js"/>
+        <asset:javascript src="deconstructor/HOLD/rework.js"/>
+        <asset:javascript src="deconstructor/HOLD/verbTables.js"/>
+        <asset:javascript src="deconstructor/HOLD/wordDisplay.js"/>
+        <asset:javascript src="deconstructor/HOLD/deconstructionMethods.js"/>
+        <asset:javascript src="deconstructor/HOLD/display.js"/>
 %{--            <asset:javascript src="parser.js"/>--}%
 %{--        <script>--}%
 %{--            function callAll(jsfiles) {--}%
@@ -131,7 +131,7 @@
 </div>
 
 
-<asset:javascript src="deconstructor/verbdeconstruction.js"/>
+<asset:javascript src="deconstructor/HOLD/verbdeconstruction.js"/>
 %{--<asset:javascript src="tests.js"/>--}%
 <script>
     function createDisplayWordTest() {

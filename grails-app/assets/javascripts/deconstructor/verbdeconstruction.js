@@ -1,145 +1,77 @@
-async function valueFound(values, wholeWord) {
-    // TODO: what do we need from the dictionary entry?  definition,
-    var vals = JSON.parse(values[0]);
-
-    for (const value of vals) {
-        wholeWord.definitions.push(value);
-    }
-
-    return wholeWord;
-}
-
-async function deconstruct(wholeWord, word) {
-    wholeWord = getFinalSuffixes(wholeWord);
-
-    wholeWord.lookupOptions.push(wholeWord.tmpParse);
-
-    if (wholeWord.definitions.length === 0) {
-        //check word against dictionary
-        // look up in database
-        let tmpValSyllabary = tsalagiToSyllabary(wholeWord.tmpParse);
-        let values = await lookupWordInCED(tmpValSyllabary);
-
-        // if there's a result then we are going to put that information into the display object
-        if (values.length > 0) {
-            console.log("second value thing found");
-            wholeWord.syllabary = tmpValSyllabary;
-            // TODO: we found an item in the database - we need to create a new display object that we're going to send to the user or the page
-            wholeWord = await valueFound(values, wholeWord);
-            // console.log("displayObject 2nd " + JSON.stringify(wholeWord));
-        }
-    }
-
-    // let foundMatch = false;
-    // if (wholeWord.definitions.length > 0) {
-    //     wholeWord.definitions = [];
-    //     console.log(JSON.stringify(wholeWord));
-    //     for (const definition of wholeWord.definitions) {
-    //         if (wholeWord.tmpParse === definition.entrya) {
-    //             wholeWord.root_phonetic = wholeWord.tmpParse;
-    //             wholeWord.root_syllabary = newTsalagiToSyllabary(wholeWord.tmpParse, false, true);
-    //             foundMatch = true;
-    //             break;
-    //         }
-    //     }
-    // }
-    //
-    // if (!foundMatch) {
-        //TODO: Need to make sure if we have a definition and it's a verb then we can continue OR if the definition is empty or undefined
-        //      Repeat through the findings
-        wholeWord = getVerbTenseSuffixes(wholeWord);
-
-        // for (const tmpElementElement of wholeWord.verbTenseSuffixes) {
-        //     wholeWord.verbTenseType = tmpElementElement.meaning;
-        //     //TODO: also need to get verb tense ending here -- will need another map
-        // }
-
-        wholeWord = getNonFinalSuffixes(wholeWord);
-        wholeWord = getInitialPrefixes(wholeWord);
-    // }
-        wholeWord = getPronominalPrefixes(wholeWord);
-
-        //TODO: START HERE TO GET THE CONSONANT PREFIXES
-        // wholeWord = getReflexivePrefix(wholeWord);
-    // }
-
-    wholeWord.lookupOptions.push(wholeWord.tmpParse);
-
-    return wholeWord;
-}
-
-//if processing phonetic then pass in isSyllabary as false
-async function process(word, isSyllabary=true) {
-    // process
-    var wholeWord = newWholeWord(word, isSyllabary);
-
-    //     lookup
-    // look up in database
-    let values = await lookupWordInCED(word);
-
-    //     if exists
-    //         setup wholeWord and return
-    if (values.length > 0) {
-        console.log("first value thing found");
-        wholeWord = await valueFound(values, wholeWord);
-    }
-
-    //     else
-    //         deconstruct
-    //         strip final suffixes
-    //         lookup
-    //         if exists
-    //             setup wholeWord and return
-    //     else
-    //         remove affixes
-    wholeWord = await deconstruct(wholeWord, word);
-
-    //         put together a simple word that might match the database
-    if (wholeWord.definition === "" || wholeWord.definition === undefined) {
-        // right here put together a generic verb entry and then look it up
-        if (wholeWord.pronounPrefixes && wholeWord.pronounPrefixes.length > 0) {
-            var pronPrefix = getPronPrefix();
-
-            if (wholeWord.tmpParse.endsWith("h")) {
-                wholeWord.root_ending = "h"
-            } else if (wholeWord.tmpParse.endsWith("s")) {
-                wholeWord.root_ending = "s"
-            }
-
-            if (wholeWord.root_ending) {
-                wholeWord.tmpParse = wholeWord.tmpParse.substring(0, wholeWord.tmpParse.length - 1);
-            }
-
-            wholeWord.root_phonetic = wholeWord.tmpParse;
-            wholeWord.root_syllabary = tsalagiToSyllabary(wholeWord.root_phonetic);
-
-            console.log(wholeWord);
-
-            //once parsed then try another lookup in the database
-            var tmpWord = pronPrefix + wholeWord.tmpParse + VerbTenseLookup.get("PRESENT");
-            wholeWord.lookupOptions.push(tmpWord);
-            // console.log("tmpWord " + tmpWord);
-            tmpWord = tsalagiToSyllabary(tmpWord);
-
-            if (wholeWord.definitions.length === 0) {
-                //         lookup
-                values = await lookupWordInCED(tmpWord);
-
-                //         if exists
-                //             setup wholeWord and return
-                if (values.length > 0) {
-                    // TODO:  also take broken down word and put that data into a display object
-                    wholeWord = await valueFound(values, wholeWord);
-                } else {
-                    //     else
-                    //         we didn't find a match so no definition
-                    //         return wholeWord
-                    // TODO: if there's no result then DO SOMETHING ELSE
-                    console.log("still could not find a result");
-                }
-            }
-        }
-    }
-
-    return wholeWord;
-}
+function VerbDeconstruction() {
+  var gSobject = gs.init('VerbDeconstruction');
+  gSobject.clazz = { name: 'net.cherokeedictionary.VerbDeconstruction', simpleName: 'VerbDeconstruction'};
+  gSobject.clazz.superclass = { name: 'java.lang.Object', simpleName: 'Object'};
+  gSobject.process = function(x0,x1) { return VerbDeconstruction.process(x0,x1); }
+  gSobject.valueFound = function(x0,x1) { return VerbDeconstruction.valueFound(x0,x1); }
+  gSobject.deconstruct = function(x0) { return VerbDeconstruction.deconstruct(x0); }
+  if (arguments.length == 1) {gs.passMapToObject(arguments[0],gSobject);};
+  
+  return gSobject;
+ };
+VerbDeconstruction.process = async function(word, isSyllabary) {
+  if (isSyllabary === undefined) isSyllabary = true;
+  var wholeWord = gs.execStatic(WholeWordFactory,'create', this,[word, isSyllabary]);
+  var values = await gs.execStatic(AjaxCall,'lookupWordInCED', this,[word]);
+  if (gs.mc(values,"size",[]) > 0) {
+    gs.println("first value thing found");
+    wholeWord = await VerbDeconstruction.valueFound(values, wholeWord);
+   };
+  wholeWord = VerbDeconstruction.deconstruct(wholeWord);
+  if (!gs.bool(gs.gp(wholeWord,"definitions"))) {
+    if ((gs.bool(gs.gp(wholeWord,"pronounPrefixes"))) && (gs.mc(gs.gp(wholeWord,"pronounPrefixes"),"size",[]) > 0)) {
+      var pronPrefix = gs.mc(PronounPrefixUtility(),"getPronPrefix",[wholeWord]);
+      if (gs.mc(gs.gp(wholeWord,"tmpParse"),"endsWith",["h"])) {
+        gs.sp(wholeWord,"root_ending","h");
+       } else {
+        if (gs.mc(gs.gp(wholeWord,"tmpParse"),"endsWith",["s"])) {
+          gs.sp(wholeWord,"root_ending","s");
+         };
+       };
+      if (gs.bool(gs.gp(wholeWord,"root_ending"))) {
+        gs.sp(wholeWord,"tmpParse",gs.mc(gs.gp(wholeWord,"tmpParse"),"substring",[0, gs.minus(gs.mc(gs.gp(wholeWord,"tmpParse"),"size",[]), 1)]));
+       };
+      gs.sp(wholeWord,"root_phonetic",gs.gp(wholeWord,"tmpParse"));
+      gs.sp(wholeWord,"root_syllabary",gs.execStatic(SyllabaryUtil,'newTsalagiToSyllabary', this,[gs.gp(wholeWord,"root_phonetic"), false, true]));
+      gs.println(wholeWord);
+      var tmpWord = gs.plus((gs.plus(pronPrefix, gs.gp(wholeWord,"tmpParse"))), gs.mc(gs.gp(VerbTenseLookup(),"VerbTenseLookup"),"get",["PRESENT"]));
+      gs.mc(gs.gp(wholeWord,"lookupOptions"),"push",[tmpWord]);
+      tmpWord = gs.execStatic(SyllabaryUtil,'newTsalagiToSyllabary', this,[tmpWord, false, true]);
+      if (gs.equals(gs.mc(gs.gp(wholeWord,"definitions"),"size",[]), 0)) {
+        values = await gs.execStatic(AjaxCall,'lookupWordInCED', this,[tmpWord]);
+        if (gs.mc(values,"size",[]) > 0) {
+          wholeWord = await VerbDeconstruction.valueFound(values, wholeWord);
+         } else {
+          gs.println("still could not find a result");
+         };
+       };
+     };
+   };
+  return wholeWord;
+ }
+VerbDeconstruction.valueFound = function(values, wholeWord) {
+  var vals = values[0];
+  for (_i21 = 0, value = vals[0]; _i21 < vals.length; value = vals[++_i21]) {
+    gs.mc(gs.gp(wholeWord,"definitions"),"push",[value]);
+   };
+  return wholeWord;
+ }
+VerbDeconstruction.deconstruct = async function(wholeWord) {
+  wholeWord = gs.execStatic(FinalSuffixUtil,'getFinalSuffixes', this,[wholeWord]);
+  gs.mc(gs.gp(wholeWord,"lookupOptions"),"push",[gs.gp(wholeWord,"tmpParse")]);
+  if (gs.equals(gs.mc(gs.gp(wholeWord,"definitions"),"size",[]), 0)) {
+    var tmpValSyllabary = gs.execStatic(SyllabaryUtil,'newTsalagiToSyllabary', this,[gs.gp(wholeWord,"tmpParse"), false, true]);
+    var values = await gs.execStatic(AjaxCall,'lookupWordInCED', this,[tmpValSyllabary]);
+    if (gs.mc(values,"size",[]) > 0) {
+      gs.println("second value thing found");
+      gs.sp(wholeWord,"syllabary",tmpValSyllabary);
+      wholeWord = await VerbDeconstruction.valueFound(values, wholeWord);
+     };
+   };
+  wholeWord = gs.mc(VerbTenseSuffixUtil(),"getVerbTenseSuffixes",[wholeWord]);
+  wholeWord = gs.execStatic(NonFinalSuffixUtil,'getNonFinalSuffixes', this,[wholeWord]);
+  wholeWord = gs.execStatic(InitialPrefixesUtil,'getInitialPrefixes', this,[wholeWord]);
+  wholeWord = gs.execStatic(PronominalPrefixesUtil,'getPronominalPrefixes', this,[wholeWord]);
+  gs.mc(gs.gp(wholeWord,"lookupOptions"),"push",[gs.gp(wholeWord,"tmpParse")]);
+  return wholeWord;
+ }

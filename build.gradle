@@ -28,9 +28,10 @@ repositories {
     }
 
     maven { url "https://repo.grails.org/grails/core" }
-    maven {url 'file:///' + new File(System.getProperty('user.home'), '/.m2/repository').absolutePath}
-
-    mavenCentral();
+    mavenLocal()
+    mavenCentral()
+    // Use JCenter for resolving dependencies.
+    jcenter()
 }
 
 configurations {
@@ -79,6 +80,17 @@ dependencies {
     compile 'org.apache.poi:poi-scratchpad:4.0.1'
     compile group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '3.0.2'
     compile group: 'org.apache.poi', name: 'poi', version: '4.0.1'
+
+    //https://dzone.com/articles/grails-33-with-spring-security-core-and-spring-sec
+//    compile 'org.grails.plugins:spring-security-core:4.0.3'
+//    compile 'org.grails.plugins:spring-security-rest:3.0.1'
+//    implementation group: 'org.springframework.security', name: 'spring-security-core', version: '5.5.0'
+//    implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.9.3'
+//    implementation group: 'org.pac4j', name: 'pac4j-core', version: '3.7.0'
+//    implementation group: 'org.springframework.boot', name: 'spring-boot', version: '2.5.0'
+//    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.5.0'
+//    implementation 'org.springframework.metrics:spring-metrics:0.5.1.RELEASE'
+//    implementation 'org.springframework.boot:spring-boot-starter-parent:2.5.0'
 
     compileOnly "io.micronaut:micronaut-inject-groovy"
     console "org.grails:grails-console"

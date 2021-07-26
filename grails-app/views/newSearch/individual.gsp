@@ -1,4 +1,4 @@
-﻿<%@ page import="java.util.regex.Matcher; java.util.regex.Pattern" contentType="text/html;charset=UTF-8" %>
+﻿<%@ page import="cherokee.dictionary.SourceManagement; cherokee.Settings; cherokee.audio.AudioFile; cherokee.audio.AudioLink; java.util.regex.Matcher; java.util.regex.Pattern" contentType="text/html;charset=UTF-8" %>
 %{--<html>--}%
 %{--<head>--}%
     %{--<meta name="layout" content="manager"/>--}%
@@ -38,37 +38,14 @@
     def divstyle = "";
     def anchorstyle = "";
 %>
-
-
     <table border="1" width="100%">
-
         <tr>
             <td <%if (!entry.partofspeechc) {%> colspan="2"<%}%>>
                 <b>Source:</b><br/>
-                <%switch (entry.source) {
-                    case "ced":
-                        out << "Cherokee English Dictionary"
-                        break;
-                    case "cwl":
-                        out << "Consortium Word List"
-                        break;
-                    case "cnomed":
-                        out << "Cherokee Nation Online Medical Terminology"
-                        break;
-                    case "ncmed":
-                        out << "Cherokee North Carolina Medical Terminology"
-                        break;
-                    case "noq":
-                        out << "Noquisis Word List"
-                        break;
-                    case "rrd":
-                        out << "Raven Rock Dictionary"
-                        break;
-                    case "msct":
-                        out << "Microsoft Computer Terminology"
-                        break;
-                } %>
-
+<%
+                    def source = cherokee.dictionary.SourceManagement.findByCode(entry.source)
+%>
+                ${source.bibliographyFullAPA}
                 <br/>
             </td>
 
@@ -76,7 +53,6 @@
 
             <td><b>Part of Speech</b><br/>
                 ${entry.partofspeechc}</td>
-
         <%}%>
         </tr>
         <% if (first.trim() != "") { %>
@@ -116,7 +92,30 @@
             <% } %>
         </td>
     </tr>
+<%
+    def settings = cherokee.Settings.findAll("from Settings where setting_name=?0", ['showAudio']);
+    if (settings) {
+        if (settings[0].value == 'true') {
 
+        def audioLink = cherokee.audio.AudioLink.findByLikespreadsheets(entry)
+        if (audioLink) {
+            def audioFile = cherokee.audio.AudioFile.findAllById(audioLink.audioFileId)
+            if (audioFile) {
+%>
+        <tr>
+            <td colspan="2">
+                <b>Pronunciation:</b><br/>
+                <audio controls style="width: 100px;height:20px">
+                    <source src="${audioFile.audioFilePath[0]}" type="audio/mpeg">
+                </audio>
+            </td>
+        </tr>
+<%
+                }
+            }
+        }
+    }
+%>
     <%if (entry.nounadjpluralsyllf) {%>
     <tr>
         <td colspan="2"><span id="nounadjpluralsyllfmain${i}">${entry.nounadjpluralsyllf}</span><br/>

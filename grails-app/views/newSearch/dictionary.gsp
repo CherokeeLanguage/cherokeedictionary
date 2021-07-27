@@ -111,7 +111,17 @@
     %>
     <div id="message"></div>
     <b>If you see <i class="fas fa-plus-square"></i> click on the link next to it to see more about the word.</b><br/>
+    <%def offset = params.offset ? Integer.parseInt(params.offset) + 40 : 40
+        params.offset = offset
+        def link = new StringBuilder()
+        params.each {
+            link << "&${it.key}=${it.value}"
+        }
+    %>
+    &tsalagiSearchButton=Cherokee%20(phonetic)
 
+    <a href="/newSearch/dictionary/newSearchForm?${link}">Next Page</a>
+    <a href="/newSearch/dictionary/newSearchForm?http://localhost:8080/newSearch/dictionary/newSearchForm?&yes=[yes,%20yes]&tsalagiSearch=tsisa&syllabarySearch=&englishSearch=&categorySearch=&_searchForExactMatch=&_audio=&_includeCED=&includeCED=on&_includeSentences=&includeSentences=on&_includeConsortiumWordList=&includeConsortiumWordList=on&_includeMicrosoftWordList=&includeMicrosoftWordList=on&_includeNCMedWordList=&includeNCMedWordList=on&_includeCNOMedWordList=&includeCNOMedWordList=on&_includeNOQWordList=&includeNOQWordList=on&_includeRRD=&includeRRD=on&_includeHolmesSmith=&includeHolmesSmith=on&_includeMAGOK=&includeMAGOK=on&_includeFBGP=&includeFBGP=on&_includeCNLD=&includeCNLD=on&_includeVRB=&includeVRB=on&_Banks=&Banks=on&_includeCNT=&includeCNT=on&_includeUCH=&includeUCH=on&_walc1=&walc1=on&_includeCNO=&includeCNO=on&_bible=&_uncheckAll=&_checkAll=&controller=newSearch&action=dictionary&id=newSearchForm&offset=60">nextone</a>
     <!-- desktop view -->
     <div class="large">
         <a href="/newSearch/download/csv">Download results as CSV</a>&nbsp;&nbsp;

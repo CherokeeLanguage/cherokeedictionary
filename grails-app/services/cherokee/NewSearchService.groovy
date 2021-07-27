@@ -300,6 +300,9 @@ class NewSearchService {
 
         def posParam = params.posSearch
 
+        def max = 40
+        def moffset = params.offset ? Integer.parseInt(params.offset) : 20
+
         PartOfSpeech pos
         if (posParam) {
             pos = PartOfSpeech.findById(posParam)
@@ -369,7 +372,8 @@ class NewSearchService {
                         eq('category', category.category)
                     }
 
-                    maxResults(40)
+                    maxResults(max)
+                    offset(moffset)
                 }
 
                 if (tmp) {
@@ -392,7 +396,8 @@ class NewSearchService {
                             eq('category', category.category)
                         }
 
-                        maxResults(40)
+                        maxResults(max)
+                        offset(moffset)
                     }
 
                     results.addAll(tmp)
@@ -415,6 +420,7 @@ class NewSearchService {
                         }
 
                         maxResults(40)
+                        offset(offset)
                     }
 
                     results.addAll(tmp)
@@ -434,7 +440,8 @@ class NewSearchService {
                             eq('category', category.category)
                         }
 
-                        maxResults(40)
+                        maxResults(max)
+                        offset(moffset)
                     }
 
                     results.addAll(tmp)
@@ -485,7 +492,8 @@ class NewSearchService {
                     eq('category', category.category)
                 }
 
-                maxResults(40)
+                maxResults(max)
+                offset(moffset)
             }
 
             if (tmp) {
@@ -510,7 +518,8 @@ class NewSearchService {
                         eq('category', category.category)
                     }
 
-                    maxResults(40)
+                    maxResults(max)
+                    offset(moffset)
                 }
 
                 results.addAll(tmp)
@@ -536,7 +545,8 @@ class NewSearchService {
                         eq('category', category.category)
                     }
 
-                    maxResults(40)
+                    maxResults(max)
+                    offset(moffset)
                 }
 
                 results.addAll(tmp)
@@ -563,7 +573,8 @@ class NewSearchService {
                         eq('category', category.category)
                     }
 
-                    maxResults(40)
+                    maxResults(max)
+                    offset(moffset)
                 }
 
                 results.addAll(tmp)

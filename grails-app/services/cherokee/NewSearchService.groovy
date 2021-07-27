@@ -74,12 +74,15 @@ class NewSearchService {
         def includeSentences = params.includeSentences
         def sourcesSize = 7
         def searchForExactMatch = params.searchForExactMatch
-//        def resultsOffset = params.offset ?: null
-//        def resultsMax = params.max ?: null
+        def max = 40
+        def moffset = params.offset ? Integer.parseInt(params.offset) : 0
 
         Map<String, String> map = new LinkedHashMap<String, String>();
 
         if (searchTerm) {
+            //need to fix this so that if it's bible only then no other searches are performed
+            //bible=on
+
             searchTerm = searchTerm.replaceAll("\\*", "%")
 
             if (isTsalagi) {
@@ -109,7 +112,7 @@ class NewSearchService {
 //            }
 //            [max: resultsMax, offset:resultsOffset]
             def results = new LinkedList<Object>()
-            def result = Likespreadsheets.findAll(sb, lst);
+            def result = Likespreadsheets.findAll(sb, lst, [max: max, offset:moffset]);
             if (result) {
                 results.addAll(result)
             }
@@ -119,11 +122,11 @@ class NewSearchService {
 
                 if (isTsalagi) {
                     searchTerm = SyllabaryUtil.tsalagiToSyllabary(searchTerm)
-                    returnResults = Verse.findAll("from Verse where verseContext like ?0 and source = ?1 and ( bookName = 'MAT' or bookName = 'MAK' or bookName = 'LUK' or bookName = 'JHN' or bookName = 'ACT' or bookName = 'ROM' or bookName = '1CO' or bookName = '2CO' or bookName = 'GAL' or bookName = 'EPH' or bookName = 'PHL' or bookName = 'COL' or bookName = '1TS' or bookName = '2TS' or bookName = '1TM' or bookName = '2TM' or bookName = 'TIT' or bookName = 'PHM' or bookName = 'HEB' or bookName = 'JAM' or bookName = '1PE' or bookName = '2PE' or bookName = '1JN' or bookName = '2JN' or bookName = '3JN' or bookName = 'JUD' or bookName = 'REV')", ["%${searchTerm}%", 'chr'], [max:40])
+                    returnResults = Verse.findAll("from Verse where verseContext like ?0 and source = ?1 and ( bookName = 'MAT' or bookName = 'MAK' or bookName = 'LUK' or bookName = 'JHN' or bookName = 'ACT' or bookName = 'ROM' or bookName = '1CO' or bookName = '2CO' or bookName = 'GAL' or bookName = 'EPH' or bookName = 'PHL' or bookName = 'COL' or bookName = '1TS' or bookName = '2TS' or bookName = '1TM' or bookName = '2TM' or bookName = 'TIT' or bookName = 'PHM' or bookName = 'HEB' or bookName = 'JAM' or bookName = '1PE' or bookName = '2PE' or bookName = '1JN' or bookName = '2JN' or bookName = '3JN' or bookName = 'JUD' or bookName = 'REV') order by id asc", ["%${searchTerm}%", 'chr'], [max:40, offset:moffset])
                 } else if (isSyllabary) {
-                    returnResults = Verse.findAll("from Verse where verseContext like ?0 and source = ?1 and ( bookName = 'MAT' or bookName = 'MAK' or bookName = 'LUK' or bookName = 'JHN' or bookName = 'ACT' or bookName = 'ROM' or bookName = '1CO' or bookName = '2CO' or bookName = 'GAL' or bookName = 'EPH' or bookName = 'PHL' or bookName = 'COL' or bookName = '1TS' or bookName = '2TS' or bookName = '1TM' or bookName = '2TM' or bookName = 'TIT' or bookName = 'PHM' or bookName = 'HEB' or bookName = 'JAM' or bookName = '1PE' or bookName = '2PE' or bookName = '1JN' or bookName = '2JN' or bookName = '3JN' or bookName = 'JUD' or bookName = 'REV')", ["%${searchTerm}%", 'chr'], [max:40])
+                    returnResults = Verse.findAll("from Verse where verseContext like ?0 and source = ?1 and ( bookName = 'MAT' or bookName = 'MAK' or bookName = 'LUK' or bookName = 'JHN' or bookName = 'ACT' or bookName = 'ROM' or bookName = '1CO' or bookName = '2CO' or bookName = 'GAL' or bookName = 'EPH' or bookName = 'PHL' or bookName = 'COL' or bookName = '1TS' or bookName = '2TS' or bookName = '1TM' or bookName = '2TM' or bookName = 'TIT' or bookName = 'PHM' or bookName = 'HEB' or bookName = 'JAM' or bookName = '1PE' or bookName = '2PE' or bookName = '1JN' or bookName = '2JN' or bookName = '3JN' or bookName = 'JUD' or bookName = 'REV') order by id asc", ["%${searchTerm}%", 'chr'], [max:40, offset:moffset])
                 } else if (isEnglish) {
-                    returnResults = Verse.findAll("from Verse where verseContext like ?0 and source != ?1 and ( bookName = 'MAT' or bookName = 'MAK' or bookName = 'LUK' or bookName = 'JHN' or bookName = 'ACT' or bookName = 'ROM' or bookName = '1CO' or bookName = '2CO' or bookName = 'GAL' or bookName = 'EPH' or bookName = 'PHL' or bookName = 'COL' or bookName = '1TS' or bookName = '2TS' or bookName = '1TM' or bookName = '2TM' or bookName = 'TIT' or bookName = 'PHM' or bookName = 'HEB' or bookName = 'JAM' or bookName = '1PE' or bookName = '2PE' or bookName = '1JN' or bookName = '2JN' or bookName = '3JN' or bookName = 'JUD' or bookName = 'REV')", ["%${searchTerm}%", 'chr'], [max:40])
+                    returnResults = Verse.findAll("from Verse where verseContext like ?0 and source != ?1 and ( bookName = 'MAT' or bookName = 'MAK' or bookName = 'LUK' or bookName = 'JHN' or bookName = 'ACT' or bookName = 'ROM' or bookName = '1CO' or bookName = '2CO' or bookName = 'GAL' or bookName = 'EPH' or bookName = 'PHL' or bookName = 'COL' or bookName = '1TS' or bookName = '2TS' or bookName = '1TM' or bookName = '2TM' or bookName = 'TIT' or bookName = 'PHM' or bookName = 'HEB' or bookName = 'JAM' or bookName = '1PE' or bookName = '2PE' or bookName = '1JN' or bookName = '2JN' or bookName = '3JN' or bookName = 'JUD' or bookName = 'REV') order by id asc", ["%${searchTerm}%", 'chr'], [max:40, offset:moffset])
                 }
 
                 if (returnResults) {
@@ -301,7 +304,9 @@ class NewSearchService {
         def posParam = params.posSearch
 
         def max = 40
-        def moffset = params.offset ? Integer.parseInt(params.offset) : 20
+        def moffset = params.offset ? Integer.parseInt(params.offset) : 40
+
+        println "moffset ${moffset}"
 
         PartOfSpeech pos
         if (posParam) {
@@ -334,7 +339,7 @@ class NewSearchService {
                     || isSyllabary && isEnglish
                     || isTsalagi && isSyllabary) {
 
-                def tmp = Likespreadsheets.createCriteria().list {
+                def tmp = Likespreadsheets.createCriteria().list(max:40, offset:moffset) {
                     //            projections {
                     //                property("firstName")
                     //            }
@@ -371,9 +376,6 @@ class NewSearchService {
                     if (category) {
                         eq('category', category.category)
                     }
-
-                    maxResults(max)
-                    offset(moffset)
                 }
 
                 if (tmp) {
@@ -381,7 +383,7 @@ class NewSearchService {
                 }
             } else {
                 if (isTsalagi) {
-                    def tmp = Likespreadsheets.createCriteria().list {
+                    def tmp = Likespreadsheets.createCriteria().list(max:40, offset:moffset) {
                         or {
                             tsalagiFields.each { tsalagi ->
                                 rlike(tsalagi, searchTerm)
@@ -395,16 +397,13 @@ class NewSearchService {
                         if (category) {
                             eq('category', category.category)
                         }
-
-                        maxResults(max)
-                        offset(moffset)
                     }
 
                     results.addAll(tmp)
                 }
 
                 if (isSyllabary) {
-                    def tmp = Likespreadsheets.createCriteria().list {
+                    def tmp = Likespreadsheets.createCriteria().list(max:40, offset:moffset) {
                         or {
                             syllabaryFields.each { syllabary ->
                                 rlike(syllabary, searchTerm)
@@ -418,16 +417,13 @@ class NewSearchService {
                         if (category) {
                             eq('category', category.category)
                         }
-
-                        maxResults(40)
-                        offset(offset)
                     }
 
                     results.addAll(tmp)
                 }
 
                 if (isEnglish) {
-                    def tmp = Likespreadsheets.createCriteria().list {
+                    def tmp = Likespreadsheets.createCriteria().list(max:40, offset:moffset) {
                         englishFields.each { english ->
                             rlike(english, searchTerm)
                         }
@@ -439,9 +435,6 @@ class NewSearchService {
                         if (category) {
                             eq('category', category.category)
                         }
-
-                        maxResults(max)
-                        offset(moffset)
                     }
 
                     results.addAll(tmp)
@@ -454,7 +447,7 @@ class NewSearchService {
                     || isSyllabary && isEnglish
                     || isTsalagi && isSyllabary) {
 
-            def tmp = Likespreadsheets.createCriteria().list {
+            def tmp = Likespreadsheets.createCriteria().list(max:40, offset:moffset) {
                 //            projections {
                 //                property("firstName")
                 //            }
@@ -491,9 +484,6 @@ class NewSearchService {
                 if (category) {
                     eq('category', category.category)
                 }
-
-                maxResults(max)
-                offset(moffset)
             }
 
             if (tmp) {
@@ -501,7 +491,7 @@ class NewSearchService {
             }
         } else {
             if (isEnglish) {
-                def tmp = Likespreadsheets.createCriteria().list {
+                def tmp = Likespreadsheets.createCriteria().list(max:40, offset:moffset) {
                     englishFields.each { english ->
                         if (exactMatch) {
                             eq(english, searchTerm)
@@ -517,16 +507,13 @@ class NewSearchService {
                     if (category) {
                         eq('category', category.category)
                     }
-
-                    maxResults(max)
-                    offset(moffset)
                 }
 
                 results.addAll(tmp)
             }
 
             if (isTsalagi) {
-                def tmp = Likespreadsheets.createCriteria().list {
+                def tmp = Likespreadsheets.createCriteria().list(max:40, offset:moffset) {
                     or {
                         tsalagiFields.each { tsalagi ->
                             if (exactMatch) {
@@ -544,17 +531,13 @@ class NewSearchService {
                     if (category) {
                         eq('category', category.category)
                     }
-
-                    maxResults(max)
-                    offset(moffset)
                 }
 
                 results.addAll(tmp)
             }
 
-
             if (isSyllabary) {
-                def tmp = Likespreadsheets.createCriteria().list {
+                def tmp = Likespreadsheets.createCriteria().list(max:40, offset:moffset) {
                     or {
                         syllabaryFields.each { syllabary ->
                             if (exactMatch) {
@@ -572,9 +555,6 @@ class NewSearchService {
                     if (category) {
                         eq('category', category.category)
                     }
-
-                    maxResults(max)
-                    offset(moffset)
                 }
 
                 results.addAll(tmp)

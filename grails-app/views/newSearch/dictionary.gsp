@@ -111,17 +111,53 @@
     %>
     <div id="message"></div>
     <b>If you see <i class="fas fa-plus-square"></i> click on the link next to it to see more about the word.</b><br/>
-    <%def offset = params.offset ? Integer.parseInt(params.offset) + 40 : 40
-        params.offset = offset
+    <%
+        def offset = params.offset ? Integer.parseInt(params.offset) + 40 : 40
+        def backoffset = params.offset ? Integer.parseInt(params.offset) - 40 : 0
+
         def link = new StringBuilder()
+        def link2 = new StringBuilder()
+        if (!params?.offset) {
+            link << "&offset=${offset}"
+            link2 << "&offset=${backoffset}"
+        }
+
         params.each {
-            link << "&${it.key}=${it.value}"
+            if (it.key == "offset") {
+                link << "&offset=${offset}"
+                link2 << "&offset=${backoffset}"
+            } else {
+                link << "&${it.key}=${it.value}"
+                link2 << "&${it.key}=${it.value}"
+            }
         }
     %>
-    &tsalagiSearchButton=Cherokee%20(phonetic)
+    // submit to controller
+    <% if (offset > 40) { %>
+    <form action="/newSearch/dictionary/newSearchForm" id="backform"  style="float:left;padding-right:10px">
+        <g:each in="${params}" var="param">
+            <% if (param.key == "offset") { %>
+                <input type="hidden" name="offset" value="${backoffset}">
+            <% } else { %>
+                <input type="hidden" name="${param.key}" value="${param.value}">
+            <% } %>
+        </g:each>
+        <a href="javascript:{}" onclick="document.getElementById('backform').submit(); return false;"><< Back</a>
+    </form>
+    <% } %>
+    <% if (entries.size() >= 40) {%>
+    <form action="/newSearch/dictionary/newSearchForm" id="nextform">
+        <g:each in="${params}" var="param">
+            <% if (param.key == "offset") { %>
+            <input type="hidden" name="offset" value="${offset}">
+            <% } else { %>
+            <input type="hidden" name="${param.key}" value="${param.value}">
+            <% } %>
+        </g:each>
+        <a href="javascript:{}" onclick="document.getElementById('nextform').submit(); return false;">Next >></a>
+    </form>
+    <% } %>
 
-    <a href="/newSearch/dictionary/newSearchForm?${link}">Next Page</a>
-    <a href="/newSearch/dictionary/newSearchForm?http://localhost:8080/newSearch/dictionary/newSearchForm?&yes=[yes,%20yes]&tsalagiSearch=tsisa&syllabarySearch=&englishSearch=&categorySearch=&_searchForExactMatch=&_audio=&_includeCED=&includeCED=on&_includeSentences=&includeSentences=on&_includeConsortiumWordList=&includeConsortiumWordList=on&_includeMicrosoftWordList=&includeMicrosoftWordList=on&_includeNCMedWordList=&includeNCMedWordList=on&_includeCNOMedWordList=&includeCNOMedWordList=on&_includeNOQWordList=&includeNOQWordList=on&_includeRRD=&includeRRD=on&_includeHolmesSmith=&includeHolmesSmith=on&_includeMAGOK=&includeMAGOK=on&_includeFBGP=&includeFBGP=on&_includeCNLD=&includeCNLD=on&_includeVRB=&includeVRB=on&_Banks=&Banks=on&_includeCNT=&includeCNT=on&_includeUCH=&includeUCH=on&_walc1=&walc1=on&_includeCNO=&includeCNO=on&_bible=&_uncheckAll=&_checkAll=&controller=newSearch&action=dictionary&id=newSearchForm&offset=60">nextone</a>
     <!-- desktop view -->
     <div class="large">
         <a href="/newSearch/download/csv">Download results as CSV</a>&nbsp;&nbsp;

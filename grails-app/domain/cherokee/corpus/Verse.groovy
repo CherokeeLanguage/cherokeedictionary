@@ -1,9 +1,13 @@
 package cherokee.corpus
 
 class Verse {
-
-    static constraints = {
-    }
+//    static mapping = {
+//        sort bookName: "asc"
+//        sort chapterNumber: "asc"
+//        sort verseNumber: "asc"
+//    }
+//    static constraints = {
+//    }
 
     String bookName
     String chapterNumber

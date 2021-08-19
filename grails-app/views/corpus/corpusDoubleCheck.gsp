@@ -10,7 +10,7 @@
 }%><br/>--}%
 <g:form action="correct" controller="NLPUpload" method="POST">
     <g:select name="cSource"
-              from="${cherokee.corpus.CorpusSource.list()}"
+              from="${net.cherokeedictionary.corpus.CorpusSource.list()}"
               value="cSource"
               optionKey="id"
               noSelection="['':'-Select a Corpus -']"/>

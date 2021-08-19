@@ -1,6 +1,6 @@
 package newsite
 
-import cherokee.ONLPService
+import net.cherokeedictionary.corpus.ONLPService
 
 class TranslaterieTagLib {
     static defaultEncodeAs = [taglib:'html']

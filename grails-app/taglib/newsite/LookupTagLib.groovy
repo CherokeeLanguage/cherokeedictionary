@@ -1,6 +1,6 @@
 package newsite
 
-import cherokee.dictionary.Likespreadsheets
+import net.cherokeedictionary.dictionary.Likespreadsheets
 import net.cherokeedictionary.transliteration.SyllabaryUtil
 
 class LookupTagLib {

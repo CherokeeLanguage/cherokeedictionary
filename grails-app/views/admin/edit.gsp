@@ -1,4 +1,4 @@
-<%@ page import="cherokee.Admin" %>
+<%@ page import="net.cherokeedictionary.admin.Admin" %>
 <!DOCTYPE html>
 <html>
 	<head>

@@ -5,7 +5,7 @@
   Time: 12:04 PM
 --%>
 
-<%@ page import="cherokee.corpus.Verse" contentType="text/html;charset=UTF-8" %>
+<%@ page import="net.cherokeedictionary.corpus.Verse" contentType="text/html;charset=UTF-8" %>
 
 <!DOCTYPE html>
 <html lang="en">

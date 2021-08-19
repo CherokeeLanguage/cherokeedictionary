@@ -5,7 +5,7 @@
   Time: 10:18 AM
 --%>
 
-<%@ page import="net.cherokeedictionary.util.Tense; net.cherokeedictionary.stemmer.DefinitionLine; net.cherokeedictionary.stemmer.Stemmer; cherokee.dictionary.Likespreadsheets" contentType="text/html;charset=UTF-8" %>
+<%@ page import="net.cherokeedictionary.util.Tense; net.cherokeedictionary.stemmer.DefinitionLine; net.cherokeedictionary.stemmer.Stemmer; net.cherokeedictionary.dictionary.Likespreadsheets" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>Aspect Pattern Finder</title>

@@ -3,6 +3,9 @@ package cherokee.dictionary
 import grails.testing.gorm.DomainUnitTest
 import grails.testing.web.controllers.ControllerUnitTest
 import grails.validation.ValidationException
+import net.cherokeedictionary.dictionary.Likespreadsheets
+import net.cherokeedictionary.dictionary.LikespreadsheetsController
+import net.cherokeedictionary.dictionary.LikespreadsheetsService
 import spock.lang.*
 
 class LikespreadsheetsControllerSpec extends Specification implements ControllerUnitTest<LikespreadsheetsController>, DomainUnitTest<Likespreadsheets> {

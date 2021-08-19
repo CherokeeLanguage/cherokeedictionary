@@ -3,6 +3,9 @@ package cherokee
 import grails.testing.gorm.DomainUnitTest
 import grails.testing.web.controllers.ControllerUnitTest
 import grails.validation.ValidationException
+import net.cherokeedictionary.admin.Settings
+import net.cherokeedictionary.admin.SettingsController
+import net.cherokeedictionary.admin.SettingsService
 import spock.lang.*
 
 class SettingsControllerSpec extends Specification implements ControllerUnitTest<SettingsController>, DomainUnitTest<Settings> {

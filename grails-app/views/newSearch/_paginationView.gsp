@@ -1,4 +1,4 @@
-<%@ page import="cherokee.dictionary.SourceManagement; java.util.regex.Pattern; java.util.regex.Matcher" %>
+<%@ page import="net.cherokeedictionary.admin.SourceManagement;  net.cherokeedictionary.admin.SourceManagement; java.util.regex.Pattern; java.util.regex.Matcher" %>
 
 %{--<%--}%
 %{--    def tmpIndex = params.index ?: 40--}%
@@ -72,7 +72,7 @@
                 <%-- not sure why the colors work above but here the code is always the same - i'm missing something - timo 4may21--%>
 %{--                    <% out << sourceMgmt.code--}%
 %{--                    out << sourceMgmt.bibliographyFullAPA %>--}%
-                    <g:each var="source" in="${cherokee.dictionary.SourceManagement.findAll([sort: 'code', order: 'asc'])}">
+                    <g:each var="source" in="${SourceManagement.findAll([sort: 'code', order: 'asc'])}">
                         <b>${source.code.toUpperCase()}</b> - ${source.bibliographyFullAPA}<br/>
                     </g:each>
             </div>

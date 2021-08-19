@@ -6,7 +6,7 @@
  */
 --%>
 
-<%@ page import="cherokee.dictionary.SourceManagement" contentType="text/html;charset=UTF-8" %>
+<%@ page import="net.cherokeedictionary.admin.SourceManagement" contentType="text/html;charset=UTF-8" %>
 <html>
   <head>
       <meta name="layout" content="manager"/>
@@ -18,7 +18,7 @@
   The purpose of this online searchable dictionary database is to make access to the contents of rigorously reviewed language materials more widely available and more easily searchable in a combined database that maintains the integrity of the sources upon which it draws. The contents of this page are derived from several sources:
 
         <ul>
-            <g:each var="source" in="${cherokee.dictionary.SourceManagement.findAll()}">
+            <g:each var="source" in="${net.cherokeedictionary.admin.SourceManagement.findAll()}">
               <li>${source.bibliographyFullAPA}</li>
             </g:each>
         </ul>

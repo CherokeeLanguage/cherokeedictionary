@@ -131,8 +131,12 @@
                 link2 << "&${it.key}=${it.value}"
             }
         }
+
+        if (!params.offset) {
+            params.offset = offset
+//            out << raw("OFFSET IS ${params.offset}<br/>")
+        }
     %>
-    // submit to controller
     <% if (offset > 40) { %>
     <form action="/newSearch/dictionary/newSearchForm" id="backform"  style="float:left;padding-right:10px">
         <g:each in="${params}" var="param">

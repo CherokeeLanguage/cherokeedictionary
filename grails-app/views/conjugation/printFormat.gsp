@@ -10,8 +10,16 @@
 <head>
     <title></title>
 </head>
+<%
+def cedEntry = Likespreadsheets.findById()
 
+%>
 <body>
+<table>
+    <tr></tr>
+</table>
+
+
 %{--<%--}%
 %{--    def ds = SyllabarySorted.list()--}%
 %{--    %>--}%

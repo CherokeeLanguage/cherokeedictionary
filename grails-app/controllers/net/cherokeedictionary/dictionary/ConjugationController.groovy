@@ -25,6 +25,8 @@ class ConjugationController {
 
     def printFormat() {}
 
+    def populate() {}
+
     def getDisplayValue(params) {
         return getDisplayValueConjugationEngineV2(params)
     }

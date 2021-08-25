@@ -7,7 +7,7 @@
  */
 --%>
 
-<%@ page import="cherokee.dictionary.SourceManagement; java.util.regex.Matcher; java.util.regex.Pattern" contentType="text/html;charset=UTF-8" %>
+<%@ page import="net.cherokeedictionary.admin.SourceManagement; net.cherokeedictionary.admin.SourceManagement;  net.cherokeedictionary.admin.SourceManagement; java.util.regex.Matcher; java.util.regex.Pattern" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
@@ -110,7 +110,7 @@ th:hover, tr:hover {
     def anchorstyle = "";
 %>
 <tr class="${(i % 2) == 0 ? 'even' : 'odd'}" id="edit${i}">
-    <td style="width:1px; margin: 0 0 0 0; padding: 0 0 0 0; border-spacing: 0;${SourceManagement.findByCode(entry.source).color};text-color${cherokee.dictionary.SourceManagement.findByCode(entry.source).textColor}">
+    <td style="width:1px; margin: 0 0 0 0; padding: 0 0 0 0; border-spacing: 0;${net.cherokeedictionary.admin.SourceManagement.findByCode(entry.source).color};text-color${net.cherokeedictionary.admin.SourceManagement.findByCode(entry.source).textColor}">
         <div style="transform: rotate(90deg); -webkit-transform: rotate(90deg); -moz-transform: rotate(90deg); -ms-transform: rotate(90deg); position:relative; top: 5px; text-align:center; display:inline-block; text-transform:lowercase;width:20px; margin: 0 0 0 0; padding: 0 0 0 0; border-spacing: 0;">
             <a href="#" class="popper" data-popbox="tsalagidigoweli2" style="<%if (entry.source != 'ced') { println "color:white;"}%>">
                 ${entry.source}

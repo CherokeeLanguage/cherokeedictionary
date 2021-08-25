@@ -1,4 +1,4 @@
-<%@ page import="cherokee.dictionary.Likespreadsheets" %>
+<%@ page import="net.cherokeedictionary.dictionary.Likespreadsheets" %>
 
 <div class="fieldcontain ${hasErrors(bean: likespreadsheetsInstance, field: 'entrya', 'error')} ">
 	<label for="entrya">

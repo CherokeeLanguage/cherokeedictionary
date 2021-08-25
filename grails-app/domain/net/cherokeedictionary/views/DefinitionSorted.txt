@@ -1,0 +1,47 @@
+package net.cherokeedictionary.views
+
+class DefinitionSorted {
+
+    static constraints = {
+    }
+
+    //https://www.mscharhag.com/grails/grails-gorm-database-views
+    static mapping = {
+        table 'definitionsorted'
+        version false
+        id name: "entrya"
+    }
+
+    def entrya
+    def syllabaryb
+    def partofspeechc
+    def definitiond
+    def nounadjplurale
+    def nounadjpluralsyllf
+    def vfirstpresg
+    def vfirstpresh
+    def vthirdpasti
+    def vthirdpastsyllj
+    def vthirdpresk
+    def vthirdpressylll
+    def vsecondimperm
+    def vsecondimpersylln
+    def vthirdinfo
+    def vthirdinfsyllp
+    def sentenceq
+    def sentencesyllr
+    def sentenceenglishs
+    def crossreferencet
+    def entrytone
+    def nounadjpluraltone
+    def vfirstprestone
+    def vthirdpasttone
+    def vthirdprestone
+    def vsecondimpertone
+    def vthirdinftone
+    def source
+    def definitionlarge
+    def etymology
+    def notes
+    def categorydef
+}

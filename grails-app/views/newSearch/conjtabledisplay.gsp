@@ -5,7 +5,7 @@
   Time: 3:47 PM
 --%>
 
-<%@ page import="cherokee.dictionary.Likespreadsheets; java.util.regex.Matcher; java.util.regex.Pattern" contentType="text/html;charset=UTF-8" %>
+<%@ page import="net.cherokeedictionary.dictionary.Likespreadsheets;  net.cherokeedictionary.dictionary.Likespreadsheets; java.util.regex.Matcher; java.util.regex.Pattern" contentType="text/html;charset=UTF-8" %>
 <%@ page import="net.cherokeedictionary.util.Tense; net.cherokeedictionary.stemmer.Stemmer; net.cherokeedictionary.stemmer.DefinitionLine" contentType="text/html;charset=UTF-8" %>
 <%@ page import="net.cherokeedictionary.verb.conjugation.Conjugate;net.cherokeedictionary.factory.VerbFactory;net.cherokeedictionary.core.Verb" contentType="text/html;charset=UTF-8" %>
 <%@ page import="net.cherokeedictionary.util.PrefixTableSubject; net.cherokeedictionary.util.PrefixTableObject;" contentType="text/html;charset=UTF-8" %>

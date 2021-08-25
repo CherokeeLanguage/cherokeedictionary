@@ -1,4 +1,5 @@
-<%@ page import="cherokee.Settings; cherokee.corpus.Verse; cherokee.dictionary.Likespreadsheets; cherokee.dictionary.SourceManagement; java.util.regex.Pattern; java.util.regex.Matcher" %>
+<%@ page import="net.cherokeedictionary.dictionary.Likespreadsheets; net.cherokeedictionary.admin.Settings; net.cherokeedictionary.admin.SourceManagement;  net.cherokeedictionary.corpus.Verse;  net.cherokeedictionary.dictionary.Likespreadsheets;  net.cherokeedictionary.admin.SourceManagement; java.util.regex.Pattern; java.util.regex.Matcher" %>
+
 <table>
 <% if (session.getAttribute("loggedin")) { %><th>Edit</th><% } %>
 <th style="width:1px; margin: 0 0 0 0; padding: 0 0 0 0; border-spacing: 0"></th>
@@ -73,7 +74,7 @@
         <td colspan="11">${entry.verseContext}</td>
     </tr>--}%
 
-    <% } else  if (entry instanceof cherokee.dictionary.Likespreadsheets) { %>
+    <% } else  if (entry instanceof Likespreadsheets) { %>
     <%
             Pattern p = Pattern.compile("([0-9]?.?\\s?[a-zA-Z'(),\\s.]*)?([0-9].\\s?[a-zA-Z'(),\\s.]*)?([0-9].\\s?[a-zA-Z'(),\\s.]*)?");
 
@@ -104,7 +105,7 @@
         <% if (session.getAttribute("loggedin")) { %><td><a href="/likespreadsheets/show/${entry.id}" target="_blank">edit</a></td><%}%>
         <td style="width:1px; margin: 0 0 0 0; padding: 0 0 0 0; border-spacing: 0;background-color:${sourceMgmt?.color};text-color${sourceMgmt?.textColor}">
             <div style="transform: rotate(90deg); -webkit-transform: rotate(90deg); -moz-transform: rotate(90deg); -ms-transform: rotate(90deg); position:relative; top: 5px; text-align:center; display:inline-block; text-transform:lowercase;width:20px; margin: 0 0 0 0; padding: 0 0 0 0; border-spacing: 0;">
-                <a href="#" class="popper" data-popbox="tsalagidigoweli2" style="<%if (entry.source != 'ced' && entry.source != 'noq') { println "color:white;"}%>">
+                <a href="#" class="popper" data-popbox="tsalagidigoweli2" style="<% println "color:${sourceMgmt?.textColor};"%>">
                     ${sourceMgmt.code}
                 </a>
             </div>
@@ -112,12 +113,13 @@
             <%-- not sure why the colors work above but here the code is always the same - i'm missing something - timo 4may21--%>
             %{--                    <% out << sourceMgmt.code--}%
             %{--                    out << sourceMgmt.bibliographyFullAPA %>--}%
-                <g:each var="source" in="${cherokee.dictionary.SourceManagement.findAll([sort: 'code', order: 'asc'])}">
+                <g:each var="source" in="${SourceManagement.findAll([sort: 'code', order: 'asc'])}">
                     <b>${source.code.toUpperCase()}</b> - ${source.bibliographyFullAPA}<br/>
                 </g:each>
             </div>
         </td>
         <td>
+
             <span id="syllabarybmain${i}"><a class="iframe" href="/newSearch/individual?id=${entry.id}" alt="click here to find out more about ${entry.syllabaryb}">${entry.syllabaryb}</a><%if (entry.definitionlarge || entry.etymology || entry.category) {%>&nbsp;&nbsp;<i class="fas fa-plus-square"></i><%}%></span><br/>
             <span id="entryamain${i}">
                 <% if (entry.entrya.endsWith("?")) { %>

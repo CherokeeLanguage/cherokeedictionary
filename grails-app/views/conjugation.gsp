@@ -5,8 +5,8 @@
   Time: 3:47 PM
 --%>
 
-%{--<%@ page import="cherokee.dictionary.Likespreadsheets;cherokee.dictionary.verb.conjugation.originalConjugation.Tense;cherokee.dictionary.hold.stem.DefinitionLine;cherokee.dictionary.verb.conjugation.originalConjugation.Stemmer;cherokee.dictionary.verb.conjugation.originalConjugation.Conjugate" contentType="text/html;charset=UTF-8" %>--}%
-<%@ page import="cherokee.dictionary.Likespreadsheets; java.util.regex.Matcher; java.util.regex.Pattern" contentType="text/html;charset=UTF-8" %>
+%{--<%@ page import=" net.cherokeedictionary.dictionary.Likespreadsheets;cherokee.dictionary.verb.conjugation.originalConjugation.Tense;cherokee.dictionary.hold.stem.DefinitionLine;cherokee.dictionary.verb.conjugation.originalConjugation.Stemmer;cherokee.dictionary.verb.conjugation.originalConjugation.Conjugate" contentType="text/html;charset=UTF-8" %>--}%
+<%@ page import="net.cherokeedictionary.dictionary.Likespreadsheets;  net.cherokeedictionary.dictionary.Likespreadsheets; java.util.regex.Matcher; java.util.regex.Pattern" contentType="text/html;charset=UTF-8" %>
 %{--V2--}%
 <%@ page import="net.cherokeedictionary.util.Tense; net.cherokeedictionary.stemmer.Stemmer; net.cherokeedictionary.stemmer.DefinitionLine" contentType="text/html;charset=UTF-8" %>
 <%@ page import="net.cherokeedictionary.verb.conjugation.Conjugate" contentType="text/html;charset=UTF-8" %>
@@ -33,7 +33,7 @@
     </script>
 </head>
 <%
-    def lks = Likespreadsheets.findById(72348);
+    def lks = net.cherokeedictionary.dictionary.Likespreadsheets.findById(72348);
 
     def habitual = lks.vthirdpressylll
     def imperative = lks.vsecondimpersylln

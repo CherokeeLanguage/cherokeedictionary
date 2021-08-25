@@ -1,4 +1,4 @@
-<%@ page import="cherokee.dictionary.Likespreadsheets" %>
+<%@ page import="net.cherokeedictionary.dictionary.Likespreadsheets" %>
 <!DOCTYPE html>
 <html>
 	<head>

@@ -10,21 +10,21 @@
         <input type="checkbox" name="wi" id="wi" <% if (request.getParameter("wi") == 'on') { %> checked="true" <% } %>/>WI<br/>
     </div>
     <div style="display:table-cell">
-        <input type="checkbox" name="ni" id="ni" disabled <% if (request.getParameter("ni") == 'on') { %> checked="true" <% } %>/>NI<br/>
+        <input type="checkbox" name="ni" id="ni"  <% if (request.getParameter("ni") == 'on') { %> checked="true" <% } %>/>NI<br/>
     </div>
     <div style="display:table-cell">
-        <input type="checkbox" name="de" id="de" disabled <% if (request.getParameter("de") == 'on') { %> checked="true" <% } %>/>DE<br/>
+        <input type="checkbox" name="de" id="de"  <% if (request.getParameter("de") == 'on') { %> checked="true" <% } %>/>DE<br/>
     </div>
     <div style="display:table-cell">
         <input type="checkbox" name="da" id="da" disabled <% if (request.getParameter("da") == 'on') { %> checked="true" <% } %>/>DA<br/>
-        <input type="checkbox" name="di" id="di" disabled <% if (request.getParameter("di") == 'on') { %> checked="true" <% } %>/>DI<br/>
+        <input type="checkbox" name="di" id="di"  <% if (request.getParameter("di") == 'on') { %> checked="true" <% } %>/>DI<br/>
     </div>
     <div style="display:table-cell">
-        <input type="checkbox" name="i" id="i" disabled <% if (request.getParameter("i") == 'on') { %> checked="true" <% } %>/>I<br/>
+        <input type="checkbox" name="i" id="i"  <% if (request.getParameter("i") == 'on') { %> checked="true" <% } %>/>I<br/>
     </div>
     <div style="display:table-cell">
-        <input type="checkbox" name="ga" id="ga" disabled <% if (request.getParameter("ga") == 'on') { %> checked="true" <% } %>/>GA<br/>
-        <input type="checkbox" name="e" id="e" disabled <% if (request.getParameter("e") == 'on') { %> checked="true" <% } %>/>E<br/>
+        <input type="checkbox" name="ga" id="ga"  <% if (request.getParameter("ga") == 'on') { %> checked="true" <% } %>/>GA<br/>
+        <input type="checkbox" name="e" id="e"  <% if (request.getParameter("e") == 'on') { %> checked="true" <% } %>/>E<br/>
     </div>
     <br/>
 </div>

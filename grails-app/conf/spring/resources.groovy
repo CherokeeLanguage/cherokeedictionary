@@ -1,4 +1,4 @@
-import cherokeedictionary.ConjugationInterceptor
+//import cherokeedictionary.ConjugationInterceptor
 
 // Place your Spring DSL code here
 beans = {

@@ -5,14 +5,14 @@
   Time: 10:18 AM
 --%>
 
-<%@ page import="net.cherokeedictionary.util.Tense; net.cherokeedictionary.stemmer.DefinitionLine; net.cherokeedictionary.stemmer.Stemmer; cherokee.dictionary.Likespreadsheets" contentType="text/html;charset=UTF-8" %>
+<%@ page import="net.cherokeedictionary.util.Tense; net.cherokeedictionary.stemmer.DefinitionLine; net.cherokeedictionary.stemmer.Stemmer; net.cherokeedictionary.dictionary.Likespreadsheets" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>Aspect Pattern Finder</title>
 </head>
 <body>
 <%
-def entries = Likespreadsheets.findAll("from Likespreadsheets where (partofspeechc=?0 or partofspeechc=?1) and source=?2", ["vi", "vt", "CED"])
+def entries = Likespreadsheets.findAll("from Likespreadsheets where (partofspeechc=?0 or partofspeechc=?1) and (source=?2 or source=?3)", ["vi", "vt", "CED", "RRD"])
 
 def lastVowelIndex = {String yourString ->
     for(int i = yourString.length() - 1; i > 0; i--) {
@@ -68,6 +68,15 @@ Set<String> pastset = new HashSet<String>()
 Set<String> imperset = new HashSet<String>()
 Set<String> infset = new HashSet<String>()
 Set<String> pres3set = new HashSet<String>()
+
+def hablst = []
+def pres1lst = []
+def pastlst = []
+def imperlst = []
+def inflst = []
+def pres3lst = []
+
+def count = 0;
 entries.each {entry ->
     def habitual = entry.vthirdpresk.trim()
     def imperative = entry.vsecondimperm.trim()
@@ -75,30 +84,67 @@ entries.each {entry ->
     def present1st = entry.vfirstpresg.trim()
     def present3rd = entry.entrya.trim()
     def remotepast =  entry.vthirdpasti.trim()
-    if (entry.partofspeechc == 'vi' || entry.partofspeechc == "vt") { %>
+
+    hablst << habitual
+    pres1lst << present1st
+    pastlst << remotepast
+    imperlst << imperative
+    inflst << infinitive
+    pres3lst << present3rd
+%>
+       <% if (count % 2 == 0) { %>
+            </div><div style="float:left">
+     <% } %>
+<%
+    if (entry.partofspeechc == 'vi' || entry.partofspeechc == "vt") {
+%>
+
 <% habset << parse(habitual, "oi") + "oi" %>
 <% pres1set << parse(present1st, "a") + "a" %>
 <% pres3set << parse(present3rd, "a") + "a" %>
 <% pastset << parse(remotepast, "vi") + "vi"%>
 <% imperset << parse(imperative, ["i", "a"]) %>
 <% infset << parse(infinitive, "di") + "di" %>
-    <pre><%= entry.definitiond %> -- <%= entry.partofspeechc %> -- <%= entry.entrya %>
+    <pre><%= entry.definitiond %> -- <%= entry.partofspeechc %> -- <%= entry.entrya %> -- <%= entry.source %>
     <%= parse(habitual, "oi") %>          <%= habitual %> -- hab -- oi
     <%= parse(present1st, "a") %>          <%= present1st %> -- pres1 -- a
     <%= parse(present3rd, "a") %>          <%= present3rd %> -- pres3 -- a
     <%= parse(remotepast, "vi") %>          <%= remotepast %> -- past -- vi
     <%= parse(imperative, "i") %>          <%= imperative %> -- imp -- i
-    <%= parse(infinitive, "di") %>          <%= infinitive %> -- inf -- di
-    </pre>
-    <% } %>
+    <%= parse(infinitive, "di") %>          <%= infinitive %> -- inf -- di</pre>
+<%
+        count++
+    } %>
 <% } %>
-
+<br/><br/>
+<div>
 hab <%= habset.sort() %><br/>
 pres1 <%= pres1set.sort() %><br/>
 pres3 <%= pres3set.sort() %><br/>
 past <%= pastset.sort() %><br/>
 imp <%= imperset.sort() %><br/>
 inf <%= infset.sort() %><br/>
+<table>
+    <tr>
+        <td>Present 3rd</td>
+        <td>Present 1st</td>
+        <td>Past</td>
+        <td>Infinitive</td>
+        <td>Imperative</td>
+        <td>Habitual</td>
+    </tr>
+    <% hablst.eachWithIndex {it, idx -> %>
+    <tr>
+        <td><%= pres3lst.get(idx) %></td>
+        <td><%= pres1lst.get(idx) %></td>
+        <td><%= pastlst.get(idx) %></td>
+        <td><%= inflst.get(idx) %></td>
+        <td><%= imperlst.get(idx) %></td>
+        <td><%= it %></td>
+    </tr>
+    <% } %>
+</table>
 
+</div>
 </body>
 </html>

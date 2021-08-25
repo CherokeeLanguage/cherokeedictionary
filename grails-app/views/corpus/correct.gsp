@@ -29,7 +29,7 @@ Processing is Complete<br/>
     <br/>
     Since there is a temp source give the person a way to change the name of their temp source<br/>
     <g:select name="cSource"
-              from="${cherokee.corpus.CorpusSource.list()}"
+              from="${net.cherokeedictionary.corpus.CorpusSource.list()}"
               value="cSource"
               optionKey="id"
               noSelection="['':'-Select a Corpus -']"/>

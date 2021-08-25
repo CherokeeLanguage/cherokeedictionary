@@ -1,4 +1,4 @@
-<%@ page import="cherokee.mylearningstyle.LearningEntry" %>
+<%@ page import="net.cherokeedictionary.mylearningstyle.LearningEntry" %>
 <meta name="layout" content="manager"/>
 
 <%

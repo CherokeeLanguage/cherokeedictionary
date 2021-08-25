@@ -2,6 +2,8 @@ package cherokee
 
 import grails.testing.mixin.integration.Integration
 import grails.gorm.transactions.Rollback
+import net.cherokeedictionary.admin.Settings
+import net.cherokeedictionary.admin.SettingsService
 import spock.lang.Specification
 import org.hibernate.SessionFactory
 

@@ -1,1 +1,0 @@
-<g:render template="/templates/may2421TestYourself"/>

@@ -1,5 +1,5 @@
 <%
-    def lst = cherokee.mylearningstyle.LearningEntry.findAll()
+    def lst = net.cherokeedictionary.mylearningstyle.LearningEntry.findAll()
 %>
 
 <div style="display:table; margin-left:20px">

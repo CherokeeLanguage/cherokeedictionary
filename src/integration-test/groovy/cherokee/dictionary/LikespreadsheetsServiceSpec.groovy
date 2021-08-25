@@ -2,6 +2,8 @@ package cherokee.dictionary
 
 import grails.testing.mixin.integration.Integration
 import grails.gorm.transactions.Rollback
+import net.cherokeedictionary.dictionary.Likespreadsheets
+import net.cherokeedictionary.dictionary.LikespreadsheetsService
 import spock.lang.Specification
 import org.hibernate.SessionFactory
 

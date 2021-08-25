@@ -1,4 +1,4 @@
-<%@ page import="cherokee.dictionary.SourceManagement" %>
+<%@ page import="net.cherokeedictionary.admin.SourceManagement" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -65,7 +65,7 @@
                     </label>
 
                     <g:select name="partofspeechc"
-                              from="${cherokee.relational.PartOfSpeech.list()}"
+                              from="${net.cherokeedictionary.relational.PartOfSpeech.list()}"
                               value="partofspeechc.long_name"
                               optionKey="partofspeech"
                               noSelection="['':'-Part of Speech-']"/>
@@ -278,7 +278,7 @@
                     </label>
 
                     <g:select name="source"
-                              from="${cherokee.dictionary.SourceManagement.list()}"
+                              from="${net.cherokeedictionary.admin.SourceManagement.list()}"
                               value="source.code"
                               optionKey="code"
                               noSelection="['':'-Dictionary or Wordlist Source-']"/>

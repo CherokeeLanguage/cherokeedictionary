@@ -1,4 +1,4 @@
-<%@ page import="cherokee.dictionary.Announcements" contentType="text/html;charset=UTF-8" %>
+<%@ page import="net.cherokeedictionary.admin.Announcements" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <meta name="layout" content="manager"/>
@@ -83,7 +83,7 @@
                 </tr>
                 <tr>
                     <td><g:select name="posSearch"
-                                  from="${cherokee.relational.PartOfSpeech.list()}"
+                                  from="${net.cherokeedictionary.relational.PartOfSpeech.list()}"
                                   value="partOfSpeech"
                                   optionKey="id"
                                   noSelection="['':'-Select a Part of Speech-']"/></td>
@@ -92,7 +92,7 @@
                 </tr>
                 <tr>
                     <td><g:select name="categorySearch"
-                                  from="${cherokee.relational.Category.list()}"
+                                  from="${net.cherokeedictionary.relational.Category.list()}"
                                   value="category"
                                   optionKey="id"
                                   noSelection="['':'-Select a Category-']"/></td>

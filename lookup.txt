@@ -1,0 +1,10 @@
+definition
+dialect
+etymology
+notes
+part of speech
+word
+
+select entrya, syllabaryb, vfirstpresg, vfirstpresh, vsecondimperm, vsecondimpersylln, vthirdinfo, vthirdinfsyllp, vthirdpresk, vthirdpressylll,  definitiond, source  from likespreadsheets where (partofspeechc = 'vi' or partofspeechc = 'vt') and (source = 'ced' or source = 'rrd') and (entrya like '%i' or vfirstpresg like '%i') order by entrya;
+
+select definitiond, entrya from likespreadsheets where (entrya like "%(e%" or "%(w%" or "%(1%" or "%(2%" or "%(3%" or "%(4%") or (definitiond like "%1%" or "%2%" or "%3%" or "%4%") order by definitiond

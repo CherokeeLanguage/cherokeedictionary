@@ -1,4 +1,4 @@
-<%@ page import="cherokee.Admin" %>
+<%@ page import="net.cherokeedictionary.admin.Admin" %>
 
 
 <div class="fieldcontain ${hasErrors(bean: adminInstance, field: 'username', 'error')} required">

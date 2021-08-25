@@ -51,6 +51,7 @@ FinalEndings.set("tsu", "interrogative");
 FinalEndings.set("sgo", "interrogative2");
 FinalEndings.set("gwu", "onlyJustStill");
 FinalEndings.set("quu", "onlyJustStill");
+// FinalEndings.set("no", "and")
 
 const NonFinalEndings = new Map();
 NonFinalEndings.set("dohdan", "unintentional");

@@ -1,5 +1,4 @@
-﻿﻿
-<html>
+﻿<html>
 <head>
     <meta name="layout" content="manager"/>
     <title>Grammar</title>

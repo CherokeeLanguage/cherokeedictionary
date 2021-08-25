@@ -1,4 +1,4 @@
-﻿<%@ page import="cherokee.dictionary.SourceManagement; cherokee.Settings; cherokee.audio.AudioFile; cherokee.audio.AudioLink; java.util.regex.Matcher; java.util.regex.Pattern" contentType="text/html;charset=UTF-8" %>
+﻿<%@ page import="net.cherokeedictionary.admin.Settings; net.cherokeedictionary.admin.SourceManagement; net.cherokeedictionary.audio.AudioLink; net.cherokeedictionary.audio.AudioFile;  net.cherokeedictionary.admin.SourceManagement; net.cherokeedictionary.admin.Settings; net.cherokeedictionary.audio.AudioFile; net.cherokeedictionary.audio.AudioLink; java.util.regex.Matcher; java.util.regex.Pattern" contentType="text/html;charset=UTF-8" %>
 %{--<html>--}%
 %{--<head>--}%
     %{--<meta name="layout" content="manager"/>--}%
@@ -43,7 +43,7 @@
             <td <%if (!entry.partofspeechc) {%> colspan="2"<%}%>>
                 <b>Source:</b><br/>
 <%
-                    def source = cherokee.dictionary.SourceManagement.findByCode(entry.source)
+                    def source = SourceManagement.findByCode(entry.source)
 %>
                 ${source.bibliographyFullAPA}
                 <br/>
@@ -93,13 +93,13 @@
         </td>
     </tr>
 <%
-    def settings = cherokee.Settings.findAll("from Settings where setting_name=?0", ['showAudio']);
+    def settings = Settings.findAll("from Settings where setting_name=?0", ['showAudio']);
     if (settings) {
         if (settings[0].value == 'true') {
 
-        def audioLink = cherokee.audio.AudioLink.findByLikespreadsheets(entry)
+        def audioLink = AudioLink.findByLikespreadsheets(entry)
         if (audioLink) {
-            def audioFile = cherokee.audio.AudioFile.findAllById(audioLink.audioFileId)
+            def audioFile = AudioFile.findAllById(audioLink.audioFileId)
             if (audioFile) {
 %>
         <tr>

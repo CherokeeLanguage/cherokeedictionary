@@ -1,5 +1,5 @@
-<%@ page import="cherokee.corpus.Verse; cherokee.Settings; cherokee.dictionary.SourceManagement; java.util.regex.Pattern; java.util.regex.Matcher" %>
-<% def showBible = Settings.findAll("from Settings where setting_name=?0", ['showBible'])[0].value%>
+<%@ page import="net.cherokeedictionary.admin.Settings; net.cherokeedictionary.admin.Settings; net.cherokeedictionary.admin.SourceManagement; net.cherokeedictionary.admin.SourceManagement; net.cherokeedictionary.audio.AudioLink; net.cherokeedictionary.audio.AudioFile; net.cherokeedictionary.corpus.Verse;   net.cherokeedictionary.admin.SourceManagement; java.util.regex.Pattern; java.util.regex.Matcher" %>
+<% def showBible = net.cherokeedictionary.admin.Settings.findAll("from Settings where setting_name=?0", ['showBible'])[0].value%>
 
 <g:each in="${entries}" var="entry" status="i">
 <%
@@ -40,9 +40,9 @@
 
         if (settings) {
             if (settings[0].value == 'true') {
-                def audioLink = cherokee.audio.AudioLink.findByLikespreadsheets(entry)
+                def audioLink = AudioLink.findByLikespreadsheets(entry)
                 if (audioLink) {
-                    audioFile = cherokee.audio.AudioFile.findAllById(audioLink.audioFileId)
+                    audioFile = AudioFile.findAllById(audioLink.audioFileId)
                     if (audioFile) {
                         hasAudio = true
                     }
@@ -58,7 +58,7 @@
     <% } %>
         <div style="width:500px;display:table-cell">
             <% if (!bible) { %>
-            <div style="height:60px;width:25px;display:table-cell;margin: 0 0 0 0; padding: 0 0 0 0; border-spacing: 0;background-color:${SourceManagement.findByCode(entry.source)?.color};text-color${SourceManagement.findByCode(entry.source)?.textColor}">
+            <div style="height:60px;width:25px;display:table-cell;margin: 0 0 0 0; padding: 0 0 0 0; border-spacing: 0;background-color:${net.cherokeedictionary.admin.SourceManagement.findByCode(entry.source)?.color};text-color${SourceManagement.findByCode(entry.source)?.textColor}">
                 <div style="display:table-cell;transform: rotate(90deg); -webkit-transform: rotate(90deg); -moz-transform: rotate(90deg); -ms-transform: rotate(90deg); position:relative; top: 5px; text-align:center; display:inline-block; text-transform:lowercase;width:20px; margin: 0 0 0 0; padding: 0 0 0 0; border-spacing: 0;">
                     <a href="#" class="popper" data-popbox="tsalagidigoweli2" style="text-align: center; <%if (entry.source != 'ced' && entry.source != 'noq') { println "color:white;"}%>">
                         ${entry.source}

@@ -1,4 +1,4 @@
-<%@ page import="cherokee.Settings; cherokee.dictionary.SourceManagement; cherokee.dictionary.Announcements" contentType="text/html;charset=UTF-8" %>
+<%@ page import="net.cherokeedictionary.admin.Settings;  net.cherokeedictionary.admin.SourceManagement; net.cherokeedictionary.admin.Announcements" contentType="text/html;charset=UTF-8" %>
 %{--TODO: autocomplete should take into account the boxes that are checked - including the bible and others?--}%
 <html>
 <head>
@@ -225,7 +225,7 @@
         def query = "from Announcements a where a.enabled=true"
         //'from Announcements a where a.enabled = ?', [true]
     %>
-    <g:each in="${cherokee.dictionary.Announcements.findAll(query)}">
+    <g:each in="${net.cherokeedictionary.admin.Announcements.findAll(query)}">
         ${raw(it.announcement)}<br/>
     </g:each>
 </div>
@@ -270,7 +270,7 @@
                 </tr>
                 <tr>
                     <td><g:select name="categorySearch"
-                                  from="${cherokee.relational.Category.list()}"
+                                  from="${net.cherokeedictionary.relational.Category.list()}"
                                   value="category"
                                   optionKey="id"
                                   noSelection="['':'-Select a Category-']"/></td>
@@ -299,7 +299,7 @@
                                 <td>Has Audio</td>
                                 <td></td>
                             </tr>
-                        <g:each var="source" in="${cherokee.dictionary.SourceManagement.findAll()}">
+                        <g:each var="source" in="${net.cherokeedictionary.admin.SourceManagement.findAll()}">
                             <tr>
                                 <td><g:checkBox name="${source.searchParameter}" id="${source.searchParameter}" checked="true"/></td>
                                 <td>Include ${source.fullName}</td>
@@ -312,7 +312,7 @@
                                 </tr>
                             </g:if>
                         </g:each>
-                        <% def showBible = Settings.findAll("from Settings where setting_name=?0", ['showBible'])%>
+                        <% def showBible = net.cherokeedictionary.admin.Settings.findAll("from Settings where setting_name=?0", ['showBible'])%>
                         <% if (showBible[0].value == 'true') { %>
                         <tr>
                             <td><g:checkBox id="bible" name="bible" checked="false"/></td>

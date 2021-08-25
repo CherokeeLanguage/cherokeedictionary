@@ -46,7 +46,7 @@ we can even hook any of these to the CED searches - say someone searches for a w
 
 <br/>
 <g:select name="cSource"
-          from="${cherokee.corpus.CorpusSource.list()}"
+          from="${net.cherokeedictionary.corpus.CorpusSource.list()}"
           value="cSource"
           optionKey="id"
           noSelection="['':'-Select a Corpus -']"/>

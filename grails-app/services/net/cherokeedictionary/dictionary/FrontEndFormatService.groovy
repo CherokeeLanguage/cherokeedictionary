@@ -35,11 +35,11 @@ class FrontEndFormatService {
             toneValue = toneValue.replaceAll("4", "&#x2074;")
             //        toneValue = toneValue.replaceAll("\\?", "<sup>&#x0294;</sup>")//02c0
             //        toneValue = toneValue.replaceAll("\\?", "&#x02C0;")
-            if (showSup) {
-                toneValue = toneValue.replaceAll("\\?", "<sup>&#x0242;</sup>")
-            } else {
+//            if (showSup) {
+//                toneValue = toneValue.replaceAll("\\?", "<sup>&#x0242;</sup>")
+//            } else {
                 toneValue = toneValue.replaceAll("\\?", "&#x0242;")
-            }
+//            }
 
             //        toneValue = toneValue.replaceAll("\\.", "&#803;")
             toneValue = toneValue.replaceAll("a\\.", "&#x1ea1;")

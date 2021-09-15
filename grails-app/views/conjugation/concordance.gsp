@@ -5,7 +5,7 @@
   Time: 12:04 PM
 --%>
 
-<%@ page import="net.cherokeedictionary.corpus.Verse" contentType="text/html;charset=UTF-8" %>
+<%@ page import="net.cherokeedictionary.dictionary.Likespreadsheets; net.cherokeedictionary.ConjugatedVerb; net.cherokeedictionary.corpus.Concordance; net.cherokeedictionary.corpus.Verse" contentType="text/html;charset=UTF-8" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,126 +13,93 @@
     %{--        <meta name="layout" content="manager"/>--}%
     <meta charset="UTF-8">
     <title>Concordance</title>
-    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-    %{--        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>--}%
-    %{--        <asset:javascript src="grooscript.min.js"/>--}%
-    %{--        <asset:javascript src="grooscript-html-builder.js"/>--}%
 
-    <asset:javascript src="deconstructor/HOLD/cherokeeParser.js"/>
-    <asset:javascript src="deconstructor/HOLD/ajaxCall.js"/>
-    <asset:javascript src="deconstructor/HOLD/rework.js"/>
-    <asset:javascript src="deconstructor/HOLD/verbTables.js"/>
-    <asset:javascript src="deconstructor/HOLD/wordDisplay.js"/>
-    <asset:javascript src="deconstructor/HOLD/deconstructionMethods.js"/>
-    <asset:javascript src="deconstructor/HOLD/display.js"/>
-    %{--            <asset:javascript src="parser.js"/>--}%
-    %{--        <script>--}%
-    %{--            function callAll(jsfiles) {--}%
-    %{--                $.getScript(jsfiles, function() {--}%
-    %{--                    // alert("Script loaded but not necessarily executed.");--}%
-    %{--                });--}%
-    %{--            }--}%
-
-    %{--            callAll("/assets/cherokeeParser.js");--}%
-    %{--            callAll("/assets/ajaxCall.js");--}%
-    %{--            callAll("/assets/rework.js");--}%
-    %{--            callAll("/assets/verbTables.js");--}%
-    %{--            callAll("/assets/wordDisplay.js");--}%
-    %{--            callAll("/assets/deconstructionMethods.js");--}%
-    %{--            callAll("/assets/display.js");--}%
-    %{--            // callAll("/assets/tests.js");--}%
-    %{--        </script>--}%
-    <style>
-    .tableRowz {
-        padding-right:10px;
-        text-align: center;
-    }
-
-    .tableCell {
-        padding-right:10px;
-        text-align: center;
-    }
-    </style>
-    <style>
-    .interlinear {clear: both; text-align: left; border: 0 black solid}
-    .intlin {margin: 0.25em; text-align: left;border: 0 black solid}
-    .intlin .morph, .intlin .trans, .intlin .orig, .interlinear {display: block; margin: 2px 0;}
-    .intlin .orig {font-weight: bold;height: 22px}
-    .interlinear .freetrans { font-style: italic;}
-    .interlinear div.orig { font-weight: bold; text-align: left;}
-    .interlinear .morph { color: #10a }
-    </style>
 </head>
 <body>
-<div style="display:table-row">
-    <div style="display:table-cell;width:300px">
-        <div style="display:table-row">%{--ᎦᏬᏂᏍᎨᏍᏗ--}%
-            <div style="display:table-cell"><input type="text" id="texttoprocess" value="ᎠᎦᏍᎦᏛ"/><br/><button onclick='javascript:processText();'>Process</button><br/><br/></div>
-        </div>
-        <div style="display:table-row">
-            <div style="display:table-cell"><textarea cols="30" rows="6" type="text" id="textareatoprocess">ᎤᏍᏗ ᎠᏓᏪᎳᎩᏍᎬ ᎤᏃᏛ ᏧᎾᏦᎯᏍᏗ, ᏌᎪᏂᎨ ᏃᎴ ᏓᎶᏂᎨ ᏓᏓᏪᎳᎩᏍᎬ ᏩᏁ ᏃᎴ, ᏘᎵ ᏚᏅᏛ. ᎧᎵ ᎠᏂᏅ ᏗᎦᏅᎯᏓ ᏗᎦᏍᎩᎶᎩ, ᏗᏂᏲᏟ ᎡᏓᏍᏘ ᎠᏂᏅ ᎠᎴ ᎠᏂᏅᎬ.</textarea><br/><button onclick='javascript:processTextArea();'>Process</button><br/><br/></div>
-        </div>
-        <div id="todolist">
-            TODO LIST<br/>
-            <ul>
-                <li>verbs that start with 'a' are currently merged with the root</li>
-                <li>test different prefixes like di, de, etc</li>
-                <li>parse a whole sentence and display interlinear format</li>
-                <li>parse nonverbs</li>
-            </ul>
-        </div>
-        <div id="testLinks"></div>
-    </div>
-    <div style="display:table-cell">
-        <div style="display:table-row">
-            <div style="display:table-cell"><div id="wordDisplay"></div></div>
-        </div>
-        %{--<div style="display:table-row">
-            <div style="display:table-cell">Syllabary</div>
-            <div style="display:table-cell"><div id="syllabary"></div></div>
-        </div>
-        <div style="display:table-row">
-            <div style="display:table-cell">Phonetic</div>
-            <div style="display:table-cell"><div id="phonetic"></div></div>
-        </div>
-        <div style="display:table-row">
-            <div style="display:table-cell">Initial Prefixes</div>
-            <div style="display:table-cell"><div id="initialPrefixes"></div></div>
-        </div>
-        <div style="display:table-row">
-            <div style="display:table-cell;width:130px">Pronominal Prefixes</div>
-            <div style="display:table-cell"><div id="pronominalPrefixes"></div></div>
-        </div>
-        <div style="display:table-row">
-            <div style="display:table-cell">Reflexive Prefixes</div>
-            <div style="display:table-cell"><div id="reflexivePrefixes"></div></div>
-        </div>
-        <div style="display:table-row">
-            <div style="display:table-cell">Root</div>
-            <div style="display:table-cell"><div id="root"></div></div>
-        </div>
-        <div style="display:table-row">
-            <div style="display:table-cell">Non-Final Suffixes</div>
-            <div style="display:table-cell"><div id="nonFinalSuffixes"></div></div>
-        </div>
-        <div style="display:table-row">
-            <div style="display:table-cell">Tense Suffixes</div>
-            <div style="display:table-cell"><div id="tenseSuffixes"></div></div>
-        </div>
-        <div style="display:table-row">
-            <div style="display:table-cell">Final Suffixes</div>
-            <div style="display:table-cell"><div id="finalSuffixes"></div></div>
-        </div>
+<%
+def lst = Concordance.list([max: 200])
+lst.each {
+    out << raw("<b>" + it.word + "</b><br/>")
+    def lista = Likespreadsheets.findAll("from Likespreadsheets where syllabaryb like ?0 or vfirstpresh like ?1 or vthirdpastsyllj like ?2 or vthirdpressylll like ?3 or vsecondimpersylln like ?4 or vthirdinfsyllp like ?5", ["%${it}%", "%${it}%", "%${it}%", "%${it}%", "%${it}%", "%${it}%"])
+    if (lista.isEmpty()) {
+        def lst2 = ConjugatedVerb.findAll("from ConjugatedVerb where conjugation=?0", [it.word])
+        if (lst2.isEmpty()) {
+            def lst3 = ConjugatedVerb.findAll("from ConjugatedVerb where conjugation like ?0", ["%${it.word}%"])
+            if (lst3.isEmpty()) {
+                def tmp = it.word.substring(0, it.word.size() - 1)
+                def lst4 = ConjugatedVerb.findAll("from ConjugatedVerb where conjugation like ?0", ["%${tmp}%"])
+                if (lst4.isEmpty()) {
+                    out << raw("couldn't find <br/>")
+                } else {
+                    lst4.each {
+                        out << raw(it.conjugation + " " + it.compoundPrefix + " " + it.likespreadsheets.syllabaryb + " " + it.likespreadsheets.definitiond + "<br/>")
+                    }
+                }
+            } else {
+                lst3.each {
+                    out << raw(it.conjugation + " " + it.compoundPrefix + " " + it.likespreadsheets.syllabaryb + " " + it.likespreadsheets.definitiond + "<br/>")
+                }
+            }
+        } else {
+            lst2.each {
+                out << raw(it.conjugation + " " + it.compoundPrefix + " " + it.likespreadsheets.syllabaryb + " " + it.likespreadsheets.definitiond + "<br/>")
+            }
+        }
+    } else {
+        lista.each {
+            out << raw(it.syllabaryb + " " + it.definitiond + "<br/>")
+        }
+    }
 
-        <br/>JSON Representation<br/>
-        <div id="display"></div>
-        <div id="resultData"></div> style="display:block; visibility:hidden"--}%
-    </div>
-</div>
+    out <<  raw("<br/>")
+}
+%>
 
+%{--<g:each in="${lst}" var="item">--}%
+%{--    ${lst}--}%
+%{--    ${item.likespreadsheets.entrya} - ${item.likespreadsheets.definitiond} -- ${item.compoundPrefix}<br/>--}%
+%{--    ${item.likespreadsheets.id} - ${item.likespreadsheets.syllabaryb} - ${item.conjugation}<br/>--}%
+%{--</g:each>--}%
 
+<%--
+    def verses = Verse.findAll("from Verse where source=?0", ["chr"])
+    def words = new HashSet()
+    def count = 0
+    verses.each {
+        def split = it.verseContext.split(" ")
+        split.each {spl ->
+            count++
+            spl = spl.replaceAll("\\?", "").replaceAll(";", "").replaceAll("\\.", "").replaceAll(",", "").replaceAll("\"", "").replaceAll("\\[", "").replaceAll("]", "")//.replaceAll("")
+            words.add(spl)
+//            if (words.containsKey(spl)) {
+//                def val = words.get(spl)
+//                val << "${it.bookName} ${it.chapterNumber}:${it.verseNumber}"
+//            } else {
+//                def tmp = []
+//                tmp << "${it.bookName} ${it.chapterNumber}:${it.verseNumber}"
+//                words.put(spl, tmp)
+//            }
+        }
+    }
+
+//    out << words.size()
+//    out << "count is ${count}"
+//    out << raw("<br/>")
+%>
+<g:each in="${words}" var="word">
+    <%
+    def concor = new Concordance(word: word)
+    if (!concor.save()) {
+        concor.errors.each {
+            out << it
+        }
+    }
+%>
+</g:each>
+--%>
+%{--
 <asset:javascript src="deconstructor/HOLD/verbdeconstruction.js"/>
-%{--<asset:javascript src="tests.js"/>--}%
+--}%%{--<asset:javascript src="tests.js"/>--}%%{--
 <script>
     function createDisplayWordTest() {
         var html = "";
@@ -216,24 +183,24 @@
 
         list.appendChild(anchor);
         list.appendChild(document.createElement("br"));
-    };
+    };--}%
 
-    // appendAnchorTag('ᎦᏬᏂᏍᎬᎢ');
-    // appendAnchorTag('ᏓᏆᏚᎵᎭ');
-    // appendAnchorTag('ᏳᏫᎦᏬᏂᏏᎶᏍᎬᎢᏛ');
-    // appendAnchorTag('ᎠᎦᏍᎦᏛ'); // it's raining'
-    // appendAnchorTag('ᎠᏆᏚᎵᎭ');
-    // appendAnchorTag('ᎦᏬᏂᎭ');
-    // appendAnchorTag('ᎤᏬᏂᏏᎶᎡᎢ');
-    // appendAnchorTag('ᎦᏬᏂᎭᏊᏧ');
-    // appendAnchorTag('ᎦᏬᏂᏍᎬᎢ');
-    // appendAnchorTag('ᎤᏬᏂᏎᎢ');
-    // appendAnchorTag('ᎦᏬᏂᏏᎶᏍᎬᎢ');
-    // appendAnchorTag('ᎯᏬᏂᎯ');
-    // appendAnchorTag('ᎯᏬᏂᏏᎶᏣ');
-    // appendAnchorTag('ᏱᎦᏬᏂᏏᎶᏍᎬᎢᏛ');
+%{--    // appendAnchorTag('ᎦᏬᏂᏍᎬᎢ');--}%
+%{--    // appendAnchorTag('ᏓᏆᏚᎵᎭ');--}%
+%{--    // appendAnchorTag('ᏳᏫᎦᏬᏂᏏᎶᏍᎬᎢᏛ');--}%
+%{--    // appendAnchorTag('ᎠᎦᏍᎦᏛ'); // it's raining'--}%
+%{--    // appendAnchorTag('ᎠᏆᏚᎵᎭ');--}%
+%{--    // appendAnchorTag('ᎦᏬᏂᎭ');--}%
+%{--    // appendAnchorTag('ᎤᏬᏂᏏᎶᎡᎢ');--}%
+%{--    // appendAnchorTag('ᎦᏬᏂᎭᏊᏧ');--}%
+%{--    // appendAnchorTag('ᎦᏬᏂᏍᎬᎢ');--}%
+%{--    // appendAnchorTag('ᎤᏬᏂᏎᎢ');--}%
+%{--    // appendAnchorTag('ᎦᏬᏂᏏᎶᏍᎬᎢ');--}%
+%{--    // appendAnchorTag('ᎯᏬᏂᎯ');--}%
+%{--    // appendAnchorTag('ᎯᏬᏂᏏᎶᏣ');--}%
+%{--    // appendAnchorTag('ᏱᎦᏬᏂᏏᎶᏍᎬᎢᏛ');--}%
 
-    <%
+    <%--
     def verses = Verse.findAll("from Verse where source=?0", ["chr"])
     def words = [:]
     def count = 0
@@ -257,10 +224,12 @@
 //    out << words.size()
 //    out << "count is ${count}"
 //    out << raw("<br/>")
-%>
-    <g:each in="${words}" var="word">
-    appendAnchorTag('${word.key}');
-    </g:each>
+--%>
+    <%--<g:each in="${words}" var="word">
+        const list = document.getElementById('testLinks');
+        list.appendChild(${word.});
+        list.appendChild(document.createElement("br"));
+    </g:each>--%>
 
 </script>
 

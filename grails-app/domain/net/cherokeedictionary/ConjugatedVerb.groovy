@@ -9,4 +9,5 @@ class ConjugatedVerb {
 
     Likespreadsheets likespreadsheets
     String conjugation
+    String compoundPrefix
 }

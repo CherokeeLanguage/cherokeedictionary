@@ -1,9 +1,14 @@
 package net.cherokeedictionary.dictionary
 
+import net.cherokeedictionary.ConjugatedVerb
+import net.cherokeedictionary.core.Verb
 import net.cherokeedictionary.dictionary.Likespreadsheets
 import net.cherokeedictionary.factory.VerbFactory
-
+import net.cherokeedictionary.transliteration.SyllabaryUtil
+import net.cherokeedictionary.util.PrefixTableObject
+import net.cherokeedictionary.util.PrefixTableSubject
 import net.cherokeedictionary.verb.conjugation.Conjugate
+import net.cherokeedictionary.util.Tense
 
 class ConjugationController {
     def index() {
@@ -22,10 +27,53 @@ class ConjugationController {
 
     def aspect() {}
     def concordance() {}
+    def audioDisplay() {}
 
     def printFormat() {}
 
     def populate() {}
+
+    def multilang() {}
+
+    def conjugateTable() {
+        /*def tenseList = [Tense.PRESENT, Tense.REMOTE_PAST, Tense.HABITUAL, Tense.FUTURE_COMMAND, Tense.INFINITIVE]
+        // and definitiond = 'He is bleeding'
+        def lst = Likespreadsheets.findAll("from Likespreadsheets where (partofspeechc like 'v.i%' or partofspeechc like 'v.t%' or partofspeechc = 'vi' or partofspeechc = 'vt')")
+        lst.each {
+            def paramMap = [:]
+            paramMap.habitual = it.vthirdpresk
+            paramMap.imperative = it.vsecondimperm
+            paramMap.infinitive = it.vthirdinfo
+            paramMap.present1st = it.vfirstpresh
+            paramMap.present3rd = it.syllabaryb
+            paramMap.remotepast = it.vthirdpastsyllj
+            paramMap.partofspeechc = it.partofspeechc
+
+            tenseList.each {tense ->
+                PrefixTableSubject.values().each {pts ->
+                    PrefixTableObject.values().each {pto ->
+                        paramMap.verbTense = tense.toString()
+                        paramMap.subject = pts.toString()
+                        if (it.partofspeechc != 'vi' && it.partofspeechc != 'v.i.') {
+                            paramMap.object = pto.toString()
+                        }
+                        Verb display = VerbFactory.createVerbFromParameters(paramMap)
+                        display = Conjugate.conjugate(display)
+                        if (display.wholeWord.trim() != "") {
+//                            println "${tense.toString()} - ${pts.toString()}:${pto.toString()} {${SyllabaryUtil.newTsalagiToSyllabary(display.wholeWord)}}"
+                            def conjugatedV = new ConjugatedVerb(likespreadsheets: it, conjugation: SyllabaryUtil.newTsalagiToSyllabary(display.wholeWord), compoundPrefix: "${pts.toString()}:${pto.toString()}")
+                            if (!conjugatedV.save()) {
+                                conjugatedV.errors.each {error ->
+                                    println error
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }*/
+
+    }
 
     def getDisplayValue(params) {
         return getDisplayValueConjugationEngineV2(params)

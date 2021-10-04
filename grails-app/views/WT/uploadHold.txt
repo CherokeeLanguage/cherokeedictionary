@@ -1,0 +1,54 @@
+
+%{--        ${filePath}--}%
+%{--    <g:uploadForm action="uploadFeatureImage" controller="WT">--}%
+%{--        <fieldset class="form">--}%
+%{--            <input type="file" name="file" />--}%
+%{--        </fieldset>--}%
+%{--        <fieldset class="buttons">--}%
+%{--            <g:submitButton name="upload" class="save" value="Upload" />--}%
+%{--        </fieldset>--}%
+%{--    </g:uploadForm>--}%
+%{--    <script src="http://cdn.webrtc-experiment.com/MediaStreamRecorder.js"></script>--}%
+    %{--<div id="container">
+        <video id="gum" playsinline autoplay ></video>muted
+        <video id="recorded" playsinline loop></video>
+
+        <div>
+            <button id="start">Start camera</button>
+            <button id="record" disabled>Start Recording</button>
+            <button id="play" disabled>Play</button>
+            <button id="download" disabled>Download</button>
+        </div>
+        <div>
+            Recording format: <select id="codecPreferences" disabled></select>
+        </div>
+        <div>
+            <h4>Media Stream Constraints options</h4>
+            <p>Echo cancellation: <input type="checkbox" id="echoCancellation"></p>
+        </div>
+        <div>
+            <span id="errorMsg"></span>
+        </div>
+    </div>
+
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <asset:javascript src="ga.js"/>
+    <asset:javascript src="main2.js"/>--}%
+
+
+    %{--${filePath}<br/>
+    <g:uploadForm action="uploadFeatureImage" controller="WT">
+        <fieldset class="form">
+            <input type="file" name="file" />
+        </fieldset>
+        <fieldset class="buttons">
+            <g:submitButton name="upload" class="save" value="Upload" />
+        </fieldset>
+    </g:uploadForm>
+
+    <input type=\"text\" id=\"audioFilePath" + count + "\" name=\"audioFilePath" + count + "\"/>--}%
+    %{--<audio controls autoplay>
+        <source src="file_example_WAV_10MG.wav" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>--}%
+%{--    <audio controls="controls"><source src="http://blablabla.com/hghghgh/my%20file.wav" type="audio/x-wav" /></audio>--}%

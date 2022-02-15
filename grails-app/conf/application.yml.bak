@@ -145,8 +145,8 @@ dataSource:
     #org.hibernate.dialect.MySQL5InnoDBDialect
     driverClassName: com.mysql.cj.jdbc.Driver
     dbCreate: update
-    username: jkrupa
-    password: bobtina4
+    username: root
+    password: Tk02030#
 
 environments:
     development:

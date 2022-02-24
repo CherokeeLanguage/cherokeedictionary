@@ -7,6 +7,7 @@ import net.cherokeedictionary.relational.PartOfSpeech
 import net.cherokeedictionary.relational.Category
 import net.cherokeedictionary.transliteration.SyllabaryUtil
 import net.cherokeedictionary.corpus.Verse
+import net.cherokeedictionary.searchLogic.SortOrderComparator
 
 import java.text.SimpleDateFormat
 
@@ -142,8 +143,11 @@ class NewSearchService {
                     }
                 }
 
+                Collections.sort(returnResults, new SortOrderComparator())
                 return returnResults
             } else {
+
+                Collections.sort(results, new SortOrderComparator())
                 return results
             }
         }
@@ -382,7 +386,7 @@ class NewSearchService {
                 }
             } else {
                 if (isTsalagi) {
-                    def tmp = Likespreadsheets.createCriteria().list(max:40, offset:moffset) {
+                    def tmp = Likespreadsheets.createCriteria().list(max: 40, offset: moffset) {
                         or {
                             tsalagiFields.each { tsalagi ->
                                 rlike(tsalagi, searchTerm)
@@ -402,7 +406,7 @@ class NewSearchService {
                 }
 
                 if (isSyllabary) {
-                    def tmp = Likespreadsheets.createCriteria().list(max:40, offset:moffset) {
+                    def tmp = Likespreadsheets.createCriteria().list(max: 40, offset: moffset) {
                         or {
                             syllabaryFields.each { syllabary ->
                                 rlike(syllabary, searchTerm)
@@ -422,7 +426,7 @@ class NewSearchService {
                 }
 
                 if (isEnglish) {
-                    def tmp = Likespreadsheets.createCriteria().list(max:40, offset:moffset) {
+                    def tmp = Likespreadsheets.createCriteria().list(max: 40, offset: moffset) {
                         englishFields.each { english ->
                             rlike(english, searchTerm)
                         }
@@ -440,6 +444,7 @@ class NewSearchService {
                 }
             }
 
+            Collections.sort(results, new SortOrderComparator())
             return results
         } else if (isTsalagi && isEnglish && isSyllabary
                     || isTsalagi && isEnglish
@@ -564,22 +569,25 @@ class NewSearchService {
 //            results = newSearch(params, searchTerm)
 //        }
 
+        Collections.sort(results, new SortOrderComparator())
         return results
     }
 
     def categorySearch(params) {
         Category category = Category.findById(Integer.parseInt(params.categorySearch))
         def lst = Likespreadsheets.findAll('from Likespreadsheets l where l.category = ?0', [category.category])
-
+        Collections.sort(result, new SortOrderComparator())
         return lst
     }
 
     def xrefSearch(term) {
         //multiple entries
         def searchTerm = term.indexOf(",") ? term.split(",") : term
-        if (searchTerm.size() == 1)
-            return Likespreadsheets.findAll("from Likespreadsheets l where l.entrya like ?0", ["%$term%"])
-        else {
+        if (searchTerm.size() == 1) {
+            def result = Likespreadsheets.findAll("from Likespreadsheets l where l.entrya like ?0", ["%$term%"])
+            Collections.sort(result, new SortOrderComparator())
+            return result
+        } else {
             List lst = []
 
             searchTerm.each {
@@ -587,11 +595,12 @@ class NewSearchService {
                 lst.addAll(leest)
             }
 
+            Collections.sort(lst, new SortOrderComparator())
             return lst
         }
     }
 
     def xrefById(definitionId) {
-        return Likespreadsheets.findById(definitionId)
+        return Collections.sort(Likespreadsheets.findById(definitionId), new SortOrderComparator())
     }
 }

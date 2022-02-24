@@ -14,6 +14,7 @@ class SourceManagement {
     String bibliographyFullAPA
     String searchParameter
     String url
+    int sortOrder
 
     public String toString() {
         return code

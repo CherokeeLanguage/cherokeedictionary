@@ -35,11 +35,11 @@ class FrontEndFormatService {
             toneValue = toneValue.replaceAll("4", "&#x2074;")
             //        toneValue = toneValue.replaceAll("\\?", "<sup>&#x0294;</sup>")//02c0
             //        toneValue = toneValue.replaceAll("\\?", "&#x02C0;")
-            if (showSup) {
-                toneValue = toneValue.replaceAll("\\?", "<sup>&#x0242;</sup>")
-            } else {
-                toneValue = toneValue.replaceAll("\\?", "&#x0242;")
-            }
+//            if (showSup) {
+//                toneValue = toneValue.replaceAll("\\?", "<sup>&#x0241;</sup>")
+//            } else {
+                toneValue = toneValue.replaceAll("\\?", "&#x0241;")
+//            }
 
             //        toneValue = toneValue.replaceAll("\\.", "&#803;")
             toneValue = toneValue.replaceAll("a\\.", "&#x1ea1;")
@@ -62,11 +62,11 @@ class FrontEndFormatService {
             toneValue = toneValue.replaceAll("⁴", "&#x2074;")
             //        toneValue = toneValue.replaceAll("\\?", "<sup>&#x0294;</sup>")//02c0
             //        toneValue = toneValue.replaceAll("\\?", "&#x02C0;")
-            if (showSup) {
-                toneValue = toneValue.replaceAll("ɂ", "<sup>&#0241;</sup>")
-            } else {
+//            if (showSup) {
+//                toneValue = toneValue.replaceAll("ɂ", "<sup>&#0241;</sup>")
+//            } else {
                 toneValue = toneValue.replaceAll("ɂ", "&#0241;")
-            }
+//            }
             //        toneValue = toneValue.replaceAll("\\.", "&#803;")
             toneValue = toneValue.replaceAll("ạ", "&#x1ea1;")
             toneValue = toneValue.replaceAll("ẹ", "&#x1eb9;")

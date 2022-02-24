@@ -34,7 +34,7 @@ class ToneMarkersTagLib {
             toneValue = toneValue.replaceAll("4", "&#x2074;")
 
 //                    toneValue = toneValue.replaceAll("\\?", "<sup>&#x0294;</sup>")//02c0
-                    toneValue = toneValue.replaceAll("\\?", "ʔ")//02c0
+                    toneValue = toneValue.replaceAll("\\?", "&#x0241;")//02c0
 //                    toneValue = toneValue.replaceAll("\\?", "&#x02C0;")
 //            toneValue = toneValue.replaceAll("\\?", "<sup>&#x0242;</sup>")
 //            toneValue = toneValue.replaceAll("\\?", "&#x0242;")

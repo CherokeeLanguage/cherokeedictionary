@@ -216,6 +216,8 @@
     if (params.noresults == "true") {
         out << raw("<div style=\"color : red\">NO RESULTS WERE FOUND</div>")
     }
+
+
 %>
 
 <g:todayIs/>
@@ -299,7 +301,7 @@
                                 <td>Has Audio</td>
                                 <td></td>
                             </tr>
-                        <g:each var="source" in="${net.cherokeedictionary.admin.SourceManagement.findAll()}">
+                        <g:each var="source" in="${net.cherokeedictionary.admin.SourceManagement.findAll(sort:"sortOrder"){sortOrder < 1000}}">
                             <tr>
                                 <td><g:checkBox name="${source.searchParameter}" id="${source.searchParameter}" checked="true"/></td>
                                 <td>Include ${source.fullName}</td>
@@ -311,6 +313,12 @@
                                     <td></td>
                                 </tr>
                             </g:if>
+                        </g:each>
+                        <g:each var="source" in="${net.cherokeedictionary.admin.SourceManagement.findAll(sort:"sortOrder"){sortOrder >= 1000}}">
+                            <tr>
+                                <td><g:checkBox name="${source.searchParameter}" id="${source.searchParameter}" checked="false"/></td>
+                                <td>Include ${source.fullName}</td>
+                            </tr>
                         </g:each>
                         <% def showBible = net.cherokeedictionary.admin.Settings.findAll("from Settings where setting_name=?0", ['showBible'])%>
                         <% if (showBible[0].value == 'true') { %>

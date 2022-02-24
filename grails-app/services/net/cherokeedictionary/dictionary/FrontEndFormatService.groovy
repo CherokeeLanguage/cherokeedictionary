@@ -63,9 +63,9 @@ class FrontEndFormatService {
             //        toneValue = toneValue.replaceAll("\\?", "<sup>&#x0294;</sup>")//02c0
             //        toneValue = toneValue.replaceAll("\\?", "&#x02C0;")
             if (showSup) {
-                toneValue = toneValue.replaceAll("ɂ", "<sup>&#x0242;</sup>")
+                toneValue = toneValue.replaceAll("ɂ", "<sup>&#0241;</sup>")
             } else {
-                toneValue = toneValue.replaceAll("ɂ", "&#x0242;")
+                toneValue = toneValue.replaceAll("ɂ", "&#0241;")
             }
             //        toneValue = toneValue.replaceAll("\\.", "&#803;")
             toneValue = toneValue.replaceAll("ạ", "&#x1ea1;")

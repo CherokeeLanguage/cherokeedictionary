@@ -7,7 +7,12 @@ class SortOrder {
     private SortOrder() { }
 
     int getSortOrderByCode(code) {
-        return map.get(code)
+        def returnValue = map.get(code)
+        if (returnValue) {
+            return returnValue
+        } else {
+            return 1000
+        }
     }
 
     def setSortOrder(sortOrder) {

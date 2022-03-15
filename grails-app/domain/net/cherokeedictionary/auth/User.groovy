@@ -1,14 +1,21 @@
 package net.cherokeedictionary.auth
 
+//import grails.rest.Resource
+
+//@Resource(uri='/userRole/$email', formats=['json', 'xml'])
 class User {
 	String username
 	String password
-	String fullName
+	String firstName
+	String lastName
 	String email
-	Stirng uuid
-	string facebook
+	String facebook
 	String twitter
 	String youtube
+	boolean enabled = true
+	boolean accountExpired = false
+	boolean accountLocked = false
+	boolean passwordExpired = false
 
 	static constraints = {
 		password nullable: false, blank: false, password: true

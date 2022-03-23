@@ -30,33 +30,40 @@ class AuthController {
         //  but send back to the profile page and highlight errors.
 
         def user = User.find("from User where email=?", [params.email])
+        def errors = [:]
 
-        if (params.firstName == null || !params.firstName instanceof String) {
-            //error here
+        if (!params.username) {
+            errors.username = "username not defined"
+        } else {
+            user.username = params.username
+        }
+
+        if (!params.firstName) {
+            errors.firstName = "firstName not defined"
         } else {
             user.firstName = params.firstName
         }
 
-        if (params.lastName == null || !params.lastName instanceof String) {
-            //error here
+        if (!params.lastName) {
+            errors.lastName = "lastName not defined"
         } else {
             user.lastName = params.lastName
         }
 
-        if (params.facebook == null || !params.facebook instanceof String) {
-            //error here
+        if (!params.facebook) {
+            errors.lastName = "facebook not defined"
         } else {
             user.facebook = params.facebook
         }
 
-        if (params.twitter == null || !params.twitter instanceof String) {
-            //error here
+        if (!params.twitter) {
+            errors.lastName = "twitter not defined"
         } else {
             user.twitter = params.twitter
         }
 
-        if (params.youtube == null || !params.youtube instanceof String) {
-            //error here
+        if (!params.youtube) {
+            errors.lastName = "youtube not defined"
         } else {
             user.youtube = params.youtube
         }
@@ -67,10 +74,12 @@ class AuthController {
 
         //password and email updating not implemented yet
 
-        redirect(uri: "/profile", params: [user: user])
+        redirect(uri: "/profile", params: [user: user, errors: errors])
     }
 
     def profile() {
-        respond User.find("from User where email=?", [params.email])
+        def user = User.find("from User where email=?", [params.email])
+        def userRole = UserRole.find("from UserRole where user=?", [user])
+        render(view: "profile", model: [user: user, userRole: userRole, errors: params.errors])
     }
 }

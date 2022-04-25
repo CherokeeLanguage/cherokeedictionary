@@ -9,14 +9,29 @@
         <a href="#show-user" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
         <div class="nav" role="navigation">
             <ul>
-                <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
+                <li><g:link uri="/" elementId="homelink">Home</g:link></li>
+            </ul>
+        </div>
+
+        <div class="showProfile">
+            <ul>
+                <li>Username: ${todisplay.username}</li>
+                <li>Password: ${todisplay.password}</li>
+                <li>First Name: ${todisplay.firstName}</li>
+                <li>Last Name: ${todisplay.lastName}</li>
+                <li>Email: ${todisplay.email}</li>
+                <li>Facebook: ${todisplay.facebook}</li>
+                <li>Twitter: ${todisplay.twitter}</li>
+                <li>YouTube: ${todisplay.youtube}</li>
+                <li></li>
+                <li></li>
             </ul>
         </div>
 
         <div class="controls">
             <ul>
-                <li><g:link controller="AuthController" action="update"><g:message code="default.new.label" args="[entityName]" />Update</g:link></li>
-                <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/>Cancel</a></li> <%-- temporary cancel button --%>
+                <li><g:link controller="auth" action="update">Update</g:link></li>
+                <li><a class="home" href="${createLink(uri: '/')}">Cancel</a></li> <%-- temporary cancel button --%>
             </ul>
         </div>
     </body>

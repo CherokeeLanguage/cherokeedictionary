@@ -6,9 +6,4 @@ package net.cherokeedictionary.auth
 class UserRole {
 	User user
 	Role role
-
-	static mapping = {
-		id composite: ['user', 'role']
-		version false
-	}
 }

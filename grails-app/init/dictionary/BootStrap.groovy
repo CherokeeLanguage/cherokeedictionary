@@ -9,15 +9,17 @@ import net.cherokeedictionary.searchLogic.SortOrder
 class BootStrap {
 
     def init = { servletContext ->
-        def roleAdmin = new Role(authority: 'ROLE_ADMIN').save()
-        def adminUser = new User(username: 'user', password: 'user').save()
+        def roleAdmin = new Role(authority: 'ROLE_ADMIN')
+        roleAdmin.save()
+        def adminUser = new User(username: 'user', password: 'user')
+        adminUser.save()
+        def adminUserRole = new UserRole(user: adminUser, role: roleAdmin)
+        adminUserRole.save()
         def sources = SourceManagement.findAll()
         def sourceList = new LinkedList<Object>()
         sourceList.addAll(sources)
         def sortOrder = SortOrder.instance
         sortOrder.setSortOrder(sourceList)
-        UserRole.create adminUser, roleAdmin
-        UserRole.withSession {     it.flush();     it.clear()}
     }
     def destroy = {
     }

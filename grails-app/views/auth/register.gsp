@@ -6,14 +6,17 @@
         <title><g:message code="default.create.label" args="[entityName]" /></title>
     </head>
     <body>
-        <a href="#create-user" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
         <div class="nav" role="navigation">
             <ul>
-                <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-                <li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+                <li><g:link uri="/" elementId="homelink">Home</g:link> </li>
             </ul>
         </div>
+
         <div id="create-user" class="content scaffold-create" role="main">
+            <g:if test="${nosave}">
+                <h1>Error: ${nosave}, Username = ${username}</h1>
+            </g:if>
+
             <h1><g:message code="default.create.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
                 <div class="message" role="status">${flash.message}</div>
@@ -25,14 +28,17 @@
                     </g:eachError>
                 </ul>
             </g:hasErrors>
-            <g:form controller="AuthController" method="POST">
+
+            <g:form controller="auth" action="create" method="POST">
                 <fieldset class="form">
-                    <g:textField name="email" /><br/>
-                    <g:textField name="password" /><br/>
+                    <g:textField name="username" placeholder="Username"/><br/>
+                    <g:passwordField name="password" placeholder="Password"/><br/>
+                </fieldset>
                 <fieldset class="buttons">
-                    <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+                    <g:actionSubmit name="register" class="save" value="Register" action="create" />
                 </fieldset>
             </g:form>
         </div>
+
     </body>
 </html>

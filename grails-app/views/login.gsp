@@ -83,10 +83,13 @@
 		</style>
 	</head>
 	<body>
-        <g:form controller="admin" action="login" method="POST">
-            <g:textField id="username" name="username"/><br/>
-            <g:passwordField id="password" name="password"/><br/>
-            <g:submitButton id="login" name="login" value="Login"/>
-       </g:form>
+         <g:form controller="admin" action="login" method="POST">
+             <g:textField id="username" name="username"/><br/>
+             <g:passwordField id="password" name="password"/><br/>
+             <g:submitButton id="login" name="login" value="Login"/>
+        </g:form>
+        <br />
+		<br />
+		<g:link uri="/auth/register" elementId="registerLink">Register</g:link>
 	</body>
 </html>

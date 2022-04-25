@@ -3,23 +3,32 @@ package net.cherokeedictionary.auth
 class AuthController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
+    def register() {
+        if (params.nosave) {
+            render(view: '/auth/register', model: [nosave: params.nosave, username: params.username])
+        }
+    }
+
     def create() {
-        def user = new User(email: params.email, password: params.password)
+        def user = new User(username: params.username, password: params.password)
         if (!user.save(flush: true)) {
             //send user back to the create user page with applicable errors
-            redirect(uri: "/create", params: [nosave: "user not created"])
+            redirect(uri: "/auth/register", params: [nosave: "user not created", username: params.username])
+            return
         }
 
-        def role = Role.find("from Role where role=?", ['member'])
+        def role = Role.findByAuthority('member')
 
         def userRole = new UserRole(user: user, role: role)
-        if (!user.save(flush:true)) {
+        if (!userRole.save(flush:true)) {
             //this should never be an error.  But if there's an error we want to send messages back to the user on the crate page.
-            redirect(uri: "/create", params: [nosave: "user not created"])
+            redirect(uri: "/auth/register", params: [nosave: "userRole not created"])
+            return
         }
 
         // here we want to send the user to the profile page and display their new profile
-        redirect(uri: "/profile", params: [todisplay: userRole])
+        redirect(uri: "/auth/profile", params: [todisplay: userRole])
+        return
     }
 
     def update() {
@@ -29,7 +38,7 @@ class AuthController {
         //  in addition, the domain classes will have restrictions and validation via GORM - to be done at a later time
         //  but send back to the profile page and highlight errors.
 
-        def user = User.find("from User where email=?", [params.email])
+        def user = User.findByEmail(params.email)
         def errors = [:]
 
         if (!params.username) {
@@ -78,8 +87,8 @@ class AuthController {
     }
 
     def profile() {
-        def user = User.find("from User where email=?", [params.email])
-        def userRole = UserRole.find("from UserRole where user=?", [user])
+        def user = User.findByEmail(params.email)
+        def userRole = UserRole.findByUser(user)
         render(view: "profile", model: [user: user, userRole: userRole, errors: params.errors])
     }
 }

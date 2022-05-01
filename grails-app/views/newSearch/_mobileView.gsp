@@ -194,7 +194,7 @@
                 </td>
             </tr>
             <%}%>
-            <%if (entry.partofspeechc.contains('v.i.') || entry.partofspeechc.contains('v.t.') || entry.partofspeechc.contains('vi') || entry.partofspeechc.contains('vt')) {%>
+            <%if (entry.partofspeechc != null && (entry.partofspeechc.contains('v.i.') || entry.partofspeechc.contains('v.t.') || entry.partofspeechc.contains('vi') || entry.partofspeechc.contains('vt'))) {%>
             <tr>
                 <td>
                     <b>Verb First Present</b><br/>

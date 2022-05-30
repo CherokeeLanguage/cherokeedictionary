@@ -576,7 +576,7 @@ class NewSearchService {
     def categorySearch(params) {
         Category category = Category.findById(Integer.parseInt(params.categorySearch))
         def lst = Likespreadsheets.findAll('from Likespreadsheets l where l.category = ?0', [category.category])
-        Collections.sort(result, new SortOrderComparator())
+        Collections.sort(lst, new SortOrderComparator())
         return lst
     }
 

@@ -15,6 +15,8 @@ class UrlMappings {
         "/about"(view:"/about")
         "/grammar"(view:"/grammar")
         "/first500"(view:"/first500")
+        "/bionic"(view:"/bionic")
+
 //        "/conjugation"(view:"/conjugation")
         "/conj"(controller:"conjugation", view:'index')
         "/index"(controller:"dictionary.newSearch", view:"/index")

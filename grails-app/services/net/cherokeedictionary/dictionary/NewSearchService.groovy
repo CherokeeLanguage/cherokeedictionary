@@ -11,6 +11,7 @@ import net.cherokeedictionary.searchLogic.SortOrderComparator
 
 import java.text.SimpleDateFormat
 
+import net.cherokeedictionary.searchLogic.SortOrder
 
 class NewSearchService {
     final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
@@ -309,7 +310,7 @@ class NewSearchService {
         def max = 40
         def moffset = params.offset ? Integer.parseInt(params.offset) : 40
 
-        println "moffset ${moffset}"
+//        println "moffset ${moffset}"
 
         PartOfSpeech pos
         if (posParam) {
@@ -601,6 +602,6 @@ class NewSearchService {
     }
 
     def xrefById(definitionId) {
-        return Collections.sort(Likespreadsheets.findById(definitionId), new SortOrderComparator())
+        return Likespreadsheets.findById(definitionId)
     }
 }

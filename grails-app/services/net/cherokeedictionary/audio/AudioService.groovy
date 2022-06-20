@@ -8,7 +8,7 @@ class AudioService {
     def assetResourceLocator
 
     def audioPull(fileName) {
-        println "here"
+//        println "here"
 //        Resource res = assetResourceLocator?.findAssetForURI("/images/apple-touch-icon.png")//images/audio/${params.file}.mp3
 //        println res != null ? "not null" : "null"
 //        println res.getURL()

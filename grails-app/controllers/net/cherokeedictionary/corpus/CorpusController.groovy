@@ -52,10 +52,10 @@ class CorpusController {
     def download() {
         def lst = [:]
 
-        def likespreadsheets = Likespreadsheets.findAll('from Likespreadsheets where sentenceenglishs != ? and sentencesyllr != ?', ['',''])
+        def likespreadsheets = Likespreadsheets.findAll('from Likespreadsheets where sentenceenglishs != ?0 and sentencesyllr != ?1', ['',''])
 
         //I don't want to include Charlotte's web for the regular viewer per request
-        def corpusSourceId = CorpusSource.findAll("from CorpusSource c where c.sourceName = ?", ['Charlottes Web'])
+        def corpusSourceId = CorpusSource.findAll("from CorpusSource c where c.sourceName = ?0", ['Charlottes Web'])
 //        println corpusSourceId.id.get(0)
         def nlpCorpus = NLPCorpus.findAll('from NLPCorpus where corpus_source_id > 45')
 //        println "nlpcorpus count " + nlpCorpus.size()

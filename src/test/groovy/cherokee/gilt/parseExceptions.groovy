@@ -8,5 +8,5 @@ starr.each {
     map.add(it)
 }
 
-println map
+//println map
 //notes, nounadjpluraltranslit, vthirdinftranslit, crossreferencet, source, vsecondimpersylln, syllabaryb, vthirdpresk, vfirstprestone, vfirstprestranslit, vthirdpasttranslit, vthirdinftone, vthirdpastsyllj, partofspeechc, vthirdprestranslit, vthirdpasti, vthirdinfsyllp, vthirdpressylll, vthirdinfo, entrytone, vthirdprestone, nounadjpluraltone, etymology, definitiond, entrytranslit, vthirdpasttone, vsecondimperm, entrya, nounadjpluralsyllf, vsecondimpertone, vsecondimpertranslit, definitionlarge, nounadjplurale, category, vfirstpresh, vfirstpresg

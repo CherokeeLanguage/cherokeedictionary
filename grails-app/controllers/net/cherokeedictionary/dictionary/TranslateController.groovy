@@ -12,17 +12,17 @@ class TranslateController {
         line.each {String it ->
             it = it.replaceAll(",", "").replaceAll("\\.", "").trim()
             sb << "<b>${it}</b><br/>"
-            def lst = Cherokeewordsearch.findAll("from Cherokeewordsearch c where c.syllabaryb = ?", ["${it}" as String])
+            def lst = Cherokeewordsearch.findAll("from Cherokeewordsearch c where c.syllabaryb = ?0", ["${it}" as String])
 //            def lst = Cherokeewordsearch.findAll("from Cherokeewordsearch c where c.syllabaryb like ?", ["%ᏗᎦᏍᎩᎶᎩ%" as String])
 
             if (lst.size() == 0) {
                 sb << "EXACT MATCH NOT FOUND<br/>"
-                lst = Cherokeewordsearch.findAll("from Cherokeewordsearch c where c.syllabaryb like ?", ["%${it}%" as String])
+                lst = Cherokeewordsearch.findAll("from Cherokeewordsearch c where c.syllabaryb like ?0", ["%${it}%" as String])
             }
 
             if (lst.size() == 0) {
                 sb << "LIKE SEARCH NOT FOUND<br/>"
-                lst = Cherokeewordsearch.findAll("from Cherokeewordsearch c where c.syllabaryb = ?", ["${it.substring(0, it.size() - 1)}" as String])
+                lst = Cherokeewordsearch.findAll("from Cherokeewordsearch c where c.syllabaryb = ?0", ["${it.substring(0, it.size() - 1)}" as String])
                 if (lst.size() > 0) {
                     sb << "SEARCH OF ${it.substring(0, it.size() - 1)} RETURNED RESULTS<br/>"
                 }

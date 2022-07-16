@@ -1,0 +1,1 @@
+The import took ${minutes} minutes and ${seconds} seconds to complate ${count} records

@@ -1,11 +1,13 @@
 package net.cherokeedictionary.relational
 
-class Tone {
+class Orthography {
 
     static constraints = {
+        orthography nullable: true,blank:true
     }
 
-    def tone
+    def orthography
+    OrthographyType orthographyType
 }
 /*
     create view

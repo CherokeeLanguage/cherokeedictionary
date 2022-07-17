@@ -70,6 +70,9 @@ dependencies {
     compile 'net.cherokeedictionary:jalagiConjugation:0.2.0'
     compile 'net.cherokeedictionary:jalagiDateTime:0.0.1'
 
+//    implementation 'com.xlson.groovycsv:groovycsv:1.3'
+//    implementation group: 'au.com.bytecode', name: 'opencsv', version: '2.4'
+
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.8'
 
     compile 'com.itextpdf:itextpdf:5.5.10'

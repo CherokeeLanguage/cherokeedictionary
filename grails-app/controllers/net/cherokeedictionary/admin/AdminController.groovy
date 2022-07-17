@@ -114,6 +114,7 @@ class AdminController {
     }
 
     def login() {
+        println "LOGIN"
         def username = params.username;
         def password = params.password;
 
@@ -126,6 +127,8 @@ class AdminController {
 //                println it
 //            }
         }
+
+        println matched
 
         if (matched) {
             session.setAttribute("loggedin", true)

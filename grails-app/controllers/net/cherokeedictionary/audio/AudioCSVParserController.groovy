@@ -68,6 +68,7 @@ class AudioCSVParserController {
 
                     def query = "REPLACE INTO audio_lookup (id, version, mco_Pronunciation, mco_Translit, gender, voice, audio_File, duration) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8);"
                     sql.execute(query, [0, 0, mco_Pronunciation, mco_Translit, gender, voice, audio_File, duration])
+//                    sql.call("{call AudioLookup('${mco_Pronunciation}', '${voice}', '${mco_Translit}', '${gender}', '${audio_File}', '${duration}')}")
                 }
 
                 count++

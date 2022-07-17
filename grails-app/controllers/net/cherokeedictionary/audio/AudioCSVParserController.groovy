@@ -19,7 +19,7 @@ class AudioCSVParserController {
             redirect url: "/"
         } else {
 
-        }
+        }s
     }
 
     def upload() {

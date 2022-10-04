@@ -14,7 +14,7 @@ FinalSuffixUtil.getFinalSuffixes = function(wholeWord) {
   while (gs.bool(foundAResult)) {
     foundAResult = false;
     var finalEndings = gs.gp(FinalEnding(),"FinalEndings");
-    for (_i22 = 0, finalEnding = gs.mc(finalEndings,"keySet",[])[0]; _i22 < gs.mc(finalEndings,"keySet",[]).length; finalEnding = gs.mc(finalEndings,"keySet",[])[++_i22]) {
+    for (_i1 = 0, finalEnding = gs.mc(finalEndings,"keySet",[])[0]; _i1 < gs.mc(finalEndings,"keySet",[]).length; finalEnding = gs.mc(finalEndings,"keySet",[])[++_i1]) {
       var tmpEnding = gs.mc(finalEndings,"get",[finalEnding]);
       if (gs.mc(word,"endsWith",[finalEnding])) {
         foundAResult = true;

@@ -9,7 +9,7 @@ function AjaxCall() {
   return gSobject;
  };
 AjaxCall.lookupWordInCED = async function(word) {
-  let content = await AjaxCall.checkWord(word);
+  let content = await checkWord(word);
 
         let values = await Promise.all([content]);
 
@@ -20,25 +20,17 @@ AjaxCall.lookupWordInCED = async function(word) {
         }
  }
 AjaxCall.checkWord = async function(word) {
-        let url = `http://localhost:8080/jsonlookup/${word}`;
-        console.log("url " + url);
+  let url = `http://localhost:8080/jsonlookup/${word}`;
 
-        const content = await $.ajax({
-            method: "GET",
-            url: url
-        })
+    let response = await fetch(url);
 
-        console.log("content " + JSON.stringify(content));
+    let content;
 
-        // let response = await fetch(url);
-        //
-        // if (!response.ok) {
-        //     throw new Error(`HTTP error! status: ${response.status}`);
-        // }
-        //
-        // console.log("response is " + JSON.stringify(response));
-        //
-        // content = await response.text();
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-        return content;
+    content = await response.text();
+
+    return content;
  }

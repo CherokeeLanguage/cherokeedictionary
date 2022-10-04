@@ -11,6 +11,7 @@ import net.cherokeedictionary.searchLogic.SortOrderComparator
 
 import java.text.SimpleDateFormat
 
+import net.cherokeedictionary.searchLogic.SortOrder
 
 class NewSearchService {
     final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
@@ -80,42 +81,8 @@ class NewSearchService {
         Map<String, String> map = new LinkedHashMap<String, String>();
 
         if (searchTerm) {
-            //need to fix this so that if it's bible only then no other searches are performed
-            //bible=on
-
             searchTerm = searchTerm.replaceAll("\\*", "%")
-
-            if (isTsalagi) {
-                processTsalagiRequest(searchForExactMatch, map, searchTerm, includeSentences, includeCED)
-            }
-
-            if (isEnglish) {
-                processEnglishRequest(searchForExactMatch, map, searchTerm, includeSentences, includeCED)
-            }
-
-            if (isSyllabary) {
-                processSyllabaryRequest(searchForExactMatch, map, searchTerm, includeSentences, includeCED)
-            }
-
-            def lst = new LinkedList<String>();
-            def sb = generateQuery(params, sourcesSize, searchForExactMatch, lst, map)
-
-//            def mapOfRules = [:]
-//            if (resultsMax) {
-//                println "resultsMax ${resultsMax}"
-//                mapOfRules.put("max", resultsMax)
-//            }
-//
-//            if (resultsOffset) {
-//                println "resultsOffset ${resultsOffset}"
-//                mapOfRules.put("offset", resultsOffset)
-//            }
-//            [max: resultsMax, offset:resultsOffset]
             def results = new LinkedList<Object>()
-            def result = Likespreadsheets.findAll(sb, lst, [max: max, offset:moffset]);
-            if (result) {
-                results.addAll(result)
-            }
 
             if (params.bible) {
                 def returnResults = []
@@ -131,6 +98,38 @@ class NewSearchService {
 
                 if (returnResults) {
                     results.addAll(returnResults)
+                }
+            } else {
+                if (isTsalagi) {
+                    processTsalagiRequest(searchForExactMatch, map, searchTerm, includeSentences, includeCED)
+                }
+
+                if (isEnglish) {
+                    processEnglishRequest(searchForExactMatch, map, searchTerm, includeSentences, includeCED)
+                }
+
+                if (isSyllabary) {
+                    processSyllabaryRequest(searchForExactMatch, map, searchTerm, includeSentences, includeCED)
+                }
+
+                def lst = new LinkedList<String>();
+                def sb = generateQuery(params, sourcesSize, searchForExactMatch, lst, map)
+
+//            def mapOfRules = [:]
+//            if (resultsMax) {
+//                println "resultsMax ${resultsMax}"
+//                mapOfRules.put("max", resultsMax)
+//            }
+//
+//            if (resultsOffset) {
+//                println "resultsOffset ${resultsOffset}"
+//                mapOfRules.put("offset", resultsOffset)
+//            }
+//            [max: resultsMax, offset:resultsOffset]
+
+                def result = Likespreadsheets.findAll(sb, lst, [max: max, offset:moffset]);
+                if (result) {
+                    results.addAll(result)
                 }
             }
 
@@ -309,7 +308,7 @@ class NewSearchService {
         def max = 40
         def moffset = params.offset ? Integer.parseInt(params.offset) : 40
 
-        println "moffset ${moffset}"
+//        println "moffset ${moffset}"
 
         PartOfSpeech pos
         if (posParam) {
@@ -576,7 +575,7 @@ class NewSearchService {
     def categorySearch(params) {
         Category category = Category.findById(Integer.parseInt(params.categorySearch))
         def lst = Likespreadsheets.findAll('from Likespreadsheets l where l.category = ?0', [category.category])
-        Collections.sort(result, new SortOrderComparator())
+        Collections.sort(lst, new SortOrderComparator())
         return lst
     }
 
@@ -601,6 +600,6 @@ class NewSearchService {
     }
 
     def xrefById(definitionId) {
-        return Collections.sort(Likespreadsheets.findById(definitionId), new SortOrderComparator())
+        return Likespreadsheets.findById(definitionId)
     }
 }

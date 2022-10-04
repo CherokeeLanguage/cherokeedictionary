@@ -147,7 +147,7 @@ SyllabaryUtil.mixedTransliteration = function(data) {
       crIndex = -1;
      };
     if ((!gs.bool(gs.mc(it,"startsWith",["<e>"]))) && (!gs.bool(gs.mc(it,"contains",["<e>"])))) {
-      gs.mc(sb,'leftShift', gs.list([SyllabaryUtil.tsalagiToSyllabary(it, false)]));
+      gs.mc(sb,'leftShift', gs.list([gs.mc(SyllabaryUtil,"tsalagiToSyllabary",[it, false])]));
      } else {
       if (gs.mc(it,"startsWith",["<e>"])) {
         gs.mc(sb,'leftShift', gs.list([it]));
@@ -157,7 +157,7 @@ SyllabaryUtil.mixedTransliteration = function(data) {
           var sb2 = gs.list([]);
           gs.mc(word,"eachWithIndex",[function(str, idx) {
             if (gs.equals(idx, 0)) {
-              return gs.mc(sb2,'leftShift', gs.list([SyllabaryUtil.tsalagiToSyllabary(str, false)]));
+              return gs.mc(sb2,'leftShift', gs.list([gs.mc(SyllabaryUtil,"tsalagiToSyllabary",[str, false])]));
              } else {
               return gs.mc(sb2,'leftShift', gs.list([str]));
              };

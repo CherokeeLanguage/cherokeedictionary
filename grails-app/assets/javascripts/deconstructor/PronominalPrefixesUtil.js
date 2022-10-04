@@ -12,7 +12,7 @@ PronominalPrefixesUtil.getPronominalPrefixes = function(wholeWord) {
   var pronSize = 0;
   var tmp = gs.gp(wholeWord,"tmpParse");
   var consonantPrefixes = gs.gp(ConsonantPrefix(),"ConsonantPrefixes");
-  for (_i25 = 0, consonantPrefix = gs.mc(consonantPrefixes,"keySet",[])[0]; _i25 < gs.mc(consonantPrefixes,"keySet",[]).length; consonantPrefix = gs.mc(consonantPrefixes,"keySet",[])[++_i25]) {
+  for (_i4 = 0, consonantPrefix = gs.mc(consonantPrefixes,"keySet",[])[0]; _i4 < gs.mc(consonantPrefixes,"keySet",[]).length; consonantPrefix = gs.mc(consonantPrefixes,"keySet",[])[++_i4]) {
     if (gs.mc(tmp,"startsWith",[consonantPrefix])) {
       if (gs.mc(consonantPrefix,"size",[]) > pronSize) {
         pronSize = gs.mc(consonantPrefix,"size",[]);
@@ -25,7 +25,7 @@ PronominalPrefixesUtil.getPronominalPrefixes = function(wholeWord) {
     pronSize = 0;
    } else {
     var vowelPrefixes = gs.gp(VowelPrefix(),"VowelPrefixes");
-    for (_i26 = 0, vowelPrefix = gs.mc(vowelPrefixes,"keySet",[])[0]; _i26 < gs.mc(vowelPrefixes,"keySet",[]).length; vowelPrefix = gs.mc(vowelPrefixes,"keySet",[])[++_i26]) {
+    for (_i5 = 0, vowelPrefix = gs.mc(vowelPrefixes,"keySet",[])[0]; _i5 < gs.mc(vowelPrefixes,"keySet",[]).length; vowelPrefix = gs.mc(vowelPrefixes,"keySet",[])[++_i5]) {
       if (gs.mc(tmp,"startsWith",[vowelPrefix])) {
         if (gs.mc(vowelPrefix,"size",[]) > pronSize) {
           pronSize = gs.mc(vowelPrefix,"size",[]);

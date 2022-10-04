@@ -1,7 +1,7 @@
 package net.cherokeedictionary.dictionary
 
 
-import net.cherokeedictionary.dictionary.Cherokeewordsearch
+//import net.cherokeedictionary.dictionary.Cherokeewordsearch
 import net.cherokeedictionary.dictionary.Likespreadsheets
 import net.cherokeedictionary.transliteration.SyllabaryUtil
 import grails.converters.JSON
@@ -36,15 +36,15 @@ class NewSearchController {
 
     def processSentences() {
         def likespreadsheets = Likespreadsheets.findAll('from Likespreadsheets where sentencetranslit=? and sentencesyllr != ?', ['', ''])
-        println likespreadsheets.size();
+//        println likespreadsheets.size();
         def su = new SyllabaryUtil();
         likespreadsheets.each {
             Likespreadsheets ls = it;
-            println ls.sentencesyllr
+//            println ls.sentencesyllr
             if (ls.sentencesyllr) {
                 def tmp = SyllabaryUtil.parseSyllabaryWithPunctuationAndLatin(ls.sentencesyllr)
                 ls.sentencetranslit = tmp
-                println "saving";
+//                println "saving";
                 if (!ls.save(flush: true)) {
                     ls.errors.allErrors.each {
                         println it

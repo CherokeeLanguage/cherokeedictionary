@@ -9,13 +9,13 @@ function VerbDeconstruction() {
   
   return gSobject;
  };
-VerbDeconstruction.process = async function(word, isSyllabary) {
+VerbDeconstruction.process = function(word, isSyllabary) {
   if (isSyllabary === undefined) isSyllabary = true;
   var wholeWord = gs.execStatic(WholeWordFactory,'create', this,[word, isSyllabary]);
-  var values = await gs.execStatic(AjaxCall,'lookupWordInCED', this,[word]);
+  var values = gs.execStatic(AjaxCall,'lookupWordInCED', this,[word]);
   if (gs.mc(values,"size",[]) > 0) {
     gs.println("first value thing found");
-    wholeWord = await VerbDeconstruction.valueFound(values, wholeWord);
+    wholeWord = VerbDeconstruction.valueFound(values, wholeWord);
    };
   wholeWord = VerbDeconstruction.deconstruct(wholeWord);
   if (!gs.bool(gs.gp(wholeWord,"definitions"))) {
@@ -38,9 +38,9 @@ VerbDeconstruction.process = async function(word, isSyllabary) {
       gs.mc(gs.gp(wholeWord,"lookupOptions"),"push",[tmpWord]);
       tmpWord = gs.execStatic(SyllabaryUtil,'newTsalagiToSyllabary', this,[tmpWord, false, true]);
       if (gs.equals(gs.mc(gs.gp(wholeWord,"definitions"),"size",[]), 0)) {
-        values = await gs.execStatic(AjaxCall,'lookupWordInCED', this,[tmpWord]);
+        values = gs.execStatic(AjaxCall,'lookupWordInCED', this,[tmpWord]);
         if (gs.mc(values,"size",[]) > 0) {
-          wholeWord = await VerbDeconstruction.valueFound(values, wholeWord);
+          wholeWord = VerbDeconstruction.valueFound(values, wholeWord);
          } else {
           gs.println("still could not find a result");
          };
@@ -51,21 +51,21 @@ VerbDeconstruction.process = async function(word, isSyllabary) {
  }
 VerbDeconstruction.valueFound = function(values, wholeWord) {
   var vals = values[0];
-  for (_i21 = 0, value = vals[0]; _i21 < vals.length; value = vals[++_i21]) {
+  for (_i0 = 0, value = vals[0]; _i0 < vals.length; value = vals[++_i0]) {
     gs.mc(gs.gp(wholeWord,"definitions"),"push",[value]);
    };
   return wholeWord;
  }
-VerbDeconstruction.deconstruct = async function(wholeWord) {
+VerbDeconstruction.deconstruct = function(wholeWord) {
   wholeWord = gs.execStatic(FinalSuffixUtil,'getFinalSuffixes', this,[wholeWord]);
   gs.mc(gs.gp(wholeWord,"lookupOptions"),"push",[gs.gp(wholeWord,"tmpParse")]);
   if (gs.equals(gs.mc(gs.gp(wholeWord,"definitions"),"size",[]), 0)) {
     var tmpValSyllabary = gs.execStatic(SyllabaryUtil,'newTsalagiToSyllabary', this,[gs.gp(wholeWord,"tmpParse"), false, true]);
-    var values = await gs.execStatic(AjaxCall,'lookupWordInCED', this,[tmpValSyllabary]);
+    var values = gs.execStatic(AjaxCall,'lookupWordInCED', this,[tmpValSyllabary]);
     if (gs.mc(values,"size",[]) > 0) {
       gs.println("second value thing found");
       gs.sp(wholeWord,"syllabary",tmpValSyllabary);
-      wholeWord = await VerbDeconstruction.valueFound(values, wholeWord);
+      wholeWord = VerbDeconstruction.valueFound(values, wholeWord);
      };
    };
   wholeWord = gs.mc(VerbTenseSuffixUtil(),"getVerbTenseSuffixes",[wholeWord]);

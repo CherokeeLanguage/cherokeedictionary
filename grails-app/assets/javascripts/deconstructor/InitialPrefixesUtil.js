@@ -14,7 +14,7 @@ InitialPrefixesUtil.getInitialPrefixes = function(wholeWord) {
   while (gs.bool(foundAResult)) {
     foundAResult = false;
     var initialPrefixes = gs.gp(InitialPrefix(),"InitialPrefixes");
-    for (_i23 = 0, initialPrefix = gs.mc(initialPrefixes,"keySet",[])[0]; _i23 < gs.mc(initialPrefixes,"keySet",[]).length; initialPrefix = gs.mc(initialPrefixes,"keySet",[])[++_i23]) {
+    for (_i2 = 0, initialPrefix = gs.mc(initialPrefixes,"keySet",[])[0]; _i2 < gs.mc(initialPrefixes,"keySet",[]).length; initialPrefix = gs.mc(initialPrefixes,"keySet",[])[++_i2]) {
       if (gs.mc(tmp,"startsWith",[initialPrefix])) {
         if (gs.equals(initialPrefix, "tsi")) {
           if ((gs.minus(gs.gp(gs.mc(tmp,"split",[initialPrefix]),"length"), 1)) > 1) {

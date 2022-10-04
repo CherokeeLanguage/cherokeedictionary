@@ -120,7 +120,7 @@
         </td>
         <td>
 
-            <span id="syllabarybmain${i}"><a class="iframe" href="/newSearch/individual?id=${entry.id}" alt="click here to find out more about ${entry.syllabaryb}">${entry.syllabaryb}</a><%if (entry.definitionlarge || entry.etymology || entry.category) {%>&nbsp;&nbsp;<i class="fas fa-plus-square"></i><%}%></span><br/>
+            <span id="syllabarybmain${i}"><a class="iframe" href="/newSearch/individual?id=${entry.id}" alt="click here to find out more about ${entry.syllabaryb}">${entry.syllabaryb}</a><%if (entry.definitionlarge || entry.etymology || entry.category) {%>&nbsp;&nbsp;<i class="fas fa-plus-square"></i><%}%><%if (hasAudio) {%>&nbsp;&nbsp;<i class="fas fa-audio-description"></i><%}%></span><br/>
             <span id="entryamain${i}">
                 <% if (entry.entrya.endsWith("?")) { %>
                 ${entry.entrya}

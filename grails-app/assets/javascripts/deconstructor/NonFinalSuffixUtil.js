@@ -14,7 +14,7 @@ NonFinalSuffixUtil.getNonFinalSuffixes = function(wholeWord) {
   while (gs.bool(foundAResult)) {
     foundAResult = false;
     var nonFinalEndings = gs.gp(NonFinalEnding(),"NonFinalEndings");
-    for (_i24 = 0, nonFinalEnding = gs.mc(nonFinalEndings,"keySet",[])[0]; _i24 < gs.mc(nonFinalEndings,"keySet",[]).length; nonFinalEnding = gs.mc(nonFinalEndings,"keySet",[])[++_i24]) {
+    for (_i3 = 0, nonFinalEnding = gs.mc(nonFinalEndings,"keySet",[])[0]; _i3 < gs.mc(nonFinalEndings,"keySet",[]).length; nonFinalEnding = gs.mc(nonFinalEndings,"keySet",[])[++_i3]) {
       if (gs.mc(word,"endsWith",[nonFinalEnding])) {
         if (gs.equals(nonFinalEnding, "is")) {
           if ((gs.minus(gs.mc(gs.mc(word,"split",[nonFinalEnding]),"size",[]), 1)) > 1) {

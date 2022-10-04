@@ -82,7 +82,40 @@ class NewSearchService {
 
         if (searchTerm) {
             searchTerm = searchTerm.replaceAll("\\*", "%")
+
+            if (isTsalagi) {
+                processTsalagiRequest(searchForExactMatch, map, searchTerm, includeSentences, includeCED)
+            }
+
+            if (isEnglish) {
+                processEnglishRequest(searchForExactMatch, map, searchTerm, includeSentences, includeCED)
+            }
+
+            if (isSyllabary) {
+                processSyllabaryRequest(searchForExactMatch, map, searchTerm, includeSentences, includeCED)
+            }
+
+            def lst = new LinkedList<String>();
+            def sb = generateQuery(params, sourcesSize, searchForExactMatch, lst, map)
+
+//            def mapOfRules = [:]
+//            if (resultsMax) {
+//                println "resultsMax ${resultsMax}"
+//                mapOfRules.put("max", resultsMax)
+//            }
+//
+//            if (resultsOffset) {
+//                println "resultsOffset ${resultsOffset}"
+//                mapOfRules.put("offset", resultsOffset)
+//            }
+//            [max: resultsMax, offset:resultsOffset]
+
+
             def results = new LinkedList<Object>()
+            def result = Likespreadsheets.findAll(sb, lst, [max: max, offset:moffset]);
+            if (result) {
+                results.addAll(result)
+            }
 
             if (params.bible) {
                 def returnResults = []
@@ -99,39 +132,7 @@ class NewSearchService {
                 if (returnResults) {
                     results.addAll(returnResults)
                 }
-            } else {
-                if (isTsalagi) {
-                    processTsalagiRequest(searchForExactMatch, map, searchTerm, includeSentences, includeCED)
-                }
-
-                if (isEnglish) {
-                    processEnglishRequest(searchForExactMatch, map, searchTerm, includeSentences, includeCED)
-                }
-
-                if (isSyllabary) {
-                    processSyllabaryRequest(searchForExactMatch, map, searchTerm, includeSentences, includeCED)
-                }
-
-                def lst = new LinkedList<String>();
-                def sb = generateQuery(params, sourcesSize, searchForExactMatch, lst, map)
-
-//            def mapOfRules = [:]
-//            if (resultsMax) {
-//                println "resultsMax ${resultsMax}"
-//                mapOfRules.put("max", resultsMax)
-//            }
-//
-//            if (resultsOffset) {
-//                println "resultsOffset ${resultsOffset}"
-//                mapOfRules.put("offset", resultsOffset)
-//            }
-//            [max: resultsMax, offset:resultsOffset]
-
-                def result = Likespreadsheets.findAll(sb, lst, [max: max, offset:moffset]);
-                if (result) {
-                    results.addAll(result)
-                }
-            }
+            } 
 
             if (params.audio) {
                 def returnResults = []

@@ -27,7 +27,7 @@ class AuthController {
         }
 
         // here we want to send the user to the profile page and display their new profile
-        redirect(uri: "/auth/profile", params: [todisplay: userRole])
+        redirect(uri: "/auth/profile", params: [todisplay: user])
         return
     }
 
@@ -83,12 +83,12 @@ class AuthController {
 
         //password and email updating not implemented yet
 
-        redirect(uri: "/profile", params: [user: user, errors: errors])
+        redirect(uri: "/profile", params: [todisplay: user, errors: errors])
     }
 
     def profile() {
         def user = User.findByEmail(params.email)
         def userRole = UserRole.findByUser(user)
-        render(view: "profile", model: [user: user, userRole: userRole, errors: params.errors])
+        render(view: "/profile", model: [todisplay: user, userRole: userRole, errors: params.errors])
     }
 }

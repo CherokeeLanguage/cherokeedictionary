@@ -72,7 +72,7 @@
             <% } %>
             <div style="display:table-cell;vertical-align: middle;padding-left:10px;padding-top:5px; padding-bottom:5px">
                 <% if (!bible) { %>
-                    ${entry.syllabaryb} - <% if (!first.trim().equals("")) { %>${first}<%if (entry.definitionlarge || entry.etymology || entry.category) {%>&nbsp;&nbsp;<i class="fas fa-plus-square"></i><%}%><%if (hasAudio) {%>&nbsp;&nbsp;<i class="fas fa-audio-description"></i><%}%><br/>
+                    ${entry.syllabaryb} - <% if (!first.trim().equals("")) { %>${first}<%if (entry.definitionlarge || entry.etymology || entry.category) {%>&nbsp;&nbsp;<i class="fas fa-plus-square"></i><%}%><%if (hasAudio) {%>&nbsp;&nbsp;<i class="fa-solid fa-play"></i><%}%><br/>
                     <%if (second && !second.trim().equals("")) { %>${second}<br/><%}%>
                     <% } else { %>${raw(definition)}<br/>
                     <% } %>

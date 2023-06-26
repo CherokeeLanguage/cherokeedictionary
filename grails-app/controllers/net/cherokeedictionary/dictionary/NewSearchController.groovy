@@ -543,6 +543,12 @@ class NewSearchController {
         workbook.write(outs);
     }
 
+    def medicalTerms() {
+        def lst = Likespreadsheets.findAllWhere("source =? or source = ? order by definitiond, source", ["ncmed", "cnomed"])
+//        select definitiond, entrya, syllabaryb, source from likespreadsheets where source='ncmed' or source='cnomed' order by definitiond, source;
+        render(view: 'medicalTerms', model:[results: lst])
+    }
+
     def headings = ["entrya",
                    "syllabaryb",
                    "partofspeechc",

@@ -16,9 +16,6 @@
     <g:pageProperty name="page.nav" />
 </div>
 
-
-
-
 <g:layoutBody/>
 
 </body>

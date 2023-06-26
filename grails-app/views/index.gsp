@@ -1,4 +1,4 @@
-<%@ page import="net.cherokeedictionary.admin.Settings;  net.cherokeedictionary.admin.SourceManagement; net.cherokeedictionary.admin.Announcements" contentType="text/html;charset=UTF-8" %>
+<%@ page import="net.cherokeedictionary.dictionary.Likespreadsheets; net.cherokeedictionary.admin.Settings;  net.cherokeedictionary.admin.SourceManagement; net.cherokeedictionary.admin.Announcements" contentType="text/html;charset=UTF-8" %>
 %{--TODO: autocomplete should take into account the boxes that are checked - including the bible and others?--}%
 <html>
 <head>
@@ -202,6 +202,33 @@
 <body>
 <h3>Cherokee-English Dictionary Online Database</h3>
 <%
+    def tmp = Likespreadsheets.createCriteria().list(max: 40, offset: moffset) {
+//        or {
+//            tsalagiFields.each { tsalagi ->
+                rlike("entrya", /ani*ja/)
+//            }
+//        }
+
+//                        if (pos) {
+//                            eq('partofspeechc', pos.partofspeech)
+//                        }
+//
+//                        if (category) {
+//                            eq('category', category.category)
+//                        }
+    }
+
+    out << tmp
+
+    //    def tmpa = Likespreadsheets.findAllByEntrya(~ "ach%ja")
+                def querya = Likespreadsheets.where {
+                    entrya ==~ ~/ani*ja/
+                }
+
+                def tmpa = querya.list()
+                out << tmpa
+
+
     if (request.getParameter("showSup").equals("false")) {
         session.setAttribute("showSup", false);
     } else if (!request.getParameter("showSup") || request.getParameter("showSup").equals("true")) {

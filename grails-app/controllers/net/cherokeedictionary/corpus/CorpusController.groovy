@@ -19,7 +19,7 @@ class CorpusController {
     def adminDownload() {
         def lst = [:]
 
-        def likespreadsheets = Likespreadsheets.findAll('from Likespreadsheets where sentenceenglishs != ? and sentencesyllr != ?', ['',''])
+        def likespreadsheets = Likespreadsheets.findAll('from Likespreadsheets where sentenceenglishs != ?0 and sentencesyllr != ?1', ['',''])
         def nlpCorpus = NLPCorpus.list()
         nlpCorpus.each {
 

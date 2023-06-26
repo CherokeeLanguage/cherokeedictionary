@@ -309,8 +309,6 @@ class NewSearchService {
         def max = 40
         def moffset = params.offset ? Integer.parseInt(params.offset) : 40
 
-        println "moffset ${moffset}"
-
         PartOfSpeech pos
         if (posParam) {
             pos = PartOfSpeech.findById(posParam)
@@ -337,20 +335,30 @@ class NewSearchService {
         def results = []
 
         if (regexSearch) {
-            if (isTsalagi && isEnglish && isSyllabary
+            println searchTerm
+            if ((isTsalagi && isEnglish && isSyllabary)
                     || isTsalagi && isEnglish
                     || isSyllabary && isEnglish
                     || isTsalagi && isSyllabary) {
+                println "RIGHT HERE"
+
+                //    def tmpa = Likespreadsheets.findAllByEntrya(~ "ach%ja")
+//                def querya = Likespreadsheets.where {
+//                    entrya ==~ ~/a*ja/
+//                }
+//
+//                def tmpa = querya.list()
+//                out << tmpa
 
                 def tmp = Likespreadsheets.createCriteria().list(max:40, offset:moffset) {
                     //            projections {
                     //                property("firstName")
                     //            }
-                    and {
+//                    and {
                         if (isTsalagi) {
                             or {
                                 tsalagiFields.each { tsalagi ->
-                                    rlike(tsalagi, isTsalagi)
+                                    rlike(tsalagi, searchTerm)
                                 }
                             }
                         }
@@ -370,15 +378,15 @@ class NewSearchService {
                                 }
                             }
                         }
-                    }
+//                    }
 
-                    if (pos) {
-                        eq('partofspeechc', pos.partofspeech)
-                    }
-
-                    if (category) {
-                        eq('category', category.category)
-                    }
+//                    if (pos) {
+//                        eq('partofspeechc', pos.partofspeech)
+//                    }
+//
+//                    if (category) {
+//                        eq('category', category.category)
+//                    }
                 }
 
                 if (tmp) {
@@ -389,22 +397,22 @@ class NewSearchService {
                     def tmp = Likespreadsheets.createCriteria().list(max: 40, offset: moffset) {
                         or {
                             tsalagiFields.each { tsalagi ->
-                                rlike(tsalagi, searchTerm)
+                                rlike(tsalagi, /ani*ja/)
                             }
                         }
 
-                        if (pos) {
-                            eq('partofspeechc', pos.partofspeech)
-                        }
-
-                        if (category) {
-                            eq('category', category.category)
-                        }
+//                        if (pos) {
+//                            eq('partofspeechc', pos.partofspeech)
+//                        }
+//
+//                        if (category) {
+//                            eq('category', category.category)
+//                        }
                     }
 
                     results.addAll(tmp)
                 }
-
+/*
                 if (isSyllabary) {
                     def tmp = Likespreadsheets.createCriteria().list(max: 40, offset: moffset) {
                         or {
@@ -441,10 +449,10 @@ class NewSearchService {
                     }
 
                     results.addAll(tmp)
-                }
+                }*/
             }
 
-            Collections.sort(results, new SortOrderComparator())
+//            Collections.sort(results, new SortOrderComparator())
             return results
         } else if (isTsalagi && isEnglish && isSyllabary
                     || isTsalagi && isEnglish
@@ -575,9 +583,9 @@ class NewSearchService {
 
     def categorySearch(params) {
         Category category = Category.findById(Integer.parseInt(params.categorySearch))
-        def lst = Likespreadsheets.findAll('from Likespreadsheets l where l.category = ?0', [category.category])
-        Collections.sort(result, new SortOrderComparator())
-        return lst
+        def results = Likespreadsheets.findAll('from Likespreadsheets l where l.category = ?0', [category.category])
+        Collections.sort(results, new SortOrderComparator())
+        return results
     }
 
     def xrefSearch(term) {

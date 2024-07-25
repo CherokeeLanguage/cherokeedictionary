@@ -202,31 +202,31 @@
 <body>
 <h3>Cherokee-English Dictionary Online Database</h3>
 <%
-    def tmp = Likespreadsheets.createCriteria().list(max: 40, offset: moffset) {
-//        or {
-//            tsalagiFields.each { tsalagi ->
-                rlike("entrya", /ani*ja/)
-//            }
-//        }
-
-//                        if (pos) {
-//                            eq('partofspeechc', pos.partofspeech)
-//                        }
+//    def tmp = Likespreadsheets.createCriteria().list(max: 40, offset: moffset) {
+////        or {
+////            tsalagiFields.each { tsalagi ->
+//                rlike("entrya", /ani*ja/)
+////            }
+////        }
 //
-//                        if (category) {
-//                            eq('category', category.category)
-//                        }
-    }
-
-    out << tmp
-
-    //    def tmpa = Likespreadsheets.findAllByEntrya(~ "ach%ja")
-                def querya = Likespreadsheets.where {
-                    entrya ==~ ~/ani*ja/
-                }
-
-                def tmpa = querya.list()
-                out << tmpa
+////                        if (pos) {
+////                            eq('partofspeechc', pos.partofspeech)
+////                        }
+////
+////                        if (category) {
+////                            eq('category', category.category)
+////                        }
+//    }
+//
+//    out << tmp
+//
+//    //    def tmpa = Likespreadsheets.findAllByEntrya(~ "ach%ja")
+//                def querya = Likespreadsheets.where {
+//                    entrya ==~ ~/ani*ja/
+//                }
+//
+//                def tmpa = querya.list()
+//                out << tmpa
 
 
     if (request.getParameter("showSup").equals("false")) {
@@ -252,7 +252,7 @@
 <div>
     <%
         def query = "from Announcements a where a.enabled=true"
-        //'from Announcements a where a.enabled = ?', [true]
+        //'from Announcements a where a.enabled = ?0', [true]
     %>
     <g:each in="${net.cherokeedictionary.admin.Announcements.findAll(query)}">
         ${raw(it.announcement)}<br/>

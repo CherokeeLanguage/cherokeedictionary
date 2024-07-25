@@ -35,7 +35,7 @@ class NewSearchController {
     }
 
     def processSentences() {
-        def likespreadsheets = Likespreadsheets.findAll('from Likespreadsheets where sentencetranslit=? and sentencesyllr != ?', ['', ''])
+        def likespreadsheets = Likespreadsheets.findAll('from Likespreadsheets where sentencetranslit=?0 and sentencesyllr != ?1', ['', ''])
         println likespreadsheets.size();
         def su = new SyllabaryUtil();
         likespreadsheets.each {
@@ -544,7 +544,7 @@ class NewSearchController {
     }
 
     def medicalTerms() {
-        def lst = Likespreadsheets.findAllWhere("source =? or source = ? order by definitiond, source", ["ncmed", "cnomed"])
+        def lst = Likespreadsheets.findAllWhere("source =?0 or source = ?1 order by definitiond, source", ["ncmed", "cnomed"])
 //        select definitiond, entrya, syllabaryb, source from likespreadsheets where source='ncmed' or source='cnomed' order by definitiond, source;
         render(view: 'medicalTerms', model:[results: lst])
     }

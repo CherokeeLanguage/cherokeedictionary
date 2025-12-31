@@ -35,11 +35,11 @@ class NewSearchService {
 //        final Date today = Calendar.getInstance().getTime()
 
         if (tsalagiSearchParam) {
-            searchParam = tsalagiSearchParam?.trim()?.toLowerCase()
+            searchParam = tsalagiSearchParam.toLowerCase()
         } else if (englishSearchParam) {
-            searchParam = englishSearchParam?.trim()
+            searchParam = englishSearchParam
         } else if (syllabarySearchParam) {
-            searchParam = syllabarySearchParam?.trim()
+            searchParam = syllabarySearchParam
         } else if (definitionId) {
             //noop
         } else {
@@ -307,7 +307,7 @@ class NewSearchService {
         def posParam = params.posSearch
 
         def max = 40
-        def moffset = params.offset ? Integer.parseInt(params.offset) : 40
+        def moffset = params.offset ? Integer.parseInt(params.offset) : 0
 
         PartOfSpeech pos
         if (posParam) {
@@ -320,7 +320,7 @@ class NewSearchService {
         }
 
         if (isTsalagi) {
-            searchTerm = isTsalagi.trim().toLowerCase()
+            searchTerm = isTsalagi.toLowerCase()
         } else if (isEnglish) {
             searchTerm = isEnglish
         } else if (isSyllabary) {

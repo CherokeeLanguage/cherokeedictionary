@@ -397,7 +397,7 @@ class NewSearchService {
                     def tmp = Likespreadsheets.createCriteria().list(max: 40, offset: moffset) {
                         or {
                             tsalagiFields.each { tsalagi ->
-                                rlike(tsalagi, /ani*ja/)
+                                rlike(tsalagi, searchTerm)
                             }
                         }
 
@@ -590,9 +590,9 @@ class NewSearchService {
 
     def xrefSearch(term) {
         //multiple entries
-        def searchTerm = term.indexOf(",") ? term.split(",") : term
+        def searchTerm = term.tokenize(',')
         if (searchTerm.size() == 1) {
-            def result = Likespreadsheets.findAll("from Likespreadsheets l where l.entrya like ?0", ["%$term%"])
+            def result = Likespreadsheets.findAll("from Likespreadsheets l where l.entrya like ?0", ["%${searchTerm[0]}%"])
             Collections.sort(result, new SortOrderComparator())
             return result
         } else {

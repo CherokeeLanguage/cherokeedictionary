@@ -10,50 +10,101 @@
 <%@ page import="net.cherokeedictionary.admin.SourceManagement; net.cherokeedictionary.admin.SourceManagement;  net.cherokeedictionary.admin.SourceManagement; java.util.regex.Matcher; java.util.regex.Pattern" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>
+%{--    <script src="https://code.jquery.com/jquery-latest.min.js"></script>--}%
+%{--    <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>--}%
 %{--<g:set var="showLinks" value="false" scope="request"/>--}%
 <meta name="layout" content="manager"/>
 <title>Dictionary</title>
-<style>
-/*sup { vertical-align: top; position: relative; top: -0.2em; }*/
-.odd {
-    background: #f7f7f7;
-}
+    <style>
+    td, th {
+        line-height: 1.5em;
+        padding: 0.5em 0.6em;
+        text-align: left;
+        vertical-align: top;
+    }
+    table {
+        border-top: 1px solid #DFDFDF;
+        border-collapse: collapse;
+        width: 100%;
+        margin-bottom: 1em;
+    }
 
-.even {
-    background: #ffffff;
-}
-td, th {
-    line-height: 1.5em;
-    padding: 0.5em 0.6em;
-    text-align: left;
-    vertical-align: top;
-}
-table {
-    border-top: 1px solid #DFDFDF;
-    border-collapse: collapse;
-    width: 100%;
-    margin-bottom: 1em;
-}
+    tr {
+        border: 0;
+    }
 
-tr {
-    border: 0;
-}
+    tr>td:first-child, tr>th:first-child {
+        padding-left: 1.25em;
+    }
 
-tr>td:first-child, tr>th:first-child {
-    padding-left: 1.25em;
-}
+    tr>td:last-child, tr>th:last-child {
+        padding-right: 1.25em;
+    }
 
-tr>td:last-child, tr>th:last-child {
-    padding-right: 1.25em;
-}
+    .odd {
+        background: #f7f7f7;
+    }
 
-th:hover, tr:hover {
-    background: #E1F2B6;
-}
-</style>
+    .even {
+        background: #ffffff;
+    }
 
+    @media screen and (min-width: 0px) and (max-width: 640px) {
+        .smallishes { display: block; }  /* show it on small screens */
+        .large { display: none; }   /* hide it elsewhere */
+        .accordion {
+            /*background-color: #eee;*/
+            color: #444;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            text-align: left;
+            border: none;
+            outline: none;
+            transition: 0.4s;
+        }
+
+        /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+        .active, .accordion:hover {
+            background-color: #ccc;
+        }
+
+        /* Style the accordion panel. Note: hidden by default */
+        .panel {
+            padding: 0 18px;
+            background-color: white;
+            display: none;
+            overflow: hidden;
+        }
+    }
+
+    @media screen and (min-width: 641px) {
+        .smallishes { display: none; }   /* hide it elsewhere */
+        .large { display: block; }  /* show it on small screens */
+        /*sup { vertical-align: top; position: relative; top: -0.2em; }*/
+
+        th:hover, tr:hover {
+            background: #E1F2B6;
+        }
+
+        /*fix for 14*/
+        /* To change position of close button to Top Right Corner */
+        #colorbox #cboxClose
+        {
+            top: 0;
+            right: 0;
+        }
+        #cboxLoadedContent{
+            margin-top:28px;
+            margin-bottom:0;
+        }
+    }
+    </style>
+    <script>
+        $(function() {
+            $(".iframe").colorbox({iframe: true, width: "80%", height: "80%", escKey:true});
+        });
+    </script>
 </head>
 <body>
 <%
@@ -61,14 +112,12 @@ th:hover, tr:hover {
         out << raw("<div style=\"color : red\">you are logged in</div>")
     }
 
-
-
     //multiple entries
     xref.add(current)
     def entries = xref//[current, xref];
 %>
 
-<div id="message"></div>
+%{--<div id="message"></div>
 <table>
 <tr>
     <th style="width:1px; margin: 0 0 0 0; padding: 0 0 0 0; border-spacing: 0"></th>
@@ -82,8 +131,15 @@ th:hover, tr:hover {
     <th>Verb<br/>2nd imperative</th>
     <th>Verb<br/>3rd infinitive</th>
     <th>Sentence</th>
-</tr>
+</tr>--}%
 
+<div class="large">
+    <g:render template="/newSearch/desktopView" model="[entries:entries]"/>
+</div>
+<div class="smallishes">
+    <g:render template="/newSearch/mobileView"  model="[entries:entries]"/>
+</div>
+%{--
 <g:each in="${entries}" var="entry" status="i">
 <%
     Pattern p = Pattern.compile("([0-9]?.?\\s?[a-zA-Z'(),\\s.]*)?([0-9].\\s?[a-zA-Z'(),\\s.]*)?([0-9].\\s?[a-zA-Z'(),\\s.]*)?");
@@ -147,8 +203,8 @@ th:hover, tr:hover {
     <td><span id="vfirstpreshmain${i}">${entry.vfirstpresh}</span><br/>
         <span id="vfirstpresgmain${i}"><g:pronunciation value="${entry.vfirstpresg}"/></span>
         <span id="vfirstprestonemain${i}"><g:intonation tone="${entry.vfirstprestone}"/></span>
-        %{--${entry.vfirstpresh}<br/>--}%
-        %{--<g:readingDisplay value="${entry.vfirstpresg}" tone="${entry.vfirstprestone}"/>--}%
+        --}%%{--${entry.vfirstpresh}<br/>--}%%{--
+        --}%%{--<g:readingDisplay value="${entry.vfirstpresg}" tone="${entry.vfirstprestone}"/>--}%%{--
     </td>
     <td><span id="vthirdpastsylljmain${i}">${entry.vthirdpastsyllj}</span><br/>
         <span id="vthirdpastimain${i}"><g:pronunciation value="${entry.vthirdpasti}"/></span>
@@ -172,7 +228,7 @@ th:hover, tr:hover {
     </td>
 </tr>
 </g:each>
-</table>
+</table>--}%
 
     <%
         def old = request.getParameter("old").split(",")

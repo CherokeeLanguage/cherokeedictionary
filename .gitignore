@@ -13,3 +13,5 @@ out/
 .classpath
 hold1.txt
 hold2.txt
+aiderStart.bat
+.aider*

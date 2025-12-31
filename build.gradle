@@ -81,6 +81,9 @@ dependencies {
     compile group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '3.0.2'
     compile group: 'org.apache.poi', name: 'poi', version: '4.0.1'
 
+    implementation 'edu.stanford.nlp:stanford-corenlp:4.5.7'
+    implementation 'edu.stanford.nlp:stanford-corenlp:4.5.7:models'
+
     //https://dzone.com/articles/grails-33-with-spring-security-core-and-spring-sec
 //    compile 'org.grails.plugins:spring-security-core:4.0.3'
 //    compile 'org.grails.plugins:spring-security-rest:3.0.1'
@@ -130,10 +133,10 @@ tasks.withType(GroovyCompile) {
     }
 }
 
-webdriverBinaries {
-    chromedriver '2.45.0'
-    geckodriver '0.24.0'
-}
+//webdriverBinaries {
+//    chromedriver '2.45.0'
+//    geckodriver '0.24.0'
+//}
 
 //tasks.withType(Test) {
 //    systemProperty "geb.env", System.getProperty('geb.env')

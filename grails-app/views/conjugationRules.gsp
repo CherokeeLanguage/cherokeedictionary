@@ -6,7 +6,7 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="cherokee.dictionary.conjugationRules.ConjugationRule" %>
+<%@ page import="net.cherokeedictionary.conjugationRules.ConjugationRule" %>
 <html>
 <head>
     <title>Conjugation Rules</title>

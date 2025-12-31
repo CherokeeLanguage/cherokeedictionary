@@ -275,6 +275,11 @@
         Enter your search terms using English<br/>
     </div>
 
+    <div id="donatePopup" class="popbox">
+        <h2>Why Donate?</h2>
+        You donation would help ensure this site is free and open for everyone interested in the Cherokee language.<br/>
+    </div>
+
     <g:form controller="newSearch" action="dictionary" id="newSearchForm" method="POST">
         <div style="float:left">
             <b>Basic Search:</b><br/>
@@ -307,9 +312,25 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><a href="/advancedSearch" id="advancedSearch">Advanced Search</a></td>
+                    <td ><a href="/advancedSearch" id="advancedSearch">Advanced Search</a></td>
+                    <td><div id="donate-button"></div>
+                        <script src="https://www.paypalobjects.com/donate/sdk/donate-sdk.js" charset="UTF-8"></script>
+                        <script>
+                            PayPal.Donation.Button({
+                                env:'production',
+                                hosted_button_id:'5ZB5GC3C4T2M8',
+                                image: {
+                                    src:'https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif',
+                                    alt:'Donate with PayPal button',
+                                    title:'PayPal - The safer, easier way to pay online!',
+                                }
+                            }).render('#donate-button');
+                        </script></td>
+                    <td><a href="#" class="popper" id="donatePopup" data-popbox="donatePopup" style="color:blue;"><u>Why Donate?</u></a></td>
                 </tr>
+                <tr><td></td><td></td></tr>
             </table>
+
         </div>
 
         <div style="float:left">

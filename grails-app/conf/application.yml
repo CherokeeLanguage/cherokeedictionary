@@ -152,7 +152,7 @@ environments:
     development:
         dataSource:
             #            logSql: true
-            url: jdbc:mysql://localhost:3306/cherokeedictionary?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=CST&useSSL=false
+            url: jdbc:mysql://localhost:3306/cherokeedictionary?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=CST&useSSL=false&allowPublicKeyRetrieval=true
             properties:
                 readOnly: false
                 jmxEnabled: true
@@ -176,8 +176,10 @@ environments:
         dataSource:
             url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
     production:
+        grails:
+            serverURL: http://cherokeedictionary.net
         dataSource:
-            url: jdbc:mysql://localhost:3306/likespreadsheets?useUnicode=yes&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=CST&useSSL=false
+            url: jdbc:mysql://localhost:3306/likespreadsheets?useUnicode=yes&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=CST&useSSL=false&allowPublicKeyRetrieval=true
             properties:
                 readOnly: false
                 jmxEnabled: true

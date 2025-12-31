@@ -49,5 +49,7 @@ class UrlMappings {
         "404"(view:'/notFound')
 
         "/spreadsheet"(resources:"cherokee.dictionary.Likespreadsheets")
+
+        "/stems"(controller:"stemmer", action:"stems")
     }
 }

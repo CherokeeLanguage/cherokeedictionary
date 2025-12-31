@@ -35,11 +35,11 @@ class NewSearchService {
 //        final Date today = Calendar.getInstance().getTime()
 
         if (tsalagiSearchParam) {
-            searchParam = tsalagiSearchParam.toLowerCase()
+            searchParam = tsalagiSearchParam?.trim()?.toLowerCase()
         } else if (englishSearchParam) {
-            searchParam = englishSearchParam
+            searchParam = englishSearchParam?.trim()
         } else if (syllabarySearchParam) {
-            searchParam = syllabarySearchParam
+            searchParam = syllabarySearchParam?.trim()
         } else if (definitionId) {
             //noop
         } else {
@@ -307,7 +307,7 @@ class NewSearchService {
         def posParam = params.posSearch
 
         def max = 40
-        def moffset = params.offset ? Integer.parseInt(params.offset) : 0
+        def moffset = params.offset ? Integer.parseInt(params.offset) : max
 
         PartOfSpeech pos
         if (posParam) {
@@ -320,7 +320,7 @@ class NewSearchService {
         }
 
         if (isTsalagi) {
-            searchTerm = isTsalagi.toLowerCase()
+            searchTerm = isTsalagi.trim().toLowerCase()
         } else if (isEnglish) {
             searchTerm = isEnglish
         } else if (isSyllabary) {
@@ -397,6 +397,7 @@ class NewSearchService {
                     def tmp = Likespreadsheets.createCriteria().list(max: 40, offset: moffset) {
                         or {
                             tsalagiFields.each { tsalagi ->
+//                                rlike(tsalagi, /ani*ja/)
                                 rlike(tsalagi, searchTerm)
                             }
                         }
@@ -609,7 +610,8 @@ class NewSearchService {
     }
 
     def xrefById(definitionId) {
+//        return Collections.sort(Likespreadsheets.findById(definitionId) as List<Object>, new SortOrderComparator())
         def result = Likespreadsheets.findById(definitionId)
-        return result ? [result] : []
+        return result ? result : ""
     }
 }

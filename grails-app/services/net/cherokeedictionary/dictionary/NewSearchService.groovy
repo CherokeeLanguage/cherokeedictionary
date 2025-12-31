@@ -609,6 +609,7 @@ class NewSearchService {
     }
 
     def xrefById(definitionId) {
-        return Collections.sort(Likespreadsheets.findById(definitionId), new SortOrderComparator())
+        def result = Likespreadsheets.findById(definitionId)
+        return result ? [result] : []
     }
 }

@@ -1,0 +1,151 @@
+def stems() {
+        //id='73078'"//
+        def query = "from Likespreadsheets where (source='ced' or source='rrd') and syllabaryb = 'ᎠᎵᏔᏬᎠ' and partofspeechc like 'v%' and partofspeechc not like '%pref%' and partofspeechc not like '%suf'"
+
+        def list = Likespreadsheets.findAll(query)
+
+        def count = 0
+
+        def results = []
+
+        list.each {Likespreadsheets it ->
+            if (count == 100) {
+                return
+            }
+
+            def stemmer = new Stemmer()
+            stemmer.habitual = new DefinitionLine(syllabary: it.vthirdpressylll)//"ᎦᏬᏂᏍᎪᎢ")
+            stemmer.imperative = new DefinitionLine(syllabary: it.vsecondimpersylln)//"ᎯᏬᏂᎯ")
+            stemmer.infinitive = new DefinitionLine(syllabary: it.vthirdinfsyllp)//"ᎤᏬᏂᎯᏍᏗ")
+            stemmer.present1st = new DefinitionLine(syllabary:  it.vfirstpresh)//"ᏥᏬᏂᎭ")
+            stemmer.present3rd = new DefinitionLine(syllabary: it.syllabaryb)//"ᎦᏬᏂᎭ")
+            stemmer.remotepast = new DefinitionLine(syllabary: it.vthirdpastsyllj)//"ᎤᏬᏂᏒᎢ")
+
+            /*List stems = stemmer.getStems()*//*.each {
+                println("${it.stemtype} : ${it.syllabary}")
+            }*/
+
+//            PresentContinous : ᎪᏩᏘᎭ
+//            RemotePast : ᎪᎲᎢ
+//            Habitual : ᎪᏩᏘᏍᎪᎢ
+//            Immediate : ᎪᏩᏔ
+//            Deverbal : ᎪᏩᏛᏗ
+
+            try {
+                List stems = stemmer.getStems()
+//                stems.each {
+//                    println("${it.stemtype} : ${it.syllabary}")
+//                }
+
+                def stemmers = new Stemmers()
+
+
+                stemmers.likespreadsheetsid = it.id.toString()
+
+                stemmers.partofspeech = it.partofspeechc ? it.partofspeechc : ""
+                stemmers.definition = it.definitiond ?: ""
+
+                stemmers.source = it.source ?: ""
+
+                stemmers.vthirdpres = it.entrya ?: ""
+                stemmers.vthirdpresStemmer = SyllabaryUtil.parseSyllabary(stems.get(0).syllabary).contains("null") ? "" : SyllabaryUtil.parseSyllabary(stems.get(0).syllabary)
+
+                stemmers.vfirstpres = it.vfirstprestranslit ?: ""
+                stemmers.vfirstpresStemmer = SyllabaryUtil.parseSyllabary(stems.get(0).syllabary).contains("null") ? "" : SyllabaryUtil.parseSyllabary(stems.get(0).syllabary)
+
+                stemmers.vthirdpast = it.vthirdpasttranslit ?: ""
+                stemmers.vthirdpastStemmer = SyllabaryUtil.parseSyllabary(stems.get(1).syllabary).contains("null") ? "" : SyllabaryUtil.parseSyllabary(stems.get(1).syllabary)
+
+                stemmers.vthirdpreshabitual = it.vthirdprestranslit ?: ""
+                stemmers.vthirdpresStemmerhabitual = SyllabaryUtil.parseSyllabary(stems.get(2).syllabary).contains("null") ? "" : SyllabaryUtil.parseSyllabary(stems.get(2).syllabary)
+
+                stemmers.vsecondimper = it.vsecondimpertranslit ?: ""
+                stemmers.vsecondimperStemmer = SyllabaryUtil.parseSyllabary(stems.get(3).syllabary).contains("null") ? "" : SyllabaryUtil.parseSyllabary(stems.get(3).syllabary)
+
+                stemmers.vthirdinf = it.vthirdinftranslit ?: ""
+                stemmers.vthirdinfStemmer = SyllabaryUtil.parseSyllabary(stems.get(4).syllabary).contains("null") ? "" : SyllabaryUtil.parseSyllabary(stems.get(4).syllabary)
+
+//                if (!stemmers.save(flush: true)) {
+//                    stemmers.errors.allErrors.each {
+//                        println it
+//                    }
+//                } else {
+                    results << stemmers
+//                }
+            } catch (Exception e) {
+                println("Error processing entry: " + it.entrya + " - " + e.getMessage())
+            } finally {
+                count++
+            }
+        }
+
+        render(view: "/stems", model: [results: results])
+    }
+
+    Verb getDisplayValueConjugationEngineV3(likespreadsheets) {
+        def paramMap = [:]
+        paramMap.habitual = likespreadsheets.vthirdpressylll
+        paramMap.imperative = likespreadsheets.vsecondimpersylln
+        paramMap.infinitive = likespreadsheets.vthirdinfsyllp
+        paramMap.present1st = likespreadsheets.vfirstpresh
+        paramMap.present3rd = likespreadsheets.syllabaryb
+        paramMap.remotepast = likespreadsheets.vthirdpastsyllj
+        paramMap.partofspeechc = likespreadsheets.partofspeechc
+        paramMap.subject = PrefixTableSubject.SG1.toString()
+        paramMap.object = PrefixTableObject.SG3AN.toString()
+        paramMap.verbTense = Tense.PRESENT.toString()
+
+        Verb displayValue
+        try {
+            def verb = VerbFactory.createVerbFromParameters(paramMap)
+            verb = Conjugate.conjugate(verb);
+            displayValue = verb
+        } catch (Exception e) {
+            e.printStackTrace()
+            // ensure we never return a String here; caller will handle null
+            displayValue = null
+        }
+
+        return displayValue
+    }
+
+    def lemmas() {
+        def query = "from Likespreadsheets where (source='ced' or source='rrd') and partofspeechc like 'v%' and partofspeechc not like '%pref%' and partofspeechc not like '%suf'"
+
+        def list = Likespreadsheets.findAll(query)
+
+        processDefinitions(list)
+
+    }
+
+    def processDefinitions(entries) {
+        entries.each {Likespreadsheets entry ->
+            def splitDefinitions = entry.definitiond.contains(/\d+\./)
+                                                ? entry.definitiond.split(/\d+\./)
+                                                : entry.definitiond.contains(/';'/)
+                                                    ? entry.definitiond.split(/';'/)
+                                                    : [entry.definitiond]
+            print "Processing entry ID: ${entry.id} with definitions ${splitDefinitions.size()}: \n"
+            splitDefinitions.each { defText ->
+                println defText
+                /*def trimmed = defText.trim()
+                if (trimmed) {
+                    Properties props = new Properties()
+                    props.setProperty('annotators', 'tokenize,ssplit,pos,lemma,depparse')
+                    def pipeline = new StanfordCoreNLP(props)
+                    def annotation = new Annotation(trimmed)
+                    pipeline.annotate(annotation)
+                    def sentences = annotation.get(CoreAnnotations.SentencesAnnotation)
+                    if (sentences) {
+                        def sentence = sentences[0]
+                        def tokens = sentence.get(CoreAnnotations.TokensAnnotation)
+                        def lemmatized = tokens.collect { it.get(CoreAnnotations.LemmaAnnotation) }.join(' ')
+                        def dependencies = sentence.get(SemanticGraphCoreAnnotations.CollapsedCCProcessedDependenciesAnnotation)
+                        def root = dependencies?.getFirstRoot()
+                        def intent = root?.lemma() ?: ''
+                        new Lemmas(likespreadsheetsId: entry.id, intent: intent, definition: lemmatized, completeDefinition: trimmed).save()
+                    }
+                }*/
+            }
+        }
+    }

@@ -6,6 +6,8 @@ class Category {
     }
 
     String category
+    String name
+    String description
 
     public String toString() {
         return category

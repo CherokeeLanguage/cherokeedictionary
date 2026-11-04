@@ -22,5 +22,5 @@ INSERT INTO admin (version, username, password)
   WHERE NOT EXISTS (SELECT 1 FROM admin WHERE username = '$user_escaped');
 SQL
 
-mysql -uroot -p"$MARIADB_ROOT_PASSWORD" "$MARIADB_DATABASE" < /tmp/98-test-admin.sql
+mariadb -uroot -p"$MARIADB_ROOT_PASSWORD" "$MARIADB_DATABASE" < /tmp/98-test-admin.sql
 rm -f /tmp/98-test-admin.sql

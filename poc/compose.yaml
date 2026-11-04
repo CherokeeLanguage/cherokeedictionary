@@ -17,12 +17,17 @@ services:
       MARIADB_PASSWORD: ${DB_PASSWORD}
       MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       # #133: the regression suite's sanctioned test account rides init
-      # (seeds/98-poc-test-admin.sh) — env-scoped, never a repo literal
+      # (98-poc-test-admin.sh present in both seeds documents — the
+      # make-fixture.py generator copies it) — env-scoped, never literals
       CED_TEST_ADMIN_USER: ${CED_TEST_ADMIN_USER:?set in the operator .env}
       CED_TEST_ADMIN_PASSWORD: ${CED_TEST_ADMIN_PASSWORD:?set in the operator .env}
     volumes:
       - ced-poc-mariadb-data:/var/lib/mysql
-      - ./seeds:/docker-entrypoint-initdb.d:ro
+      # CED_SEEDS_DIR selects the seed document: `seeds` (operator's prod
+      # dumps, git-ignored) or `seeds-fixture` (the #133 tracked subset —
+      # fixture-mode re-builts the stack from the repository alone). ONE
+      # of them, never both: the ids collide.
+      - ./${CED_SEEDS_DIR:-seeds}:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 10s

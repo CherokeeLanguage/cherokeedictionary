@@ -69,12 +69,14 @@ class Runner:
 
     def record(self, name, fn, absolute):
         """Run fn() -> (ok, detail); time it; evaluate the perf bands.
-
-        The perf verdict rides a separate runlog record (kind=perf) so
-        the behavior verdict and the latency history stay independent.
-        """
+        Transport exceptions (connection reset, HTTPError) are check
+        FAILURES, never crashes — the suite must always produce its
+        one-line verdicts and a summary (R-3)."""
         t0 = time.monotonic()
-        ok, detail = fn()
+        try:
+            ok, detail = fn()
+        except Exception as e:
+            ok, detail = False, f"transport: {type(e).__name__}: {e}"
         latency = round(time.monotonic() - t0, 3)
 
         baseline, good_runs = self._baseline(name)

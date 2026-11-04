@@ -56,6 +56,47 @@ python3 tests/curl_tier.py --base-url https://cherokeedictionary.net:8443
 python3 tests/playwright_tier.py --base-url https://cherokeedictionary.net:8443
 ```
 
+## Fixture (tracked seed subset, #133)
+
+The suite runs from the REPOSITORY alone: `poc/seeds/make-fixture.py`
+generates `poc/seeds-fixture/01-fixture-dictionary-sample.sql` (a small,
+secrets-free subset of the operator's prod dumps) plus copies of the
+shared 98/99 seed entries. It is commited and deterministic.
+
+- every SourceManagement row ships with ~12 sample `likespreadsheets`
+  entries (sources with zero prod entries get one "sample" placeholder
+  row — NO fabricated Cherokee words), so the UI's source filters are
+  all testable;
+- the FK chains (CherokeeIndex, word_link/word/definition chain where
+  consistent, audio_file/audio_link) follow the sampled entries; the
+  relational word/definition tables are FRAGMENTED in the prod dumps and
+  ship created-empty;
+- `admin`/`user`/`role`/`history`/`user_search` tables ship CREATED
+  EMPTY — the prod dump's admin table carries REAL plaintext passwords
+  and must never ride a fixture;
+- the spring-session JDBC DDL (#130) is emitted from the committed
+  `sql/spring-session-schema-mysql.sql` into the fixture
+- verse rows: a small even sample;
+- the generator records one sampled audio-linked entry in
+  `tests/fixture_audio_entry.txt` — the browser tier's
+  `audio:fixture-entry` check opens THAT entry and demands a rendered
+  `<audio>` (the deterministic positive audio check).
+
+Fixture-mode run (no operator dumps required):
+
+```sh
+cd poc && CED_SEEDS_DIR=seeds-fixture docker compose -p ced-poc up -d
+```
+
+(one of the seed documents, never both: ids collide; rebuilds need
+`down -v` so the MariaDB init scripts re-run).
+
+Regenerate after the schema changes (operator-required):
+
+```sh
+python3 poc/seeds/make-fixture.py   # needs the operator's dumps locally
+```
+
 Both tiers: R-3 — nonzero exit on any failed check (behavior `fail` or
 latency `fail:perf`), one line per check (`pass|fail: name`), and a
 summary.

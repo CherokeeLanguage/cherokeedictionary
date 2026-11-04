@@ -183,11 +183,33 @@ def main(argv):
         # without a src IS the failure (the audio asset class).
         def audio():
             if page.locator("audio").count() == 0:
-                return True, "audio gated off (showAudio=false) — not applicable"
+                return True, "no <audio> on this entry (no AudioLink row or audio gated off) — covered by audio:fixture-entry"
             src = page.locator("audio source").first.get_attribute("src")
             return bool(src), f"src={src}"
         record("entry:audio-present", audio,
-               "remembers the audio asset 200 class (src must resolve)")
+               "gated rendering only; the deterministic positive check is "
+               "audio:fixture-entry")
+
+        # 6b. Deterministic positive audio check: the fixture generator
+        # (poc/seeds/make-fixture.py) records one sampled audio-linked
+        # entry id in tests/fixture_audio_entry.txt — the suite opens
+        # THAT entry and demands a rendered <audio> with a src. Absent
+        # file (suite against a non-fixture target): pass-with-note skip.
+        def audio_positive():
+            path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                "fixture_audio_entry.txt")
+            if not os.path.exists(path):
+                return True, "skip: fixture audio entry not recorded (dump-mode target?)"
+            lsid = open(path).read().strip()
+            r = page.goto(base + "/newSearch/individual/" + lsid,
+                          wait_until="domcontentloaded")
+            audios = page.locator("audio")
+            if r.status != 200 or not audios.count():
+                return False, f"status={r.status} audios={audios.count()}"
+            src = audios.first.locator("source").get_attribute("src")
+            return bool(src), f"entry={lsid} src={src}"
+        record("audio:fixture-entry", audio_positive,
+               "remembers the DB-backed audio-path class")
 
         # 7. Grammar guide TOC loaded (hold1.txt fetch)
         def grammar():

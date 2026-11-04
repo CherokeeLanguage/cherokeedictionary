@@ -26,4 +26,4 @@
 //	[pattern: '/**',             filters: 'JOINED_FILTERS']
 //]
 
-# springsecurity.rest config removed 2026-11-04 (cherokeedictionary#121): dead residue; the committed JWT secret values left the repository with this change.
+// springsecurity.rest config removed 2026-11-04 (cherokeedictionary#121): dead residue; the committed JWT secret values left the repository with this change.

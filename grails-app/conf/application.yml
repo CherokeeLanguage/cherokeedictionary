@@ -145,14 +145,14 @@ dataSource:
     #org.hibernate.dialect.MySQL5InnoDBDialect
     driverClassName: com.mysql.cj.jdbc.Driver
     dbCreate: update
-    username: root
-    password: Tk02030#
 
 environments:
     development:
         dataSource:
             #            logSql: true
-            url: jdbc:mysql://localhost:3306/cherokeedictionary?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=CST&useSSL=false&allowPublicKeyRetrieval=true
+            username: ${DB_USER}
+            password: ${DB_PASSWORD}
+            url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:cherokeedictionary}?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=CST&useSSL=false&allowPublicKeyRetrieval=true
             properties:
                 readOnly: false
                 jmxEnabled: true
@@ -175,11 +175,15 @@ environments:
     test:
         dataSource:
             url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+            username: sa
+            password: ''
     production:
         grails:
             serverURL: http://cherokeedictionary.net
         dataSource:
-            url: jdbc:mysql://localhost:3306/likespreadsheets?useUnicode=yes&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=CST&useSSL=false&allowPublicKeyRetrieval=true
+            username: ${DB_USER}
+            password: ${DB_PASSWORD}
+            url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:likespreadsheets}?useUnicode=yes&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=CST&useSSL=false&allowPublicKeyRetrieval=true
             properties:
                 readOnly: false
                 jmxEnabled: true

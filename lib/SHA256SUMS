@@ -1,0 +1,10 @@
+143a792fe3a98231aae8eaecf76fc3fa6e6372d540456b4387dc0e065310aa0e  jalagiConjugation-0.2.0.jar
+7de0fe4b3135f97ef414fba5c798e0e4fcef5102d0d88f029914e6d1ad434719  jalagiDateTime-0.0.1.jar
+d43e923531d24118dd34a7f848daf3d0179edf1c84b7958b4a46f7fb8b6e4172  jalagiTranslit-0.2.0.jar
+81004420e285b92a7b13cf6fedd6a2d179cb534965d5e50c685a5542b26b4248  jalagiUtils-0.2.0.jar
+# Vendoring provenance (PoC, 2026-11-03) — per-jar source repo + commit:
+# jalagiTranslit-0.2.0.jar   CherokeeLanguage/cherokeetransliteration  6c3d48edd5b112f704f1d74511019748237fe42e
+# jalagiUtils-0.2.0.jar      CherokeeLanguage/cherokeeutilities        5a3d72a9f9379fc33e98133854b7abe0ee9038d1
+# jalagiConjugation-0.2.0.jar CherokeeLanguage/cherokeeconjugation     551b2128f8b0c152ecf66b897ef308ffc347ea15
+# jalagiDateTime-0.0.1.jar   CherokeeLanguage/CherokeeDateTime         6d688411abb33f856a96d424ab579849eb12738f
+# Built with: Gradle 6.9.4 on project-local Temurin JDK 8u504-b01 (both checksums verified).

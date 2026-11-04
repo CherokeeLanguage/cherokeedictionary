@@ -26,10 +26,4 @@
 //	[pattern: '/**',             filters: 'JOINED_FILTERS']
 //]
 
-//CherokeeDictionary2013OneFire12
-//grails.plugin.springsecurity.rest.token.storage.jwt.secret=secret01234567890ABCDEFGHIJKLMNO
-
-//grails.plugin.springsecurity.password.algorithm = 'bcrypt'
-//grails.plugin.springsecurity.rest.token.storage.jwt.useSignedJwt = true
-//grails.plugin.springsecurity.rest.token.storage.jwt.secret = 'secret01234567890ABCDEFGHIJKLMNO'
-//grails.plugin.springsecurity.rest.token.storage.jwt.expiration = 3600
+# springsecurity.rest config removed 2026-11-04 (cherokeedictionary#121): dead residue; the committed JWT secret values left the repository with this change.

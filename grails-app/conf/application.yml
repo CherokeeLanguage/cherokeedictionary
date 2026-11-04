@@ -13,14 +13,6 @@ grails:
 
 
 
-    plugin:
-        springsecurity:
-            rest:
-                token:
-                    storage:
-                        jwt:
-                            secret: 'secret01234567890ABCDEFGHIJKLMNO'
-
 #        allowedHeaders:
 #            - Access-Control-Allow-Origin
 #            - Access-Control-Allow-Credentials
@@ -54,22 +46,8 @@ management:
     endpoints:
         enabled-by-default: false
 
-#plugin:
-#    springsecurity:
-#        rest:
-#            token:
-#                storage:
-#                    jwt:
-#                        secret: 'secret01234567890ABCDEFGHIJKLMNO'
-#                validation:
-#                    useBearerToken: false
-#                    headerName: 'X-Auth-Token'
-#            logout:
-#                endpointUrl: '/api/logout'
-#        controllerAnnotations:
-#            chainMap:
-#                '/api/**': 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter'
-#                '/**': 'JOINED_FILTERS,-restTokenValidationFilter,-restExceptionTranslationFilter'
+# The commented springsecurity.rest blocks were removed 2026-11-04
+# (cherokeedictionary#121): dead residue carrying committed secret values.
 
 ---
 grails:
@@ -180,8 +158,8 @@ environments:
             username: sa
             password: ''
     production:
-        grails:
-            serverURL: http://cherokeedictionary.net
+        # grails.serverURL intentionally absent (recorded decision 2026-11-04,
+        # #119 R-4 amendment): request-derived via forward headers.
         hibernate:
             # PoC finding 2026-11-03: Hibernate 5.4's schema extractor falls through to
             # `catalogFilter=""` when neither currentCatalog nor defaultCatalog resolves,

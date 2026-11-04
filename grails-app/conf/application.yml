@@ -46,22 +46,8 @@ management:
     endpoints:
         enabled-by-default: false
 
-#plugin:
-#    springsecurity:
-#        rest:
-#            token:
-#                storage:
-#                    jwt:
-#                        secret: 'secret01234567890ABCDEFGHIJKLMNO'
-#                validation:
-#                    useBearerToken: false
-#                    headerName: 'X-Auth-Token'
-#            logout:
-#                endpointUrl: '/api/logout'
-#        controllerAnnotations:
-#            chainMap:
-#                '/api/**': 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter'
-#                '/**': 'JOINED_FILTERS,-restTokenValidationFilter,-restExceptionTranslationFilter'
+# The commented springsecurity.rest blocks were removed 2026-11-04
+# (cherokeedictionary#121): dead residue carrying committed secret values.
 
 ---
 grails:

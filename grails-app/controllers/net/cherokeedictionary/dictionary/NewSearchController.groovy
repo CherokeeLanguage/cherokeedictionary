@@ -116,9 +116,11 @@ class NewSearchController {
 //            return [entries: searchResults, params: params]
 //        }
 
-        //original code
         def searchResults = newSearchService.search(params)
-        session["results"] = searchResults;
+        // #122: the JDBC session store persists session values as serialized
+        // data — store the entry identifiers, not the entity list (GORM
+        // entities are not serializable); download() re-fetches in order.
+        session["results"] = searchResults*.id;
 
         if (searchResults.isEmpty()) {
             redirect(uri: "/", params: [noresults: true])
@@ -352,11 +354,10 @@ class NewSearchController {
     }
 
     def download() {
-        def lst = []
-
-        session["results"].each {
-            lst << it
-        }
+        // #122: the session carries entry identifiers (see the search action);
+        // re-fetch the entities in the stored order.
+        def byId = Likespreadsheets.getAll(session["results"]).collectEntries { [it.id, it] }
+        def lst = session["results"].collect { byId[it] }
 
         ServletOutputStream outs = response.outputStream
         response.status = response.SC_OK

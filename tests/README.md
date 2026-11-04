@@ -133,12 +133,11 @@ Both tiers: R-3 — nonzero exit on any failed check (behavior `fail` or
 latency `fail:perf`), one line per check (`pass|fail: name`), and a
 summary.
 
-**The gate is currently RED by design on the dead-reference class**
-(`assets:referenced-resolve` / `assets:no-dead-references`): the
-FreeSerif `@font-face` family, the `/cnt` nav link and the colorbox
-loading skins are dead on every deployment — **#136** tracks the fix.
-Every other check must stay green; when #136 lands, the sweep's first
-clean run closes the class.
+**The gate's one remaining red is `/cnt` by design** (`assets:referenced-resolve`):
+the nav item is a dead endpoint until the reconciled static deployment lands —
+**cherokeelanguage-devops#29** tracks it. The font and colorbox classes from
+**#136** are FIXED (the vendored FreeSerif family + the `loading.gif` typo
+correction ride this same branch); the browser-tier sweep already runs green.
 
 ## The sanctioned credential surface (the suite's ONLY credential)
 

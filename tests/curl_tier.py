@@ -370,6 +370,15 @@ def main(argv):
     tgt = from_argv(argv)
     sess = Session(tgt)
     runner = Runner("curl", tgt.base_url, tgt.latency_class())
+    # unrecorded warmup: the first request after a boot rides JIT-cold
+    # compilation — recording it would flag boot weather (a 2–4 s home
+    # hit against a ~0.01 s loopback baseline) as fail:perf instead of
+    # the drift the perf record exists to catch. A genuinely broken
+    # surface fails in the checks regardless.
+    try:
+        sess.get("/")
+    except Exception:
+        pass
     print(f"regression suite: curl tier @ {tgt.base_url} (target={tgt.name})")
     for name, fn, _prov in build_checks(sess):
         runner.record(name, fn)

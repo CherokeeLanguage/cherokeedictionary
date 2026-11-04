@@ -28,6 +28,13 @@ services:
       # fixture-mode re-builts the stack from the repository alone). ONE
       # of them, never both: the ids collide.
       - ./${CED_SEEDS_DIR:-seeds}:/docker-entrypoint-initdb.d:ro
+      # the canonical spring-session DDL (#130), mounted for BOTH seed
+      # documents: the prod dumps predate #130 and carry no
+      # SPRING_SESSION DDL — a dump-mode stack without it 500s on every
+      # request (the session store's response-commit INSERT fails). The
+      # 97- init script applies it idempotently (no-op when present,
+      # e.g. the fixture's inlined copy).
+      - ../sql/spring-session-schema-mysql.sql:/spring-session-schema.sql:ro
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 10s

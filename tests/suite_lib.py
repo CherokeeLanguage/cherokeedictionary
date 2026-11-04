@@ -40,13 +40,24 @@ class Runner:
     """One line per check (`pass|fail: name`) plus a summary; nonzero
     exit on any failed check (behavior or perf)."""
 
-    def __init__(self, tier, base_url, log_path=RUNLOG):
+    def __init__(self, tier, base_url, target_class, log_path=RUNLOG):
         self.tier = tier
         self.base_url = base_url
+        # the latency class of the target (local loopback vs remote edge)
+        # — selects the absolute band and keys the trailing baseline:
+        # a loopback PoC latency is not a baseline for a remote-edge run
+        # (R-2 makes targets first-class; the runlog records base_url per
+        # record and the baseline window is per target)
+        self.target_class = target_class
         self.log_path = log_path
         self.results = []  # dicts: name, ok, kind ('behavior'|'perf'), detail, latency
 
     def _baseline(self, name):
+        """Trailing baseline: the median of the check's previous good-RUN
+        latencies FOR THIS TARGET. Only behavior-kind records count —
+        each post-window run also appends a perf-kind record (a duplicate
+        observation, not a run); counting both would halve the effective
+        window."""
         latencies = []
         if os.path.exists(self.log_path):
             with open(self.log_path) as f:
@@ -57,6 +68,8 @@ class Runner:
                         continue
                     if (r.get("tier") == self.tier
                             and r.get("check") == name
+                            and r.get("base_url") == self.base_url
+                            and r.get("kind") == "behavior"
                             and r.get("verdict") == "pass"
                             and r.get("latency_s") is not None):
                         latencies.append(r["latency_s"])
@@ -67,11 +80,15 @@ class Runner:
         with open(self.log_path, "a") as f:
             f.write(json.dumps(rec) + "\n")
 
-    def record(self, name, fn, absolute):
-        """Run fn() -> (ok, detail); time it; evaluate the perf bands.
-        Transport exceptions (connection reset, HTTPError) are check
-        FAILURES, never crashes — the suite must always produce its
-        one-line verdicts and a summary (R-3)."""
+    def record(self, name, fn):
+        """Run fn() -> (ok, detail); time it; evaluate the perf bands (the
+        absolute band comes from the config's table for this tier and
+        target class). Transport exceptions (connection reset, HTTPError)
+        are check FAILURES, never crashes — the suite must always produce
+        its one-line verdicts and a summary (R-3)."""
+        absolute = regression_config.PERF_ABS_OVERRIDES.get(
+            (self.tier, self.target_class, name),
+            regression_config.PERF_ABS[(self.tier, self.target_class)])
         t0 = time.monotonic()
         try:
             ok, detail = fn()
@@ -116,16 +133,20 @@ class Runner:
 
         # perf record (kind=perf) so drift is visible even on baseline shifts
         prefs = dict(rec, kind="perf",
-                     verdict="pass" if not perf_flagged else "fail:perf")
+                     verdict="fail:perf" if perf_flagged else "pass")
         self._log(prefs)
 
-        self.results.append(dict(name=name, ok=ok and not perf_flagged,
-                                 kind="perf" if perf_flagged else "behavior",
+        # the behavior verdict keeps its own result entry even when the
+        # perf band also fires — a slow AND broken check is reported as
+        # both, never silently reclassified as perf-only
+        self.results.append(dict(name=name, ok=ok, kind="behavior",
                                  detail=detail, latency=latency))
         if perf_flagged:
             print(f"flagged → fail:perf {name}: {latency:.2f}s exceeds both"
                   f" bands ({regression_config.PERF_MULT}x"
                   f" {baseline:.2f}s and {absolute:.2f}s absolute)")
+            self.results.append(dict(name=name, ok=False, kind="perf",
+                                     detail=detail, latency=latency))
         return ok and not perf_flagged, "perf" if perf_flagged else "behavior"
 
     def summary(self):

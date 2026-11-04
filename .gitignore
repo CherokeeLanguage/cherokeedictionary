@@ -27,6 +27,7 @@ poc/secrets/
 # (no credential literal — it interpolates from the operator .env; #133):
 poc/seeds/*
 !poc/seeds/98-poc-test-admin.sh
+!poc/seeds/97-spring-session-schema.sh
 !poc/seeds/make-fixture.py
 .jdk/
 

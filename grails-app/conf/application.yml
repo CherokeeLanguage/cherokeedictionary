@@ -136,7 +136,7 @@ environments:
             #            logSql: true
             username: ${DB_USER}
             password: ${DB_PASSWORD}
-            url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:cherokeedictionary}?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=CST&useSSL=false&allowPublicKeyRetrieval=true
+            url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:cherokeedictionary}?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
             properties:
                 readOnly: false
                 jmxEnabled: true
@@ -176,7 +176,7 @@ environments:
             dbCreate: update
             username: ${DB_USER}
             password: ${DB_PASSWORD}
-            url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:likespreadsheets}?useUnicode=yes&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=CST&useSSL=false&allowPublicKeyRetrieval=true
+            url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:likespreadsheets}?useUnicode=yes&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
             properties:
                 readOnly: false
                 jmxEnabled: true

@@ -22,5 +22,13 @@ aiderStart.bat
 .env
 poc/.env
 poc/secrets/
-poc/seeds/
+# poc/seeds: the operator/prod-dump seeds & secret material stay local, but
+# the regression suite's sanctioned test-account seed script IS committed
+# (no credential literal — it interpolates from the operator .env; #133):
+poc/seeds/*
+!poc/seeds/98-poc-test-admin.sh
+!poc/seeds/make-fixture.py
 .jdk/
+
+# python (the regression suite #133)
+__pycache__/

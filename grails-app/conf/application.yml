@@ -148,6 +148,8 @@ dataSource:
 
 environments:
     development:
+        hibernate:
+            default_catalog: ${DB_NAME:cherokeedictionary}
         dataSource:
             #            logSql: true
             username: ${DB_USER}
@@ -180,7 +182,16 @@ environments:
     production:
         grails:
             serverURL: http://cherokeedictionary.net
+        hibernate:
+            # PoC finding 2026-11-03: Hibernate 5.4's schema extractor falls through to
+            # `catalogFilter=""` when neither currentCatalog nor defaultCatalog resolves,
+            # and Connector/J treats an empty-string catalog as "no catalog" — metadata
+            # returns empty, hbm2ddl update emits create-all for existing tables and the
+            # missing-column ALTERs never run. Pin the catalog explicitly; the JDBC URL
+            # stays byte-identical (the spec rule).
+            default_catalog: ${DB_NAME:likespreadsheets}
         dataSource:
+            dbCreate: update
             username: ${DB_USER}
             password: ${DB_PASSWORD}
             url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:likespreadsheets}?useUnicode=yes&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=CST&useSSL=false&allowPublicKeyRetrieval=true

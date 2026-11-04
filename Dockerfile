@@ -17,4 +17,4 @@ COPY --from=build /src/build/libs/dictionary-0.1.war /app/app.war
 USER dictapp
 ENV JAVA_TOOL_OPTIONS=-Xmx2048m
 WORKDIR /app
-ENTRYPOINT ["java", "-Dgrails.env=production", "-jar", "/app/app.war"]
+ENTRYPOINT ["java", "-Dgrails.env=production", "-Dlogging.level.org.hibernate.tool.schema=DEBUG", "-jar", "/app/app.war"]

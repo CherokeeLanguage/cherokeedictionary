@@ -86,7 +86,7 @@
         #cboxTitle{position:absolute; bottom:4px; left:0; text-align:center; width:100%; color:#949494;}
         #cboxCurrent{position:absolute; bottom:4px; left:58px; color:#949494;}
         #cboxLoadingOverlay{background:url(${resource(dir: "images", file: "loading_background.png")}) no-repeat center center;}
-        #cboxLoadingGraphic{background:url(${resource(dir: "images", file: "loading.png")}) no-repeat center center;}
+        #cboxLoadingGraphic{background:url(${resource(dir: "images", file: "loading.gif")}) no-repeat center center;}
 
         /* these elements are buttons, and may need to have additional styles reset to avoid unwanted base styles */
         #cboxPrevious, #cboxNext, #cboxSlideshow, #cboxClose {border:0; padding:0; margin:0; overflow:visible; width:auto; background:none; }
@@ -119,38 +119,38 @@
         }
 
 
+        <%-- The FreeSerif family (GNU FreeFont, GPLv3 + font embedding
+             exception) vendored into grails-app/assets/fonts/ — the
+             asset pipeline digests existing files into /assets/… (the
+             dead-reference sweep, cherokeedictionary#136, catches any
+             reference that falls through to the dead /static/ mapping).
+             TTF only: the former otf/woff src lines referenced formats
+             that exist in no copy of this font anywhere in the
+             migration. --%>
         @font-face {
             font-family: 'FreeSerif';
-            src: url('${resource(dir: 'font', file: 'FreeSerif.otf')}');
-            src: url('${resource(dir: 'font', file: 'FreeSerif.woff')}') format('woff');
-            src: url('${resource(dir: 'font', file: 'FreeSerif.ttf')}') format('truetype');
+            src: url('${resource(dir: "fonts", file: "FreeSerif.ttf")}') format('truetype');
             font-weight: normal;
             font-style: normal;
         }
 
         @font-face {
             font-family: 'FreeSerif';
-            src: url('${resource(dir: 'font', file: 'FreeSerifBold.otf')}');
-            src: url('${resource(dir: 'font', file: 'FreeSerifBold.woff')}') format('woff');
-            src: url('${resource(dir: 'font', file: 'FreeSerifBold.ttf')}') format('truetype');
+            src: url('${resource(dir: "fonts", file: "FreeSerifBold.ttf")}') format('truetype');
             font-weight: bold;
             font-style: normal;
         }
 
         @font-face {
             font-family: 'FreeSerif';
-            src: url('${resource(dir: 'font', file: 'FreeSerifItalic.otf')}');
-            src: url('${resource(dir: 'font', file: 'FreeSerifItalic.woff')}') format('woff');
-            src: url('${resource(dir: 'font', file: 'FreeSerifItalic.ttf')}') format('truetype');
+            src: url('${resource(dir: "fonts", file: "FreeSerifItalic.ttf")}') format('truetype');
             font-weight: normal;
             font-style: italic;
         }
 
         @font-face {
             font-family: 'FreeSerif';
-            src: url('${resource(dir: 'font', file: 'FreeSerifBoldItalic.otf')}');
-            src: url('${resource(dir: 'font', file: 'FreeSerifBoldItalic.woff')}') format('woff');
-            src: url('${resource(dir: 'font', file: 'FreeSerifBoldItalic.ttf')}') format('truetype');
+            src: url('${resource(dir: "fonts", file: "FreeSerifBoldItalic.ttf")}') format('truetype');
             font-weight: bold;
             font-style: italic;
         }

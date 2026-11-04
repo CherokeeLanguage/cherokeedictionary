@@ -54,7 +54,9 @@ while true; do
   if [ $((NOW - BOOT_SINCE)) -ge "$GATE_BOOT_TIMEOUT" ]; then
     break
   fi
-  if ssh "$STACK_HOST" "docker compose -f $STACK_DIR/compose.yaml logs --since ${GATE_POLL}s $SERVICE" | grep -m1 -qE "Tomcat.*started|Grails application running|Started .*Application"; then
+  # the --since window OVERLAPS the poll interval (4x) — ssh latency
+  # between polls must not gap-skip the one-shot boot marker
+  if ssh "$STACK_HOST" "docker compose -f $STACK_DIR/compose.yaml logs --since $((GATE_POLL * 4))s $SERVICE" | grep -m1 -qE "Tomcat.*started|Grails application running|Started .*Application"; then
     BOOT_OK=1
     break
   fi

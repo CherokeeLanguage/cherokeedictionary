@@ -180,8 +180,11 @@ environments:
             username: sa
             password: ''
     production:
-        grails:
-            serverURL: http://cherokeedictionary.net
+        # grails.serverURL is intentionally ABSENT (PoC correction 2026-11-04):
+        # a baked hostname/prefix builds absolute redirect Locations and links
+        # from config instead of the request — behind Caddy + forward headers
+        # the request already carries the correct scheme/host, so no value is
+        # needed. A deployment that truly wants one sets it via env override.
         hibernate:
             # PoC finding 2026-11-03: Hibernate 5.4's schema extractor falls through to
             # `catalogFilter=""` when neither currentCatalog nor defaultCatalog resolves,

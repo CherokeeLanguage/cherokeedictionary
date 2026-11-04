@@ -74,7 +74,7 @@ dependencies {
     compile 'org.apache.pdfbox:pdfbox:2.0.4'
     compile 'org.springframework.session:spring-session-jdbc:2.1.13.RELEASE'
     compile 'org.bouncycastle:bcprov-jdk15on:1.56'
-    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.13'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.33'
     compile "org.apache.commons.lang3:commons-lang3:3.4"
     compile group: 'org.apache.poi', name: 'poi-ooxml', version: '4.0.1'
     compile group: 'org.apache.poi', name: 'poi-ooxml-schemas', version: '4.0.1'

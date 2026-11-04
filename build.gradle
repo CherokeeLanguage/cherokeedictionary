@@ -72,6 +72,7 @@ dependencies {
 
     compile 'com.itextpdf:itextpdf:5.5.10'
     compile 'org.apache.pdfbox:pdfbox:2.0.4'
+    compile 'org.springframework.session:spring-session-jdbc:2.1.13.RELEASE'
     compile 'org.bouncycastle:bcprov-jdk15on:1.56'
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.13'
     compile "org.apache.commons.lang3:commons-lang3:3.4"

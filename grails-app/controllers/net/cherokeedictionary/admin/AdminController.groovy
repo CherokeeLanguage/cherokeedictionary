@@ -129,7 +129,6 @@ class AdminController {
 
         if (matched) {
             session.setAttribute("loggedin", true)
-            session.setAttribute("admin", lst.get(0))
         } else {
             session.removeAttribute("loggedin")
         }

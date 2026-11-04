@@ -90,16 +90,19 @@ class CorpusController {
 
     def viewByCorpusSource() {
         def corpusSource = CorpusSource.findById(params.corpusSource)
-        def list = NLPCorpus.findAllByCorpusSource(corpusSource)
-//        redirect(action: "corpusView",  params: [lst: list])
-        session.setAttribute("corpusList", list)
+        // #122: the JDBC session store persists session values as serialized
+        // data — store the corpusSource identifier, not the entity list (GORM
+        // entities are not serializable); the list is re-fetched on read.
+        session.setAttribute("corpusList", corpusSource?.id)
         render("/corpus/corpusView")
 //        render(view: '/corpus/corpusView', model: [lst: list])
     }
 
     def corpusView() {
-        def lst = session.getAttribute("corpusList")
+        def corpusSourceId = session.getAttribute("corpusList")
         session.removeAttribute("corpusList")
+        def corpusSource = CorpusSource.findById(corpusSourceId)
+        def lst = NLPCorpus.findAllByCorpusSource(corpusSource)
         render(view:"/corpus/corpusView", model:[lst: lst])
     }
 

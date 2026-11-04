@@ -26,6 +26,10 @@ info:
         version: '@info.app.version@'
         grailsVersion: '@info.app.grailsVersion@'
 spring:
+    session:
+        store-type: jdbc
+        jdbc:
+            initialize-schema: never
     jmx:
         unique-names: true
     main:

@@ -1,0 +1,68 @@
+# PoC compose — cherokeelanguage-devops#23 / cherokeedictionary#124 validation.
+# Test containers only (project name: ced-poc). Mirrors the serving stack's
+# shape: one public binding (Caddy :443, loopback here), backend services on
+# the backend network, app reached by Docker DNS name, credentials from the
+# operator-held .env (git-ignored) — never literals.
+services:
+  mariadb:
+    image: mariadb:11.8.9
+    container_name: ced-poc-mariadb
+    networks: [backend]
+    # loopback publish for host tooling (the L8 posture), test port:
+    ports:
+      - "127.0.0.1:13306:3306"
+    environment:
+      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    volumes:
+      - ced-poc-mariadb-data:/var/lib/mysql
+      - ./seeds:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  dict-app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: dict-app:0.1-poc
+    container_name: ced-poc-dict-app
+    networks: [proxy, backend]
+    environment:
+      DB_HOST: mariadb
+      DB_PORT: "3306"
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      SERVER_USE_FORWARD_HEADERS: "true"
+      SERVER_PORT: "8080"
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2
+    container_name: ced-poc-caddy
+    networks: [proxy]
+    ports:
+      - "127.0.0.1:8443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ced-poc-caddy-data:/data
+    depends_on:
+      - dict-app
+    restart: unless-stopped
+
+networks:
+  proxy: {}
+  backend: {}
+
+volumes:
+  ced-poc-mariadb-data: {}
+  ced-poc-caddy-data: {}

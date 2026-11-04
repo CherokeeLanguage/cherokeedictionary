@@ -30,8 +30,8 @@ repositories {
     maven { url "https://repo.grails.org/grails/core" }
     mavenLocal()
     mavenCentral()
-    // Use JCenter for resolving dependencies.
-    jcenter()
+    // jcenter() removed 2026-11-03 (cherokeedictionary#120 R-3): retired upstream,
+    // alive only through a redirect shim.
 }
 
 configurations {

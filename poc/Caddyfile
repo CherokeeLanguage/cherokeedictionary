@@ -1,0 +1,11 @@
+{
+    auto_https disable_redirects
+}
+
+cherokeedictionary.net:443 {
+    tls internal
+    # main site at / (the catch-all — devops#14's routing shape):
+    handle {
+        reverse_proxy dict-app:8080
+    }
+}

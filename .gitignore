@@ -11,7 +11,16 @@ out/
 .project
 .settings
 .classpath
-hold1.txt
-hold2.txt
+# hold1.txt/hold2.txt (the grammar-guide assets) are committed repo content
+# as of 2026-11-03 (cherokeedictionary#124 R-6 — the cedproject copy step's
+# outputs become tracked; the cedproject-side rule that ignored them is
+# retired here).
 aiderStart.bat
 .aider*
+
+# env/secret material and PoC-only artifacts (never committed)
+.env
+poc/.env
+poc/secrets/
+poc/seeds/
+.jdk/

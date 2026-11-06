@@ -321,7 +321,10 @@ def build_checks(sess):
 
     def referenced_resolve():
         eid = fixture_entry_id()
-        pages = ["/", "/grammar"]
+        # the crawled set: the delivered pages whose references the old
+        # host served and the migration lost — /readingAndListening is
+        # here since 2026-11-04 (the /audio lesson-audio class, #138)
+        pages = ["/", "/grammar", "/readingAndListening"]
         if eid:
             pages.append("/newSearch/individual?" + urllib.parse.urlencode(
                 {"id": eid}))

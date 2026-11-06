@@ -1,19 +1,19 @@
 <br/>
 <%
     def walc = [:]
-    walc.put("Greetings Ch3S1","http://cherokeedictionary.net/audio/walc1/berlitz/Chapter_3_section_1_Greetings.mp3")
-    walc.put("Beginning Phrases and Questions C3S2","http://cherokeedictionary.net/audio/walc1/berlitz/Chapter_3_section_2_Beginning_Phrases_and_Questions.mp3")
-    walc.put("Classroom Phrases C3S3","http://cherokeedictionary.net/audio/walc1/berlitz/Chapter_3_section_3_Classroom_Phrases.mp3")
-    walc.put("Asking Questions C3S4","http://cherokeedictionary.net/audio/walc1/berlitz/Chapter_3_section_4_Asking_Questions.mp3")
-    walc.put("Cardinal Numbers C4S1","http://cherokeedictionary.net/audio/walc1/berlitz/Chapter_4_section_1_Cardinal_Numbers.mp3")
-    walc.put("Ordinal Numbers C4S2", "http://cherokeedictionary.net/audio/walc1/berlitz/Chapter_4_section_2_Ordinal_Numbers.mp3")
-    walc.put("Time C4S3", "http://cherokeedictionary.net/audio/walc1/berlitz/Chapter_4_section_3_Time.mp3")
-    walc.put("Money C4S4", "http://cherokeedictionary.net/audio/walc1/berlitz/Chapter_4_section_4_Money.mp3")
-    walc.put("Shapes C4S5", "http://cherokeedictionary.net/audio/walc1/berlitz/Chapter_4_section_5_Shapes.mp3")
-    walc.put("Days of the Week C4S6", "http://cherokeedictionary.net/audio/walc1/berlitz/Chapter_4_section_6_Days_of_the_Week.mp3")
-    walc.put("Time of Day C4S7", "http://cherokeedictionary.net/audio/walc1/berlitz/Chapter_4_section_7_Time_of_Day.mp3")
-    walc.put("Months C4S8", "http://cherokeedictionary.net/audio/walc1/berlitz/Chapter_4_section_8_Months.mp3")
-    walc.put("Seasons C4S9", "http://cherokeedictionary.net/audio/walc1/berlitz/Chapter_4_section_9_Seasons.mp3")
+    walc.put("Greetings Ch3S1","/audio/walc1/berlitz/Chapter_3_section_1_Greetings.mp3")
+    walc.put("Beginning Phrases and Questions C3S2","/audio/walc1/berlitz/Chapter_3_section_2_Beginning_Phrases_and_Questions.mp3")
+    walc.put("Classroom Phrases C3S3","/audio/walc1/berlitz/Chapter_3_section_3_Classroom_Phrases.mp3")
+    walc.put("Asking Questions C3S4","/audio/walc1/berlitz/Chapter_3_section_4_Asking_Questions.mp3")
+    walc.put("Cardinal Numbers C4S1","/audio/walc1/berlitz/Chapter_4_section_1_Cardinal_Numbers.mp3")
+    walc.put("Ordinal Numbers C4S2", "/audio/walc1/berlitz/Chapter_4_section_2_Ordinal_Numbers.mp3")
+    walc.put("Time C4S3", "/audio/walc1/berlitz/Chapter_4_section_3_Time.mp3")
+    walc.put("Money C4S4", "/audio/walc1/berlitz/Chapter_4_section_4_Money.mp3")
+    walc.put("Shapes C4S5", "/audio/walc1/berlitz/Chapter_4_section_5_Shapes.mp3")
+    walc.put("Days of the Week C4S6", "/audio/walc1/berlitz/Chapter_4_section_6_Days_of_the_Week.mp3")
+    walc.put("Time of Day C4S7", "/audio/walc1/berlitz/Chapter_4_section_7_Time_of_Day.mp3")
+    walc.put("Months C4S8", "/audio/walc1/berlitz/Chapter_4_section_8_Months.mp3")
+    walc.put("Seasons C4S9", "/audio/walc1/berlitz/Chapter_4_section_9_Seasons.mp3")
 %>
 
 <div style="display:table">

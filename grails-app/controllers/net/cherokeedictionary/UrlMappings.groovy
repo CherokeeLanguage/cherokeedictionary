@@ -11,6 +11,9 @@ class UrlMappings {
 
         "/"(controller:"dictionary.newSearch", view:"/index")
         "/login"(view:"/login")
+        // the Google Search Console domain-verification file at its exact
+        // legacy path (#140) — must precede the catch-all in effect
+        "/google593a568777046d5c.html"(controller:"siteVerification")
         "/search"(view:"/index")
         "/about"(view:"/about")
         "/grammar"(view:"/grammar")

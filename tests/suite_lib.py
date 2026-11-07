@@ -5,7 +5,8 @@ the local name→loopback mapping and the Cloudflare-leak guardrail —
 single point of truth; this module carries no URL logic).
 
 Perf record (R-7): every check records its wall-clock latency into the
-append-only run log (tests/runlog.jsonl, committed). The trailing
+append-only run log (tests/runlog.jsonl — local and untracked, gitignored;
+never committed). The trailing
 baseline is the median of that check's previous good-run latencies in
 the log (capped at BASELINE_WINDOW). A check flagged when its latency
 exceeds BOTH bands (config: PERF_MULT x baseline, and the tier's

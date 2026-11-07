@@ -38,11 +38,15 @@ deploy gate rides `deploy-stack.sh`.
   assertions, single requests, runs in seconds.
 - `playwright_tier.py` — the explicit deeper check (browser tier).
   NOT a deploy blocker; invoked from the runbook.
-- `runlog.jsonl` — the append-only run log (committed): one behavior
-  record per check per run, plus one perf-kind record per check per
-  post-window run, so latency drift stays visible over time. Records
-  carry `ts`, `head`, `tier`, `base_url`, `check`, verdict, `kind`,
+- `runlog.jsonl` — the append-only run log, **local and untracked
+  (gitignored — never committed)**: one behavior record per check per
+  run, plus one perf-kind record per check per post-window run, so
+  latency drift stays visible within a working session. Records carry
+  `ts`, `head`, `tier`, `base_url`, `check`, verdict, `kind`,
   `latency_s`, `baseline_s`, and the `baseline_collection` mark.
+  **Policy: run records are ephemeral working-session evidence — the
+  suite's gate result is binary (the run passes or exits FAILED); no
+  run-record file is ever committed or re-added to this repository.**
   Housekeeping: the log is append-only; a prune must keep at least the
   last `BASELINE_WINDOW` good behavior records per (tier, check,
   base_url) or the baselines reset into collection mode.
@@ -185,8 +189,8 @@ line's detail — never a failure.
    `verdict: "fail:perf"`) and the run exits nonzero. The concrete
    procedure, using the committed rehearsal tool
    (`tests/perf_delay_proxy.py` — which takes its connect address from
-   `tests/target.py` and carries the edge-leak tripwire; recorded
-   2026-11-04 in runlog.jsonl under `base_url https://localhost:8444`):
+   `tests/target.py` and carries the edge-leak tripwire; rehearsed
+   2026-11-04 against the PoC stack at `https://localhost:8444`):
    1. run a TLS-terminating delay proxy in front of the PoC stack:
       `openssl req -x509 -newkey rsa:2048 -nodes -days 1 -subj
       "/CN=cherokeedictionary.net" -keyout /tmp/proxy.key -out
@@ -210,10 +214,9 @@ gate pointed at a deliberately broken edge:
 `GATE_BASE_URL=http://127.0.0.1:9 ./deploy-stack.sh` — the deploy
 completes, the boot-wait sees the real marker, then the curl tier fails
 every check against the closed port and the script exits
-`REGRESSION GATE: FAILED`. Recorded instance: 2026-11-04 (see the
-runlog's `http://127.0.0.1:9` records and the deploy transcript). The
-passing path (default `GATE_BASE_URL`, the dev tier) is every real
-deploy's post-step — also recorded in the runlog.
+`REGRESSION GATE: FAILED`. Recorded instance: 2026-11-04 (the deploy
+transcript). The passing path (default `GATE_BASE_URL`, the dev tier)
+is every real deploy's post-step.
 
 ## Provenance catalog (R-5)
 

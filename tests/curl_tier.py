@@ -286,6 +286,22 @@ def build_checks(sess):
                    "spot check): the DB-backed audio path must yield a "
                    "serving asset, not just a rendered <audio> tag"))
 
+    # Google Search Console domain-verification file (#140): the legacy
+    # nginx doc-root file must serve from the app at its exact path with
+    # the exact legacy content — a failed re-verification is invisible
+    # until Google is asked, so the check rides the gate.
+    def gsc_verification():
+        r = sess.get("/google593a568777046d5c.html")
+        b = body(r)
+        ok = r.status == 200 and \
+            "google-site-verification: google593a568777046d5c.html" in b
+        return ok, f"status={r.status} content={'match' if ok else 'MISMATCH'}"
+    checks.append(("gsc:verification-200", gsc_verification,
+                   "#140: the Google site-verification file must serve at "
+                   "the site root with the exact legacy content (the "
+                   "ced1→vhost-58 migration dropped the nginx doc-root "
+                   "route; a 404 only surfaces at re-verification time)"))
+
     # dead-reference sweep (R-8): the key pages' GENERATED + STATIC
     # same-host references (src/href attributes, url() refs — the inline
     # <style> blocks carry the @font-face srcs — plus one level into the

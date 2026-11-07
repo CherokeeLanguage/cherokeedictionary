@@ -33,3 +33,6 @@ poc/seeds/*
 
 # python (the regression suite #133)
 __pycache__/
+
+# regression-suite run records are ephemeral session evidence — never committed (cherokeedictionary#133 amendment, 2026-11-07)
+tests/runlog.jsonl

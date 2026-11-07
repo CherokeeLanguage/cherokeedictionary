@@ -16,8 +16,9 @@ Run:
     python3 tests/curl_tier.py --base-url <url>        # explicit override
 
 Every check's provenance regression is in-line (R-5); the runbook list
-is tests/README.md. Per-check latency is recorded into
-tests/runlog.jsonl and gated by the R-7 bands (R-3: nonzero exit on any
+is tests/README.md. Per-check latency is recorded into the local, untracked run log
+(tests/runlog.jsonl — gitignored, never committed) and gated by the
+R-7 bands (R-3: nonzero exit on any
 failed check, behavior or perf).
 """
 import json

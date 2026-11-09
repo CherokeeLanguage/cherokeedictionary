@@ -77,24 +77,28 @@ git archive HEAD | ssh "$STACK_HOST" "mkdir -p $STACK_DIR/build && tar -x -C $ST
 
 # wait_boot CONTAINER — poll the container log for the boot marker (Grails:
 # Tomcat started on the port / Grails application running) with a timeout —
-# not a fixed sleep. Returns nonzero on timeout.
+# not a fixed sleep. One SHORT ssh per poll: a single long-lived connection
+# held open for the whole wait has proven flaky (connection resets). ssh
+# failures (rc >= 2, e.g. reset) are "unknown, keep waiting" — only a
+# successful poll returning no marker counts toward nothing, and only a
+# successful poll finding the marker succeeds. Returns nonzero on timeout.
 wait_boot() { # $1 = container name (docker logs target)
-  ssh "$STACK_HOST" "CNT='$1' TMO='$GATE_BOOT_TIMEOUT' POLL='$GATE_POLL' bash -s" <<'REMOTE'
-set -e
-SINCE=$(date +%s)
-while :; do
-  NOW=$(date +%s)
-  if [ $((NOW - SINCE)) -ge "$TMO" ]; then
-    echo "REGRESSION: no boot marker within ${TMO}s (the deployment is not silently committed)"
-    exit 1
-  fi
-  if docker logs "$CNT" 2>&1 | grep -m1 -qE "Tomcat.*started|Grails application running|Started .*Application"; then
-    echo "boot marker seen"
-    exit 0
-  fi
-  sleep "$POLL"
-done
-REMOTE
+  local CNT="$1"
+  local SINCE=$(date +%s)
+  while :; do
+    sleep "$GATE_POLL"
+    local NOW=$(date +%s)
+    if [ $((NOW - SINCE)) -ge "$GATE_BOOT_TIMEOUT" ]; then
+      echo "REGRESSION: no boot marker within ${GATE_BOOT_TIMEOUT}s (the deployment is not silently committed)"
+      return 1
+    fi
+    local RC
+    RC=$(ssh "$STACK_HOST" "docker logs '$CNT' 2>&1 | grep -m1 -qE 'Tomcat.*started|Grails application running|Started .*Application'; echo \$?") || RC=255
+    if [ "$RC" = 0 ]; then
+      echo "boot marker seen"
+      return 0
+    fi
+  done
 }
 
 # probe UPSTREAM — direct GET / against an upstream name resolvable from the
@@ -126,27 +130,52 @@ slot_cleanup() {
 # ------------------------------------------------------------------- flow
 
 # (re)build the image — detached on the host and polled with short
-# connections: a single ssh held open for the whole build has proven
-# flaky (connection resets mid-build); the tag moves only on success,
-# and the serving container is untouched throughout
+# connections; a single ssh held open for the whole build has proven
+# flaky (connection resets mid-build). ssh rc discipline: 0 = alive,
+# 1 = process gone, >= 2 (reset/unknown) = NEVER treated as done. The
+# loop only accepts completion after two consecutive clean "gone" polls,
+# and success = the stage image's Created (host clock) is fresher than
+# the deploy start (host clock — skew-free). The tag moves only on
+# success and the serving container is untouched throughout.
 echo "building image on the host (detached, polled)"
-ssh "$STACK_HOST" "cd $STACK_DIR && nohup docker compose build $SERVICE > /tmp/dict-app-build.log 2>&1 < /dev/null & echo started"
-BUILD_SINCE=$(date +%s)
+BUILD_SINCE=$(ssh "$STACK_HOST" "date +%s") || exit 1
+LOCAL_SINCE=$(date +%s)
+# offset between the local and host clocks, for the local timeout check only
+CLOCK_OFFSET=$((LOCAL_SINCE - BUILD_SINCE))
 BUILD_TIMEOUT="${BUILD_TIMEOUT:-2700}"
+ssh "$STACK_HOST" "cd $STACK_DIR && nohup docker compose build $SERVICE > /tmp/dict-app-build.log 2>&1 < /dev/null & echo started" || exit 1
+DEAD_STREAK=0
 while :; do
   sleep 20
-  NOW=$(date +%s)
-  if [ $((NOW - BUILD_SINCE)) -ge "$BUILD_TIMEOUT" ]; then
+  if [ $(($(date +%s) - CLOCK_OFFSET - BUILD_SINCE)) -ge "$BUILD_TIMEOUT" ]; then
     echo "REGRESSION: image build exceeded ${BUILD_TIMEOUT}s — aborting (canonical untouched)"
     exit 1
   fi
-  # the [c] character-class keeps pgrep from matching its own checker
-  if ! ssh "$STACK_HOST" "pgrep -f 'docker [c]ompose build $SERVICE' >/dev/null"; then
-    break
+  RC=$(ssh "$STACK_HOST" "pgrep -f 'docker [c]ompose build $SERVICE' >/dev/null; echo \$?") || RC=255
+  if [ "$RC" = 0 ]; then
+    DEAD_STREAK=0
+  elif [ "$RC" = 1 ]; then
+    DEAD_STREAK=$((DEAD_STREAK + 1))
+  else
+    DEAD_STREAK=0
+  fi
+  if [ "$DEAD_STREAK" -ge 2 ]; then
+    if ssh "$STACK_HOST" "CREATED=\$(docker inspect -f '{{.Created}}' $SLOT_IMAGE 2>/dev/null); [ -n \"\$CREATED\" ] && [ \$(date -d \"\$CREATED\" +%s) -ge $BUILD_SINCE ]"; then
+      echo "build-ok"
+      break
+    fi
+    # one retry before declaring failure — the inspect itself could race
+    # a reset; a genuinely failed build stays failed on re-check
+    sleep 10
+    if ssh "$STACK_HOST" "CREATED=\$(docker inspect -f '{{.Created}}' $SLOT_IMAGE 2>/dev/null); [ -n \"\$CREATED\" ] && [ \$(date -d \"\$CREATED\" +%s) -ge $BUILD_SINCE ]"; then
+      echo "build-ok"
+      break
+    fi
+    echo "REGRESSION: build failed:"
+    ssh "$STACK_HOST" "tail -20 /tmp/dict-app-build.log" || true
+    exit 1
   fi
 done
-# success = the stage image is fresher than this deploy's start time
-ssh "$STACK_HOST" "TS=\$(docker inspect -f '{{.Created}}' $SLOT_IMAGE 2>/dev/null || echo 0); [ \"\$TS\" != 0 ] && [ \$(date -d \"\$TS\" +%s) -ge $BUILD_SINCE ] && echo build-ok || { echo 'REGRESSION: build failed:'; tail -20 /tmp/dict-app-build.log; exit 1; }" || exit 1
 
 BLUEGREEN=0
 if ssh "$STACK_HOST" "docker inspect $CADDY_CONTAINER >/dev/null 2>&1 && test -f $CADDY_CONF"; then

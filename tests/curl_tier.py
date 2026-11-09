@@ -25,6 +25,7 @@ import json
 import os
 import re
 import sys
+import threading
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -128,7 +129,7 @@ class Session:
     def _no_follow(self, req, timeout):
         """Opener that returns redirect responses without following."""
         class NoRedirect(urllib.request.HTTPRedirectHandler):
-            def redirect_request(self, creq):
+            def redirect_request(self, req, fp, code, msg, headers, newurl):
                 return None
         op = urllib.request.build_opener(
             NoRedirect(), urllib.request.HTTPSHandler(context=CTX),
@@ -319,6 +320,99 @@ def build_checks(sess):
                    "the site root with the exact legacy content (the "
                    "ced1→vhost-58 migration dropped the nginx doc-root "
                    "route; a 404 only surfaces at re-verification time)"))
+
+    # THE #135 instrument: a fresh session's FIRST PARALLEL commit wave.
+    # Every check above is a single request — and the issue's own finding
+    # is that sequential requests NEVER reproduce the class: the
+    # spring-session JDBC store (2.1.13, the #130 posture) races
+    # duplicate-key INSERTs on SPRING_SESSION_ATTRIBUTES only when the
+    # same session's saves overlap (reproduced 2026-11-04 off the login
+    # redirect's same-origin asset wave). So the wave is the instrument:
+    # fresh-session login, verified through the /admin contract, then
+    # PARALLEL_WAVE_N concurrent same-session GETs of / — every one must
+    # commit clean (200). Deliberate exception to the tier's
+    # single-request doctrine (recorded in the config and the README).
+    def parallel_commit_clean():
+        user = os.environ.get("CED_TEST_ADMIN_USER")
+        pw = os.environ.get("CED_TEST_ADMIN_PASSWORD")
+        if not user or not pw:
+            return True, ("skip: no CED_TEST_ADMIN_* in env (the sanctioned "
+                          "test account only — set them from the operator "
+                          ".env)")
+        wave = Session(sess.tgt)  # fresh cookie jar = fresh session
+        r = wave.post("/admin/login",
+                      {"username": user, "password": pw}, follow=False)
+        if not (300 <= r.status < 400):
+            return False, f"login status={r.status} (302 expected)"
+        jsessionid = next((c.value for c in wave.jar
+                           if c.name == "JSESSIONID"), None)
+        if not jsessionid:
+            return False, "login committed no JSESSIONID cookie"
+        # login redirects to "/" on BOTH paths (the controller always
+        # redirect(uri: "/")), so the session is verified through the
+        # /admin contract — the same no-bounce-home assertion the
+        # playwright survival item rides
+        probe = wave.get("/admin", follow=False)
+        if probe.status != 200:
+            return False, (f"login not established (/admin status="
+                           f"{probe.status}; check CED_TEST_ADMIN_* "
+                           "against the seeded test account)")
+        # the wave: PARALLEL_WAVE_N concurrent same-session GETs of /
+        n = regression_config.PARALLEL_WAVE_N
+        results = [None] * n
+        leak = []
+        start = threading.Barrier(n)
+
+        class NoRedirect(urllib.request.HTTPRedirectHandler):
+            def redirect_request(self, creq):
+                return None
+
+        def one(i):
+            start.wait()
+            req = urllib.request.Request(
+                sess.base + "/",
+                headers={"User-Agent": "ced-regression/1",
+                         "Cookie": "JSESSIONID=" + jsessionid})
+            op = urllib.request.build_opener(
+                NoRedirect(), urllib.request.HTTPSHandler(context=CTX))
+            try:
+                resp = op.open(req, timeout=Session.TIMEOUT)
+                assert_not_edge_leaked(resp.headers, sess.tgt)
+                results[i] = resp.status
+            except urllib.error.HTTPError as e:
+                results[i] = e.code
+            except SystemExit:
+                leak.append("edge-leak tripwire")
+                results[i] = "tripwire"
+            except Exception as e:
+                results[i] = f"transport:{type(e).__name__}"
+
+        threads = [threading.Thread(target=one, args=(i,))
+                   for i in range(n)]
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
+        if leak:
+            raise SystemExit(
+                "EDGE-LEAK TRIPWIRE: the parallel-commit wave reached the "
+                "public edge for a local target — driver failure, not a "
+                "check failure (target.py doctrine).")
+        bad = [str(s) for s in results if s != 200]
+        return not bad, (f"{n} parallel same-session GETs of / all 200"
+                         if not bad else
+                         f"wave broke: {len(bad)}/{n} non-200 "
+                         f"({', '.join(bad[:5])}"
+                         f"{'...' if len(bad) > 5 else ''}) — the #135 "
+                         "duplicate-key commit wave")
+    checks.append(("session:parallel-commit-clean", parallel_commit_clean,
+                   "remembers **#135**: the spring-session JDBC store's "
+                   "first parallel commit wave (overlapping same-session "
+                   "saves race duplicate-key INSERTs on "
+                   "SPRING_SESSION_ATTRIBUTES → per-request 500s) — "
+                   "invisible to every sequential check, so the wave "
+                   "itself is the instrument and this check is the "
+                   "tier's one deliberate multi-request exception"))
 
     # dead-reference sweep (R-8): the key pages' GENERATED + STATIC
     # same-host references (src/href attributes, url() refs — the inline

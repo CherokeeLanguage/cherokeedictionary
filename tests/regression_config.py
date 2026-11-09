@@ -43,3 +43,12 @@ BASELINE_WINDOW = 10
 # stay fast — the crawl verifies at most this many unique same-host
 # references (deterministic order; overages are noted in the detail).
 DEAD_REF_MAX = 60
+
+# The #135 parallel-commit instrument's wave size: the concurrent
+# same-session GETs fired against the session's first commit window
+# (the issue's own reproduction: 5 parallel GETs of / off a fresh
+# login). The wave IS the regression class — the store's duplicate-key
+# race only exists under overlapping commits, so this is the one
+# deliberate multi-request exception to the curl tier's single-request
+# doctrine.
+PARALLEL_WAVE_N = 5

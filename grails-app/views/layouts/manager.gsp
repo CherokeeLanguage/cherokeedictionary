@@ -8,6 +8,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Cherokee English Dictionary">
+    <link rel="icon" href="${assetPath(src: 'favicon.svg')}" type="image/svg+xml">
+    <link rel="alternate icon" href="${assetPath(src: 'favicon.ico')}" sizes="any">
+    <link rel="apple-touch-icon" href="${assetPath(src: 'apple-touch-icon.png')}">
 
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>

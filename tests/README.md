@@ -137,11 +137,17 @@ Both tiers: R-3 — nonzero exit on any failed check (behavior `fail` or
 latency `fail:perf`), one line per check (`pass|fail: name`), and a
 summary.
 
-**The gate's one remaining red is `/cnt` by design** (`assets:referenced-resolve`):
-the nav item is a dead endpoint until the reconciled static deployment lands —
-**cherokeelanguage-devops#29** tracks it. The font and colorbox classes from
-**#136** are FIXED (the vendored FreeSerif family + the `loading.gif` typo
-correction ride this same branch); the browser-tier sweep already runs green.
+**Edge-served-only refs ride a target capability, not an exemption** (#141):
+the `/audio/*` lesson files (#138's site-relative lesson refs) and the `/cnt`
+nav item (Cherokee New Testament — **cherokeelanguage-devops#29**'s static
+deployment) are served OUTSIDE the app on the real stack (edge/origin static
+tree, devops#29); the repository-alone PoC stack has no such mounts, so
+`assets:referenced-resolve` skips exactly those paths there — the skip is
+stated in the check's detail line, never silent — and checks them strictly on
+every stack that serves them (dev, apex, any explicit real-stack override).
+The font and colorbox classes from **#136** are FIXED (the vendored FreeSerif
+family + the `loading.gif` typo correction); both tiers' sweeps run green
+against every target's own capability.
 
 ## The sanctioned credential surface (the suite's ONLY credential)
 
@@ -231,7 +237,7 @@ is every real deploy's post-step.
 | audio:asset-200 (curl) / audio:fixture-entry (playwright) | the audio-asset class: the DB-backed audio path must yield a SERVING asset (200, audio/*), not just a rendered `<audio>` tag |
 | the edge-leak tripwire (target.py `assert_not_edge_leaked`, wired into the curl Session, the playwright responses, and the delay proxy) | the **Cloudflare-leak class**: suite traffic meant for a local stack reaching the public edge — recurring across component kinds (fixed in the tiers, reintroduced 2026-11-04 by the SC-7 rehearsal proxy doing its own name resolution); enforced at BOTH layers: the cause (tooling takes connect addresses from `connect_target()`, never resolves serving names) and the outcome (cf-ray markers on a local target's response abort the run loudly) |
 | admin:session-survived | the session/cookie-contract class (devops#14 smoke item 15) — on its first live run (2026-11-04) it caught the spring-session parallel-commit duplicate-key 500s (#135, filed to #130's domain); the survival flow settles its redirect chain so the rehearsal doesn't trip that store race as a side effect |
-| assets:referenced-resolve (curl) / assets:no-dead-references (playwright) | the **dead-reference class** (R-8, #136): generated/static URLs that reference non-existent files or endpoints — a dead asset reference never changes a page's status code, so it is invisible to every status-based check. First catch, the day the check landed: the FreeSerif `@font-face` family (12 dead URLs in the public layout), the `/cnt` nav link, the colorbox loading skins → **#136**. Complementary instruments: the curl sweep fetches collected refs directly (catches link-shaped dead endpoints like `/cnt`); the playwright wire guard records every same-host ≥400 response the browser itself issues (catches font/CSS/image fetches, including conditional loads) |
+| assets:referenced-resolve (curl) / assets:no-dead-references (playwright) | the **dead-reference class** (R-8, #136): generated/static URLs that reference non-existent files or endpoints — a dead asset reference never changes a page's status code, so it is invisible to every status-based check. First catch, the day the check landed: the FreeSerif `@font-face` family (12 dead URLs in the public layout), the `/cnt` nav link, the colorbox loading skins → **#136**. **#141**: the `/audio/*` lesson files + the `/cnt` nav item are served OUTSIDE the app on the real stack (edge/origin static tree, devops#29's static deployment) — on a stack without those mounts (the repository-alone PoC) the curl sweep skips exactly those paths, stated in its detail line, and checks everything else strictly; real stacks check them strictly. Complementary instruments: the curl sweep fetches collected refs directly (catches link-shaped dead endpoints like `/cnt`); the playwright wire guard records every same-host ≥400 response the browser itself issues (catches font/CSS/image fetches, including conditional loads) |
 | (playwright) entry:individual-200, entry:audio-present | the entry page and the DB-backed audio path classes |
 | (playwright) grammar:toc-loaded | the grammar guide (hold1.txt fetch) surface |
 

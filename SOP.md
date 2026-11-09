@@ -29,6 +29,61 @@ Gate FAILED → the deployment is not committed: redeploy the prior image
 tag — never manual server surgery (the adoption/rollback posture in
 `tests/README.md`).
 
+## Switchover (zero-connection-loss image replacement — cherokeedictionary#153)
+
+Replacing the `dict-app` image without a connection gap. The plain
+`docker compose build dict-app && docker compose up -d dict-app` stops the
+old container before the new one is healthy, and the boot is minutes-class
+(the deploy script's `GATE_BOOT_TIMEOUT` budget) — the apex 502s for the
+whole recreate+boot window. So the swap runs blue-green, conforming to the
+org runbook (cherokeelanguage-devops#42). At no point is there a moment
+without a healthy upstream behind Caddy.
+
+The sequence, with this container's specifics:
+
+1. **Stage `dict-app-next` alongside** the serving container — same env
+   delivery by path (`/srv/mariadb/secrets/dict-app.env` referenced, never
+   read), same `proxy`+`backend` networks, same memory-limit and
+   `JAVA_TOOL_OPTIONS` posture (the devops#40 4608m values when that ticket
+   lands), **no host ports** — zero conflict with the canonical service.
+2. **Wait for the boot marker** on the next container's logs — the deploy
+   script's marker regex:
+   `Tomcat.*started|Grails application running|Started .*Application`.
+3. **Verify it serves directly** (a request to `dict-app-next:8080` from
+   inside the `proxy` network) before any traffic moves.
+4. **Atomic Caddy flip**: in `/srv/caddy/caddy/Caddyfile`, change the
+   catch-all's `reverse_proxy dict-app:8080` token to
+   `dict-app-next:8080` (the `/font/*` block is a static `file_server` —
+   untouched by the flip), `caddy validate` must exit 0, then the graceful
+   reload — in-flight requests are preserved.
+5. **Recreate the canonical `dict-app`** container with the new image.
+6. **Flip Caddy back** to canonical `dict-app:8080`, verify.
+7. **Drain `dict-app-next`** (remove the container).
+8. **Full gate**: `tests/curl_tier.py` against the apex for a prod swap —
+   the deploy script's gate, re-pointed per its `GATE_BASE_URL` convention.
+
+**Continuity bar and rollback rule**: a request loop through the edge
+across the flip window shows **zero failed requests**. The prior image tag
+is retained until the full gate passes; a failed gate flips traffic back —
+the existing "the deployment is not silently committed" posture (gate
+FAILED → redeploy the prior image tag; never manual server surgery)
+extends to the switchover.
+
+**Mapping onto `deploy-stack.sh`**: the script already carries the context
+ship (`git archive HEAD`), the build, the canonical recreate
+(`docker compose up -d`), the boot-marker wait, and the curl gate. The
+SoP's flip/drain steps **wrap** those: stage+verify before the recreate,
+the Caddy flip around it, the drain and the re-pointed gate after. An
+operator reading either artifact can execute the whole sequence. (Whether
+the script gains a first-class blue-green mode is #153's open item — the
+script change is a deliberate follow-up decision.)
+
+**Rehearsal**: the local PoC validation stack (`poc/compose.yaml` — fixture
+mode, runs from the repository alone; it carries its own `ced-poc-caddy`)
+executes the sequence end-to-end with a continuity loop reporting zero
+failed requests across the flip; the executed capture is recorded on
+#153.
+
 ## Verify
 
 `tests/README.md` — the two-tier regression suite (the curl gate + the

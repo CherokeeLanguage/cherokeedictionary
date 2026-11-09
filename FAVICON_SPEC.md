@@ -67,7 +67,6 @@ browser tab bars (no transparent-background variants are shipped).
 | `grails-app/assets/images/apple-touch-icon-retina.png` | 360 | maskable variant | legacy retina touch icon |
 | `grails-app/assets/images/icon-192.png` | 192 | maskable variant | manifest-ready |
 | `grails-app/assets/images/icon-512.png` | 512 | maskable variant | manifest-ready |
-| `src/main/webapp/favicon.ico` | copy of the ico | — | direct `/favicon.ico` requests (crawlers, bare fetches) |
 
 ## 5. Integration
 
@@ -82,6 +81,19 @@ Both layouts (`grails-app/views/layouts/main.gsp`, `manager.gsp`) declare, in
 
 Order matters: SVG-capable browsers take the first `icon`; the `sizes="any"`
 ICO is the fallback.
+
+Bare `/favicon.ico` (direct crawler/tool fetches, and browsers on any page
+missing the link tags) is served by an explicit redirect in
+`grails-app/controllers/net/cherokeedictionary/UrlMappings.groovy`:
+
+```groovy
+"/favicon.ico"(redirect: "/assets/favicon.ico")
+```
+
+This is required because the app runs as a Spring Boot **executable WAR**
+(`java -jar`), which does not serve `src/main/webapp` statically — a web-root
+copy of the ico would be inert. The redirect target is the asset pipeline's
+canonical (non-hashed) path, which stays valid across asset rebuilds.
 
 ## 6. Provenance & licensing
 
@@ -113,6 +125,7 @@ font file.
 - [x] All §4 files exist with the stated canvas sizes
 - [x] `favicon.ico` contains 48/32/16 frames
 - [x] Both layouts carry the three `<link>` tags, resolving through the asset pipeline
+- [x] `/favicon.ico` resolves via the UrlMappings redirect to the asset pipeline ico
 - [x] Mark is legible at 16 px and on both light and dark tab bars (verified at 256/128/64/32/16 on `#ffffff` and `#26262b`)
 - [x] Maskable art stays inside the 80% safe-zone circle
 - [x] Provenance comment present in both SVGs

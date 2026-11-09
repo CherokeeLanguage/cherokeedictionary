@@ -14,6 +14,10 @@ class UrlMappings {
         // the Google Search Console domain-verification file at its exact
         // legacy path (#140) — must precede the catch-all in effect
         "/google593a568777046d5c.html"(controller:"siteVerification")
+        // bare /favicon.ico (direct crawler fetches) — the executable WAR does
+        // not serve src/main/webapp statically, so route to the asset
+        // pipeline's canonical, non-hashed favicon (favicon-di-de follow-up)
+        "/favicon.ico"(redirect: "/assets/favicon.ico")
         "/search"(view:"/index")
         "/about"(view:"/about")
         "/grammar"(view:"/grammar")

@@ -48,6 +48,23 @@ ASSET_EXTS = (".css", ".js", ".mjs", ".png", ".jpg", ".jpeg", ".gif",
               ".svg", ".ico", ".woff", ".woff2", ".ttf", ".otf", ".eot",
               ".txt", ".pdf", ".mp3", ".wav", ".m4a", ".json", ".map")
 
+# paths the REAL stack serves outside the app (#141): /audio/* is the
+# edge/origin lesson-audio tree (#138's site-relative lesson refs);
+# /cnt is the Cherokee New Testament static deployment
+# (cherokeelanguage-devops#29) riding the nav layout. A stack without
+# these mounts — the repository-alone PoC stack — can never resolve
+# them; the sweep skips them there (and says so in its detail line),
+# and checks them strictly on every stack that has the mounts.
+EDGE_SERVED_PATHS = ("/audio/", "/cnt/")
+
+
+def is_edge_served(ref_url):
+    """True when the ref's PATH is one the real edge/origin serves
+    outside the app: the /audio/* tree, the exact /cnt nav target, or
+    the /cnt/* tree."""
+    p = urllib.parse.urlparse(ref_url).path
+    return p == "/cnt" or p.startswith(EDGE_SERVED_PATHS)
+
 
 class Session:
     """One cookie jar shared by the form-flow checks: the search session
@@ -357,6 +374,16 @@ def build_checks(sess):
             if r.status == 200:
                 harvest(body(r), css, refs)
         ordered = sorted(refs)
+        # edge-served-only refs on a stack without the mounts (#141):
+        # skip them and SAY SO — the skip is stated in the detail line,
+        # never silent; a stack that serves these paths checks them
+        # strictly like every other ref
+        skipped_edge = 0
+        if not sess.tgt.serves_edge_static:
+            skipped_edge = sum(1 for u in ordered if is_edge_served(u))
+            ordered = [u for u in ordered if not is_edge_served(u)]
+        skip_note = (f" ({skipped_edge} edge-served skipped: stack has no "
+                     "/audio, /cnt mounts)" if skipped_edge else "")
         cap = regression_config.DEAD_REF_MAX
         truncated = len(ordered) > cap
         dead = []
@@ -372,16 +399,23 @@ def build_checks(sess):
         if dead:
             shown = "; ".join(dead[:5])
             more = f" (+{len(dead) - 5} more)" if len(dead) > 5 else ""
-            return False, f"{len(dead)} dead of {len(ordered[:cap])}: {shown}{more}"
+            return False, (f"{len(dead)} dead of {len(ordered[:cap])}: "
+                           f"{shown}{more}{skip_note}")
         return True, (f"{len(ordered[:cap])} refs all resolve"
                       + (f" ({len(ordered) - cap} over the bound)"
-                         if truncated else ""))
+                         if truncated else "")
+                      + skip_note)
     checks.append(("assets:referenced-resolve", referenced_resolve,
                    "remembers the FreeSerif font-face class (2026-11-04 "
                    "audit): generated + static same-host references on the "
                    "key pages (src/href/url(), one CSS level deep) must all "
                    "resolve — dead references are invisible to status-based "
-                   "checks"))
+                   "checks. #141: the /audio/* lesson files and the /cnt "
+                   "nav item are served OUTSIDE the app on the real stack "
+                   "(edge/origin static tree, devops#29 static deployment) "
+                   "— on a stack without those mounts (the PoC) the sweep "
+                   "skips exactly those refs, explicitly, and checks "
+                   "everything else strictly"))
 
     return checks
 

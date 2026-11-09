@@ -52,6 +52,11 @@ TARGETS = {
 
 DEFAULT_TARGET = "dev"
 
+# loopback serving hosts: a target reached on a loopback NAME is the
+# loopback-published PoC stack (or a rehearsal proxy fronting it) —
+# never the real edge chain
+LOOPBACK_HOSTS = {"localhost", "127.0.0.1", "::1"}
+
 
 class Target:
     def __init__(self, name, base_url):
@@ -91,6 +96,24 @@ class Target:
         """The perf-record latency class (R-7): local loopback vs remote
         edge — selects the absolute band and keys the baseline window."""
         return "local" if self.local else "remote"
+
+    @property
+    def serves_edge_static(self):
+        """The stack-topology capability (#141): does THIS target's stack
+        serve the same-host paths the real edge/origin serves OUTSIDE the
+        app — the /audio/* lesson-audio tree and the /cnt nav target (the
+        Cherokee New Testament, cherokeelanguage-devops#29's static
+        deployment)? The real stack serves them; the repository-alone PoC
+        stack (Caddy catch-all -> dict-app only) has no such mounts.
+        PoC-class by the manifest: the named poc target, the :8443 quirk,
+        or a loopback serving host (the SC-7 rehearsal proxy at
+        localhost:8444 fronts the PoC stack — same stack, same capability).
+        A property, not an eager attribute: connect_target() raises
+        .local for an explicit-:8443 override AFTER construction.
+        Separate fact from latency_class(): an explicit override rides the
+        REMOTE perf band by doctrine, but its stack is still the PoC
+        stack — this capability states topology, not RTT."""
+        return not (self.local or self.host in LOOPBACK_HOSTS)
 
     def connect_addr(self):
         """The address to OPEN A SOCKET to — never a DNS resolution of

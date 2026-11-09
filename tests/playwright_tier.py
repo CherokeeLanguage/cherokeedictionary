@@ -76,12 +76,14 @@ def dump_session(argv, tgt, launch_args, dump_path):
         page.click("form[action*='/admin/login'] button, "
                    "form[action*='/admin/login'] input[type='submit']")
         # let the redirect chain SETTLE before the next navigation: the
-        # session store (#130 posture) races duplicate-key INSERTs when a
-        # session's commits overlap (a cancelled in-flight page load
-        # next to a fresh navigation) — the survival item tests session
-        # SURVIVAL, not the store's parallel-commit behavior (that defect
-        # is filed to #130's domain; the suite's survival run must not
-        # trip it as a side effect of its own navigation pattern)
+        # session store's parallel-commit race (#135 — overlapping
+        # same-session saves racing duplicate-key INSERTs; a cancelled
+        # in-flight page load next to a fresh navigation) USED to 500 the
+        # wave this navigation pattern produces — the survival item tests
+        # session SURVIVAL, not the store's parallel-commit behavior.
+        # Since the #135 upsert remedy the wave commits clean (guarded by
+        # the curl tier's session:parallel-commit-clean); the settling
+        # stays as this item's own navigation hygiene.
         page.wait_for_load_state("load")
         page.wait_for_timeout(750)
         # login redirects to "/"; a successful login set session.loggedin,

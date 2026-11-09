@@ -269,8 +269,13 @@ provenance line here and in-code.
   DNS flip back per the devops#14 cutover plan) — the gate's failing
   check names are the diagnostic front end, the fix is a redeploy of a
   prior build, never a manual server surgery.
-- the apex cutover (devops#14) re-points `GATE_BASE_URL` at the apex for
-  pre/post verification — no suite code change.
+- the apex cutover (devops#14): DONE — the spec issue closed with the
+  phase-5 family merged (cherokeelanguage-devops PR #34); apex and dev
+  serve the ONE delivered dict-app origin (vhost-58), so a deploy
+  updates both hostnames and the apex tier re-verifies off the same
+  origin (`--target apex`, no suite code change). Recorded instance:
+  the 2026-11-09 #135 deploy — gate PASSED (dev, 10/10), apex 10/10
+  off the same rebuilt origin minutes later.
 - docs/index registration for this runbook: DONE — registered in the
   devops repository's docs/index under Runbooks (cross-repo link, per
   that index's scope note: per-repo documentation is linked, never

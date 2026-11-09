@@ -21,8 +21,8 @@ import javax.sql.DataSource
 //    JSESSIONID contract (SC-3). The early-visible DefaultCookieSerializer bean
 //    (this import is processed before auto-configuration, so the
 //    @ConditionalOnMissingBean backs off) restores name JSESSIONID, path "/".
-// 3. cherokeedictionary#135: the 2.1.13 attribute INSERT races duplicate keys
-//    when one session's saves overlap — every request writes its own session
+// 3. cherokeedictionary#135: the 2.1.13 attribute INSERT raced duplicate
+//    keys before this remedy — every request writes its own session
 //    copy, and the ADDED-delta path issues CREATE_SESSION_ATTRIBUTE_QUERY
 //    (INSERT ... SELECT ... FROM SPRING_SESSION WHERE SESSION_ID = ?) per
 //    request; two overlapping requests both marking the same attribute ADDED

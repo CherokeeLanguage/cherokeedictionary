@@ -321,17 +321,20 @@ def build_checks(sess):
                    "ced1→vhost-58 migration dropped the nginx doc-root "
                    "route; a 404 only surfaces at re-verification time)"))
 
-    # THE #135 instrument: a fresh session's FIRST PARALLEL commit wave.
-    # Every check above is a single request — and the issue's own finding
-    # is that sequential requests NEVER reproduce the class: the
-    # spring-session JDBC store (2.1.13, the #130 posture) races
-    # duplicate-key INSERTs on SPRING_SESSION_ATTRIBUTES only when the
-    # same session's saves overlap (reproduced 2026-11-04 off the login
-    # redirect's same-origin asset wave). So the wave is the instrument:
+    # THE #135 guard: a fresh session's FIRST PARALLEL commit wave.
+    # Every check above is a single request — and the class is invisible
+    # to sequential requests: the spring-session JDBC store (2.1.13, the
+    # #130 posture) RACED duplicate-key INSERTs on
+    # SPRING_SESSION_ATTRIBUTES when the same session's saves overlapped
+    # (reproduced 2026-11-04 off the login redirect's same-origin asset
+    # wave; live-RED on this very instrument 2026-11-09, before the fix).
+    # The store's attribute INSERT is an idempotent upsert since the #135
+    # remedy (SessionStoreDataSourceShim), so the wave must commit clean
+    # — this check is the regression guard that keeps it that way:
     # fresh-session login, verified through the /admin contract, then
     # PARALLEL_WAVE_N concurrent same-session GETs of / — every one must
-    # commit clean (200). Deliberate exception to the tier's
-    # single-request doctrine (recorded in the config and the README).
+    # be 200. Deliberate exception to the tier's single-request doctrine
+    # (recorded in the config and the README).
     def parallel_commit_clean():
         user = os.environ.get("CED_TEST_ADMIN_USER")
         pw = os.environ.get("CED_TEST_ADMIN_PASSWORD")
@@ -407,12 +410,13 @@ def build_checks(sess):
                          "duplicate-key commit wave")
     checks.append(("session:parallel-commit-clean", parallel_commit_clean,
                    "remembers **#135**: the spring-session JDBC store's "
-                   "first parallel commit wave (overlapping same-session "
-                   "saves race duplicate-key INSERTs on "
-                   "SPRING_SESSION_ATTRIBUTES → per-request 500s) — "
-                   "invisible to every sequential check, so the wave "
-                   "itself is the instrument and this check is the "
-                   "tier's one deliberate multi-request exception"))
+                   "first parallel commit wave — overlapping same-session "
+                   "saves USED to race duplicate-key INSERTs on "
+                   "SPRING_SESSION_ATTRIBUTES (per-request 500s, until the "
+                   "#135 upsert remedy) — invisible to every sequential "
+                   "check, so the wave itself is the instrument and this "
+                   "check is the tier's one deliberate multi-request "
+                   "exception guarding the fixed behavior"))
 
     # dead-reference sweep (R-8): the key pages' GENERATED + STATIC
     # same-host references (src/href attributes, url() refs — the inline

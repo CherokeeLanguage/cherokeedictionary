@@ -11,7 +11,6 @@ of Ꮧ (U+13D7) and Ꮥ (U+13D5) in FreeSerif:
     grails-app/assets/images/apple-touch-icon-retina.png  360 px touch icon
     grails-app/assets/images/icon-192.png           manifest-ready
     grails-app/assets/images/icon-512.png           manifest-ready
-    src/main/webapp/favicon.ico                     web-root copy for direct requests
 
 Build-time requirements: python3 with fontTools + Pillow; inkscape and
 ImageMagick `convert` on PATH. See FAVICON_SPEC.md for the design spec.
@@ -31,7 +30,6 @@ from PIL import Image
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IMAGES = os.path.join(REPO, 'grails-app', 'assets', 'images')
-WEBAPP = os.path.join(REPO, 'src', 'main', 'webapp')
 
 FONT = os.environ.get('FREE_SERIF',
                       '/usr/share/fonts/truetype/freefont/FreeSerif.ttf')
@@ -115,10 +113,9 @@ def write_outputs():
         frames.append(f)
     ico = os.path.join(IMAGES, 'favicon.ico')
     subprocess.run(['convert', *frames, ico], check=True, capture_output=True)
-
-    os.makedirs(WEBAPP, exist_ok=True)
-    with open(ico, 'rb') as src, open(os.path.join(WEBAPP, 'favicon.ico'), 'wb') as dst:
-        dst.write(src.read())
+    # note: bare /favicon.ico is served by the redirect in UrlMappings.groovy
+    # (/assets/favicon.ico) — the executable WAR does not serve
+    # src/main/webapp statically, so no web-root copy is shipped
 
     for tmp in [tab_png, mask_png, *frames]:
         os.remove(tmp)

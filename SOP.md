@@ -29,6 +29,31 @@ Gate FAILED → the deployment is not committed: redeploy the prior image
 tag — never manual server surgery (the adoption/rollback posture in
 `tests/README.md`).
 
+## Two-phase container check (pre-flight / post-flight — devops#56)
+
+Every deploy or container-work step on the serving stack runs the
+standing check **before** and **after** (the org rule of record:
+cherokeelanguage-devops `docs/runbooks/container-sop-checks.md` — check
+definitions live once there; this SoP links, never copies):
+
+- **Pre-flight** — the check runs first and must **exit 0**: it is a
+  gate, and nothing starts on a failing result.
+- **Post-flight** — the check re-runs after the step; a failing
+  post-flight means the work is **not done** (the deploy's own
+  "the deployment is not silently committed" posture, above).
+- **Capture-with-work** — the executed output is the work's artifact:
+  both runs (pre and post) are captured and recorded with the work
+  (the issue's `research/`).
+
+This repo's container/route inventory on the shared vhost-58 stack
+(what the sweep covers here): the **`dict-app`** compose service, behind
+the apex **`/`** on cherokeedictionary.net plus the
+**`/font/*`**, **`/static/*`**, **`/media/*`**, and **`/audio/*`** routes,
+and the **`reverse_proxy` catch-all** (the switchover section's flip
+token, `reverse_proxy dict-app:8080`). Non-routed role checks apply to
+the stack's backend containers (MariaDB reachable from the
+backend-attached app container).
+
 ## Switchover (zero-connection-loss image replacement — cherokeedictionary#153)
 
 Replacing the `dict-app` image without a connection gap. The plain

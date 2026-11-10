@@ -92,6 +92,18 @@ guardrail, the provenance catalog, and the rehearsals. `poc/compose.yaml`
 is the local validation stack (fixture mode runs from the repository
 alone).
 
+## Logging
+
+- Mirrored console log: `/var/log/containers/<container>/current.log` on
+  vhost-58 — the devops#48 `vector` shipper captures the container's
+  stdout/stderr verbatim, one event per line, surviving both container
+  recreation and the daily/30-day dated-copy `copytruncate` rotation.
+- Console-first contract: stdout/stderr capture needs no per-repo
+  config; a future file-based log instrument must mount under the
+  `/var/log/containers/` tree to inherit the rotation.
+- Governing contract (org runbook of record): cherokeelanguage-devops
+  `docs/runbooks/logging-vhost-58.md` (#48).
+
 ## Superseded
 
 The legacy flow (war via scp to `vhost.`'s Tomcat, `cedproject`'s

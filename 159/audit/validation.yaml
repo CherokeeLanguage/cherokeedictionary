@@ -1,0 +1,14 @@
+# CherokeeLanguage/cherokeedictionary#159 — validation record (validation-standards criteria)
+spec:
+  - round: 1
+    date: 2026-11-10
+    verdict: FAIL
+    findings:
+      - class: "fabricated/copy-paste residue"
+        detail: "wrong container names and an untrue SOP current-state claim; malformed filing-home reference"
+        remediation: "each spec names only its own container; the console-class attribution re-anchored to the devops#48 execution record; filing home corrected"
+  - round: 2
+    date: 2026-11-10
+    verdict: PASS
+    findings: []
+    note: "zero findings; containment both prongs PASS"

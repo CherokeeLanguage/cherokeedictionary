@@ -1,6 +1,6 @@
 # Spec — SOP: document the logging paradigm (vhost-58 mirror tree, devops#48)
 
-Filed as cherokeelanguage-devops/cherokeedictionary#159 (2026-11-10). Origin:
+Filed as CherokeeLanguage/cherokeedictionary#159 (2026-11-10). Origin:
 the developer's directive "add follow up specs in the appropriate container
 repos in repos/ to update their docs to reflect the new logging paradigm" —
 the logging paradigm cherokeelanguage-devops#48 delivered on vhost-58
@@ -40,10 +40,11 @@ and the Caddy access log). This repo's deploy/ops record
   3. the org runbook of record:
      cherokeelanguage-devops `docs/runbooks/logging-vhost-58.md`
      (cherokeelanguage-devops#48) — deploy, probe, and rollback live there.
-- The observable console class statement already honest in the record (the
-  Grails startup lines + ERROR-class request events; successful requests are
-  console-silent — the #158 attribution-gap fact) stays as-is in SOP text
-  this spec does not edit; the section adds only the mirror/contract facts.
+- The console class is the execution record's fact (the Grails startup
+  lines + ERROR-class request events; successful requests console-silent —
+  the #158 attribution-gap record); the SOP currently states no console
+  class and this spec adds none — the section adds only the
+  mirror/contract facts.
 
 ## Success criteria
 

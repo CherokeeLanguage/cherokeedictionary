@@ -1,5 +1,9 @@
 package net.cherokeedictionary.relational
 
+import net.cherokeedictionary.RelationalDisplay
+import net.cherokeedictionary.dictionary.King
+import net.cherokeedictionary.dictionary.KingRRDLookup
+import net.cherokeedictionary.dictionary.Likespreadsheets
 import net.cherokeedictionary.newRelational.DictionaryEntry
 import net.cherokeedictionary.newRelational.ExampleSentence
 import net.cherokeedictionary.newRelational.Sense
@@ -10,25 +14,41 @@ import net.cherokeedictionary.newRelational.Word
 class RelationalController {
 
     def index() {
-        def id = 1
-        // Fetch the word (we use id or syllabary depending on your URL structure)
-        def word = Word.get(id)// ?: Word.findBySyllabary(id)
+        def lst = KingRRDLookup.findAll()
 
-        if (!word) {
-            flash.message = "Word not found"
-//            redirect(action: "index")
-            return
+        def relationalList = []
+
+        lst.each {it ->
+            def rd = new RelationalDisplay()
+            rd.likespreadsheets = Likespreadsheets.findAll("from Likespreadsheets where id=${it.cedid}" as String).getAt(0)
+            rd.king = King.findAll("from King where id=${it.kingid}" as String).getAt(0)
+
+            relationalList << rd
         }
 
-        // Group relationships by tense for the view
-        def relationships = VerbRelationship.findAllByParentWord(word)
-        def groupedTenses = relationships.groupBy { it.tense.name }
+        println relationalList.size()
 
-        [word: word, groupedTenses: groupedTenses]
+        [wordList: relationalList]
+
+//        def id = 1
+//        // Fetch the word (we use id or syllabary depending on your URL structure)
+//        def word = Word.get(id)// ?: Word.findBySyllabary(id)
+//
+//        if (!word) {
+//            flash.message = "Word not found"
+////            redirect(action: "index")
+//            return
+//        }
+//
+//        // Group relationships by tense for the view
+//        def relationships = VerbRelationship.findAllByParentWord(word)
+//        def groupedTenses = relationships.groupBy { it.tense.name }
+//
+//        [word: word, groupedTenses: groupedTenses]
 
 //        [wordList: Word.list()]
     }
-
+/*
     def show(String id) {
         // Fetch the word (we use id or syllabary depending on your URL structure)
         def word = Word.get(id) ?: Word.findBySyllabary(id)
@@ -42,8 +62,6 @@ class RelationalController {
         // Group relationships by tense for the view
         def relationships = VerbRelationship.findAllByParentWord(word)
         def groupedTenses = relationships.groupBy { it.tense.name }
-
-
     }
 
     def init() {
@@ -75,5 +93,6 @@ class RelationalController {
         new VerbRelationship(parentWord: root, childWord: form4, tense: tense3).save(failOnError: true)
 
         println "Demo data loaded successfully!"
-    }
+
+    }*/
 }

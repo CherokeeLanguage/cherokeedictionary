@@ -10,4 +10,15 @@ verbName.present1st = new DefinitionLine(syllabary: "${stemmer.present1st.syllab
 verbName.present3rd = new DefinitionLine(syllabary: "${stemmer.present3rd.syllabary}")<br/>
 verbName.remotepast = new DefinitionLine(syllabary: "${stemmer.remotepast.syllabary}")<br/>
 }
+<br/><br/>
+paramMap.habitual = "${stemmer.habitual.syllabary}"<br/>
+paramMap.imperative = "${stemmer.imperative.syllabary}"<br/>
+paramMap.infinitive = "${stemmer.infinitive.syllabary}"<br/>
+paramMap.present1st = "${stemmer.present1st.syllabary}"<br/>
+paramMap.present3rd = "${stemmer.present3rd.syllabary}"<br/>
+paramMap.remotepast = "${stemmer.remotepast.syllabary}"<br/>
+paramMap.partofspeechc = "${entry.partofspeechc}"<br/>
+paramMap.verbTense = ""<br/>
+paramMap.subject = ""<br/>
+paramMap.object = ""<br/>
 <% } %>

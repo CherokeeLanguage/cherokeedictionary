@@ -97,7 +97,7 @@
     }
 %>
 <body>
-<g:render template="stemmerDebug" model="[stemmer: stemmer]"/>
+<g:render template="stemmerDebug" model="[stemmer: stemmer, entry: entry]"/>
 <g:render template="simplifiedOriginalEntry" model="[entry:entry]"/>
 <br/>
 <form action="/newSearch/conjtabledisplay" name="verbTenses">

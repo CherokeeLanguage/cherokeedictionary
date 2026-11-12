@@ -15,10 +15,10 @@ import java.text.SimpleDateFormat
 class NewSearchService {
     final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
 
-    def tsalagiFields = ['entrya', 'nounadjplurale', 'vfirstpresg', 'vsecondimperm', 'vthirdinfo', 'vthirdpasti', 'vthirdpresk']
-    def tsalagiTranslitFields = ['entrytranslit', 'nounadjpluraltranslit', 'vfirstprestranslit', 'vsecondimpertranslit', 'vthirdinftranslit', 'vthirdpasttranslit', 'vthirdprestranslit']
-    def syllabaryFields = ['syllabaryb', 'nounadjpluralsyllf', 'vfirstpresh', 'vthirdpastsyllj', 'vthirdpressylll', 'vsecondimpersylln', 'vthirdinfsyllp']
-    def englishFields = ['definitiond']
+    static def tsalagiFields = ['entrya', 'nounadjplurale', 'vfirstpresg', 'vsecondimperm', 'vthirdinfo', 'vthirdpasti', 'vthirdpresk']
+    static def tsalagiTranslitFields = ['entrytranslit', 'nounadjpluraltranslit', 'vfirstprestranslit', 'vsecondimpertranslit', 'vthirdinftranslit', 'vthirdpasttranslit', 'vthirdprestranslit']
+    static def syllabaryFields = ['syllabaryb', 'nounadjpluralsyllf', 'vfirstpresh', 'vthirdpastsyllj', 'vthirdpressylll', 'vsecondimpersylln', 'vthirdinfsyllp']
+    static def englishFields = ['definitiond']
 
     def search(params) {
         def tsalagiSearchParam = params?.tsalagiSearch?.trim()
@@ -335,7 +335,6 @@ class NewSearchService {
         def results = []
 
         if (regexSearch) {
-            println searchTerm
             if ((isTsalagi && isEnglish && isSyllabary)
                     || isTsalagi && isEnglish
                     || isSyllabary && isEnglish

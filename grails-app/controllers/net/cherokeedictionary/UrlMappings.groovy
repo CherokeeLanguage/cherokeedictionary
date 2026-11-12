@@ -25,6 +25,10 @@ class UrlMappings {
         "/vrules"(view:"/conjugationRules")
         "/medicalTerms"(controller: "newSearch", action:"/medicalTerms")
 
+
+        "/king"(view:"/king")
+        "/kingRefine"(view:"/kingRefine")
+        "/kingCompare"(controller:"kingCompare")
         "/transliteration"(view:"/transliteration")
         "/transliterate"(view:"/transliterate")
         "/translation"(view:"/translation")

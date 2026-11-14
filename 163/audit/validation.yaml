@@ -13,3 +13,13 @@ audit:
           remediation: the annotation reworded to the sibling's validated form ("same-origin relative … — not data.cherokee.org references; untouched")
       all-other-checks-exact: reviewer verified 9 anchor hrefs (not <audio><source>) at lines 52-84, view↔controller URL sets identical 9=9, controller commented duplicates 7-15, 13 walc1 entries 4-16 rendered 28-41; traceability/instruments/edge-cases/containment/qualified cross-references all clean
       loop-state: single-finding round, one-line remediation; re-validation cycle 2 next
+
+    cycle_2:
+      date: 2026-11-14
+      artifact: revised spec — Sources annotation reworded to the validated vocabulary
+      criteria_source: unchanged — validation-standards.md applied verbatim (criteria invariance)
+      reviewer: fresh-context subagent (session ses_e2795f67effe64UaUVW2ttxNTj)
+      verdict: PASS
+      findings: []
+      reviewer-note: cycle-1 remediation verified; file facts confirmed live (13 relative walc entries 4-16, 9 anchor hrefs 52-84); all classes and families clean; containment held both prongs (one cherokeedictionary path; filing home that repo's store)
+      terminal: spec awaits the developer approval gate (plan/implementation not started; dependency chain devops#71 → devops#72 serving → this change)

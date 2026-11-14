@@ -42,8 +42,12 @@ cherokeedictionary.net self-host the audio files for linking."
 
 - **The 9 links are anchor hrefs** (`<a href="https://data.cherokee.org/...">audio</a>`),
   not `<audio><source>` elements — plain URL-string swaps, no markup change.
-- **The target paths come from devops#72's R-1 serving placement** (a
-  named subtree under the `/media/audio` family; path value at plan time).
+- **The target paths ride devops#72's R-1 placement**:
+  `/media/audio/data.cherokee.org/<verbatim upstream path tail>` — the
+  host-keyed verbatim-mirror convention, resolved at devops#72's spec
+  (2026-11-14). The mapping rule per link: replace
+  `https://data.cherokee.org` with `/media/audio/data.cherokee.org`, keep
+  the tail verbatim.
   File names are preserved from upstream (manifest mapping is mechanical —
   `…/phoenix/audio/2019/StickballbyAnnaSixkiller.mp3` mirrors
   byte-identically, per devops#71's recorded probe).
@@ -63,7 +67,7 @@ cherokeedictionary.net self-host the audio files for linking."
   with site-relative values at the serving path devops#72's R-1 places the
   corpus at — `/media/audio/data.cherokee.org/<verbatim upstream path tail>`
   (the host-keyed verbatim-mirror convention), the prefix landed by
-  devops#72's plan record.
+  devops#72's R-1 (2026-11-14).
 - **R-2.** No other change SHALL touch the view; the controller's commented
   seed rows stay as-is (dead code).
 - **R-3.** The work SHALL ride this repo's own flow (branch, commit
@@ -78,8 +82,9 @@ cherokeedictionary.net self-host the audio files for linking."
 
 ## Approach
 
-String-for-literal replacement of 9 URLs (the site-relative prefix from
-devops#72's serving placement), gated on devops#72's SC-1 (serving verified)
+String-for-literal replacement of 9 URLs (the resolved site-relative prefix
+`/media/audio/data.cherokee.org/` — R-1, above), gated on devops#72's SC-1
+(serving verified)
 so SC-2's probe runs against already-serving paths. No data, schema, or
 route change; no dependencies touched (the anchor class is plain hyperlinks).
 

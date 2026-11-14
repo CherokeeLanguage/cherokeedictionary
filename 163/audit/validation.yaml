@@ -22,4 +22,21 @@ audit:
       verdict: PASS
       findings: []
       reviewer-note: cycle-1 remediation verified; file facts confirmed live (13 relative walc entries 4-16, 9 anchor hrefs 52-84); all classes and families clean; containment held both prongs (one cherokeedictionary path; filing home that repo's store)
-      terminal: spec awaits the developer approval gate (plan/implementation not started; dependency chain devops#71 → devops#72 serving → this change)
+      terminal-then: superseded by the layout-convention revision below
+
+    cycle_3:
+      date: 2026-11-14
+      artifact: revised spec — R-1 names the concrete prefix /media/audio/data.cherokee.org/<verbatim upstream path tail> (devops#72's R-1 resolution); serving-path open item resolved to ordering-only
+      criteria_source: unchanged — validation-standards.md applied verbatim (criteria invariance)
+      reviewer: fresh-context subagent (session ses_e2463fd21ffeG3FLNuUpIhJQRH)
+      verdict: FAIL
+      findings:
+        - id: LF-1
+          class: internal contradiction / self-containment (stale plan-time-path language surviving)
+          statement: "the Analysis bullet still read 'The target paths come from devops#72's R-1 serving placement (a named subtree…; path value at plan time)' — the path is resolved (C's own R-1 names the prefix; open items record the resolution)"
+          remediation: analysis bullet rewritten to the resolved naming (the prefix stated, the mapping rule spelled once — replace https://data.cherokee.org with /media/audio/data.cherokee.org, tail verbatim)
+        - id: LF-2
+          class: same stale-plan-time family (misstates the resolution surface)
+          statement: "R-1's trailing clause tied the resolved prefix to 'devops#72's plan record' — the prefix is recorded by devops#72's R-1 (spec level, 2026-11-14); no devops#72 plan exists"
+          remediation: the clause re-pointed to devops#72's R-1; the Approach's gate line now names the resolved prefix directly
+      loop-state: two stale-resolution findings, both single-statement remediations; re-validation cycle 4 next

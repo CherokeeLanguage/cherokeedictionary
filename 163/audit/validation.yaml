@@ -1,0 +1,15 @@
+audit:
+  spec:
+    cycle_1:
+      date: 2026-11-14
+      artifact: initial complete draft cherokeedictionary#163 (remote-first filed; local spec.md written; body reconciled)
+      criteria_source: validation-standards.md applied verbatim (class + analysis families, including the proactive repo-boundary containment check)
+      reviewer: fresh-context subagent (session ses_e279cc8acffePunnJJeRXFfhMz)
+      verdict: FAIL
+      findings:
+        - id: C-F1
+          class: internal contradiction / factual misstatement in the Sources annotation (the adjudicated devops#71 cycle-3 species — one fragment asserting relative/same-origin and "a different host" for the same entries)
+          statement: "the Sources annotation called the 13 walc1 map entries 'a different host family, already site-relative' — the entries hold site-relative paths (they resolve to the page's own origin by definition); the program's validated vocabulary (devops#71 cycles 3/4/6, the research card) is 'same-origin relative … not data.cherokee.org references'"
+          remediation: the annotation reworded to the sibling's validated form ("same-origin relative … — not data.cherokee.org references; untouched")
+      all-other-checks-exact: reviewer verified 9 anchor hrefs (not <audio><source>) at lines 52-84, view↔controller URL sets identical 9=9, controller commented duplicates 7-15, 13 walc1 entries 4-16 rendered 28-41; traceability/instruments/edge-cases/containment/qualified cross-references all clean
+      loop-state: single-finding round, one-line remediation; re-validation cycle 2 next

@@ -60,9 +60,10 @@ cherokeedictionary.net self-host the audio files for linking."
 ## Requirements
 
 - **R-1.** The view's 9 absolute `data.cherokee.org` links SHALL be replaced
-  with site-relative values resolving at the serving path from
-  cherokeelanguage-devops#72's R-1 (the serving path value lands at plan
-  time).
+  with site-relative values at the serving path devops#72's R-1 places the
+  corpus at — `/media/audio/data.cherokee.org/<verbatim upstream path tail>`
+  (the host-keyed verbatim-mirror convention), the prefix landed by
+  devops#72's plan record.
 - **R-2.** No other change SHALL touch the view; the controller's commented
   seed rows stay as-is (dead code).
 - **R-3.** The work SHALL ride this repo's own flow (branch, commit
@@ -100,8 +101,11 @@ the serving-stack and mirror work (the siblings').
 
 ## Open items
 
-- **Serving path value** — devops#72 plan output; the R-1 rewrite takes it
-  verbatim (dependency, non-blocking for this spec's authoring).
+- **Serving path** (resolved): `/media/audio/data.cherokee.org/…` — the
+  host-keyed verbatim-mirror convention adopted across the set
+  (devops#72's R-1, 2026-11-14); R-1's rewrite takes the prefix verbatim
+  (dependency remains ordering-only — the serving placement must be live
+  and verified before the change lands).
 
 ## Sources
 

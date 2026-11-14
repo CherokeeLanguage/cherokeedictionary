@@ -109,8 +109,8 @@ the serving-stack and mirror work (the siblings').
   manifest shape, the serving placement, the licensing posture).
 - CherokeeLanguage/cherokeedictionary @ current main:
   grails-app/views/readingAndListening/index.gsp (9 links, lines 52–84; the
-  13 relative `/audio/walc1/berlitz/*.mp3` map entries at lines 4–16 — a
-  different host family, already site-relative, untouched),
+  13 same-origin relative `/audio/walc1/berlitz/*.mp3` map entries at lines
+  4–16 — not data.cherokee.org references; untouched),
   ReadingAndListeningController.groovy:7–15 (commented duplicates).
 - Companion research card (parent store, issues-data):
   dict-app-data-cherokee-org-audio-dependency.md.

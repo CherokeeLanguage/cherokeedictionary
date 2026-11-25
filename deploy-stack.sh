@@ -28,8 +28,10 @@
 # deliverable, staged by the devops repository's
 # docs/runbooks/dict-app-vhost-58-stage.sh — this script's variable block is
 # the single place the host path, service name, and edge-proxy coordinates
-# live. The slot container mirrors services.dict-app in the host compose
-# file — keep the two blocks in sync.
+# live (the operator's ssh account is NOT here: it comes from the untracked
+# operator env file — the first block below; spec DEPLOY_ENV_SPEC.md). The
+# slot container mirrors services.dict-app in the host compose file — keep
+# the two blocks in sync.
 #
 # Gate note: the gate targets the APEX (the live edge). dev.* still rides
 # the old pre-cutover host behind cloudflare — gating against it would
@@ -42,7 +44,65 @@ cd "$(dirname "$(readlink -f "$0")")"
 
 trap "echo ERROR" ERR
 
-STACK_HOST="mconrad@vhost-58.cherokeedictionary.net"
+# ------------------------------------------------------------------ operator config
+
+# the stack host's ssh account is OPERATOR-LOCAL, never repo content
+# (spec DEPLOY_ENV_SPEC.md): it is sourced from an untracked env file that
+# defines STACK_HOST=<deploy-user>@vhost-58.cherokeedictionary.net. Both
+# locations are checked, first match wins:
+#   1. ./deploy-stack.env                        (repo-local, gitignored)
+#   2. ~/.config/cherokeedictionary/deploy.env   (per-operator default)
+# The file is plain KEY=value shell (sourced with set -a): required
+# STACK_HOST; optional overrides GATE_BASE_URL / GATE_BOOT_TIMEOUT /
+# GATE_POLL / BUILD_TIMEOUT. Setup (ssh key, ssh-copy-id, env file) —
+# the wiki runbook:
+#   https://github.com/CherokeeLanguage/cherokeedictionary/wiki/deploy-stack-ssh-env-setup
+DEPLOY_ENV_REPO="./deploy-stack.env"
+DEPLOY_ENV_USER="$HOME/.config/cherokeedictionary/deploy.env"
+if [ -f "$DEPLOY_ENV_REPO" ] && [ -f "$DEPLOY_ENV_USER" ]; then
+  echo "note: operator configs exist at both locations — $DEPLOY_ENV_REPO wins"
+fi
+DEPLOY_ENV_LOADED=""
+for _f in "$DEPLOY_ENV_REPO" "$DEPLOY_ENV_USER"; do
+  if [ -f "$_f" ]; then
+    set -a
+    . "$_f" || { echo "ERROR: operator config '$_f' is not valid KEY=value shell (STACK_HOST=...)" >&2; exit 1; }
+    set +a
+    DEPLOY_ENV_LOADED="$_f"
+    break
+  fi
+done
+if [ -n "$DEPLOY_ENV_LOADED" ]; then
+  echo "operator config: $DEPLOY_ENV_LOADED"
+fi
+
+if [ -z "${STACK_HOST:-}" ]; then
+  cat >&2 <<'BANNER'
+================================================================
+ERROR: no operator deploy config — STACK_HOST is not set.
+
+deploy-stack.sh carries no person's account name (DEPLOY_ENV_SPEC.md):
+the stack host's ssh target comes from an untracked env file checked at
+
+  1. ./deploy-stack.env                        (repo-local, gitignored)
+  2. ~/.config/cherokeedictionary/deploy.env   (per-operator default)
+
+Create ONE of those (first match wins) with the line:
+
+  STACK_HOST=<deploy-user>@vhost-58.cherokeedictionary.net
+
+If the ~/.config location is used, start with:
+  mkdir -p ~/.config/cherokeedictionary
+A commented template ships in the repo: deploy-stack.env.example
+
+Full operator setup — ssh key generation, ssh-copy-id to the stack
+host, and the env file — is the wiki runbook:
+  https://github.com/CherokeeLanguage/cherokeedictionary/wiki/deploy-stack-ssh-env-setup
+================================================================
+BANNER
+  exit 1
+fi
+
 STACK_DIR="/srv/cherokeedictionary"
 SERVICE="dict-app"
 

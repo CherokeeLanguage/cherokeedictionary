@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Deploy the cherokeedictionary application to the serving stack's Docker host
-# (vhost-58.cherokeedictionary.net) — cherokeedictionary#125's deliverable.
+# — cherokeedictionary#125's deliverable. (The host's name is operator-side
+# provisioning and is not written in this repo.)
 #
 # Ships the build context as the COMMITTED tree state (git archive HEAD — no
 # untracked or ignored material rides along: .env, poc/, build outputs stay
@@ -26,7 +27,7 @@
 #
 # The compose service itself (tree, env delivery, routing) is devops#14's
 # deliverable, staged by the devops repository's
-# docs/runbooks/dict-app-vhost-58-stage.sh — this script's variable block is
+# docs/runbooks/ dict-app stage runbook (private repo) — this script's variable block is
 # the single place the host path, service name, and edge-proxy coordinates
 # live (the operator's ssh account is NOT here: it comes from the untracked
 # operator env file — the first block below; spec DEPLOY_ENV_SPEC.md). The
@@ -48,7 +49,8 @@ trap "echo ERROR" ERR
 
 # the stack host's ssh account is OPERATOR-LOCAL, never repo content
 # (spec DEPLOY_ENV_SPEC.md): it is sourced from an untracked env file that
-# defines STACK_HOST=<deploy-user>@vhost-58.cherokeedictionary.net. Both
+# defines STACK_HOST=<deploy-user>@<stack-host> — the host's name itself is
+# operator-side provisioning, not written in this repo. Both
 # locations are checked, first match wins:
 #   1. ./deploy-stack.env                        (repo-local, gitignored)
 #   2. ~/.config/cherokeedictionary/deploy.env   (per-operator default)
@@ -89,7 +91,8 @@ the stack host's ssh target comes from an untracked env file checked at
 
 Create ONE of those (first match wins) with the line:
 
-  STACK_HOST=<deploy-user>@vhost-58.cherokeedictionary.net
+  STACK_HOST=<deploy-user>@<stack-host>
+  (the host's name arrives with your account provisioning — it is deliberately not written here)
 
 If the ~/.config location is used, start with:
   mkdir -p ~/.config/cherokeedictionary

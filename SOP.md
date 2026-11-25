@@ -29,6 +29,14 @@ Gate FAILED → the deployment is not committed: redeploy the prior image
 tag — never manual server surgery (the adoption/rollback posture in
 `tests/README.md`).
 
+The stack host's ssh account is operator-local, never repo content
+(deploy-identity decision, 2026-11-24): an untracked env file —
+`./deploy-stack.env` or `~/.config/cherokeedictionary/deploy.env`,
+first match wins — defines `STACK_HOST`, and a missing one stops the
+script before any host contact. Spec: `DEPLOY_ENV_SPEC.md`; setup
+(ssh key, ssh-copy-id, env file): the wiki runbook
+`deploy-stack-ssh-env-setup`.
+
 ## Two-phase container check (pre-flight / post-flight — devops#56)
 
 Every deploy or container-work step on the serving stack runs the

@@ -233,7 +233,10 @@ gate pointed at a deliberately broken edge:
 `GATE_BASE_URL=http://127.0.0.1:9 ./deploy-stack.sh` — the deploy
 completes, the boot-wait sees the real marker, then the curl tier fails
 every check against the closed port and the script exits
-`REGRESSION GATE: FAILED`. Recorded instance: 2026-11-04 (the deploy
+`REGRESSION GATE: FAILED` (on a machine without the operator env file,
+the script instead stops at its STACK_HOST setup banner before any host
+contact — set it up first, or pass `STACK_HOST` inline for the
+rehearsal). Recorded instance: 2026-11-04 (the deploy
 transcript). The passing path (default `GATE_BASE_URL`, the dev tier)
 is every real deploy's post-step.
 

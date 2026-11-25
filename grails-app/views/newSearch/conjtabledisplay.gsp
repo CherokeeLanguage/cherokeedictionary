@@ -7,7 +7,7 @@
 
 <%@ page import="net.cherokeedictionary.dictionary.Likespreadsheets;  net.cherokeedictionary.dictionary.Likespreadsheets; java.util.regex.Matcher; java.util.regex.Pattern" contentType="text/html;charset=UTF-8" %>
 <%@ page import="net.cherokeedictionary.util.Tense; net.cherokeedictionary.stemmer.Stemmer; net.cherokeedictionary.stemmer.DefinitionLine" contentType="text/html;charset=UTF-8" %>
-<%@ page import="net.cherokeedictionary.verb.conjugation.Conjugate;net.cherokeedictionary.factory.VerbFactory;net.cherokeedictionary.core.Verb" contentType="text/html;charset=UTF-8" %>
+<%@ page import="net.cherokeedictionary.verb.conjugation.Conjugate;net.cherokeedictionary.conjugation.VerbConjugationFacade;net.cherokeedictionary.core.Verb" contentType="text/html;charset=UTF-8" %>
 <%@ page import="net.cherokeedictionary.util.PrefixTableSubject; net.cherokeedictionary.util.PrefixTableObject;" contentType="text/html;charset=UTF-8" %>
 <%@ page import="net.cherokeedictionary.util.CompoundPrefixes;net.cherokeedictionary.verb.conjugation.VerbConjugationProcessor" contentType="text/html;charset=UTF-8" %>
 <html>
@@ -90,8 +90,9 @@
 
 //        out << paramMap
         //todo: make these sticky for the selection every page
-        Verb verb = VerbFactory.createVerbFromParameters(paramMap)
-        verb = Conjugate.conjugate(verb)
+
+        def facade = new VerbConjugationFacade()
+        Verb verb = facade.conjugate(paramMap)
 
         return verb
     }

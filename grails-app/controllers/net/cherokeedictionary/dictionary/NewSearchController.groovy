@@ -3,6 +3,9 @@ package net.cherokeedictionary.dictionary
 
 import net.cherokeedictionary.dictionary.Cherokeewordsearch
 import net.cherokeedictionary.dictionary.Likespreadsheets
+import net.cherokeedictionary.audio.AudioLink
+import net.cherokeedictionary.audio.AudioFile
+import groovy.sql.Sql
 import net.cherokeedictionary.transliteration.SyllabaryUtil
 import grails.converters.JSON
 import org.grails.web.json.JSONObject
@@ -27,6 +30,7 @@ class NewSearchController {
     def newSearchService
     def frontEndFormatService
     def assetResourceLocator
+    def dataSource
 //    def elasticSearchService
 
     def index() {
@@ -291,6 +295,105 @@ class NewSearchController {
         def returnList = []
         syllabaryList.each {
             returnList << it.syllabaryb
+        }
+
+        render (returnList as JSON)
+    }
+
+    /**
+     * Full-row finder for external apps (e.g. Tsalagi Trainer word editor).
+     * params.field: 'english' | 'tsalagi' | 'syllabary'
+     * params.term : search text
+     * Returns JSON array of rows: { id, entrya, syllabaryb, definitiond, audioUrl }
+     */
+    /**
+     * Native audio lookup, following the live schema:
+     *   likespreadsheets.id -> audio_link2.likespreadsheets_id
+     *   audio_link2.audio_file_id -> audio_file.id -> audio_file_path (full URL)
+     * Falls back to the legacy audio_link table if audio_link2 doesn't exist.
+     */
+    private String findAudioUrlForEntry(def likespreadsheetsId) {
+        if (likespreadsheetsId == null) return null
+        Sql sql = new Sql(dataSource)
+        try {
+            def link = null
+            try {
+                link = sql.firstRow('SELECT audio_file_id FROM audio_link2 WHERE likespreadsheets_id = ?', [likespreadsheetsId])
+            } catch (Exception tableErr) {
+                // audio_link2 not present in this environment; try the legacy table
+                link = sql.firstRow('SELECT audio_file_id FROM audio_link WHERE likespreadsheets_id = ?', [likespreadsheetsId])
+            }
+            if (!link || link.audio_file_id == null) return null
+            def fileRow = sql.firstRow('SELECT * FROM audio_file WHERE id = ?', [link.audio_file_id])
+            if (!fileRow) return null
+            String path = (fileRow.audio_file_path ?: fileRow.file_path ?: fileRow.path)?.toString()
+            return (path && path.trim()) ? path.trim() : null
+        } catch (Exception e) {
+            // audio lookup is best-effort; never fail the row finder over it
+            log.warn("Audio lookup failed for likespreadsheets id ${likespreadsheetsId}: ${e.message}")
+            return null
+        } finally {
+            sql.close()
+        }
+    }
+
+    def ajaxRowFinder = {
+        def field = (params.field ?: 'english').toString()
+        def term = (params.term ?: '').toString().trim()
+        if (!term) {
+            render ([] as JSON)
+            return
+        }
+
+        def rows
+        if (field == 'tsalagi') {
+            rows = Likespreadsheets.withCriteria {
+                or {
+                    like 'entrya', '%' + term + '%'
+                    like 'nounadjpluraltranslit', '%' + term + '%'
+                    like 'vfirstprestranslit', '%' + term + '%'
+                    like 'vsecondimpertranslit', '%' + term + '%'
+                    like 'vthirdinftranslit', '%' + term + '%'
+                    like 'vthirdpasttranslit', '%' + term + '%'
+                    like 'vthirdprestranslit', '%' + term + '%'
+                }
+                maxResults(25)
+            }
+        } else if (field == 'syllabary') {
+            rows = Likespreadsheets.withCriteria {
+                or {
+                    like 'nounadjpluralsyllf', '%' + term + '%'
+                    like 'syllabaryb', '%' + term + '%'
+                    like 'vfirstpresh', '%' + term + '%'
+                    like 'vsecondimpersylln', '%' + term + '%'
+                    like 'vthirdinfsyllp', '%' + term + '%'
+                    like 'vthirdpastsyllj', '%' + term + '%'
+                    like 'vthirdpressylll', '%' + term + '%'
+                }
+                maxResults(25)
+            }
+        } else {
+            rows = Likespreadsheets.withCriteria {
+                like 'definitiond', '%' + term + '%'
+                maxResults(25)
+            }
+        }
+
+        def returnList = []
+        rows.each { r ->
+            def audioUrl = null
+            try {
+                audioUrl = findAudioUrlForEntry(r.id)
+            } catch (Exception e) {
+                // audio lookup is best-effort; never fail the row finder over it
+            }
+            returnList << [
+                id         : r.id,
+                entrya     : r.entrya,
+                syllabaryb : r.syllabaryb,
+                definitiond: r.definitiond,
+                audioUrl   : audioUrl
+            ]
         }
 
         render (returnList as JSON)

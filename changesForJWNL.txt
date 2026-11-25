@@ -1,0 +1,182 @@
+Here is a comprehensive, production-ready implementation plan to integrate extJWNL into your Grails/MySQL Cherokee dictionary application. This plan builds out the precomputed cross-reference table approach, ensuring zero overhead during live user searches.
+
+Architecture Summary
+Offline Ingestion (One-Time / On Update): A background service iterates through all existing MySQL definitions, uses extJWNL to tokenize and extract true base lemmas/synsets, and populates an indexed cross-reference table (english_lemma).
+
+Online Runtime (Live Searches): When a user types a search term, your Grails application normalizes/lemmatizes the input on the fly (taking microseconds) and hits an indexed SQL join against the cross-reference table for instant results.
+
+Phase 1: Add extJWNL Dependencies & WordNet Data
+1. Update build.gradle
+Add the extJWNL library and its supporting SLF4J logger bindings to your Grails project dependencies:
+
+Groovy
+dependencies {
+    implementation 'net.sf.extjwnl:extjwnl:2.0.5'
+    implementation 'net.sf.extjwnl:extjwnl-data-wordnet:3.1.9' // Bundles standard WordNet 3.1 dictionaries
+    // OR if you are providing custom dictionary files locally:
+    // implementation 'net.sf.extjwnl:extjwnl-data-wn31:1.0.0'
+}
+2. Configure extJWNL (file_properties.xml)
+Create a configuration file in src/main/resources/file_properties.xml to tell extJWNL where to locate the WordNet dictionary data files (if you are bundling them inside your project resources or pointing to a server directory):
+
+XML
+<?xml version="1.0" encoding="UTF-8"?>
+<jwnl_properties language="en">
+    <version publisher="Princeton" number="3.1" language="en"/>  
+    <dictionary class="net.sf.extjwnl.dictionary.FileDictionary">
+        <param name="dictionary_path" value="./wordnet_data/dict/"/>
+    </dictionary>
+    <morphological_processor class="net.sf.extjwnl.dictionary.morph.DefaultMorphologicalProcessor">
+        <param name="operations" value="net.sf.extjwnl.data.morph.ConjugationOperation,net.sf.extjwnl.data.morph.DepionalizationOperation,net.sf.extjwnl.data.morph.TokenizerOperation"/>
+    </morphological_processor>
+</jwnl_properties>
+Phase 2: Database Schema & GORM Domains
+1. MySQL Schema Migration
+Create your cross-reference table in MySQL to link inflected English words and lemmas back to your main dictionary_entry table with high-performance B-Tree indexes:
+
+SQL
+CREATE TABLE english_lemma (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    entry_id BIGINT NOT NULL,
+    inflected_word VARCHAR(100) NOT NULL,
+    lemma VARCHAR(100) NOT NULL,
+    INDEX idx_inflected_word (inflected_word),
+    INDEX idx_lemma (lemma),
+    CONSTRAINT fk_lemma_entry FOREIGN KEY (entry_id) REFERENCES dictionary_entry(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+2. GORM Domain Models
+Add the corresponding domain classes to map the relationship in Grails:
+
+Groovy
+// grails-app/domain/com/cherokee/EnglishLemma.groovy
+package com.cherokee
+
+class EnglishLemma {
+    String inflectedWord
+    String lemma
+
+    static belongsTo = [entry: DictionaryEntry]
+
+    static mapping = {
+        inflectedWord index: 'idx_inflected_word'
+        lemma index: 'idx_lemma'
+    }
+}
+Phase 3: Build the Ingestion & Lemmatization Service
+Write a batch service that processes all existing definitions in MySQL, uses extJWNL to extract base lemmas and inflected forms, and populates the cross-reference table.
+
+Groovy
+// grails-app/services/com/cherokee/DictionaryIngestionService.groovy
+package com.cherokee
+
+import net.sf.extjwnl.dictionary.Dictionary
+import net.sf.extjwnl.data.IndexWord
+import net.sf.extjwnl.data.POS
+import org.springframework.transaction.annotation.Transactional
+
+class DictionaryIngestionService {
+
+    @Transactional
+    void generateLemmaCrossReferences() {
+        // Initialize extJWNL dictionary from classpath/properties
+        Dictionary dictionary = Dictionary.getDefaultResourceInstance()
+        
+        // Clear existing cross-references if doing a full re-index
+        EnglishLemma.executeUpdate("delete from EnglishLemma")
+
+        List<DictionaryEntry> entries = DictionaryEntry.list()
+        println "Processing ${entries.size()} dictionary entries for extJWNL lemma mapping..."
+
+        entries.each { entry ->
+            if (!entry.definition) return
+
+            // Simple whitespace/punctuation tokenizer for definition text
+            Set<String> rawTokens = entry.definition.toLowerCase()
+                .replaceAll(/[^a-z\s]/, '')
+                .tokenize()
+
+            rawTokens.each { token ->
+                if (token.size() <= 1) return
+
+                // Try to find base lemmas across parts of speech (VERB, NOUN, ADJECTIVE, ADVERB)
+                Set<String> associatedLemmas = [token]
+
+                [POS.VERB, POS.NOUN, POS.ADJECTIVE, POS.ADVERB].each { pos ->
+                    try {
+                        IndexWord indexWord = dictionary.getIndexWord(pos, token)
+                        if (indexWord) {
+                            // Get the base lemma string
+                            associatedLemmas.add(indexWord.lemma)
+                        } else {
+                            // Fallback morphological lookup for inflected forms (e.g. "running" -> "run")
+                            List<String> morphs = dictionary.getMorphologicalProcessor().lookupBaseForm(pos, token)
+                            if (morphs) {
+                                associatedLemmas.addAll(morphs)
+                            }
+                        }
+                    } catch (Exception e) {
+                        // Ignore lookup misses
+                    }
+                }
+
+                // Save mappings to database
+                associatedLemmas.each { lemma ->
+                    new EnglishLemma(
+                        entry: entry,
+                        inflectedWord: token,
+                        lemma: lemma
+                    ).save(flush: true)
+                }
+            }
+        }
+        println "Lemma ingestion complete."
+    }
+}
+Phase 4: Implement the Runtime Search Service
+When a user submits a query on your site, your Grails service lemmatizes their search term and executes an instantaneous B-Tree index lookup against MySQL.
+
+Groovy
+// grails-app/services/com/cherokee/SearchService.groovy
+package com.cherokee
+
+import net.sf.extjwnl.dictionary.Dictionary
+import net.sf.extjwnl.data.POS
+import org.springframework.transaction.annotation.Transactional
+
+class SearchService {
+
+    @Transactional(readOnly = true)
+    List<DictionaryEntry> search(String queryTerm) {
+        String cleanQuery = queryTerm.trim().toLowerCase().replaceAll(/[^a-z]/, '')
+        if (!cleanQuery) return []
+
+        // 1. Resolve user query to its base lemma using extJWNL (sub-millisecond)
+        Set<String> searchTerms = [cleanQuery]
+        try {
+            Dictionary dictionary = Dictionary.getDefaultResourceInstance()
+            [POS.VERB, POS.NOUN, POS.ADJECTIVE, POS.ADVERB].each { pos ->
+                List<String> morphs = dictionary.getMorphologicalProcessor().lookupBaseForm(pos, cleanQuery)
+                if (morphs) searchTerms.addAll(morphs)
+                IndexWord iw = dictionary.getIndexWord(pos, cleanQuery)
+                if (iw) searchTerms.add(iw.lemma)
+            }
+        } catch (Exception e) {
+            // Fallback to raw query if JWNL lookup errors
+        }
+
+        // 2. Query the precomputed MySQL cross-reference table via indexed join
+        List<EnglishLemma> matchedLemmas = EnglishLemma.createCriteria().list {
+            or {
+                'in'('inflectedWord', searchTerms.toList())
+                'in'('lemma', searchTerms.toList())
+            }
+        }
+
+        // Extract unique dictionary entries
+        return matchedLemmas.collect { it.entry }.unique()
+    }
+}
+Phase 5: Operational Workflow & Maintenance
+Initial Population: Run DictionaryIngestionService.generateLemmaCrossReferences() once via a Grails Bootstrap script (BootStrap.groovy) or an administrative controller action after deploying your updated schema.
+
+Incremental Updates: When a dictionary editor adds or updates an entry through your admin panel, hook into your domain lifecycle events (afterInsert, afterUpdate) to parse and insert the new EnglishLemma rows asynchronously, keeping your index fresh without requiring full batch re-runs.

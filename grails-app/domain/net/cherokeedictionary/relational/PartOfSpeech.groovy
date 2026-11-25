@@ -1,14 +1,17 @@
 package net.cherokeedictionary.relational
 
 class PartOfSpeech {
-
-    static constraints = {
-    }
-
     String partofspeech
     String longName
 
-    public String toString() {
-        return longName
+    static mapping = {
+        table 'part_of_speech'
+        partofspeech column: 'partofspeech'
+        longName column: 'long_name'
+    }
+
+    static constraints = {
+        partofspeech blank: false, unique: true
+        longName nullable: true, blank: true
     }
 }

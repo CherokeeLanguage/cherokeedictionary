@@ -7,7 +7,6 @@ import net.cherokeedictionary.transliteration.SyllabaryUtil
 import net.cherokeedictionary.util.PrefixTableObject
 import net.cherokeedictionary.util.PrefixTableSubject
 import net.cherokeedictionary.util.Tense
-import net.cherokeedictionary.factory.VerbFactory
 
 import net.cherokeedictionary.verb.conjugation.Conjugate
 

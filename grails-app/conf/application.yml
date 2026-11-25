@@ -3,6 +3,13 @@ grails:
     profile: web
     codegen:
         defaultPackage: dictionary
+    controllers:
+        upload:
+            # Grails's own multipart caps (default 128000 bytes = 125KB) — these
+            # override spring.servlet.multipart in Grails 4 and were rejecting
+            # real PDFs (see SizeLimitExceededException 2026-11-19)
+            maxFileSize: 262144000      # 250MB per file
+            maxRequestSize: 283115520   # 270MB total request
     gorm:
         reactor:
             # Whether to translate GORM events into Reactor events
@@ -25,11 +32,44 @@ info:
         name: '@info.app.name@'
         version: '@info.app.version@'
         grailsVersion: '@info.app.grailsVersion@'
+
+# DocRepo (certified-upload document repository, /docrepo) — see the
+# docrepo.* controllers/services/domains. PRODUCTION NOTE: the dict-app
+# container has no persistent volume by default, so set
+# DOCREPO_STORAGE_DIR to a bind-mounted host path (e.g. add
+# /srv/cherokeedictionary/docrepo-files:/app/docrepo-files to the
+# dict-app compose service and point this env var at it) — files written
+# to an unmounted container path are lost on redeploy.
+docrepo:
+    storageDir: '/var/cherokeeUmbrella/'
+    registration:
+        enabled: false       # wire-flip for self-registration + admin approval (register endpoint exists)
+    bootstrap:
+        adminPassword: ${DOCREPO_BOOTSTRAP_ADMIN_PASSWORD:}   # dev env block below supplies a local default
+    auth:
+        providers:
+            local:
+                enabled: true
+            google:          # scaffold only — sign-in implementation comes later if wanted; no Google Drive integration
+                enabled: false
+                clientId: ${DOCREPO_GOOGLE_CLIENT_ID:}
+                clientSecret: ${DOCREPO_GOOGLE_CLIENT_SECRET:}
+
+server:
+    tomcat:
+        # let Tomcat drain oversized request bodies so rejected uploads get a
+        # clean 413 response instead of a connection reset (default 2MB)
+        max-swallow-size: -1
+
 spring:
     session:
         store-type: jdbc
         jdbc:
             initialize-schema: never
+    servlet:
+        multipart:
+            max-file-size: 250MB    # corpus has 70MB+ PDFs
+            max-request-size: 260MB
     jmx:
         unique-names: true
     main:
@@ -92,6 +132,9 @@ grails:
             maxsize: 1000
     controllers:
         defaultScope: singleton
+        upload:
+            maxFileSize: 262144000      # 250 MB in bytes (250 * 1024 * 1024)
+            maxRequestSize: 272629760   # 260 MB in bytes (260 * 1024 * 1024)
     converters:
         encoding: UTF-8
     views:
@@ -123,8 +166,11 @@ hibernate:
 dataSource:
     pooled: true
     jmxExport: true
-    dialect: org.hibernate.dialect.MySQL5Dialect
-    #org.hibernate.dialect.MySQL5InnoDBDialect
+    # InnoDB dialect: docrepo (document repository) writes are multi-statement
+    # (supersede + insert + audit) and need real transactions; the MyISAM
+    # default of MySQL5Dialect also misbehaved with BIT(1) boolean updates.
+    # Existing dictionary tables keep their engine; new tables land as InnoDB.
+    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
     driverClassName: com.mysql.cj.jdbc.Driver
     dbCreate: update
 
@@ -132,11 +178,14 @@ environments:
     development:
         hibernate:
             default_catalog: ${DB_NAME:cherokeedictionary}
+        docrepo:
+            bootstrap:
+                adminPassword: ${DOCREPO_BOOTSTRAP_ADMIN_PASSWORD:admin123}
         dataSource:
             #            logSql: true
-            username: ${DB_USER}
-            password: ${DB_PASSWORD}
-            url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:cherokeedictionary}?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+            username: root
+            password: Tk02030#
+            url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:cherokeedictionary}?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
             properties:
                 readOnly: false
                 jmxEnabled: true
@@ -158,9 +207,9 @@ environments:
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
     test:
         dataSource:
-            url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
-            username: sa
-            password: ''
+            url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:cherokeedictionary}?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
+            username: root
+            password: root
     production:
         # grails.serverURL intentionally absent (recorded decision 2026-11-04,
         # #119 R-4 amendment): request-derived via forward headers.
@@ -174,8 +223,8 @@ environments:
             default_catalog: ${DB_NAME:likespreadsheets}
         dataSource:
             dbCreate: update
-            username: ${DB_USER}
-            password: ${DB_PASSWORD}
+            username: root
+            password: Tk02030#
             url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:likespreadsheets}?useUnicode=yes&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
             properties:
                 readOnly: false

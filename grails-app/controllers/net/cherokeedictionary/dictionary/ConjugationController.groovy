@@ -1,7 +1,8 @@
 package net.cherokeedictionary.dictionary
 
+import net.cherokeedictionary.conjugation.VerbConjugationFacade
+import net.cherokeedictionary.core.Verb
 import net.cherokeedictionary.dictionary.Likespreadsheets
-import net.cherokeedictionary.factory.VerbFactory
 
 import net.cherokeedictionary.verb.conjugation.Conjugate
 
@@ -33,7 +34,7 @@ class ConjugationController {
 
     def getDisplayValueConjugationEngineV2(params) {
         def lks = Likespreadsheets.findById(params.id)
-        def paramMap = [:]
+        def paramMap = [:] as Map<String, String>
         paramMap.habitual = lks.vthirdpressylll
         paramMap.imperative = lks.vsecondimpersylln
         paramMap.infinitive = lks.vthirdinfsyllp
@@ -57,8 +58,22 @@ class ConjugationController {
 
         def displayValue
         try {
-            def verb = VerbFactory.createVerbFromParameters(paramMap)
-            verb = Conjugate.conjugate(verb);
+//            def paramMap = [:]
+//            paramMap.habitual = 'ᎠᏔᏍᎩᏍᎪᎢ'
+//            paramMap.imperative = 'ᎭᏔᏍᎩ'
+//            paramMap.infinitive = 'ᎤᏔᏍᎩᏍᏗ'
+//            paramMap.present1st = 'ᎦᏔᏍᎩᎠ'
+//            paramMap.present3rd = 'ᎠᏔᏍᎩᎠ'
+//            paramMap.remotepast = 'ᎤᏔᏍᎩᏒᎢ'
+//            paramMap.partofspeechc = 'vi'
+//            paramMap.verbTense = 'PRESENT'
+//            paramMap.subject = "SG1"
+//            paramMap.object = "SG3AN"
+
+            def facade = new VerbConjugationFacade()
+            Verb verb = facade.conjugate(paramMap)
+//            def verb = VerbFactory.createVerbFromParameters(paramMap)
+//            verb = Conjugate.conjugate(verb);
 
             displayValue = verb.wholeWord
         } catch (Exception e) {

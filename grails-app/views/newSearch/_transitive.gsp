@@ -37,8 +37,8 @@
         <td><g:displayGenerated item="${conjugate("SG2", "SG3AN")}"/></td>
         <td><g:displayGenerated item="${conjugate("SG2", "SG3IN")}"/></td>
         <td><g:displayGenerated item="${conjugate("SG2", "DL1INCL")}"/></td>
-        <td><g:displayGenerated item="${conjugate("SG2", "DL1EXCL")}"/></td>
-        <td><g:displayGenerated item="${conjugate("SG2", "PL1INCL")}"/></td>
+        <td><%--<g:displayGenerated item="${conjugate("SG2", "DL1EXCL")}"/>--%></td>
+        <td><%--<g:displayGenerated item="${conjugate("SG2", "PL1INCL")}"/>--%></td>
         <td><g:displayGenerated item="${conjugate("SG2", "PL1EXCL")}"/></td>
         <td><g:displayGenerated item="${conjugate("SG2", "DL2")}"/></td>
         <td><g:displayGenerated item="${conjugate("SG2", "PL2")}"/></td>
@@ -63,15 +63,15 @@
     <tr>
         <td>1DLINCL</td>
         <td><g:displayGenerated item="${conjugate("DL1INCL", "SG1")}"/></td>
-        <td><g:displayGenerated item="${conjugate("DL1INCL", "SG2")}"/></td>
+        <td><%--<g:displayGenerated item="${conjugate("DL1INCL", "SG2")}"/>--%></td>
         <td><g:displayGenerated item="${conjugate("DL1INCL", "SG3AN")}"/></td>
         <td><g:displayGenerated item="${conjugate("DL1INCL", "SG3IN")}"/></td>
-        <td><g:displayGenerated item="${conjugate("DL1INCL", "DL1INCL")}"/></td>
-        <td><g:displayGenerated item="${conjugate("DL1INCL", "DL1EXCL")}"/></td>
-        <td><g:displayGenerated item="${conjugate("DL1INCL", "PL1INCL")}"/></td>
-        <td><g:displayGenerated item="${conjugate("DL1INCL", "PL1EXCL")}"/></td>
-        <td><g:displayGenerated item="${conjugate("DL1INCL", "DL2")}"/></td>
-        <td><g:displayGenerated item="${conjugate("DL1INCL", "PL2")}"/></td>
+        <td><%--<g:displayGenerated item="${conjugate("DL1INCL", "DL1INCL")}"/>--%></td>
+        <td><%--<g:displayGenerated item="${conjugate("DL1INCL", "DL1EXCL")}"/>--%></td>
+        <td><%--<g:displayGenerated item="${conjugate("DL1INCL", "PL1INCL")}"/>--%></td>
+        <td><%--<g:displayGenerated item="${conjugate("DL1INCL", "PL1EXCL")}"/>--%></td>
+        <td><%--<g:displayGenerated item="${conjugate("DL1INCL", "DL2")}"/>--%></td>
+        <td><%--<g:displayGenerated item="${conjugate("DL1INCL", "PL2")}"/>--%></td>
         <td><g:displayGenerated item="${conjugate("DL1INCL", "PL3AN")}"/></td>
         <td><g:displayGenerated item="${conjugate("DL1INCL", "PL3IN")}"/></td>
     </tr>
@@ -96,12 +96,12 @@
         <td><g:displayGenerated item="${conjugate("PL1INCL", "SG2")}"/></td>
         <td><g:displayGenerated item="${conjugate("PL1INCL", "SG3AN")}"/></td>
         <td><g:displayGenerated item="${conjugate("PL1INCL", "SG3IN")}"/></td>
-        <td><g:displayGenerated item="${conjugate("PL1INCL", "DL1INCL")}"/></td>
-        <td><g:displayGenerated item="${conjugate("PL1INCL", "DL1EXCL")}"/></td>
-        <td><g:displayGenerated item="${conjugate("PL1INCL", "PL1INCL")}"/></td>
-        <td><g:displayGenerated item="${conjugate("PL1INCL", "PL1EXCL")}"/></td>
+        <td><%--<g:displayGenerated item="${conjugate("PL1INCL", "DL1INCL")}"/>--%></td>
+        <td><%--<g:displayGenerated item="${conjugate("PL1INCL", "DL1EXCL")}"/>--%></td>
+        <td><%--<g:displayGenerated item="${conjugate("PL1INCL", "PL1INCL")}"/>--%></td>
+        <td><%--<g:displayGenerated item="${conjugate("PL1INCL", "PL1EXCL")}"/>--%></td>
         <td><g:displayGenerated item="${conjugate("PL1INCL", "DL2")}"/></td>
-        <td><g:displayGenerated item="${conjugate("PL1INCL", "PL2")}"/></td>
+        <td><%--<g:displayGenerated item="${conjugate("PL1INCL", "PL2")}"/>--%></td>
         <td><g:displayGenerated item="${conjugate("PL1INCL", "PL3AN")}"/></td>
         <td><g:displayGenerated item="${conjugate("PL1INCL", "PL3IN")}"/></td>
     </tr>
@@ -111,12 +111,12 @@
         <td><g:displayGenerated item="${conjugate("PL1EXCL", "SG2")}"/></td>
         <td><g:displayGenerated item="${conjugate("PL1EXCL", "SG3AN")}"/></td>
         <td><g:displayGenerated item="${conjugate("PL1EXCL", "SG3IN")}"/></td>
-        <td><g:displayGenerated item="${conjugate("PL1EXCL", "DL1INCL")}"/></td>
-        <td><g:displayGenerated item="${conjugate("PL1EXCL", "DL1EXCL")}"/></td>
-        <td><g:displayGenerated item="${conjugate("PL1EXCL", "PL1INCL")}"/></td>
-        <td><g:displayGenerated item="${conjugate("PL1EXCL", "PL1EXCL")}"/></td>
+        <td><%--<g:displayGenerated item="${conjugate("PL1EXCL", "DL1INCL")}"/>--%></td>
+        <td><%--<g:displayGenerated item="${conjugate("PL1EXCL", "DL1EXCL")}"/>--%></td>
+        <td><%--<g:displayGenerated item="${conjugate("PL1EXCL", "PL1INCL")}"/>--%></td>
+        <td><%--<g:displayGenerated item="${conjugate("PL1EXCL", "PL1EXCL")}"/>--%></td>
         <td><g:displayGenerated item="${conjugate("PL1EXCL", "DL2")}"/></td>
-        <td><g:displayGenerated item="${conjugate("PL1EXCL", "PL2")}"/></td>
+        <td><%--<g:displayGenerated item="${conjugate("PL1EXCL", "PL2")}"/>--%></td>
         <td><g:displayGenerated item="${conjugate("PL1EXCL", "PL3AN")}"/></td>
         <td><g:displayGenerated item="${conjugate("PL1EXCL", "PL3IN")}"/></td>
     </tr>
@@ -126,9 +126,9 @@
         <td><g:displayGenerated item="${conjugate("DL2", "SG2")}"/></td>
         <td><g:displayGenerated item="${conjugate("DL2", "SG3AN")}"/></td>
         <td><g:displayGenerated item="${conjugate("DL2", "SG3IN")}"/></td>
-        <td><g:displayGenerated item="${conjugate("DL2", "DL1INCL")}"/></td>
+        <td><%--<g:displayGenerated item="${conjugate("DL2", "DL1INCL")}"/>--%></td>
         <td><g:displayGenerated item="${conjugate("DL2", "DL1EXCL")}"/></td>
-        <td><g:displayGenerated item="${conjugate("DL2", "PL1INCL")}"/></td>
+        <td><%--<g:displayGenerated item="${conjugate("DL2", "PL1INCL")}"/>--%></td>
         <td><g:displayGenerated item="${conjugate("DL2", "PL1EXCL")}"/></td>
         <td><g:displayGenerated item="${conjugate("DL2", "DL2")}"/></td>
         <td><g:displayGenerated item="${conjugate("DL2", "PL2")}"/></td>
@@ -141,10 +141,10 @@
         <td><g:displayGenerated item="${conjugate("PL2", "SG2")}"/></td>
         <td><g:displayGenerated item="${conjugate("PL2", "SG3AN")}"/></td>
         <td><g:displayGenerated item="${conjugate("PL2", "SG3IN")}"/></td>
-        <td><g:displayGenerated item="${conjugate("PL2", "DL1INCL")}"/></td>
+        <td><%--<g:displayGenerated item="${conjugate("PL2", "DL1INCL")}"/>--%></td>
         <td><g:displayGenerated item="${conjugate("PL2", "DL1EXCL")}"/></td>
-        <td><g:displayGenerated item="${conjugate("PL2", "PL1INCL")}"/></td>
-        <td><g:displayGenerated item="${conjugate("PL2", "PL1EXCL")}"/></td>
+        <td><%--<g:displayGenerated item="${conjugate("PL2", "PL1INCL")}"/>--%></td>
+        <td><%--<g:displayGenerated item="${conjugate("PL2", "PL1EXCL")}"/>--%></td>
         <td><g:displayGenerated item="${conjugate("PL2", "DL2")}"/></td>
         <td><g:displayGenerated item="${conjugate("PL2", "PL2")}"/></td>
         <td><g:displayGenerated item="${conjugate("PL2", "PL3AN")}"/></td>

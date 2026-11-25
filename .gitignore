@@ -31,6 +31,10 @@ poc/seeds/*
 !poc/seeds/make-fixture.py
 .jdk/
 
+# the deploy-stack.sh operator config (DEPLOY_ENV_SPEC.md) — the untracked
+# STACK_HOST env file; the committed template is deploy-stack.env.example
+deploy-stack.env
+
 # python (the regression suite #133)
 __pycache__/
 

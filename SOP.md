@@ -8,15 +8,16 @@ execute them; nothing here duplicates them.
 
 ## Host roles (2026-11-09, operator directive — cherokeedictionary#150)
 
-- **vhost-58.cherokeedictionary.net (104.251.216.58)** — the **prod
+- **The prod stack host** — the **prod
   host**: the delivered Docker serving stack this container deploys to
   and serves from (the apex and the dev tier both ride it as of this
   date; verified by the 2026-11-09 deploy — gate PASSED, 10/10 — and the
   apex re-run, 10/10 exit 0).
-- **vhost-175.cherokeedictionary.net (63.142.255.175, = ced1)** — the
-  **dev host**: where dev-stack work lands going forward.
+  Host coordinates: operator-side provisioning, not published
+  (name/IP redacted from this record).
+- **the dev host** — where dev-stack work lands going forward.
 - Org-side fact record: cherokeelanguage-devops
-  `docs/infrastructure/host-roles-vhost-58-vhost-175.md`.
+  `docs/infrastructure/` host-roles doc (private; the names live there).
 
 ## Deploy
 
@@ -53,7 +54,7 @@ definitions live once there; this SoP links, never copies):
   both runs (pre and post) are captured and recorded with the work
   (the issue's `research/`).
 
-This repo's container/route inventory on the shared vhost-58 stack
+This repo's container/route inventory on the shared stack host
 (what the sweep covers here): the **`dict-app`** compose service, behind
 the apex **`/`** on cherokeedictionary.net plus the
 **`/font/*`**, **`/static/*`**, **`/media/*`**, and **`/audio/*`** routes,
@@ -128,14 +129,14 @@ alone).
 ## Logging
 
 - Mirrored console log: `/var/log/containers/<container>/current.log` on
-  vhost-58 — the devops#48 `vector` shipper captures the container's
+  the stack host — the devops#48 `vector` shipper captures the container's
   stdout/stderr verbatim, one event per line, surviving both container
   recreation and the daily/30-day dated-copy `copytruncate` rotation.
 - Console-first contract: stdout/stderr capture needs no per-repo
   config; a future file-based log instrument must mount under the
   `/var/log/containers/` tree to inherit the rotation.
 - Governing contract (org runbook of record): cherokeelanguage-devops
-  `docs/runbooks/logging-vhost-58.md` (#48).
+  logging runbook (#48) (private).
 
 ## Superseded
 

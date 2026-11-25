@@ -274,7 +274,7 @@ provenance line here and in-code.
   prior build, never a manual server surgery.
 - the apex cutover (devops#14): DONE — the spec issue closed with the
   phase-5 family merged (cherokeelanguage-devops PR #34); apex and dev
-  serve the ONE delivered dict-app origin (vhost-58), so a deploy
+  serve the ONE delivered dict-app origin (the stack host), so a deploy
   updates both hostnames and the apex tier re-verifies off the same
   origin (`--target apex`, no suite code change). Recorded instance:
   the 2026-11-09 #135 deploy — gate PASSED (dev, 10/10), apex 10/10

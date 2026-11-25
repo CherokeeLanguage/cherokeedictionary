@@ -10,7 +10,7 @@
 
 `deploy-stack.sh` hard-coded the deploying operator's account:
 
-    STACK_HOST="mconrad@vhost-58.cherokeedictionary.net"
+    STACK_HOST="mconrad@<stack-host>"  (the literal hostname is redacted from this record)
 
 A person's identity is not a host coordinate. Baked into the script, it
 mis-attributes every write the script performs on the host once anyone
@@ -39,7 +39,8 @@ without a per-person edit, and rots as tribal knowledge. The
   normal per-operator home; the repo-local copy exists for a
   machine- or checkout-local override.
 - The file is **plain `KEY=value` shell** (sourced with `set -a`):
-  - Required key: `STACK_HOST=<deploy-user>@vhost-58.cherokeedictionary.net`
+  - Required key: `STACK_HOST=<deploy-user>@<stack-host>` (the host's name
+    is operator-side provisioning — not published in this repo)
   - Optional keys: the script's existing env-overridable knobs —
     `GATE_BASE_URL`, `GATE_BOOT_TIMEOUT`, `GATE_POLL`, `BUILD_TIMEOUT`
     (each still defaults per the script when absent).
@@ -103,7 +104,8 @@ From the 2026-11-24 brainstorm:
 - **(1) Required shell env per invocation** — `STACK_HOST` must be
   passed every time; more friction per deploy and no operator
   persistence.
-- **(2) Role-account default** — once a dedicated `deploy@vhost-58`
+- **(2) Role-account default** — once a dedicated role account exists on the
+  stack host
   service account is provisioned (devops), the example/comment may
   re-point to it as the default; open as the eventual follow-up, not a
   prerequisite for removing the person's name.

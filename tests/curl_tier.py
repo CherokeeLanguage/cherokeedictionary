@@ -318,7 +318,7 @@ def build_checks(sess):
     checks.append(("gsc:verification-200", gsc_verification,
                    "#140: the Google site-verification file must serve at "
                    "the site root with the exact legacy content (the "
-                   "ced1→vhost-58 migration dropped the nginx doc-root "
+                   "ced1→prod migration dropped the nginx doc-root "
                    "route; a 404 only surfaces at re-verification time)"))
 
     # THE #135 guard: a fresh session's FIRST PARALLEL commit wave.
